@@ -1,0 +1,25 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/cbr_front_end/node_modules
+/cbr_front_end/.pnp
+/cbr_front_end/.pnp.js
+
+# testing
+/cbr_front_end/coverage
+
+# production
+/cbr_front_end/build
+
+# misc
+/cbr_front_end/.DS_Store
+/cbr_front_end/.env.local
+/cbr_front_end/.env.development.local
+/cbr_front_end/.env.test.local
+/cbr_front_end/.env.production.local
+
+/cbr_front_end/npm-debug.log*
+/cbr_front_end/yarn-debug.log*
+/cbr_front_end/yarn-error.log*
+
+/cbr_front_end/.eslintcache
