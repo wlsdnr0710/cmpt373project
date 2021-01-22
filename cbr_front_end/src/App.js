@@ -1,10 +1,10 @@
-import logo from './logo.svg';
 import './App.css';
+import ExampleComponent from './components/ExampleComponent';
 
 function App() {
   return (
     <div className="App">
-      CBR Manager - Group Earth
+      <ExampleComponent />
     </div>
   );
 }
