@@ -22,6 +22,10 @@ npm start
 
 If you want to add a new page to front-end code, please follow these steps to use React Router.
 
+A short tutorial video created by Yi Ching can be found here:
+
+https://youtu.be/l9NuBrgWpgM
+
 ### Step 1: create your page component
 
 ```js
