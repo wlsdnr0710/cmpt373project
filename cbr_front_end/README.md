@@ -1,70 +1,87 @@
-# Getting Started with Create React App
+# CBR Manager - Group Earth
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Set up environment
 
-## Available Scripts
+Please npm install all dependencies for the first time you run the front-end code.
 
-In the project directory, you can run:
+```
+cd cbr_front_end
+npm install
+```
 
-### `npm start`
+## Run front-end code
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+If you want to run front-end code on your local server, run:
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+cd cbr_front_end
+npm start
+```
 
-### `npm test`
+## How to use React Router
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+If you want to add a new page to front-end code, please follow these steps to use React Router.
 
-### `npm run build`
+### Step 1: create your page component
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```js
+import React from "react";
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+const MyPage = props => {
+    return (
+        <div className="my-page">
+            This is my page.
+        </div>
+    );
+};
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+export default MyPage;
+```
 
-### `npm run eject`
+### Step 2: add a route to your page component
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+src/router/Router.js
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```js
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import MyPage from "../pages/MyPage";    // Import your component
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+const Router = () => {
+    return (
+        <div className="Router">
+            <Switch>
+                {/* Add a Route here */}
+                <Route path="/mypage" exact component={MyPage} />  
+ 
+                <Redirect to="/dashboard" />
+            </Switch>
+        </div>
+    );
+};
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+export default Router;
 
-## Learn More
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Step 3: use a Link component to link to your page component
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```js
+import React from "react";
+import { Link } from "react-router-dom";
 
-### Code Splitting
+const OtherPage = props => {
+    return (
+        <div className="other-page">
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+            <Link to="/mypage">
+                Click here to jump to MyPage
+            </Link>
 
-### Analyzing the Bundle Size
+        </div>
+    );
+};
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+export default OtherPage;
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+```
