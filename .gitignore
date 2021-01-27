@@ -23,3 +23,39 @@
 /cbr_front_end/yarn-error.log*
 
 /cbr_front_end/.eslintcache
+
+
+### Spring Boot .gitignore
+/cbr_back_end/HELP.md
+/cbr_back_end/target/
+/cbr_back_end/!.mvn/wrapper/maven-wrapper.jar
+/cbr_back_end/!**/src/main/**/target/
+/cbr_back_end/!**/src/test/**/target/
+
+### STS ###
+/cbr_back_end/.apt_generated
+/cbr_back_end/.classpath
+/cbr_back_end/.factorypath
+/cbr_back_end/.project
+/cbr_back_end/.settings
+/cbr_back_end/.springBeans
+/cbr_back_end/.sts4-cache
+
+### IntelliJ IDEA ###
+/cbr_back_end/.idea
+/cbr_back_end/*.iws
+/cbr_back_end/*.iml
+/cbr_back_end/*.ipr
+
+### NetBeans ###
+/cbr_back_end/nbproject/private/
+/cbr_back_end/nbbuild/
+/cbr_back_end/dist/
+/cbr_back_end/nbdist/
+/cbr_back_end/.nb-gradle/
+/cbr_back_end/build/
+/cbr_back_end/!**/src/main/**/build/
+/cbr_back_end/!**/src/test/**/build/
+
+### VS Code ###
+/cbr_back_end/.vscode/
