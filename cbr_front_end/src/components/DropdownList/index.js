@@ -1,22 +1,27 @@
 import React from "react";
 import "./style.css"
 
-const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, placeholder }) => {
-    const generateDropdownListItem = () => {
+const DropdownList = ({ dropdownName, dropdownListItemsKeyValue }) => {
+    const getDropdownListOptions = () => {
         const itemsInOptionTag = [];
+        let listChildId = 0;
+
         for (const itemName in dropdownListItemsKeyValue) {
             const itemValue = dropdownListItemsKeyValue[itemName];
+
             itemsInOptionTag.push(
-                <option value={itemValue}>{itemName}</option>
+                <option value={itemValue} key={listChildId}>{itemName}</option>
             );
+
+            listChildId++;
         }
+
         return itemsInOptionTag;
     };
 
     return (
-        <select name={dropdownName}>
-            <option value="" disabled selected>{placeholder}</option>
-            {generateDropdownListItem()}
+        <select className="dropdown-list" name={dropdownName}>
+            {getDropdownListOptions()}
         </select>
     );
 };

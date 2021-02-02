@@ -52,9 +52,11 @@ const NewClientForm = () => {
                 </div>
 
                 <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Location:</label>
+                    </div>
                     <DropdownList 
                         dropdownName="client-zones"
-                        placeholder="Location"
                         dropdownListItemsKeyValue={defaultClientZones}
                     />
                 </div>
