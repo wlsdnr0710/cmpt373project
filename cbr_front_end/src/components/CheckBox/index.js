@@ -4,7 +4,7 @@ import "./style.css"
 const CheckBox = ({actionHandler, displayText}) => {
     return (
         <div className="check-box">
-            <span className="label-container"> <label>{displayText}</label> </span>
+            <label>{displayText}</label>
             <input type="checkbox" onChange={actionHandler} />
         </div>
     );

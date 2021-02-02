@@ -1,3 +1,8 @@
+.new-client-form {
+    color: #000;
+    opacity: 0.8;
+}
+
 .new-client-form .form-body {
     margin: 1rem 1rem;
 }

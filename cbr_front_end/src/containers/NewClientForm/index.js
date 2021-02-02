@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import FormHeader from "../../components/FormHeader";
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
+import DateInputField from "../../components/DateInputField";
+import NumberInputField from "../../components/NumberInputField";
+import TextInputField from "../../components/TextInputField";
 import "./style.css"
 
 // TODO: We want to fetch zones from backend server instead of hardcoding them here.
@@ -19,22 +22,24 @@ const defaultClientZones = {
 
 const NewClientForm = () => {
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(false);
+    const [isCaregivenPresent, setIsCaregivenPresent] = useState(false);
 
-    const consentToInterviewSwitchActionHandler = event => {
-        const toggleSwitch = event.target;
-        if (toggleSwitch.checked) {
-            enableFormInput();
+    const consentToInterviewCheckBoxActionHandler = event => {
+        const checkBox = event.target;
+        if (checkBox.checked) {
+            setIsFormInputDisabled(true);;
         } else {
-            disableFormInput();
+            setIsFormInputDisabled(false);
         }
     };
-    
-    const disableFormInput = () => {
-        setIsFormInputDisabled(true);
-    };
-    
-    const enableFormInput = () => {
-        setIsFormInputDisabled(false);
+
+    const isCaregiverPresentCheckBoxActionHandler = event => {
+        const checkBox = event.target;
+        if (checkBox.checked) {
+            setIsCaregivenPresent(true);
+        } else {
+            setIsCaregivenPresent(false);
+        }
     };
 
     return (
@@ -46,10 +51,12 @@ const NewClientForm = () => {
             <div className="form-body">
                 <div className="input-field-container">
                     <CheckBox 
-                        actionHandler={consentToInterviewSwitchActionHandler}
+                        actionHandler={consentToInterviewCheckBoxActionHandler}
                         displayText={"Do you consent to the interview?"}
                     />
                 </div>
+
+                <hr />
 
                 <div className="input-field-container">
                     <div className="label-container">
@@ -60,6 +67,80 @@ const NewClientForm = () => {
                         dropdownListItemsKeyValue={defaultClientZones}
                     />
                 </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Village Number:</label>
+                    </div>
+                    <NumberInputField />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Date:</label>
+                    </div>
+                    <DateInputField />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>First Name:</label>
+                    </div>
+                    <TextInputField />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Last Name:</label>
+                    </div>
+                    <TextInputField />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Gender:</label>
+                    </div>
+                    <DropdownList 
+                        dropdownName="client-gender"
+                        dropdownListItemsKeyValue={{
+                            "Female": "female", 
+                            "Male": "male"
+                        }}
+                    />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Age:</label>
+                    </div>
+                    <NumberInputField min={0} max={200} />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Contact Number:</label>
+                    </div>
+                    <NumberInputField />
+                </div>
+
+                <hr/>
+
+                <div className="input-field-container">
+                    <CheckBox 
+                        actionHandler={isCaregiverPresentCheckBoxActionHandler}
+                        displayText={"Is the Caregiver present?"}
+                    />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Caregiver Number:</label>
+                    </div>
+                    <NumberInputField />
+                </div>
+
+                <hr/>
+
             </div>
         </div>
     );
