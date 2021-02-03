@@ -6,8 +6,16 @@ const ImageInputField = ({ id, primaryText, secondaryText, isDisabled }) => {
         document.querySelector(".image-input-field input#" + id).click()  ;
     };
 
+    const getDisabledClassName = () => {
+        if (isDisabled) {
+            return "disabled";
+        } else {
+            return "";
+        }
+    };
+
     return (
-        <div className="image-input-field" onClick={onClickToUploadHandler}>
+        <div className={"image-input-field " + getDisabledClassName()} onClick={onClickToUploadHandler}>
             <input type="file" accept="image/*" id={id} disabled={isDisabled} />
             <div className="primary-text">
                 <label>{primaryText}</label>
