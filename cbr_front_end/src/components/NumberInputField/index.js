@@ -1,8 +1,8 @@
 import React from "react";
 
-const NumberInputField = ({ max, min }) => {
+const NumberInputField = ({ max, min, isDisabled }) => {
     return (
-        <input type="number" min={min} max={max} />
+        <input type="number" min={min} max={max} disabled={isDisabled} />
     );
 };
 

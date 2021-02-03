@@ -1,8 +1,8 @@
 import React from "react";
 
-const TextInputField = () => {
+const TextInputField = ({ isDisabled }) => {
     return (
-        <input type="text" />
+        <input type="text" disabled={isDisabled} />
     );
 };
 

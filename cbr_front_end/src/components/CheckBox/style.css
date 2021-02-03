@@ -1,6 +1,11 @@
 .check-box input {
     width: 1.5rem;
     height: 1.5rem;
+    margin-left: 0.2rem;
+}
+
+.check-box label {
+    margin-bottom: 0;
 }
 
 .check-box {
