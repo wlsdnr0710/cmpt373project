@@ -3,6 +3,7 @@ import FormHeader from "../../components/FormHeader";
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
+import ImageInputField from "../../components/ImageInputField";
 import NumberInputField from "../../components/NumberInputField";
 import TextInputField from "../../components/TextInputField";
 import "./style.css"
@@ -19,6 +20,8 @@ const defaultClientZones = {
     "Palorinya Zone 2": "palzone2",
     "Palorinya Zone 3": "palzone3",
 };
+
+const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(false);
@@ -137,6 +140,29 @@ const NewClientForm = () => {
                         <label>Caregiver Number:</label>
                     </div>
                     <NumberInputField />
+                </div>
+
+                <hr/>
+
+                <div className="input-field-container">
+                    <CheckBox 
+                        actionHandler={isCaregiverPresentCheckBoxActionHandler}
+                        displayText={"Do you consent to a photograph?"}
+                    />
+                </div>
+                
+                <div className="input-field-container">
+                    <ImageInputField 
+                        primaryText="Select a photo for CLIENT"
+                        secondaryText={imageUploaderSecondaryText}
+                    />
+                </div>
+
+                <div className="input-field-container">
+                    <ImageInputField 
+                        primaryText="Select a photo for CAREGIVER"
+                        secondaryText={imageUploaderSecondaryText}
+                    />
                 </div>
 
                 <hr/>
