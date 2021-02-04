@@ -43,9 +43,25 @@ export default class LoginPage extends Component {
     render() {
         return (
             <div>
-                <h1>Status: {this.props.loggedInStatus}</h1>
-                <button onClick={() => this.handleLogoutClick()}>Logout</button>
-
+                <form onSubmit={this.handleSubmit}>
+                    <input
+                        type="username"
+                        name="username"
+                        placeholder="Username"
+                        value={this.state.username}
+                        onChange={this.handleChange}
+                        required
+                    />
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={this.state.password}
+                        onChange={this.handleChange}
+                        required
+                    />
+                    <button type="submit">Login</button>
+                </form>
             </div>
         )
     }
