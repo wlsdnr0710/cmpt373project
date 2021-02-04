@@ -7,7 +7,7 @@ import DateInputField from "../../components/DateInputField";
 import ImageInputField from "../../components/ImageInputField";
 import NumberInputField from "../../components/NumberInputField";
 import TextInputField from "../../components/TextInputField";
-import "./style.css"
+import "./style.css";
 
 // TODO: We want to fetch zones from backend server instead of hardcoding them here.
 const defaultClientZones = {
@@ -65,7 +65,7 @@ const NewClientForm = () => {
         return isFormInputDisabled || isPhotographDisabled;
     };
 
-    const isCaregiverPhotographForDisabled = () => {
+    const isCaregiverPhotographDisabled = () => {
         return isCaregiverRelatedInputDisabled() || isPhotographDisabled;
     };
 
@@ -197,7 +197,7 @@ const NewClientForm = () => {
                         id="caregiver-photo-input"
                         primaryText="Select a photo for CAREGIVER"
                         secondaryText={imageUploaderSecondaryText}
-                        isDisabled={isCaregiverPhotographForDisabled()}
+                        isDisabled={isCaregiverPhotographDisabled()}
                     />
                 </div>
 
