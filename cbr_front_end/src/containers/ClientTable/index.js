@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import ClientInfoCard from "../../components/ClientInfoCard";
 import Table from "../../components/Table";
 
 // TODO: Remove this function after we have implemented API to get clients.
@@ -11,15 +12,15 @@ const generateDummyClients = () => {
     for (let i = 0; i < numberOfClients; i++) {
         const client = {};
 
-        client["ID"] = i;
-        client["First Name"] = "Yi Ching";
-        client["Last Name"] = "Chou";
-        client["Location"] = "BidiBidi Zone 1";
-        client["Gender"] = "male";
-        client["Age"] = 21;
-        client["Village Number"] = 1;
-        client["Contact Number"] = "778-3333-3333"
-        client["Date"] = dateString;
+        client.id = i;
+        client.firstName = "Yi Ching";
+        client.lastName = "Chou";
+        client.location = "BidiBidi Zone 1";
+        client.gender = "male";
+        client.age = 21;
+        client.villageNumber = 1;
+        client.contactNumber = "778-3333-3333"
+        client.date = dateString;
 
         clients.push(client);
     }
@@ -28,17 +29,19 @@ const generateDummyClients = () => {
 
 const getClientTableHeaders = () => {
     return [
-        "ID",
-        "First Name",
-        "Last Name",
-        "Location",
-        "Gender",
-        "Age",
-        "Village Number",
-        "Contact Number",
-        "Date",
+        "Client",
     ];
 }
+
+const getClientTableData = clients => {
+    const data = [];
+    for (const index in clients) {
+        const row = {};
+        row["Client"] = <ClientInfoCard client={clients[index]} />;
+        data.push(row);
+    }
+    return data;
+};
 
 const ClientTable = () => {
     const [clients, setClients] = useState([]);
@@ -54,7 +57,7 @@ const ClientTable = () => {
     const tableHeaders = getClientTableHeaders();
     return (
         <div>
-            <Table headers={tableHeaders} data={clients} />
+            <Table headers={tableHeaders} data={getClientTableData(clients)} />
         </div>
     );
 };
