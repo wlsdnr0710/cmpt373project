@@ -16,8 +16,9 @@
 .client-info-card .client-info {
     display: flex;
     flex-grow: 2;
+    justify-content: space-around;
 }
 
 .client-info-card .client-info .section {
-    margin-left: 0.5rem;
+    width: 50%;
 }

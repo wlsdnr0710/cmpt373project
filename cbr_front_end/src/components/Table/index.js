@@ -1,7 +1,7 @@
 import React from "react";
 import { default as BootstrapTable } from 'react-bootstrap/Table';
 
-const Table = ( { headers, data } ) => {
+const Table = ( { headers, data, striped, bordered } ) => {
     const generateTableHeaderTags = headers => {
         const headerTags = [];
         for (const i in headers) {
@@ -26,7 +26,6 @@ const Table = ( { headers, data } ) => {
             }
             const trTag = React.createElement('tr', {
                 children: tdTags,
-                className: "red",
                 key: i
             });
             dataTags.push(trTag);
@@ -35,7 +34,7 @@ const Table = ( { headers, data } ) => {
     };
 
     return (
-        <BootstrapTable responsive striped bordered hover size="sm">
+        <BootstrapTable responsive striped={striped} bordered={bordered}>
             <thead>
                 <tr>
                     {generateTableHeaderTags(headers)}

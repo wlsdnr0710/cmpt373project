@@ -29,7 +29,7 @@ const generateDummyClients = () => {
 
 const getClientTableHeaders = () => {
     return [
-        "Client",
+        "Clients",
     ];
 }
 
@@ -37,7 +37,7 @@ const getClientTableData = clients => {
     const data = [];
     for (const index in clients) {
         const row = {};
-        row["Client"] = <ClientInfoCard client={clients[index]} />;
+        row["Clients"] = <ClientInfoCard client={clients[index]} />;
         data.push(row);
     }
     return data;

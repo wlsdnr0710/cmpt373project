@@ -9,4 +9,7 @@
 
 .client-info-card-attribute .value {
     opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
 }
