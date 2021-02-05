@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
+import Logo from "./HHALogo.svg"
+import "./style.css"
 export default class LoginPage extends Component {
+
     constructor(props) {
         super(props);
 
@@ -12,6 +15,7 @@ export default class LoginPage extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
@@ -42,8 +46,11 @@ export default class LoginPage extends Component {
 
     render() {
         return (
+
             <div>
-                <form onSubmit={this.handleSubmit}>
+                <img src={Logo} className="photo" />
+
+                <form onSubmit={this.handleSubmit} className="center">
                     <input
                         type="username"
                         name="username"
@@ -62,7 +69,7 @@ export default class LoginPage extends Component {
                     />
                     <button type="submit">Login</button>
                 </form>
-            </div>
+            </div >
         )
     }
 }

@@ -1,0 +1,16 @@
+form {
+    background: #228B22; 
+   
+}
+.center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.photo {
+    height: 100px;
+    width: 300px;
+}
