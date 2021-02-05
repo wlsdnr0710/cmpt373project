@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import axios from 'axios';
-import Logo from "./HHALogo.svg"
+import Logo from "../../assets/HHALogo.svg"
 import "./style.css"
+
 export default class LoginPage extends Component {
 
     constructor(props) {
@@ -37,6 +38,7 @@ export default class LoginPage extends Component {
         )
             .then(response => {
                 console.log("Logged in response: ", response);
+                //Link to dashboard
             })
             .catch(error => {
                 console.log("Login error: ", error);
@@ -46,11 +48,9 @@ export default class LoginPage extends Component {
 
     render() {
         return (
-
-            <div>
+            <div className="center">
                 <img src={Logo} className="photo" />
-
-                <form onSubmit={this.handleSubmit} className="center">
+                <form onSubmit={this.handleSubmit} className="centerItems">
                     <input
                         type="username"
                         name="username"
@@ -58,6 +58,7 @@ export default class LoginPage extends Component {
                         value={this.state.username}
                         onChange={this.handleChange}
                         required
+                        className="margin-5pt"
                     />
                     <input
                         type="password"
@@ -66,8 +67,9 @@ export default class LoginPage extends Component {
                         value={this.state.password}
                         onChange={this.handleChange}
                         required
+                        className="margin-5pt"
                     />
-                    <button type="submit">Login</button>
+                    <button type="submit" className="login-font">Sign In</button>
                 </form>
             </div >
         )
