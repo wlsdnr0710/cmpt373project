@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import axios from 'axios';
-import Dashboard from "../Dashboard";
+import Dashboard from "../Dashboard/index";
 import InputBar from "../../components/inputBar/index";
 import Logo from "../../assets/HHALogo.svg";
 import "./style.css";
@@ -46,6 +46,7 @@ export default class LoginPage extends Component {
                     <Route path="/dashboard" exact component={Dashboard} />
                     <Redirect to="/dashboard" />
                 </Switch>
+                /////////////////////
             })
             .catch(error => {
                 console.log("Login error: ", error);
