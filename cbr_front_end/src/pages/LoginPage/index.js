@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect } from "react-router-dom";
 import axios from 'axios';
 import Dashboard from "../Dashboard/index";
-import InputBar from "../../components/inputBar/index";
+import LoginInputField from "../../components/LoginInputField/index";
 import Logo from "../../assets/HHALogo.svg";
 import "./style.css";
 
@@ -10,7 +10,6 @@ export default class LoginPage extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
             username: "",
             password: "",
@@ -27,7 +26,6 @@ export default class LoginPage extends Component {
 
     handleSubmit(event) {
         const { username, password } = this.state;
-
         axios.post(
             //Springboot API link
             "http://",
@@ -60,19 +58,17 @@ export default class LoginPage extends Component {
             <div className="center">
                 <img src={Logo} className="photo" />
                 <form onSubmit={this.handleSubmit} className="centerItems">
-                    <InputBar
+                    <LoginInputField
                         value={this.state.username}
                         onChangeValue={this.handleChange}
                         type="username"
                         placeholder="Username"
-                        className="margin-5pt"
                     />
-                    <InputBar
+                    <LoginInputField
                         value={this.state.password}
                         onChangeValue={this.handleChange}
                         type="password"
                         placeholder="Password"
-                        className="margin-5pt"
                     />
                     <button type="submit" className="login-font">Sign In</button>
                     {this.state.errorMessage &&
