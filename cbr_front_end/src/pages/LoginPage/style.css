@@ -2,14 +2,14 @@ form {
     background: rgb(25, 190, 25); 
     border-radius: 1em;
     align-items: center;
-    padding: 100px;
+    padding: 80px;
 }
 .center {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 90vh;
+    height: 95vh;
 
 }
 
@@ -26,10 +26,14 @@ form {
     width: 250px;
     height: 80px;
     font-size: 30px;
+    background-color: whitesmoke;
+
     
 }
+
 
 .photo {
     height: 200px;
     width: 400px;
 }
+

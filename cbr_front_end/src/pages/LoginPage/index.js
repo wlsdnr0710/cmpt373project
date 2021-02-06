@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import axios from 'axios';
-import Dashboard from "../Dashboard/index";
 import LoginInputField from "../../components/LoginInputField/index";
 import Logo from "../../assets/HHALogo.svg";
 import "./style.css";
 
-function redirectToDashboard() {
-    return (<Redirect to="/dashboard" />);
-}
 
 export default class LoginPage extends Component {
 
@@ -22,6 +18,10 @@ export default class LoginPage extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
 
+    redirectToDashboard() {
+        this.props.history.push("/dashboard");
+    }
+
     handleChange(event) {
         this.setState({
             [event.target.name]: event.target.value
@@ -30,7 +30,6 @@ export default class LoginPage extends Component {
 
     handleSubmit(event) {
         const { username, password } = this.state;
-
         axios.post(
             //Springboot API link
             "http://",
@@ -45,8 +44,7 @@ export default class LoginPage extends Component {
             .then(response => {
                 console.log("Logged in response: ", response);
                 //Switch to dashboard
-                redirectToDashboard();
-                /////////////////////
+                this.redirectToDashboard();
             })
             .catch(error => {
                 console.log("Login error: ", error);
