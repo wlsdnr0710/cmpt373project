@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import axios from 'axios';
 import Dashboard from "../Dashboard/index";
 import LoginInputField from "../../components/LoginInputField/index";
 import Logo from "../../assets/HHALogo.svg";
 import "./style.css";
+
+function redirectToDashboard() {
+    return (<Redirect to="/dashboard" />);
+}
 
 export default class LoginPage extends Component {
 
@@ -26,6 +30,7 @@ export default class LoginPage extends Component {
 
     handleSubmit(event) {
         const { username, password } = this.state;
+
         axios.post(
             //Springboot API link
             "http://",
@@ -40,10 +45,7 @@ export default class LoginPage extends Component {
             .then(response => {
                 console.log("Logged in response: ", response);
                 //Switch to dashboard
-                <Switch>
-                    <Route path="/dashboard" exact component={Dashboard} />
-                    <Redirect to="/dashboard" />
-                </Switch>
+                redirectToDashboard();
                 /////////////////////
             })
             .catch(error => {
