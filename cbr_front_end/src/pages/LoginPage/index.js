@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
 import axios from 'axios';
-import Logo from "../../assets/HHALogo.svg"
-import "./style.css"
+import Dashboard from "../Dashboard";
+import InputBar from "../../components/inputBar/index";
+import Logo from "../../assets/HHALogo.svg";
+import "./style.css";
 
 export default class LoginPage extends Component {
 
@@ -27,6 +29,7 @@ export default class LoginPage extends Component {
         const { username, password } = this.state;
 
         axios.post(
+            //Springboot API link
             "http://",
             {
                 user: {
@@ -38,10 +41,15 @@ export default class LoginPage extends Component {
         )
             .then(response => {
                 console.log("Logged in response: ", response);
-                //Link to dashboard
+                //Switch to dashboard
+                <Switch>
+                    <Route path="/dashboard" exact component={Dashboard} />
+                    <Redirect to="/dashboard" />
+                </Switch>
             })
             .catch(error => {
                 console.log("Login error: ", error);
+                this.setState({ errorMessage: error.message });
             });
         event.preventDefault();
     }
@@ -51,25 +59,23 @@ export default class LoginPage extends Component {
             <div className="center">
                 <img src={Logo} className="photo" />
                 <form onSubmit={this.handleSubmit} className="centerItems">
-                    <input
-                        type="username"
-                        name="username"
-                        placeholder="Username"
+                    <InputBar
                         value={this.state.username}
-                        onChange={this.handleChange}
-                        required
+                        onChangeValue={this.handleChange}
+                        type="username"
+                        placeholder="Username"
                         className="margin-5pt"
                     />
-                    <input
-                        type="password"
-                        name="password"
-                        placeholder="Password"
+                    <InputBar
                         value={this.state.password}
-                        onChange={this.handleChange}
-                        required
+                        onChangeValue={this.handleChange}
+                        type="password"
+                        placeholder="Password"
                         className="margin-5pt"
                     />
                     <button type="submit" className="login-font">Sign In</button>
+                    {this.state.errorMessage &&
+                        <h3 className="error"> {this.state.errorMessage} </h3>}
                 </form>
             </div >
         )
