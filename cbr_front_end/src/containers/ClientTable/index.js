@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ClientInfoCard from "../../components/ClientInfoCard";
 import Table from "../../components/Table";
 
 // TODO: Remove this function after we have implemented API to get clients.
 const generateDummyClients = () => {
-    const numberOfClients = 10;
+    const numberOfClients = 5;
     const clients = [];
     const dateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
     const date = new Date();
@@ -45,19 +45,67 @@ const getClientTableData = clients => {
 
 const ClientTable = () => {
     const [clients, setClients] = useState([]);
+    const [hasMoreClients, setHasMoreClients] = useState(true);
+    const intersectionObserver = useRef();
+    const observeeElement = useRef();
+
+    // TODO: To test infinite scroll when there is no more clients to load.
+    // Remove this after back-end API is implemented.
+    const loadMoreClientLimit = 2;
+    const loadMoreClientCounter = useRef(0);
 
     // TODO: Set clients here to test the asynchronous update.
     // Need to replace this with an axios call to get clients
     // after the GET clients API is implemented.
     useEffect(() => {
-        const clients = generateDummyClients();
-        setClients(clients);
+        setUpInfiniteScroll();
     }, []);
+
+    const setUpInfiniteScroll = () => {
+        intersectionObserver.current = new IntersectionObserver(infScrollIntersecObserverCallBack);
+        intersectionObserver.current.observe(observeeElement.current);
+    };
+
+    const infScrollIntersecObserverCallBack = entries => {
+        entries.forEach(entry => {
+            const { isIntersecting } = entry;
+            if (isIntersecting) {
+                loadMoreClientsAndSetHasMoreClients();
+            }
+        });
+    };
+
+    const loadMoreClientsAndSetHasMoreClients = () => {
+        if (!hasMoreClients) {
+            return;
+        }
+
+        setClients(prevClients => {
+            // TODO: replace generateDummyClients() with API call
+            const moreClients = generateDummyClients();
+            if (moreClients.length === 0) {
+                setHasMoreClients(false);
+                return;
+            }
+            const clients = [...prevClients, ...moreClients];
+            return clients;
+        });
+
+        if (loadMoreClientCounter.current > loadMoreClientLimit) {
+            console.log("setHasMoreClients(false)");
+            setHasMoreClients(false);
+        }
+        loadMoreClientCounter.current++;
+    };
 
     const tableHeaders = getClientTableHeaders();
     return (
-        <div>
-            <Table headers={tableHeaders} data={getClientTableData(clients)} />
+        <div className="client-table">
+            <div className="table">
+                <Table headers={tableHeaders} data={getClientTableData(clients)} />
+            </div>
+            <div className="infinite-scroll-observer" ref={element => observeeElement.current = element }>
+            </div>
         </div>
     );
 };
