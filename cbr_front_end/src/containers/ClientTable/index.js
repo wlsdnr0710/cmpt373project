@@ -49,54 +49,52 @@ const ClientTable = () => {
     const intersectionObserver = useRef();
     const observeeElement = useRef();
 
-    // TODO: To test infinite scroll when there is no more clients to load.
-    // Remove this after back-end API is implemented.
-    const loadMoreClientLimit = 2;
-    const loadMoreClientCounter = useRef(0);
-
     // TODO: Set clients here to test the asynchronous update.
     // Need to replace this with an axios call to get clients
     // after the GET clients API is implemented.
-    useEffect(() => {
-        setUpInfiniteScroll();
-    }, []);
-
-    const setUpInfiniteScroll = () => {
-        intersectionObserver.current = new IntersectionObserver(infScrollIntersecObserverCallBack);
-        intersectionObserver.current.observe(observeeElement.current);
-    };
-
-    const infScrollIntersecObserverCallBack = entries => {
-        entries.forEach(entry => {
-            const { isIntersecting } = entry;
-            if (isIntersecting) {
-                loadMoreClientsAndSetHasMoreClients();
-            }
-        });
-    };
-
-    const loadMoreClientsAndSetHasMoreClients = () => {
-        if (!hasMoreClients) {
-            return;
-        }
-
-        setClients(prevClients => {
-            // TODO: replace generateDummyClients() with API call
-            const moreClients = generateDummyClients();
-            if (moreClients.length === 0) {
-                setHasMoreClients(false);
+    useEffect(() => {    
+        const setUpInfiniteScroll = () => {
+            intersectionObserver.current = new IntersectionObserver(infScrollIntersecObserverCallBack);
+            intersectionObserver.current.observe(observeeElement.current);
+        };
+    
+        const infScrollIntersecObserverCallBack = entries => {
+            entries.forEach(entry => {
+                const { isIntersecting } = entry;
+                if (isIntersecting) {
+                    loadMoreClientsAndSetHasMoreClients();
+                }
+            });
+        };
+    
+        const loadMoreClientsAndSetHasMoreClients = () => {
+            if (!hasMoreClients) {
                 return;
             }
-            const clients = [...prevClients, ...moreClients];
-            return clients;
-        });
+            setClients(prevClients => {
+                // TODO: replace generateDummyClients() with API call
+                const moreClients = generateDummyClients();
+                if (moreClients.length === 0) {
+                    setHasMoreClients(false);
+                    return;
+                }
+                const clients = [...prevClients, ...moreClients];
+                return clients;
+            });
+        };
 
-        if (loadMoreClientCounter.current > loadMoreClientLimit) {
-            console.log("setHasMoreClients(false)");
-            setHasMoreClients(false);
+        const disconnectIntersectionObserver = () => {
+            intersectionObserver.current.disconnect();
+        };
+
+        
+        if (!hasMoreClients) {
+            disconnectIntersectionObserver();
+            return;
         }
-        loadMoreClientCounter.current++;
-    };
+        setUpInfiniteScroll();
+
+    }, [hasMoreClients]);
 
     const tableHeaders = getClientTableHeaders();
     return (
