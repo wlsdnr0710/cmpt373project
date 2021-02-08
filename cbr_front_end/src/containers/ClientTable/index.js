@@ -49,6 +49,11 @@ const ClientTable = () => {
     const intersectionObserver = useRef();
     const observeeElement = useRef();
 
+    // TODO: To test infinite scroll when there is no more clients to load.
+    // Remove this after back-end API is implemented.
+    const loadMoreClientLimit = 2;
+    const loadMoreClientCounter = useRef(0);
+
     // TODO: Set clients here to test the asynchronous update.
     // Need to replace this with an axios call to get clients
     // after the GET clients API is implemented.
@@ -81,19 +86,23 @@ const ClientTable = () => {
                 const clients = [...prevClients, ...moreClients];
                 return clients;
             });
+
+            // TODO: To test infinite scroll when there is no more clients to load.
+            // Remove this after back-end API is implemented.
+            if (loadMoreClientCounter.current > loadMoreClientLimit) {
+                setHasMoreClients(false);
+            }
+            loadMoreClientCounter.current++;    
         };
 
         const disconnectIntersectionObserver = () => {
-            intersectionObserver.current.disconnect();
+            if (intersectionObserver.current) {
+                intersectionObserver.current.disconnect();
+            }
         };
 
-        
-        if (!hasMoreClients) {
-            disconnectIntersectionObserver();
-            return;
-        }
         setUpInfiniteScroll();
-
+        return disconnectIntersectionObserver;
     }, [hasMoreClients]);
 
     const tableHeaders = getClientTableHeaders();
