@@ -2,6 +2,7 @@ package com.earth.cbr.models;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity(name = "Client")
@@ -26,7 +27,7 @@ public class Client {
     private String image;
     private String zone;
     private Integer villageNumber;
-    private Integer signupDate;
+    private LocalDate signupDate;
     private String contactNumber;
     private Long cbrWorkerId;
     private String caregiverContact;
@@ -43,7 +44,7 @@ public class Client {
                   String image,
                   String zone,
                   Integer villageNumber,
-                  Integer signupDate,
+                  LocalDate signupDate,
                   String contactNumber,
                   Long cbrWorkerId,
                   String caregiverContact,
@@ -100,7 +101,7 @@ public class Client {
         return villageNumber;
     }
 
-    public Integer getSignupDate() {
+    public LocalDate getSignupDate() {
         return signupDate;
     }
 
