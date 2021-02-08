@@ -6,6 +6,7 @@ import com.earth.cbr.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,24 +29,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client addClient(JSONObject payload) {
-        String firstName = (String) payload.get("firstName");
-        String lastName = (String) payload.get("lastName");
-        Integer birthDate = Integer.parseInt((String) payload.get("birthDate"));
-        Character gender = ((String) payload.get("gender")).charAt(0);
-        String image = (String) payload.get("image");
-        String zone = (String) payload.get("zone");
-        Integer villageNumber = Integer.parseInt((String) payload.get("villageNumber"));
-        Integer signupDate = Integer.parseInt((String) payload.get("signupDate"));
-        String contactNumber = (String) payload.get("contactNumber");
-        Long cbrWorkerId = Long.parseLong((String) payload.get("cbrWorkerId"));
-        String caregiverContact = (String) payload.get("caregiverContact");
-        String requiredServices = (String) payload.get("requiredServices");
-        String goals = (String) payload.get("goals");
-
-        Client client = new Client(firstName, lastName,birthDate, gender, image, zone, villageNumber, signupDate,
-                contactNumber, cbrWorkerId, caregiverContact, requiredServices, goals);
-        
+    public Client addClient(Client client) {
         return clientRepository.save(client);
     }
 

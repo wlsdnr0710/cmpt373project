@@ -33,8 +33,8 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<JSONObject> addClient(@RequestBody JSONObject payload) {
-        Client addedClient = clientService.addClient(payload);
+    public ResponseEntity<JSONObject> addClient(@RequestBody Client client) {
+        Client addedClient = clientService.addClient(client);
 
         JSONObject responseJson = new JSONObject();
         // Need to tell front-end the new client's id
