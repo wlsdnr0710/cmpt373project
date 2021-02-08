@@ -7,7 +7,6 @@ import java.util.List;
 @Entity(name = "Client")
 @Table(name = "client")
 public class Client {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,6 +32,9 @@ public class Client {
     private String caregiverContact;
     private String requiredServices;
     private String goals;
+
+    public Client() {
+    }
 
     public Client(String firstName,
                   String lastName,

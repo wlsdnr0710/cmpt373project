@@ -38,7 +38,6 @@ public class ClientServiceImpl implements ClientService {
         Integer villageNumber = (Integer) payload.get("villageNumber");
         Integer signupDate = (Integer) payload.get("signupDate");
         String contactNumber = (String) payload.get("contactNumber");
-//        List<String> disabilities = (List<String>) payload.get("disabilities");
         Long cbrWorkerId = (Long) payload.get("cbrWorkerId");
         String caregiverContact = (String) payload.get("caregiverContact");
         String requiredServices = (String) payload.get("requiredServices");
