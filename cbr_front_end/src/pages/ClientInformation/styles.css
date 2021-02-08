@@ -1,0 +1,20 @@
+hr {
+    margin: 3vh;
+}
+
+.general-information {
+    margin-left: 10vw;
+    margin-bottom: 16%;
+}
+
+.risk-information {
+    margin-left: 10vw;
+}
+
+.disability-information {
+    margin-left: 10vw;
+}
+
+.edit-button {
+    margin-left: 10vw;
+}

@@ -1,0 +1,15 @@
+.image{
+    margin-right: 20px;
+    height: 30%;
+    width: 30%;
+    float: left;
+}
+
+.client-card {
+    font-size: 1.25rem;
+
+}
+
+.client-details {
+    margin-left: 10px;
+}
