@@ -7,6 +7,7 @@ import java.util.List;
 @Entity(name = "Client")
 @Table(name = "client")
 public class Client {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +29,6 @@ public class Client {
     private Integer villageNumber;
     private Integer signupDate;
     private String contactNumber;
-    private List<String> disabilities;
     private Long cbrWorkerId;
     private String caregiverContact;
     private String requiredServices;
@@ -43,7 +43,6 @@ public class Client {
                   Integer villageNumber,
                   Integer signupDate,
                   String contactNumber,
-                  List<String> disabilities,
                   Long cbrWorkerId,
                   String caregiverContact,
                   String requiredServices,
@@ -57,7 +56,6 @@ public class Client {
         this.villageNumber = villageNumber;
         this.signupDate = signupDate;
         this.contactNumber = contactNumber;
-        this.disabilities = disabilities;
         this.cbrWorkerId = cbrWorkerId;
         this.caregiverContact = caregiverContact;
         this.requiredServices = requiredServices;
@@ -106,10 +104,6 @@ public class Client {
 
     public String getContactNumber() {
         return contactNumber;
-    }
-
-    public List<String> getDisabilities() {
-        return disabilities;
     }
 
     public Long getCbrWorkerId() {
