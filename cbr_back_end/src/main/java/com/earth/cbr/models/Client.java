@@ -1,9 +1,7 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
-import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.List;
 
 @Entity(name = "Client")
 @Table(name = "client")
