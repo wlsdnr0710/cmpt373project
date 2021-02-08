@@ -3,9 +3,9 @@ import "./style.css";
 
 function BackgroundCard(props) {
   return (
-    <div className="card">
-      <div className="top">
-          <h1 className ="top-heading">{props.heading}</h1>
+    <div className="background-card">
+      <div className="background-top">
+          <h1 className ="background-top-heading">{props.heading}</h1>
       </div>
       {props.children}
     </div>

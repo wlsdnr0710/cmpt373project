@@ -9,7 +9,7 @@ import "./styles.css";
 const ClientInfo = () => {
   return (
     <div>
-      <BackgroundCard heading="test">
+      <BackgroundCard>
         <ClientInformation
           className="general-information"
           // TODO: insert key once real objects are imported
@@ -28,7 +28,7 @@ const ClientInfo = () => {
         <DisabilityInformation
           className ="disability-information"
         />
-        <button className ="edit-button">Edit</button>
+        <button type="button" className="btn btn-secondary edit-button">Edit</button>
       </BackgroundCard>
     </div>
   );
