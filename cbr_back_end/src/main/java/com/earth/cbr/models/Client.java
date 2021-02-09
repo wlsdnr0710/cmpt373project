@@ -20,20 +20,57 @@ public class Client {
             columnDefinition = "TEXT"
     )
     private String lastName;
-    private Integer birthDate;
+    @Column(
+            name = "birthdate",
+            columnDefinition = "DATE"
+    )
+    private Integer birthdate;
 
     @Transient
     private Integer age;
 
+    @Column(
+            name = "gender"
+    )
     private Character gender;
-    private String image;
+    @Column(
+            name = "photo"
+    )
+    private String photo;
+    @Column(
+            name = "zone"
+    )
     private String zone;
+    @Column(
+            name = "village_no"
+    )
     private Integer villageNumber;
+    @Column(
+            name = "date"
+    )
     private LocalDate signupDate;
+    @Column(
+            name = "contact_number"
+    )
     private String contactNumber;
+    @Column(
+            name = "worker_id"
+    )
     private Long cbrWorkerId;
+    @Column(
+            name = "caregiver_contact",
+            columnDefinition = "TEXT"
+    )
     private String caregiverContact;
+    @Column(
+            name = "required_services",
+            columnDefinition = "TEXT"
+    )
     private String requiredServices;
+    @Column(
+            name = "goals",
+            columnDefinition = "TEXT"
+    )
     private String goals;
 
     public Client() {
@@ -54,9 +91,9 @@ public class Client {
                   String goals) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthDate = birthDate;
+        this.birthdate = birthDate;
         this.gender = gender;
-        this.image = image;
+        this.photo = image;
         this.zone = zone;
         this.villageNumber = villageNumber;
         this.signupDate = signupDate;
@@ -79,8 +116,8 @@ public class Client {
         return lastName;
     }
 
-    public Integer getBirthDate() {
-        return birthDate;
+    public Integer getBirthdate() {
+        return birthdate;
     }
 
     public Integer getAge() {
@@ -91,8 +128,8 @@ public class Client {
         return gender;
     }
 
-    public String getImage() {
-        return image;
+    public String getPhoto() {
+        return photo;
     }
 
     public String getZone() {
@@ -135,16 +172,16 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public void setBirthDate(Integer birthDate) {
-        this.birthDate = birthDate;
+    public void setBirthdate(Integer birthdate) {
+        this.birthdate = birthdate;
     }
 
     public void setGender(Character gender) {
         this.gender = gender;
     }
 
-    public void setImage(String image) {
-        this.image = image;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public void setZone(String zone) {
