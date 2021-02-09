@@ -11,10 +11,14 @@ public class Client {
     private Long id;
 
     @Column(
-            name = "name",
+            name = "first_name",
             columnDefinition = "TEXT"
     )
     private String firstName;
+    @Column(
+            name = "last_name",
+            columnDefinition = "TEXT"
+    )
     private String lastName;
     private Integer birthDate;
 
@@ -169,5 +173,9 @@ public class Client {
 
     public void setRequiredServices(String requiredServices) {
         this.requiredServices = requiredServices;
+    }
+
+    public void setGoals(String goals) {
+        this.goals = goals;
     }
 }
