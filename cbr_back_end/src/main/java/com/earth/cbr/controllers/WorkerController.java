@@ -1,6 +1,7 @@
 package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.models.Client;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.services.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,18 @@ public class WorkerController {
         Worker worker = workerService.getWorkerById(id);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", worker);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @PostMapping
+    public ResponseEntity<JSONObject> addWorker(@RequestBody JSONObject payload) {
+        Worker addedWorker = workerService.addWorker(payload);
+
+        JSONObject responseJson = new JSONObject();
+        // Need to tell front-end the new client's id
+        // so front-end can update the UI
+        responseJson.put("id", addedWorker.getId());
+
         return ResponseEntity.ok().body(responseJson);
     }
 }
