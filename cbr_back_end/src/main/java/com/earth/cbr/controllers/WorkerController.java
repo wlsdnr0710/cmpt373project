@@ -23,4 +23,12 @@ public class WorkerController {
         responseJson.put("data", workers);
         return ResponseEntity.ok().body(responseJson);
     }
+
+    @GetMapping(value = "/{username}")
+    public ResponseEntity<JSONObject> getWorkerByUsername(@PathVariable String username) {
+        Worker worker = workerService.getWorkerByUsername(username);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", worker);
+        return ResponseEntity.ok().body(responseJson);
+    }
 }

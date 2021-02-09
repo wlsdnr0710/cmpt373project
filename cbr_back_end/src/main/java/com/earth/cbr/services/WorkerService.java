@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface WorkerService {
     List<Worker> getAllWorkers();
-    Worker getWorkerById(Long id);
+    Worker getWorkerByUsername(String username);
     Worker addWorker(JSONObject payload);
     void deleteWorkerById(Long id);
 }
