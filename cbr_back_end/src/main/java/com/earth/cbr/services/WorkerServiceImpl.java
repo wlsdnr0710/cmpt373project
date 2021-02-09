@@ -50,6 +50,29 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
+    public Worker editWorker(Long id, JSONObject payload) {
+        String workerFirstName = (String) payload.get("first_name");
+        String workerLastName = (String) payload.get("last_name");
+        String workerUsername = (String) payload.get("username");
+        String workerPassword = (String) payload.get("password");
+        String workerPhone = (String) payload.get("phone");
+        String workerEmail = (String) payload.get("email");
+        String workerRole = (String) payload.get("role");
+        String workerZone = (String) payload.get("zone");
+        Optional<Worker> workerOptional = workerRepository.findById(id);
+        Worker worker = workerOptional.get();
+        worker.setFirstName(workerFirstName);
+        worker.setLastName(workerLastName);
+        worker.setUsername(workerUsername);
+        worker.setPassword(workerPassword);
+        worker.setPhone(workerPhone);
+        worker.setEmail(workerEmail);
+        worker.setRole(workerRole);
+        worker.setZone(workerZone);
+        return workerRepository.save(worker);
+    }
+
+    @Override
     public void deleteWorkerById(Long id) {
         workerRepository.deleteById(id);
     }

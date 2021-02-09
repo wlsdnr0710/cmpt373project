@@ -25,7 +25,7 @@ public class WorkerController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @GetMapping(value = "/{username}")
+    @GetMapping(value = "username/{username}")
     public ResponseEntity<JSONObject> getWorkerByUsername(@PathVariable String username) {
         Worker worker = workerService.getWorkerByUsername(username);
         JSONObject responseJson = new JSONObject();
@@ -44,6 +44,18 @@ public class WorkerController {
     @PostMapping
     public ResponseEntity<JSONObject> addWorker(@RequestBody JSONObject payload) {
         Worker addedWorker = workerService.addWorker(payload);
+
+        JSONObject responseJson = new JSONObject();
+        // Need to tell front-end the new client's id
+        // so front-end can update the UI
+        responseJson.put("id", addedWorker.getId());
+
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @PostMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> addWorker(@PathVariable Long id, @RequestBody JSONObject payload) {
+        Worker addedWorker = workerService.editWorker(id, payload);
 
         JSONObject responseJson = new JSONObject();
         // Need to tell front-end the new client's id

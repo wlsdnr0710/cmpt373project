@@ -10,5 +10,6 @@ public interface WorkerService {
     Worker getWorkerByUsername(String username);
     Worker getWorkerById(Long id);
     Worker addWorker(JSONObject payload);
+    Worker editWorker(Long id, JSONObject payload);
     void deleteWorkerById(Long id);
 }
