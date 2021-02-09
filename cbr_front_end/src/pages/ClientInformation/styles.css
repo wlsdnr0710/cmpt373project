@@ -1,20 +1,25 @@
-hr {
-    margin: 3vh;
+.client-information-hr {
+    margin: 2vh;
 }
 
-.general-information {
+.client-general-information {
     margin-left: 10vw;
     margin-bottom: 16%;
 }
 
-.risk-information {
+.client-risk-information {
     margin-left: 10vw;
 }
 
-.disability-information {
+.client-disability-information {
     margin-left: 10vw;
 }
 
-.edit-button {
+.client-information-image{
+    max-width: 25%;
+    max-height: 25%;
+}
+
+.client-edit-button {
     margin-left: 10vw;
 }

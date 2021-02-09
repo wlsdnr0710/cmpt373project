@@ -9,9 +9,9 @@ import "./styles.css";
 const ClientInfo = () => {
   return (
     <div>
-      <BackgroundCard>
+      <BackgroundCard className="client-information-card">
         <ClientInformation
-          className="general-information"
+          className="client-general-information"
           // TODO: insert key once real objects are imported
           id="123"
           name="Bob Jones"
@@ -20,15 +20,19 @@ const ClientInfo = () => {
           gender="Male"
           age="20"
         />
-        <hr />
+        <hr className="client-information-hr" />
         <RiskInformation
-          className = "risk-information"
+          className="client-risk-information"
+          health="1"
+          education="1"
+          social="1"
         />
-        <hr />
-        <DisabilityInformation
-          className ="disability-information"
-        />
-        <button type="button" className="btn btn-secondary edit-button">Edit</button>
+        <hr className="client-information-hr" />
+        <DisabilityInformation className="client-disability-information" />
+        <hr className="client-information-hr" />
+        <button type="button" className="btn btn-secondary client-edit-button">
+          Edit
+        </button>
       </BackgroundCard>
     </div>
   );
