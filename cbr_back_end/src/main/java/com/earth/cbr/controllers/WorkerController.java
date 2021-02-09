@@ -52,4 +52,12 @@ public class WorkerController {
 
         return ResponseEntity.ok().body(responseJson);
     }
+
+    @DeleteMapping
+    public ResponseEntity<JSONObject> deleteWorker(@RequestBody JSONObject payload) {
+        Integer workerIdInt = (Integer) payload.get("id");
+        Long workerId = Long.valueOf(workerIdInt);
+        workerService.deleteWorkerById(workerId);
+        return ResponseEntity.ok().body(null);
+    }
 }
