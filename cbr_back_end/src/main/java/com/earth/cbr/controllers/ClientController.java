@@ -1,5 +1,6 @@
 package com.earth.cbr.controllers;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
@@ -33,7 +34,10 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<JSONObject> addClient(@RequestBody Client client) {
+    public ResponseEntity<JSONObject> addClient(@RequestBody JSONObject payload) {
+        JSONObject clientJSON = payload.getJSONObject("client");
+        String clientString = clientJSON.toJSONString();
+        Client client = JSON.parseObject(clientString, Client.class);
         Client addedClient = clientService.addClient(client);
 
         JSONObject responseJson = new JSONObject();
