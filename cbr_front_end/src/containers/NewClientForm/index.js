@@ -5,6 +5,7 @@ import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
 import ImageInputField from "../../components/ImageInputField";
+import NewClientSurvey from "../../containers/NewClientSurvey";
 import NumberInputField from "../../components/NumberInputField";
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
@@ -199,6 +200,33 @@ const NewClientForm = () => {
                         secondaryText={imageUploaderSecondaryText}
                         isDisabled={isCaregiverPhotographDisabled()}
                     />
+                </div>
+
+                <hr/>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Health risk:</label>
+                    </div>
+                    <NewClientSurvey surveyType="health" />
+                </div>
+
+                <hr/>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Social risk:</label>
+                    </div>
+                    <NewClientSurvey surveyType="social" />
+                </div>
+
+                <hr/>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Education risk:</label>
+                    </div>
+                    <NewClientSurvey surveyType="education" />
                 </div>
 
                 <hr/>
