@@ -28,6 +28,13 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
+    public Worker getWorkerById(Long id) {
+        Optional<Worker> workerOptional = workerRepository.findById(id);
+        Worker worker = workerOptional.get();
+        return worker;
+    }
+
+    @Override
     public Worker addWorker(JSONObject payload) {
         String workerFirstName = (String) payload.get("first_name");
         String workerLastName = (String) payload.get("last_name");
