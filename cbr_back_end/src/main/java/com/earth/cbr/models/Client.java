@@ -122,4 +122,52 @@ public class Client {
     public String getGoals() {
         return goals;
     }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setBirthDate(Integer birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    public void setGender(Character gender) {
+        this.gender = gender;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
+    public void setVillageNumber(Integer villageNumber) {
+        this.villageNumber = villageNumber;
+    }
+
+    public void setSignupDate(LocalDate signupDate) {
+        this.signupDate = signupDate;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
+    }
+
+    public void setCbrWorkerId(Long cbrWorkerId) {
+        this.cbrWorkerId = cbrWorkerId;
+    }
+
+    public void setCaregiverContact(String caregiverContact) {
+        this.caregiverContact = caregiverContact;
+    }
+
+    public void setRequiredServices(String requiredServices) {
+        this.requiredServices = requiredServices;
+    }
 }
