@@ -29,8 +29,9 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client addClient(JSONObject payload) {
-        String clientName = (String) payload.get("name");
-        Client client = new Client(clientName);
+        String clientFirstName = (String) payload.get("first_name");
+        String clientLastName = (String) payload.get("last_name");
+        Client client = new Client(clientFirstName, clientLastName);
         return clientRepository.save(client);
     }
 
