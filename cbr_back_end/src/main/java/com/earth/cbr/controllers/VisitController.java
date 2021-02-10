@@ -2,6 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Visit;
+import com.earth.cbr.models.Worker;
 import com.earth.cbr.services.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +41,18 @@ public class VisitController {
         // Need to tell front-end the new client's id
         // so front-end can update the UI
         responseJson.put("id", addedVisit.getId());
+
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> updateVisitById(@PathVariable Long id, @RequestBody JSONObject payload) {
+        Visit updatedVisit = visitService.updateVisitById(id, payload);
+
+        JSONObject responseJson = new JSONObject();
+        // Need to tell front-end the new client's id
+        // so front-end can update the UI
+        responseJson.put("id", updatedVisit.getId());
 
         return ResponseEntity.ok().body(responseJson);
     }
