@@ -1,9 +1,9 @@
 import React from "react";
 import avatar from "./avatar.png";
-import ClientInformation from "../../components/ClientInformation/ClientInformation";
-import BackgroundCard from "../../components/BackgroundCard/BackgroundCard";
-import RiskInformation from "../../components/RiskInformation/RiskInformation";
-import DisabilityInformation from "../../components/DisabilityInformation/DisabilityInformation";
+import ClientInformation from "../../components/ClientInformation/index";
+import BackgroundCard from "../../components/BackgroundCard/index";
+import RiskInformation from "../../components/RiskInformation/index";
+import DisabilityInformation from "../../components/DisabilityInformation/index";
 import "./styles.css";
 
 const ClientInfo = () => {
@@ -28,7 +28,9 @@ const ClientInfo = () => {
           social="1"
         />
         <hr className="client-information-hr" />
-        <DisabilityInformation className="client-disability-information" />
+        <DisabilityInformation 
+          //TODO: Pass in list to display disability information
+          className="client-disability-information" />
         <hr className="client-information-hr" />
         <button type="button" className="btn btn-secondary client-edit-button">
           Edit

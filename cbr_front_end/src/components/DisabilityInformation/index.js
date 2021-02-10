@@ -1,9 +1,9 @@
 import React from "react";
 import "./style.css";
 
-function DisabilityInformation(props) {
+const DisabilityInformation = ({className}) => {
   return (
-    <div className={props.className}>
+    <div className={className}>
       <h1>Disability and Ailment(s)</h1>
       <ul>
         <li>Amputee </li>

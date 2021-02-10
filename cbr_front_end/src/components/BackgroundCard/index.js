@@ -1,13 +1,13 @@
 import React from "react";
 import "./style.css";
 
-function BackgroundCard(props) {
+const BackgroundCard = ({children, heading}) => {
   return (
     <div className="background-card">
       <div className="background-top">
-          <h1 className ="background-top-heading">{props.heading}</h1>
+          <h1 className ="background-top-heading">{heading}</h1>
       </div>
-      {props.children}
+      {children}
     </div>
   );
 }
