@@ -60,4 +60,87 @@ public class Visit {
     public Visit() {
 
     }
+
+    public Visit(String consent, String date, String cbrWorkerName, String purpose, String zone, String villageNumber, String healthGoalProgress, String healthOutcome) {
+        this.consent = consent;
+        this.date = date;
+        this.cbrWorkerName = cbrWorkerName;
+        this.purpose = purpose;
+        this.zone = zone;
+        this.villageNumber = villageNumber;
+        this.healthGoalProgress = healthGoalProgress;
+        this.healthOutcome = healthOutcome;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getConsent() {
+        return consent;
+    }
+
+    public void setConsent(String consent) {
+        this.consent = consent;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getCbrWorkerName() {
+        return cbrWorkerName;
+    }
+
+    public void setCbrWorkerName(String cbrWorkerName) {
+        this.cbrWorkerName = cbrWorkerName;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
+    public String getZone() {
+        return zone;
+    }
+
+    public void setZone(String zone) {
+        this.zone = zone;
+    }
+
+    public String getVillageNumber() {
+        return villageNumber;
+    }
+
+    public void setVillageNumber(String villageNumber) {
+        this.villageNumber = villageNumber;
+    }
+
+    public String getHealthGoalProgress() {
+        return healthGoalProgress;
+    }
+
+    public void setHealthGoalProgress(String healthGoalProgress) {
+        this.healthGoalProgress = healthGoalProgress;
+    }
+
+    public String getHealthOutcome() {
+        return healthOutcome;
+    }
+
+    public void setHealthOutcome(String healthOutcome) {
+        this.healthOutcome = healthOutcome;
+    }
 }
