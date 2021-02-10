@@ -56,4 +56,12 @@ public class VisitController {
 
         return ResponseEntity.ok().body(responseJson);
     }
+
+    @DeleteMapping
+    public ResponseEntity<JSONObject> deleteVisitById(@RequestBody JSONObject payload) {
+        Integer visitIdInt = (Integer) payload.get("id");
+        Long visitId = Long.valueOf(visitIdInt);
+        visitService.deleteVisitById(visitId);
+        return ResponseEntity.ok().body(null);
+    }
 }
