@@ -29,6 +29,9 @@ const NewClientForm = () => {
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
     const [isPhotographDisabled, setIsPhotographDisabled] = useState(true);
     const [isCaregivenPresent, setIsCaregivenPresent] = useState(false);
+    const [showHealthSurvey, setShowHealthSurvey] = useState(true);
+    const [showSocialSurvey, setShowSocialSurvey] = useState(true);
+    const [showEducationSurvey, setShowEducationSurvey] = useState(true);
 
 
     const consentToInterviewCheckBoxActionHandler = event => {
@@ -68,6 +71,20 @@ const NewClientForm = () => {
 
     const isCaregiverPhotographDisabled = () => {
         return isCaregiverRelatedInputDisabled() || isPhotographDisabled;
+    };
+
+    const getToggleShowHideHandler = setShowHideStateHook => {
+        return event => {
+            setShowHideStateHook(prevState => !prevState);
+        };
+    };
+
+    const shouldShowBlockElement = shouldShow => {
+        return shouldShow ? "block" : "none";
+    };
+
+    const getShowHideSymbol = isShow => {
+        return isShow ? "-" : "+";
     };
 
     return (
@@ -205,28 +222,34 @@ const NewClientForm = () => {
                 <hr/>
 
                 <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Health risk:</label>
+                    <div className="label-container show-hide-toggle-title" onClick={getToggleShowHideHandler(setShowHealthSurvey)}>
+                        <label>{getShowHideSymbol(showHealthSurvey)} Health Risk Survey</label>
                     </div>
-                    <NewClientSurvey surveyType="health" />
+                    <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showHealthSurvey)}}>
+                        <NewClientSurvey surveyType="health" />
+                    </div>
                 </div>
 
                 <hr/>
 
                 <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Social risk:</label>
+                    <div className="label-container show-hide-toggle-title" onClick={getToggleShowHideHandler(setShowSocialSurvey)}>
+                        <label>{getShowHideSymbol(showSocialSurvey)} Social Risk Survey</label>
                     </div>
-                    <NewClientSurvey surveyType="social" />
+                    <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showSocialSurvey)}}>
+                        <NewClientSurvey surveyType="social" />
+                    </div>
                 </div>
 
                 <hr/>
 
                 <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Education risk:</label>
+                    <div className="label-container show-hide-toggle-title" onClick={getToggleShowHideHandler(setShowEducationSurvey)}>
+                        <label>{getShowHideSymbol(showEducationSurvey)} Education Risk Survey</label>
                     </div>
-                    <NewClientSurvey surveyType="education" />
+                    <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showEducationSurvey)}}>
+                        <NewClientSurvey surveyType="education" />
+                    </div>
                 </div>
 
                 <hr/>
