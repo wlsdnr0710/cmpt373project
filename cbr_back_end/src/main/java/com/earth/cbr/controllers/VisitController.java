@@ -1,6 +1,7 @@
 package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.models.Client;
 import com.earth.cbr.models.Visit;
 import com.earth.cbr.services.VisitService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,14 @@ public class VisitController {
         List<Visit> visits = visitService.getAllVisits();
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", visits);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> getVisitById(@PathVariable Long id) {
+        Visit visit = visitService.getVisitById(id);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", visit);
         return ResponseEntity.ok().body(responseJson);
     }
 }
