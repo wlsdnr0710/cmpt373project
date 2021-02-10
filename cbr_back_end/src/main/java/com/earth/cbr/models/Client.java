@@ -108,108 +108,116 @@ public class Client {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getFirstName() {
         return firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public Integer getBirthdate() {
-        return birthdate;
-    }
-
-    public Integer getAge() {
-        return age;
-    }
-
-    public Character getGender() {
-        return gender;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public String getZone() {
-        return zone;
-    }
-
-    public Integer getVillageNumber() {
-        return villageNumber;
-    }
-
-    public LocalDate getSignupDate() {
-        return signupDate;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public Long getCbrWorkerId() {
-        return cbrWorkerId;
-    }
-
-    public String getCaregiverContact() {
-        return caregiverContact;
-    }
-
-    public String getRequiredServices() {
-        return requiredServices;
-    }
-
-    public String getGoals() {
-        return goals;
     }
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
 
+    public String getLastName() {
+        return lastName;
+    }
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Integer getBirthdate() {
+        return birthdate;
     }
 
     public void setBirthdate(Integer birthdate) {
         this.birthdate = birthdate;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Character getGender() {
+        return gender;
+    }
+
     public void setGender(Character gender) {
         this.gender = gender;
+    }
+
+    public String getPhoto() {
+        return photo;
     }
 
     public void setPhoto(String photo) {
         this.photo = photo;
     }
 
+    public String getZone() {
+        return zone;
+    }
+
     public void setZone(String zone) {
         this.zone = zone;
+    }
+
+    public Integer getVillageNumber() {
+        return villageNumber;
     }
 
     public void setVillageNumber(Integer villageNumber) {
         this.villageNumber = villageNumber;
     }
 
+    public LocalDate getSignupDate() {
+        return signupDate;
+    }
+
     public void setSignupDate(LocalDate signupDate) {
         this.signupDate = signupDate;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
     }
 
     public void setContactNumber(String contactNumber) {
         this.contactNumber = contactNumber;
     }
 
+    public Long getCbrWorkerId() {
+        return cbrWorkerId;
+    }
+
     public void setCbrWorkerId(Long cbrWorkerId) {
         this.cbrWorkerId = cbrWorkerId;
+    }
+
+    public String getCaregiverContact() {
+        return caregiverContact;
     }
 
     public void setCaregiverContact(String caregiverContact) {
         this.caregiverContact = caregiverContact;
     }
 
+    public String getRequiredServices() {
+        return requiredServices;
+    }
+
     public void setRequiredServices(String requiredServices) {
         this.requiredServices = requiredServices;
+    }
+
+    public String getGoals() {
+        return goals;
     }
 
     public void setGoals(String goals) {
