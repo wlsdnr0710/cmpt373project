@@ -4,10 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Visit;
 import com.earth.cbr.repositories.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class VisitServiceImpl implements VisitService{
 
     @Autowired
