@@ -11,13 +11,13 @@ public class Visit {
 
     @Column(
             name = "consent",
-            columnDefinition = "BINARY"
+            columnDefinition = "TEXT"
     )
     private String consent;
 
     @Column(
             name = "date",
-            columnDefinition = "DATE"
+            columnDefinition = "TEXT"
     )
     private String date;
 
@@ -43,7 +43,7 @@ public class Visit {
             name = "village_number",
             columnDefinition = "INT"
     )
-    private String villageNumber;
+    private int villageNumber;
 
     @Column(
             name = "health_goal_progress",
@@ -61,7 +61,7 @@ public class Visit {
 
     }
 
-    public Visit(String consent, String date, String cbrWorkerName, String purpose, String zone, String villageNumber, String healthGoalProgress, String healthOutcome) {
+    public Visit(String consent, String date, String cbrWorkerName, String purpose, String zone, int villageNumber, String healthGoalProgress, String healthOutcome) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -120,11 +120,11 @@ public class Visit {
         this.zone = zone;
     }
 
-    public String getVillageNumber() {
+    public int getVillageNumber() {
         return villageNumber;
     }
 
-    public void setVillageNumber(String villageNumber) {
+    public void setVillageNumber(int villageNumber) {
         this.villageNumber = villageNumber;
     }
 
