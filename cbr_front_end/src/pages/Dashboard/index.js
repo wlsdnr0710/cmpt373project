@@ -1,10 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import FormHeader from "../../components/FormHeader";
+import AlertMessageBoard from "../../containers/AlertMessageBoard"
 
 const Dashboard = () => {
     return (
         <div className="dashboard">
-            <p>This is Dashboard page.</p>
+            <FormHeader 
+                headerText="Dashboard (temporary)"
+            />
+            <AlertMessageBoard />
 
             <Link to="/example">
                 Click this link to jump to ExampleComponent.
