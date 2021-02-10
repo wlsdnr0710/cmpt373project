@@ -1,7 +1,6 @@
 package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.models.Client;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.services.WorkerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,20 +52,20 @@ public class WorkerController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @PostMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> addWorker(@PathVariable Long id, @RequestBody JSONObject payload) {
-        Worker addedWorker = workerService.editWorker(id, payload);
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> updateWorkerById(@PathVariable Long id, @RequestBody JSONObject payload) {
+        Worker updatedWorker = workerService.updateWorkerById(id, payload);
 
         JSONObject responseJson = new JSONObject();
         // Need to tell front-end the new client's id
         // so front-end can update the UI
-        responseJson.put("id", addedWorker.getId());
+        responseJson.put("id", updatedWorker.getId());
 
         return ResponseEntity.ok().body(responseJson);
     }
 
     @DeleteMapping
-    public ResponseEntity<JSONObject> deleteWorker(@RequestBody JSONObject payload) {
+    public ResponseEntity<JSONObject> deleteWorkerById(@RequestBody JSONObject payload) {
         Integer workerIdInt = (Integer) payload.get("id");
         Long workerId = Long.valueOf(workerIdInt);
         workerService.deleteWorkerById(workerId);

@@ -50,7 +50,7 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public Worker editWorker(Long id, JSONObject payload) {
+    public Worker updateWorkerById(Long id, JSONObject payload) {
         String workerFirstName = (String) payload.get("first_name");
         String workerLastName = (String) payload.get("last_name");
         String workerUsername = (String) payload.get("username");
@@ -59,8 +59,10 @@ public class WorkerServiceImpl implements WorkerService {
         String workerEmail = (String) payload.get("email");
         String workerRole = (String) payload.get("role");
         String workerZone = (String) payload.get("zone");
+
         Optional<Worker> workerOptional = workerRepository.findById(id);
         Worker worker = workerOptional.get();
+
         worker.setFirstName(workerFirstName);
         worker.setLastName(workerLastName);
         worker.setUsername(workerUsername);
