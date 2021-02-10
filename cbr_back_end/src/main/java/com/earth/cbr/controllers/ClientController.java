@@ -35,7 +35,7 @@ public class ClientController {
 
     @PostMapping
     public ResponseEntity<JSONObject> addClient(@RequestBody JSONObject payload) {
-        JSONObject clientJSON = payload.getJSONObject("client");
+        JSONObject clientJSON = payload.getJSONObject("data");
         String clientString = clientJSON.toJSONString();
         Client client = JSON.parseObject(clientString, Client.class);
         Client addedClient = clientService.addClient(client);
