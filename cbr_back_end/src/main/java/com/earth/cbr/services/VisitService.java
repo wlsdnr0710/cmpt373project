@@ -9,6 +9,6 @@ public interface VisitService {
     List<Visit> getAllVisits();
     Visit getVisitById(Long id);
     Visit addVisit(JSONObject payload);
-    //Visit updateVisitById(Long id, JSONObject payload);
-    //void deleteVisitById(Long id);
+    Visit updateVisitById(Long id, JSONObject payload);
+    void deleteVisitById(Long id);
 }
