@@ -26,6 +26,17 @@ const defaultClientZones = {
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
+    const [formInputs, setFormInputs] = useState({
+        "clientZone": "bidizone1",
+        "villageNumber": "",
+        "date": "",
+        "firstName": "",
+        "lastName": "",
+        "clientGender": "female",
+        "age": "",
+        "contactNumber": "",
+        "caregiverNumber": "",
+    });
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
     const [isPhotographDisabled, setIsPhotographDisabled] = useState(true);
     const [isCaregivenPresent, setIsCaregivenPresent] = useState(false);
@@ -33,6 +44,22 @@ const NewClientForm = () => {
     const [showSocialSurvey, setShowSocialSurvey] = useState(true);
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
 
+
+    const formInputChangeHandler = event => {
+        const input = event.target;
+        const name = input.name;
+        const value = input.value;
+        updateFormInputByNameValue(name, value);
+    };
+
+    const updateFormInputByNameValue = (name, value) => {
+        setFormInputs(prevFormInputs => {
+            const newFormInputs = {...prevFormInputs};
+            newFormInputs[name] = value;
+            console.log(newFormInputs);
+            return newFormInputs;
+        });
+    };
 
     const consentToInterviewCheckBoxActionHandler = event => {
         const checkBox = event.target;
@@ -108,8 +135,10 @@ const NewClientForm = () => {
                         <label>Location:</label>
                     </div>
                     <DropdownList 
-                        dropdownName="client-zones"
+                        dropdownName="clientZone"
+                        value={formInputs["clientZone"]}
                         dropdownListItemsKeyValue={defaultClientZones}
+                        onChange={formInputChangeHandler}
                         isDisabled={isFormInputDisabled}
                     />
                 </div>
@@ -118,28 +147,33 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Village Number:</label>
                     </div>
-                    <NumberInputField isDisabled={isFormInputDisabled} />
+                    <NumberInputField 
+                        name="villageNumber" 
+                        value={formInputs["villageNumber"]} 
+                        onChange={formInputChangeHandler} 
+                        isDisabled={isFormInputDisabled} 
+                    />
                 </div>
 
                 <div className="input-field-container">
                     <div className="label-container">
                         <label>Date:</label>
                     </div>
-                    <DateInputField isDisabled={isFormInputDisabled} />
+                    <DateInputField name="date" value={formInputs["date"]} onChange={formInputChangeHandler} isDisabled={isFormInputDisabled} />
                 </div>
 
                 <div className="input-field-container">
                     <div className="label-container">
                         <label>First Name:</label>
                     </div>
-                    <TextInputField isDisabled={isFormInputDisabled} />
+                    <TextInputField name="firstName" value={formInputs["firstName"]} onChange={formInputChangeHandler} isDisabled={isFormInputDisabled} />
                 </div>
 
                 <div className="input-field-container">
                     <div className="label-container">
                         <label>Last Name:</label>
                     </div>
-                    <TextInputField isDisabled={isFormInputDisabled} />
+                    <TextInputField name="lastName" value={formInputs["lastName"]} onChange={formInputChangeHandler} isDisabled={isFormInputDisabled} />
                 </div>
 
                 <div className="input-field-container">
@@ -147,11 +181,13 @@ const NewClientForm = () => {
                         <label>Gender:</label>
                     </div>
                     <DropdownList 
-                        dropdownName="client-gender"
+                        dropdownName="clientGender"
+                        value={formInputs["clientGender"]}
                         dropdownListItemsKeyValue={{
                             "Female": "female", 
                             "Male": "male"
                         }}
+                        onChange={formInputChangeHandler}
                         isDisabled={isFormInputDisabled}
                     />
                 </div>
@@ -163,6 +199,9 @@ const NewClientForm = () => {
                     <NumberInputField 
                         min={0} 
                         max={200} 
+                        name="age"
+                        value={formInputs["age"]}
+                        onChange={formInputChangeHandler}
                         isDisabled={isFormInputDisabled} 
                     />
                 </div>
@@ -171,7 +210,12 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Contact Number:</label>
                     </div>
-                    <NumberInputField isDisabled={isFormInputDisabled} />
+                    <NumberInputField 
+                        name="contactNumber" 
+                        value={formInputs["contactNumber"]} 
+                        onChange={formInputChangeHandler} 
+                        isDisabled={isFormInputDisabled} 
+                    />
                 </div>
 
                 <hr/>
@@ -188,7 +232,12 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Caregiver Number:</label>
                     </div>
-                    <NumberInputField isDisabled={isCaregiverRelatedInputDisabled()} />
+                    <NumberInputField
+                        name="caregiverNumber"
+                        value={formInputs["caregiverNumber"]} 
+                        onChange={formInputChangeHandler} 
+                        isDisabled={isCaregiverRelatedInputDisabled()} 
+                    />
                 </div>
 
                 <hr/>

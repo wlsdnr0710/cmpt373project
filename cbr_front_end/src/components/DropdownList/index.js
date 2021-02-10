@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, isDisabled }) => {
+const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, value, onChange, isDisabled }) => {
     const getDropdownListOptions = () => {
         const itemsInOptionTag = [];
         let listChildId = 0;
@@ -20,7 +20,13 @@ const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, isDisabled }) =
     };
 
     return (
-        <select className="dropdown-list" name={dropdownName} disabled={isDisabled}>
+        <select 
+            className="dropdown-list" 
+            name={dropdownName} 
+            value={value} 
+            onChange={onChange} 
+            disabled={isDisabled}
+        >
             {getDropdownListOptions()}
         </select>
     );
