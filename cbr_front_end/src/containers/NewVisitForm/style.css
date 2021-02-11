@@ -1,0 +1,16 @@
+.new-visit-form {
+    color: #000;
+    opacity: 0.8;
+}
+
+.new-visit-form .form-body {
+    margin: 1rem 1rem;
+}
+
+.new-visit-form .input-field-container {
+    margin: 1rem 0 1rem 0;
+}
+
+.new-visit-form .label-container {
+    margin-bottom: 0.5rem;
+}
