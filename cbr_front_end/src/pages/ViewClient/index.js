@@ -48,7 +48,7 @@ const ViewClient = ({ history }) => {
                 <div className="section">
                     <span>Sort By: </span> 
                     <DropdownList 
-                        dropdownName="srot-by" 
+                        dropdownName="sort-by" 
                         dropdownListItemsKeyValue={getSortByList()}
                         onChange={onChangeSortByHandler}
                     />
