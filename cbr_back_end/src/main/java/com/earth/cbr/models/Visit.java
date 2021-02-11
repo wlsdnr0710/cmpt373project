@@ -11,9 +11,9 @@ public class Visit {
 
     @Column(
             name = "consent",
-            columnDefinition = "TEXT"
+            columnDefinition = "INT"
     )
-    private String consent;
+    private int consent;
 
     @Column(
             name = "date",
@@ -61,7 +61,7 @@ public class Visit {
 
     }
 
-    public Visit(String consent, String date, String cbrWorkerName, String purpose, String zone, int villageNumber, String healthGoalProgress, String healthOutcome) {
+    public Visit(int consent, String date, String cbrWorkerName, String purpose, String zone, int villageNumber, String healthGoalProgress, String healthOutcome) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -80,11 +80,11 @@ public class Visit {
         this.id = id;
     }
 
-    public String getConsent() {
+    public int getConsent() {
         return consent;
     }
 
-    public void setConsent(String consent) {
+    public void setConsent(int consent) {
         this.consent = consent;
     }
 

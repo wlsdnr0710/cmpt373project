@@ -29,7 +29,7 @@ public class VisitServiceImpl implements VisitService{
 
     @Override
     public Visit addVisit(JSONObject payload) {
-        String visitConsent = (String) payload.get("consent");
+        int visitConsent = (int) payload.get("consent");
         String visitDate = (String) payload.get("date");
         String visitCbrWorkerName = (String) payload.get("cbr_worker_name");
         String visitPurpose = (String) payload.get("purpose");
@@ -44,7 +44,7 @@ public class VisitServiceImpl implements VisitService{
 
     @Override
     public Visit updateVisitById(Long id, JSONObject payload) {
-        String visitConsent = (String) payload.get("consent");
+        int visitConsent = (int) payload.get("consent");
         String visitDate = (String) payload.get("date");
         String visitCbrWorkerName = (String) payload.get("cbr_worker_name");
         String visitPurpose = (String) payload.get("purpose");
