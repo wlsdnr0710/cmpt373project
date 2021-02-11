@@ -5,9 +5,9 @@ const RiskInformation = ({className, health, education, social}) =>{
   return (
     <div className={className}>
       <h1>Risk</h1>
-      <p>Health: {health}</p>
-      <p>Education: {education}</p>
-      <p>Social: {social}</p>
+      <div>Health: {health}</div>
+      <div>Education: {education}</div>
+      <div>Social: {social}</div>
     </div>
   );
 }

@@ -7,12 +7,10 @@ const ClientInformation = ({className, name, image, id, zone, gender, age}) => {
       <h1 className ="client-information-name">{name}</h1>
       <div className="client-information-card">
         <img className="client-information-image" src={image} alt="client" />
-        <p className=".client-information-details">
-          ID: {id} <br />
-          Zone: {zone} <br />
-          Gender: {gender} <br />
-          Age: {age}
-        </p>
+        <div className = "client-information-details">ID: {id}</div>
+        <div className = "client-information-details">Zone: {zone}</div>
+        <div className = "client-information-details">Gender: {gender}</div>
+        <div className = "client-information-details">Age: {age}</div>
       </div>
     </div>
   );

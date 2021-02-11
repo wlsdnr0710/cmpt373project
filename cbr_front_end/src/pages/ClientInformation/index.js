@@ -1,9 +1,9 @@
 import React from "react";
-import avatar from "./avatar.png";
-import ClientInformation from "../../components/ClientInformation/index";
-import BackgroundCard from "../../components/BackgroundCard/index";
-import RiskInformation from "../../components/RiskInformation/index";
-import DisabilityInformation from "../../components/DisabilityInformation/index";
+import avatar from "../../assets/avatar.png";
+import ClientInformation from "../../components/ClientInformation";
+import BackgroundCard from "../../components/BackgroundCard";
+import RiskInformation from "../../components/RiskInformation";
+import DisabilityInformation from "../../components/DisabilityInformation";
 import "./styles.css";
 
 const ClientInfo = () => {
