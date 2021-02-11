@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import CheckBox from "../../components/CheckBox";
@@ -45,6 +45,8 @@ const NewClientForm = () => {
         "educationRisk": "low",
         "educationNeed": "",
         "educationIndividualGoals": "",
+        "clientPhoto": null,
+        "caregiverPhoto": null,
     });
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
     const [isPhotographDisabled, setIsPhotographDisabled] = useState(true);
@@ -53,6 +55,20 @@ const NewClientForm = () => {
     const [showSocialSurvey, setShowSocialSurvey] = useState(true);
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
 
+    // input type file is an uncontrolled component so we need to use reference
+    const refClientPhotoInput = useRef(null);
+    const refCaregiverPhotoInput = useRef(null);
+
+
+    const onSubmitSurveyHandler = event => {
+        event.preventDefault();
+        updateFormInputByNameValue("clientPhoto", getReferenceFile(refClientPhotoInput));
+        updateFormInputByNameValue("caregiverPhoto", getReferenceFile(refCaregiverPhotoInput));
+    }; 
+
+    const getReferenceFile = ref => {
+        return ref.current.files[0];
+    };
 
     const formInputChangeHandler = event => {
         const input = event.target;
@@ -265,6 +281,7 @@ const NewClientForm = () => {
                         primaryText="Select a photo for CLIENT"
                         secondaryText={imageUploaderSecondaryText}
                         isDisabled={isClientPhotographDisabled()}
+                        reference={refClientPhotoInput}
                     />
                 </div>
 
@@ -274,6 +291,7 @@ const NewClientForm = () => {
                         primaryText="Select a photo for CAREGIVER"
                         secondaryText={imageUploaderSecondaryText}
                         isDisabled={isCaregiverPhotographDisabled()}
+                        reference={refCaregiverPhotoInput}
                     />
                 </div>
 
@@ -336,7 +354,12 @@ const NewClientForm = () => {
 
                 <hr/>
 
-                <Button variant="primary" size="lg" disabled={isFormInputDisabled}>
+                <Button 
+                    variant="primary" 
+                    size="lg" 
+                    disabled={isFormInputDisabled}
+                    onClick={onSubmitSurveyHandler}
+                >
                     Submit
                 </Button>
             </div>
