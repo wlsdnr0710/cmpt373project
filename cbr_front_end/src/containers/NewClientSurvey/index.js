@@ -3,7 +3,15 @@ import DropdownList from "../../components/DropdownList";
 import TextAreaInputField from "../../components/TextAreaInputField";
 import "./style.css";
 
-const NewClientSurvey = ({ surveyType }) => {
+const NewClientSurvey = ({ 
+    riskInputName, 
+    needInputName, 
+    individualGoalsInputName, 
+    riskValue,
+    needInputValue,
+    individualGoalsValue,
+    onChange,
+}) => {
     const getClientHealthRiskLevels = () => {
         return {
             "Low": "low",
@@ -12,42 +20,14 @@ const NewClientSurvey = ({ surveyType }) => {
         };
     };
 
-    const healthTypeSurveyInputNames = {
-        risk: "client-health-risk",
-        clientNeed: "client-health-risk-need",
-        individualGoals: "client-health-risk-individual-goals",
-    };
-
-    const socialTypeSurveyInputNames = {
-        risk: "client-social-risk",
-        clientNeed: "client-social-risk-need",
-        individualGoals: "client-social-risk-individual-goals",
-    };
-
-    const educationTypeSurveyInputNames = {
-        risk: "client-education-risk",
-        clientNeed: "client-education-risk-need",
-        individualGoals: "client-education-risk-individual-goals",
-    };
-
-    const getSurveryTypeInputNames = () => {
-        if (surveyType === "health") {
-            return healthTypeSurveyInputNames;
-        } else if (surveyType === "social") {
-            return socialTypeSurveyInputNames;
-        } else if (surveyType === "education") {
-            return educationTypeSurveyInputNames;
-        } else {
-            return null;
-        }
-    };
-
     return (
         <div className="new-client-survey">
             <div className="section">
                 <DropdownList 
-                    dropdownName={getSurveryTypeInputNames().risk}
+                    dropdownName={riskInputName}
+                    value={riskValue}
                     dropdownListItemsKeyValue={getClientHealthRiskLevels()}
+                    onChange={onChange}
                 />
             </div>
 
@@ -55,14 +35,14 @@ const NewClientSurvey = ({ surveyType }) => {
                 <div className="label-container">
                     <label>What does the client need?:</label>
                 </div>
-                <TextAreaInputField name={getSurveryTypeInputNames().clientNeed} rows="4" />
+                <TextAreaInputField name={needInputName} value={needInputValue} onChange={onChange} rows="4" />
             </div>
 
             <div className="section">
                 <div className="label-container">
                     <label>What are the client individual's goals?:</label>
                 </div>
-                <TextAreaInputField name={getSurveryTypeInputNames().individualGoals} rows="4" />
+                <TextAreaInputField name={individualGoalsInputName} value={individualGoalsValue} onChange={onChange} rows="4" />
             </div>
         </div>
     );

@@ -36,6 +36,15 @@ const NewClientForm = () => {
         "age": "",
         "contactNumber": "",
         "caregiverNumber": "",
+        "healthRisk": "low",
+        "healthNeed": "",
+        "healthIndividualGoals": "",
+        "socialRisk": "low",
+        "socialNeed": "",
+        "socialIndividualGoals": "",
+        "educationRisk": "low",
+        "educationNeed": "",
+        "educationIndividualGoals": "",
     });
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
     const [isPhotographDisabled, setIsPhotographDisabled] = useState(true);
@@ -275,7 +284,15 @@ const NewClientForm = () => {
                         <label>{getShowHideSymbol(showHealthSurvey)} Health Risk Survey</label>
                     </div>
                     <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showHealthSurvey)}}>
-                        <NewClientSurvey surveyType="health" />
+                        <NewClientSurvey 
+                            riskInputName="healthRisk"
+                            needInputName="healthNeed"
+                            individualGoalsInputName="healthIndividualGoals"
+                            riskValue={formInputs["healthRisk"]}
+                            needInputValue={formInputs["healthNeed"]}
+                            individualGoalsValue={formInputs["healthIndividualGoals"]}
+                            onChange={formInputChangeHandler}
+                        />
                     </div>
                 </div>
 
@@ -286,7 +303,15 @@ const NewClientForm = () => {
                         <label>{getShowHideSymbol(showSocialSurvey)} Social Risk Survey</label>
                     </div>
                     <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showSocialSurvey)}}>
-                        <NewClientSurvey surveyType="social" />
+                        <NewClientSurvey 
+                            riskInputName="socialRisk"
+                            needInputName="socialNeed"
+                            individualGoalsInputName="socialIndividualGoals"
+                            riskValue={formInputs["socialRisk"]}
+                            needInputValue={formInputs["socialNeed"]}
+                            individualGoalsValue={formInputs["socialIndividualGoals"]}
+                            onChange={formInputChangeHandler}
+                        />
                     </div>
                 </div>
 
@@ -297,7 +322,15 @@ const NewClientForm = () => {
                         <label>{getShowHideSymbol(showEducationSurvey)} Education Risk Survey</label>
                     </div>
                     <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showEducationSurvey)}}>
-                        <NewClientSurvey surveyType="education" />
+                        <NewClientSurvey 
+                            riskInputName="educationRisk"
+                            needInputName="educationNeed"
+                            individualGoalsInputName="educationIndividualGoals"
+                            riskValue={formInputs["educationRisk"]}
+                            needInputValue={formInputs["educationNeed"]}
+                            individualGoalsValue={formInputs["educationIndividualGoals"]}
+                            onChange={formInputChangeHandler}
+                        />
                     </div>
                 </div>
 
