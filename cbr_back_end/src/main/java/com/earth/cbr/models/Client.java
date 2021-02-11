@@ -1,7 +1,7 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.util.Date;
 
 @Entity(name = "Client")
 @Table(name = "client")
@@ -24,7 +24,7 @@ public class Client {
             name = "birthdate",
             columnDefinition = "DATE"
     )
-    private Integer birthdate;
+    private Date birthdate;
 
     @Transient
     private Integer age;
@@ -48,7 +48,7 @@ public class Client {
     @Column(
             name = "date"
     )
-    private LocalDate signupDate;
+    private Date signupDate;
     @Column(
             name = "contact_number"
     )
@@ -78,12 +78,12 @@ public class Client {
 
     public Client(String firstName,
                   String lastName,
-                  Integer birthDate,
+                  Date birthDate,
                   Character gender,
                   String image,
                   String zone,
                   Integer villageNumber,
-                  LocalDate signupDate,
+                  Date signupDate,
                   String contactNumber,
                   Long cbrWorkerId,
                   String caregiverContact,
@@ -128,11 +128,11 @@ public class Client {
         this.lastName = lastName;
     }
 
-    public Integer getBirthdate() {
+    public Date getBirthdate() {
         return birthdate;
     }
 
-    public void setBirthdate(Integer birthdate) {
+    public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
     }
 
@@ -176,11 +176,11 @@ public class Client {
         this.villageNumber = villageNumber;
     }
 
-    public LocalDate getSignupDate() {
+    public Date getSignupDate() {
         return signupDate;
     }
 
-    public void setSignupDate(LocalDate signupDate) {
+    public void setSignupDate(Date signupDate) {
         this.signupDate = signupDate;
     }
 
