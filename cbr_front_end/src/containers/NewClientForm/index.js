@@ -33,7 +33,7 @@ const NewClientForm = () => {
     const consentToInterviewCheckBoxActionHandler = event => {
         const checkBox = event.target;
         if (checkBox.checked) {
-            setIsFormInputDisabled(false);;
+            setIsFormInputDisabled(false);
         } else {
             setIsFormInputDisabled(true);
         }
@@ -71,13 +71,13 @@ const NewClientForm = () => {
 
     return (
         <div className="new-client-form">
-            <FormHeader 
+            <FormHeader
                 headerText="New Client - Client Information"
             />
 
             <div className="form-body">
                 <div className="input-field-container">
-                    <CheckBox 
+                    <CheckBox
                         actionHandler={consentToInterviewCheckBoxActionHandler}
                         displayText={"Do you consent to the interview?"}
                     />
@@ -89,7 +89,7 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Location:</label>
                     </div>
-                    <DropdownList 
+                    <DropdownList
                         dropdownName="client-zones"
                         dropdownListItemsKeyValue={defaultClientZones}
                         isDisabled={isFormInputDisabled}
@@ -128,10 +128,10 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Gender:</label>
                     </div>
-                    <DropdownList 
+                    <DropdownList
                         dropdownName="client-gender"
                         dropdownListItemsKeyValue={{
-                            "Female": "female", 
+                            "Female": "female",
                             "Male": "male"
                         }}
                         isDisabled={isFormInputDisabled}
@@ -142,10 +142,10 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Age:</label>
                     </div>
-                    <NumberInputField 
-                        min={0} 
-                        max={200} 
-                        isDisabled={isFormInputDisabled} 
+                    <NumberInputField
+                        min={0}
+                        max={200}
+                        isDisabled={isFormInputDisabled}
                     />
                 </div>
 
@@ -156,10 +156,10 @@ const NewClientForm = () => {
                     <NumberInputField isDisabled={isFormInputDisabled} />
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="input-field-container">
-                    <CheckBox 
+                    <CheckBox
                         actionHandler={isCaregiverPresentCheckBoxActionHandler}
                         displayText={"Is the Caregiver present?"}
                         isDisabled={isFormInputDisabled}
@@ -173,18 +173,18 @@ const NewClientForm = () => {
                     <NumberInputField isDisabled={isCaregiverRelatedInputDisabled()} />
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="input-field-container">
-                    <CheckBox 
+                    <CheckBox
                         actionHandler={consentToPhotographCheckBoxActionHandler}
                         displayText={"Do you consent to a photograph?"}
                         isDisabled={isFormInputDisabled}
                     />
                 </div>
-                
+
                 <div className="input-field-container">
-                    <ImageInputField 
+                    <ImageInputField
                         id="client-photo-input"
                         primaryText="Select a photo for CLIENT"
                         secondaryText={imageUploaderSecondaryText}
@@ -193,7 +193,7 @@ const NewClientForm = () => {
                 </div>
 
                 <div className="input-field-container">
-                    <ImageInputField 
+                    <ImageInputField
                         id="caregiver-photo-input"
                         primaryText="Select a photo for CAREGIVER"
                         secondaryText={imageUploaderSecondaryText}
@@ -201,7 +201,7 @@ const NewClientForm = () => {
                     />
                 </div>
 
-                <hr/>
+                <hr />
 
                 <Button variant="primary" size="lg" disabled={isFormInputDisabled}>
                     Submit

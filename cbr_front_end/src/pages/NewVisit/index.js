@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import NewVisitForm from "../../containers/NewVisitForm"
 import "./style.css";
 
-const NewVisit = props => {
+const NewVisits = props => {
     return (
         <div clsasName="">
             <NewVisitForm />
