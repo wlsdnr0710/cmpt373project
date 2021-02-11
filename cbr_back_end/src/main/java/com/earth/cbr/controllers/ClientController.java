@@ -5,9 +5,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
 @CrossOrigin
@@ -38,14 +40,18 @@ public class ClientController {
         JSONObject clientJSON = payload.getJSONObject("data");
         String clientString = clientJSON.toJSONString();
         Client client = JSON.parseObject(clientString, Client.class);
-        Client addedClient = clientService.addClient(client);
 
         JSONObject responseJson = new JSONObject();
-        // Need to tell front-end the new client's id
-        // so front-end can update the UI
-        responseJson.put("id", addedClient.getId());
-
-        return ResponseEntity.ok().body(responseJson);
+        try {
+            Client addedClient = clientService.addClient(client);
+            // Need to tell front-end the new client's id
+            // so front-end can update the UI
+            responseJson.put("id", addedClient.getId());
+            return ResponseEntity.ok().body(responseJson);
+        } catch (IllegalArgumentException e) {
+            responseJson.put("message", e.getMessage());
+            return ResponseEntity.badRequest().body(responseJson);
+        }
     }
 
     @DeleteMapping

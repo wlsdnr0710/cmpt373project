@@ -1,12 +1,10 @@
 package com.earth.cbr.services;
 
-import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
