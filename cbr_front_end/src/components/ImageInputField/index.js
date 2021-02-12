@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const ImageInputField = ({ id, primaryText, secondaryText, isDisabled }) => {
+const ImageInputField = ({ id, primaryText, secondaryText, isDisabled, reference }) => {
     const onClickToUploadHandler = () => {
         document.querySelector(".image-input-field input#" + id).click()  ;
     };
@@ -16,7 +16,7 @@ const ImageInputField = ({ id, primaryText, secondaryText, isDisabled }) => {
 
     return (
         <div className={"image-input-field " + getDisabledClassName()} onClick={onClickToUploadHandler}>
-            <input type="file" accept="image/*" id={id} disabled={isDisabled} />
+            <input type="file" accept="image/*" id={id} disabled={isDisabled} ref={reference} />
             <div className="primary-text">
                 <label>{primaryText}</label>
             </div>

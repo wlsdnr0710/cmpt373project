@@ -14,3 +14,7 @@
 .new-client-form .label-container {
     margin-bottom: 0.5rem;
 }
+
+.new-client-form .show-hide-toggle-title {
+    font-size: 1.5rem;
+}
