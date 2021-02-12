@@ -1,5 +1,7 @@
 package com.earth.cbr.models;
 
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Date;
@@ -29,6 +31,7 @@ public class Client {
             name = "birthdate",
             columnDefinition = "DATE"
     )
+    @NotNull(message = "Birthdate cannot be null")
     @PastOrPresent(message = "Birthdate must be in the past")
     private Date birthdate;
 
@@ -63,6 +66,7 @@ public class Client {
             name = "date",
             columnDefinition = "DATE"
     )
+    @CreatedDate
     private Date signupDate;
 
     @Column(
