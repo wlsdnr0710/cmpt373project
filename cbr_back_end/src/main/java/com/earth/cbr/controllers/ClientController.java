@@ -2,6 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.exceptions.InvalidDataException;
 import com.earth.cbr.exceptions.MissingRequiredKeyException;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
@@ -37,7 +38,7 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<JSONObject> addClient(@RequestBody JSONObject payload) throws MissingRequiredKeyException {
+    public ResponseEntity<JSONObject> addClient(@RequestBody JSONObject payload) throws Exception {
         JSONObject clientJSON = payload.getJSONObject("data");
 
         if (clientJSON == null) {

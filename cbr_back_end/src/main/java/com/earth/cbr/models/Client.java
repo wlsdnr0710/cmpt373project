@@ -1,6 +1,8 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity(name = "Client")
@@ -14,11 +16,15 @@ public class Client {
             name = "first_name",
             columnDefinition = "TEXT"
     )
+    @NotNull(message = "First name is mandatory")
+    @NotBlank(message = "First name is mandatory")
     private String firstName;
+
     @Column(
             name = "last_name",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Last name is mandatory")
     private String lastName;
     @Column(
             name = "birthdate",

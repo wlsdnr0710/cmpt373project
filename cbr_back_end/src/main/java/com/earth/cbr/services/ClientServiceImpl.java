@@ -5,6 +5,7 @@ import com.earth.cbr.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client addClient(Client client) {
+    public Client addClient(@Valid Client client) throws Exception {
         return clientRepository.save(client);
     }
 
