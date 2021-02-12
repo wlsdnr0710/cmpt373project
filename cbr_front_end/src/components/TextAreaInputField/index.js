@@ -1,6 +1,6 @@
 import React from "react";
 
-const TextAreaInputField = ({ name, rows, cols, value, onChange }) => {
+const TextAreaInputField = ({ name, rows, cols, value, onChange, isDisabled }) => {
     const getTextAreaInputFieldStyles = () => {
         if (!cols) {
             return {
@@ -18,6 +18,7 @@ const TextAreaInputField = ({ name, rows, cols, value, onChange }) => {
             rows={rows} 
             cols={cols} 
             style={getTextAreaInputFieldStyles()} 
+            disabled={isDisabled}
         ></textarea>
     );
 };

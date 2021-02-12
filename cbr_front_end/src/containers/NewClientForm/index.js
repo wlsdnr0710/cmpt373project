@@ -314,6 +314,7 @@ const NewClientForm = () => {
                             needInputValue={formInputs["healthNeed"]}
                             individualGoalsValue={formInputs["healthIndividualGoals"]}
                             onChange={formInputChangeHandler}
+                            isDisabled={isFormInputDisabled}
                         />
                     </div>
                 </div>
@@ -333,6 +334,7 @@ const NewClientForm = () => {
                             needInputValue={formInputs["socialNeed"]}
                             individualGoalsValue={formInputs["socialIndividualGoals"]}
                             onChange={formInputChangeHandler}
+                            isDisabled={isFormInputDisabled}
                         />
                     </div>
                 </div>
@@ -352,6 +354,7 @@ const NewClientForm = () => {
                             needInputValue={formInputs["educationNeed"]}
                             individualGoalsValue={formInputs["educationIndividualGoals"]}
                             onChange={formInputChangeHandler}
+                            isDisabled={isFormInputDisabled}
                         />
                     </div>
                 </div>
