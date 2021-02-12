@@ -198,21 +198,36 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Birth Date:</label>
                     </div>
-                    <DateInputField name="birthdate" value={formInputs["birthdate"]} onChange={formInputChangeHandler} isDisabled={isFormInputDisabled} />
+                    <DateInputField 
+                        name="birthdate" 
+                        value={formInputs["birthdate"]} 
+                        onChange={formInputChangeHandler} 
+                        isDisabled={isFormInputDisabled} 
+                    />
                 </div>
 
                 <div className="input-field-container">
                     <div className="label-container">
                         <label>First Name:</label>
                     </div>
-                    <TextInputField name="firstName" value={formInputs["firstName"]} onChange={formInputChangeHandler} isDisabled={isFormInputDisabled} />
+                    <TextInputField 
+                        name="firstName" 
+                        value={formInputs["firstName"]} 
+                        onChange={formInputChangeHandler} 
+                        isDisabled={isFormInputDisabled} 
+                    />
                 </div>
 
                 <div className="input-field-container">
                     <div className="label-container">
                         <label>Last Name:</label>
                     </div>
-                    <TextInputField name="lastName" value={formInputs["lastName"]} onChange={formInputChangeHandler} isDisabled={isFormInputDisabled} />
+                    <TextInputField 
+                        name="lastName"
+                        value={formInputs["lastName"]} 
+                        onChange={formInputChangeHandler} 
+                        isDisabled={isFormInputDisabled} 
+                    />
                 </div>
 
                 <div className="input-field-container">
@@ -250,7 +265,7 @@ const NewClientForm = () => {
                         name="isCaregiverPresent"
                         value={formInputs["isCaregiverPresent"]}
                         actionHandler={isCaregiverPresentCheckBoxActionHandler}
-                        displayText={"Did the Caregiver present?"}
+                        displayText={"Is the Caregiver present?"}
                         isDisabled={isFormInputDisabled}
                     />
                 </div>
