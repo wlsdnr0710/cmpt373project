@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import CheckBox from "../../components/CheckBox";
@@ -32,7 +33,7 @@ const NewClientForm = () => {
         "isConsentToPhotograph": false,
         "clientZone": "bidizone1",
         "villageNumber": "",
-        "date": "",
+        "birthDate": "",
         "firstName": "",
         "lastName": "",
         "clientGender": "female",
@@ -65,12 +66,28 @@ const NewClientForm = () => {
 
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
-        updateFormInputByNameValue("clientPhoto", getReferenceFile(refClientPhotoInput));
-        updateFormInputByNameValue("caregiverPhoto", getReferenceFile(refCaregiverPhotoInput));
+        // We do not set state here because setState is asynchronous.
+        // State may not be updated when we submit the form.
+        const sendingData = {...formInputs};
+        sendingData["clientPhoto"] = getReferenceFile(refClientPhotoInput);
+        sendingData["caregiverPhoto"] = getReferenceFile(refCaregiverPhotoInput);
+        submitFormByPostRequest(sendingData);
     }; 
 
     const getReferenceFile = ref => {
         return ref.current.files[0];
+    };
+
+    const submitFormByPostRequest = data => {
+        axios.post('/api/v1/client', {
+            "data": data
+        })
+        .then(response => {
+
+        })
+        .catch(error => {
+
+        });
     };
 
     const formInputChangeHandler = event => {
@@ -84,7 +101,6 @@ const NewClientForm = () => {
         setFormInputs(prevFormInputs => {
             const newFormInputs = {...prevFormInputs};
             newFormInputs[name] = value;
-            console.log(newFormInputs);
             return newFormInputs;
         });
     };
@@ -181,9 +197,9 @@ const NewClientForm = () => {
 
                 <div className="input-field-container">
                     <div className="label-container">
-                        <label>Date:</label>
+                        <label>Birth Date:</label>
                     </div>
-                    <DateInputField name="date" value={formInputs["date"]} onChange={formInputChangeHandler} isDisabled={isFormInputDisabled} />
+                    <DateInputField name="birthDate" value={formInputs["birthDate"]} onChange={formInputChangeHandler} isDisabled={isFormInputDisabled} />
                 </div>
 
                 <div className="input-field-container">
