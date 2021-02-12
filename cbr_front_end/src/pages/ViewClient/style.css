@@ -1,0 +1,20 @@
+.view-client {
+    width: 95%;
+    margin: auto;
+}
+
+.view-client .action-group {
+    margin: 0.5rem auto;
+}
+
+.view-client .action-group .section {
+    margin-bottom: 0.5rem;
+}
+.view-client .action-group .section.search {
+    display: flex;
+    align-items: center;
+}
+
+.view-client .action-group .section.search .search-text-input {
+    margin-right: 0.5rem;
+}

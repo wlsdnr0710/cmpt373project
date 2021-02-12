@@ -1,0 +1,28 @@
+.background-card {
+  border-radius: 25px;
+  position: relative;
+  padding: 50px 15px 25px;
+  background-color: #F1F1F1;
+  width: 80%;
+  margin: 25px auto;
+  box-shadow: 0 2px 5px #ccc;
+}
+
+.background-top { 
+  border-radius: 25px 25px 0 0;
+  height: 60px;
+  width: 100%;
+  background-color: #56AF31;
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+}
+
+.background-top-heading {
+  color: white;
+  position: absolute;
+  margin: 0;
+  left: 11vw;
+  top: 0.5vw;
+}

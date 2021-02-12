@@ -1,0 +1,15 @@
+.client-info-card-attribute {
+    margin-bottom: 0.5rem;
+}
+
+.client-info-card-attribute .key {
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.client-info-card-attribute .value {
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis
+}
