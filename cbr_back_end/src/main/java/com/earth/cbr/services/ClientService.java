@@ -1,8 +1,5 @@
 package com.earth.cbr.services;
 
-import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.InvalidDataException;
-import com.earth.cbr.exceptions.MissingRequiredKeyException;
 import com.earth.cbr.models.Client;
 
 import javax.validation.Valid;
