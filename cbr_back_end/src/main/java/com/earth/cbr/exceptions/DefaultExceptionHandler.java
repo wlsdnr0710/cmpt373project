@@ -37,9 +37,9 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(responseJson, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(MissingRequiredKeyException.class)
-    public ResponseEntity<Object> handleMissingRequiredKeyException(
-            MissingRequiredKeyException ex, WebRequest request) {
+    @ExceptionHandler(MissingRequiredDataObjectException.class)
+    public ResponseEntity<Object> handleMissingRequiredDataObjectException(
+            MissingRequiredDataObjectException ex, WebRequest request) {
 
         JSONObject responseJson = new JSONObject();
         responseJson.put("message", ex.getMessage());

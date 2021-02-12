@@ -2,14 +2,13 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.MissingRequiredKeyException;
+import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLSyntaxErrorException;
 import java.util.List;
 
 @CrossOrigin
@@ -40,7 +39,7 @@ public class ClientController {
         JSONObject clientJSON = payload.getJSONObject("data");
 
         if (clientJSON == null) {
-            throw new MissingRequiredKeyException("Missing data key containing Client data");
+            throw new MissingRequiredDataObjectException("Missing data object containing Client data");
         }
         String clientString = clientJSON.toJSONString();
 
