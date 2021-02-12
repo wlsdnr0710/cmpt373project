@@ -27,6 +27,9 @@ const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
     const [formInputs, setFormInputs] = useState({
+        "consentToInterview": false,
+        "isCaregiverPresent": false,
+        "isConsentToPhotograph": false,
         "clientZone": "bidizone1",
         "villageNumber": "",
         "date": "",
@@ -88,29 +91,23 @@ const NewClientForm = () => {
 
     const consentToInterviewCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        if (checkBox.checked) {
-            setIsFormInputDisabled(false);;
-        } else {
-            setIsFormInputDisabled(true);
-        }
+        const isConsentToInterview = checkBox.checked;
+        setIsFormInputDisabled(!isConsentToInterview);
+        updateFormInputByNameValue("consentToInterview", isConsentToInterview);
     };
 
     const consentToPhotographCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        if (checkBox.checked) {
-            setIsPhotographDisabled(false);;
-        } else {
-            setIsPhotographDisabled(true);
-        }
+        const isConsentToPhotograph = checkBox.checked;
+        setIsPhotographDisabled(!isConsentToPhotograph);
+        updateFormInputByNameValue("isConsentToPhotograph", isConsentToPhotograph);
     };
 
     const isCaregiverPresentCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        if (checkBox.checked) {
-            setIsCaregivenPresent(true);
-        } else {
-            setIsCaregivenPresent(false);
-        }
+        const isCaregiverPresent = checkBox.checked;
+        setIsCaregivenPresent(isCaregiverPresent);
+        updateFormInputByNameValue("isCaregiverPresent", isCaregiverPresent);
     };
 
     const isCaregiverRelatedInputDisabled = () => {
@@ -148,6 +145,8 @@ const NewClientForm = () => {
             <div className="form-body">
                 <div className="input-field-container">
                     <CheckBox 
+                        name="consentToInterview"
+                        value={formInputs["consentToInterview"]}
                         actionHandler={consentToInterviewCheckBoxActionHandler}
                         displayText={"Do you consent to the interview?"}
                     />
@@ -247,6 +246,8 @@ const NewClientForm = () => {
 
                 <div className="input-field-container">
                     <CheckBox 
+                        name="isCaregiverPresent"
+                        value={formInputs["isCaregiverPresent"]}
                         actionHandler={isCaregiverPresentCheckBoxActionHandler}
                         displayText={"Is the Caregiver present?"}
                         isDisabled={isFormInputDisabled}
@@ -269,6 +270,8 @@ const NewClientForm = () => {
 
                 <div className="input-field-container">
                     <CheckBox 
+                        name="isConsentToPhotograph"
+                        value={formInputs["isConsentToPhotograph"]}
                         actionHandler={consentToPhotographCheckBoxActionHandler}
                         displayText={"Do you consent to a photograph?"}
                         isDisabled={isFormInputDisabled}
