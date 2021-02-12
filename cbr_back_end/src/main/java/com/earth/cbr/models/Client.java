@@ -1,8 +1,7 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.util.Date;
 
 @Entity(name = "Client")
@@ -25,10 +24,12 @@ public class Client {
     )
     @NotBlank(message = "Last name is mandatory")
     private String lastName;
+
     @Column(
             name = "birthdate",
             columnDefinition = "DATE"
     )
+    @PastOrPresent(message = "Birthdate must be in the past")
     private Date birthdate;
 
     @Transient
@@ -37,45 +38,71 @@ public class Client {
     @Column(
             name = "gender"
     )
+    @NotNull(message = "Gender cannot be null")
     private Character gender;
+
     @Column(
             name = "photo"
     )
     private String photo;
+
     @Column(
             name = "zone"
     )
+    @NotBlank(message = "Zone is mandatory")
     private String zone;
+
     @Column(
             name = "village_no"
     )
+    @NotNull(message = "Village number cannot be null")
+    @PositiveOrZero(message = "Village number should be positive or zero")
     private Integer villageNumber;
+
     @Column(
-            name = "date"
+            name = "date",
+            columnDefinition = "DATE"
     )
     private Date signupDate;
+
     @Column(
             name = "contact_number"
     )
+    @Pattern(
+            regexp = "\\d{10}",
+            message = "Contact number should be 10 consecutive digits with no special characters ex. 0123456789"
+    )
     private String contactNumber;
+
     @Column(
             name = "worker_id"
     )
+    @NotNull(message = "Worker ID cannot be null")
+    @PositiveOrZero(message = "Worker ID should be positive or zero")
     private Long cbrWorkerId;
+
     @Column(
             name = "caregiver_contact",
             columnDefinition = "TEXT"
     )
+    @Pattern(
+            regexp = "\\d{10}",
+            message = "Caregiver contact should be 10 consecutive digits with no special characters ex. 0123456789"
+    )
     private String caregiverContact;
+
     @Column(
             name = "required_services",
             columnDefinition = "TEXT"
     )
+    @NotNull(message = "Required services cannot be null")
     private String requiredServices;
+
     @Column(
             name = "goals",
             columnDefinition = "TEXT"
     )
+    @NotNull(message = "Goals cannot be null")
     private String goals;
 
     public Client() {
