@@ -46,14 +46,4 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
         return ResponseEntity.badRequest().body(responseJson);
     }
-
-    @ExceptionHandler(InvalidDataException.class)
-    public ResponseEntity<Object> handleInvalidDataException(
-            InvalidDataException ex, WebRequest request) {
-
-        JSONObject responseJson = new JSONObject();
-        responseJson.put("message", ex.getMessage());
-
-        return ResponseEntity.badRequest().body(responseJson);
-    }
 }
