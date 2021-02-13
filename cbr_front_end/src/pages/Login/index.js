@@ -9,8 +9,8 @@ export default class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: null,
-            password: null,
+            username: "",
+            password: "",
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -51,7 +51,7 @@ export default class Login extends Component {
     render() {
         return (
             <div className="center">
-                <img src={Logo} className="photo" />
+                <img src={Logo} alt="" className="photo" />
                 <form onSubmit={this.handleSubmit} className="centerItems">
                     <LoginInputField
                         value={this.state.username}
