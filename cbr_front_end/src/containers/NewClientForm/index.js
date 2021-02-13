@@ -9,6 +9,7 @@ import DateInputField from "../../components/DateInputField";
 import ImageInputField from "../../components/ImageInputField";
 import NewClientSurvey from "../../containers/NewClientSurvey";
 import NumberInputField from "../../components/NumberInputField";
+import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
 
@@ -52,6 +53,7 @@ const NewClientForm = () => {
         "clientPhoto": null,
         "caregiverPhoto": null,
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
     const [isPhotographDisabled, setIsPhotographDisabled] = useState(true);
     const [isCaregivenPresent, setIsCaregivenPresent] = useState(false);
@@ -126,6 +128,7 @@ const NewClientForm = () => {
     };
 
     const submitFormByPostRequest = data => {
+        setStatesWhenFormIsSubmitting(true);
         axios.post('/api/v1/client', {
             "data": data
         })
@@ -138,7 +141,40 @@ const NewClientForm = () => {
                 const newMessages = [...prevErrorMessages, message];
                 return newMessages;
             });
+        })
+        .then(() => {
+            setStatesWhenFormIsSubmitting(false);
         });
+    };
+
+    const setStatesWhenFormIsSubmitting = isSubmitting => {
+        if (isSubmitting) {
+            setIsSubmitting(true);
+            setIsFormInputDisabled(true);
+        } else {
+            setIsSubmitting(false);
+            setIsFormInputDisabled(false);
+        }
+    };
+
+    const getSubmitButtonText = () => {
+        if (isSubmitting) {
+            return (
+                <div className="spinning-submit-button-text">
+                    <Spinner
+                        className="spinner"
+                        as="div"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    />
+                    Submitting
+                </div>
+            );
+        } else {
+            return "Submit";
+        }
     };
 
     const showErrorMessages = () => {
@@ -466,7 +502,7 @@ const NewClientForm = () => {
                     disabled={isFormInputDisabled}
                     onClick={onSubmitSurveyHandler}
                 >
-                    Submit
+                    {getSubmitButtonText()}
                 </Button>
             </div>
         </div>
