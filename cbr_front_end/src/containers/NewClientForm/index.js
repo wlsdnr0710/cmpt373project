@@ -267,6 +267,7 @@ const NewClientForm = () => {
                         actionHandler={isCaregiverPresentCheckBoxActionHandler}
                         displayText={"Is the Caregiver present?"}
                         isDisabled={isFormInputDisabled}
+
                     />
                 </div>
 
