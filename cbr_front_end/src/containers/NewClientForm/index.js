@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import axios from 'axios';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import CheckBox from "../../components/CheckBox";
@@ -57,6 +58,7 @@ const NewClientForm = () => {
     const [showHealthSurvey, setShowHealthSurvey] = useState(true);
     const [showSocialSurvey, setShowSocialSurvey] = useState(true);
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
+    const [errorMessages, setErrorMessages] = useState([]);
 
     // input type file is an uncontrolled component so we need to use reference
     const refClientPhotoInput = useRef(null);
@@ -65,6 +67,7 @@ const NewClientForm = () => {
 
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
+        clearErrorMessages();
         // We do not set state here because setState is asynchronous.
         // State may not be updated when we submit the form.
         const sendingData = {...formInputs};
@@ -72,6 +75,10 @@ const NewClientForm = () => {
         sendingData["caregiverPhoto"] = getReferenceFile(refCaregiverPhotoInput);
         submitFormByPostRequest(sendingData);
     }; 
+
+    const clearErrorMessages = () => {
+        setErrorMessages([]);
+    };
 
     const getReferenceFile = ref => {
         return ref.current.files[0];
@@ -85,8 +92,42 @@ const NewClientForm = () => {
 
         })
         .catch(error => {
-
+            setErrorMessages(prevMessages => {
+                const newMessages = [...prevMessages];
+                newMessages.push(error.message);
+                return newMessages;
+            });
         });
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
     };
 
     const formInputChangeHandler = event => {
@@ -375,6 +416,8 @@ const NewClientForm = () => {
                 </div>
 
                 <hr/>
+
+                {showErrorMessages()}
 
                 <Button 
                     variant="primary" 
