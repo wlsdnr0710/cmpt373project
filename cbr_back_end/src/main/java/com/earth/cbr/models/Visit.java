@@ -1,6 +1,7 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity(name = "Visit")
 @Table(name = "visit")
@@ -11,15 +12,15 @@ public class Visit {
 
     @Column(
             name = "consent",
-            columnDefinition = "INT"
+            columnDefinition = "BINARY"
     )
     private int consent;
 
     @Column(
             name = "date",
-            columnDefinition = "TEXT"
+            columnDefinition = "DATE"
     )
-    private String date;
+    private Date date;
 
     @Column(
             name = "cbr_worker_name",
@@ -61,7 +62,7 @@ public class Visit {
 
     }
 
-    public Visit(int consent, String date, String cbrWorkerName, String purpose, String zone, int villageNumber, String healthGoalProgress, String healthOutcome) {
+    public Visit(int consent, Date date, String cbrWorkerName, String purpose, String zone, int villageNumber, String healthGoalProgress, String healthOutcome) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -88,11 +89,11 @@ public class Visit {
         this.consent = consent;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
