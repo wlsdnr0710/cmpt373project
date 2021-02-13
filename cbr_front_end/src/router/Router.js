@@ -18,12 +18,8 @@ const Router = () => {
                 <Route path="/new-client" exact component={NewClient} />
                 <Route path="/new-visit" exact component={NewVisit} />
                 <Route path="/example" exact component={ExampleComponent} />
-<<<<<<< HEAD
-                <Redirect to="/new-visit" />
-=======
                 <Route path="/client-information" exact component={ClientInformation} />
-                <Redirect to="/login" />
->>>>>>> master
+                <Redirect to="/new-visit" />
             </Switch>
         </div>
     );
