@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
@@ -29,6 +30,7 @@ const defaultClientZones = {
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
+    const history = useHistory();
     const [formInputs, setFormInputs] = useState({
         "doConsentToInterview": false,
         "isCaregiverPresent": false,
@@ -54,6 +56,7 @@ const NewClientForm = () => {
         "caregiverPhoto": null,
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
     const [isPhotographDisabled, setIsPhotographDisabled] = useState(true);
     const [isCaregivenPresent, setIsCaregivenPresent] = useState(false);
@@ -129,11 +132,19 @@ const NewClientForm = () => {
 
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
-        axios.post('/api/v1/client', {
+        // TODO: Replace the hardcoded server URL
+        axios.post('http://localhost:8080/api/v1/client', {
             "data": data
         })
         .then(response => {
-
+            const oneSecond = 1000;
+            setIsSubmitSuccess(true);
+            setIsSubmitting(false);
+            // TODO: We redirect user to view client list page for now.
+            // Will need to redirect users to the new added client page
+            setTimeout(() => {
+                history.push("view-client");
+            }, oneSecond);
         })
         .catch(error => {
             setErrorMessages(prevErrorMessages => {
@@ -141,10 +152,8 @@ const NewClientForm = () => {
                 const newMessages = [...prevErrorMessages, message];
                 return newMessages;
             });
-        })
-        .then(() => {
             setStatesWhenFormIsSubmitting(false);
-        });
+        })
     };
 
     const setStatesWhenFormIsSubmitting = isSubmitting => {
@@ -201,6 +210,18 @@ const NewClientForm = () => {
             );
         }
         return msgInDivs;
+    };
+
+    const showSuccessMessage = () => {
+        if (isSubmitSuccess) {
+            return (
+                <Alert variant="success">
+                    You submitted the form successfully! You will be redirected to the client page soon.
+                </Alert>
+            );
+        } else {
+            return null;
+        }
     };
 
     const hasErrorMessages = () => {
@@ -495,6 +516,7 @@ const NewClientForm = () => {
                 <hr/>
 
                 {showErrorMessages()}
+                {showSuccessMessage()}
 
                 <Button 
                     variant="primary" 
