@@ -65,6 +65,12 @@ const NewClientForm = () => {
     const refCaregiverPhotoInput = useRef(null);
 
 
+    const reqInputNameAndDisplayNames = {
+        "clientZone": "Client zone",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+    };
+
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
         clearErrorMessages();
@@ -73,8 +79,43 @@ const NewClientForm = () => {
         const sendingData = {...formInputs};
         sendingData["clientPhoto"] = getReferenceFile(refClientPhotoInput);
         sendingData["caregiverPhoto"] = getReferenceFile(refCaregiverPhotoInput);
+
+        const unfilledReqInputDisplayNames = getUnfilledInputDisplayNames(reqInputNameAndDisplayNames);
+        if (unfilledReqInputDisplayNames.length !== 0) {
+            setRequiredInputErrorMessages(unfilledReqInputDisplayNames);
+            return;
+        }
+
         submitFormByPostRequest(sendingData);
     }; 
+
+    const getUnfilledInputDisplayNames = inputNameAndDisplayNames => {
+        const unfilledInputDisplayNames = [];
+        for (const inputName in inputNameAndDisplayNames) {
+            const input = formInputs[inputName];
+            if (isInputEmpty(input)) {
+                const displayName = inputNameAndDisplayNames[inputName];
+                unfilledInputDisplayNames.push(displayName);
+            }
+        }
+        return unfilledInputDisplayNames;
+    };
+
+    const isInputEmpty = input => {
+        return input.length === 0 || input === "" || input === null;
+    };
+
+    const setRequiredInputErrorMessages = requiredInputDisplayNames => {
+        const requiredErrorMessages = [];
+        for (const idx in requiredInputDisplayNames) {
+            const displayName = requiredInputDisplayNames[idx];
+            requiredErrorMessages.push(displayName + " is required.");
+        }
+        setErrorMessages(prevErrorMessages => {
+            const newErrorMessages = [...prevErrorMessages, ...requiredErrorMessages];
+            return newErrorMessages;
+        });
+    };
 
     const clearErrorMessages = () => {
         setErrorMessages([]);
@@ -92,9 +133,9 @@ const NewClientForm = () => {
 
         })
         .catch(error => {
-            setErrorMessages(prevMessages => {
-                const newMessages = [...prevMessages];
-                newMessages.push(error.message);
+            setErrorMessages(prevErrorMessages => {
+                const message = error.message;
+                const newMessages = [...prevErrorMessages, message];
                 return newMessages;
             });
         });
