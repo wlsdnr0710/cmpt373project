@@ -6,19 +6,13 @@ import axios from 'axios';
 import Logo from "../../assets/HHALogo.svg";
 import "./style.css";
 const defaultClientZones = {
-    "BidiBidi Zone 1": "bidizone1",
-    "BidiBidi Zone 2": "bidizone2",
-    "BidiBidi Zone 3": "bidizone3",
-    "BidiBidi Zone 4": "bidizone4",
-    "BidiBidi Zone 5": "bidizone5",
-    "Palorinya Basecamp": "palBasecamp",
-    "Palorinya Zone 1": "palzone1",
-    "Palorinya Zone 2": "palzone2",
-    "Palorinya Zone 3": "palzone3",
+    "CBR": "cbr",
+    "Disability centre referral": "referral",
+    "Disability centre follow up": "followUp",
 };
 
 const NewVisitForm = () => {
-    const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
+    const [isFormInputDisabled, setIsFormInputDisabled] = useState(false);
 
     const isCBRCheckBoxActionHandler = event => {
         const checkBox = event.target;
@@ -40,12 +34,13 @@ const NewVisitForm = () => {
                         <label>Location:</label>
                     </div>
                     <DropdownList
-                        dropdownName="client-zones"
+                        dropdownName="Purpose for visit"
                         dropdownListItemsKeyValue={defaultClientZones}
                         isDisabled={isFormInputDisabled}
                     />
                 </div>
                 <hr />
+
 
                 <Button variant="primary" size="lg" disabled={isFormInputDisabled}>
                     Submit
