@@ -1,23 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AlertMessage from '../../components/AlertMessage'
 import './style.css'
 
 const AlertMessageBoard = () => {
-    const [alertMessages, setAlertMessages] = useState(["testMessage1", "testMessage2", "testMessage3", "testMessage4"]);
+    const [alertMessages, setAlertMessages] = useState([]);
     const alertMessageComponents = [];
+
     const getAlertMessage = () => {
+        // TODO: get alert message from backend.
+        setAlertMessages(["testMessage1", "testMessage2", "testMessage3", "testMessage4"]);
+    };
+
+    useEffect(() => {
+        getAlertMessage();
+        console.log("Received Alert Message")
+    }, []);
+
+    const createMessageCompoments = () => {
+        // getAlertMessage();
+        if (!alertMessages) {
+            return (<AlertMessage message={"There is no alert now"} />)
+        }
         for (const index in alertMessages) {
-            // TODO: take message from array. 
-            // risk as number, what if the risk are same?
             alertMessageComponents.push(<AlertMessage message={alertMessages[index]}/>)
-            console.log(alertMessages[index])
         }
         return alertMessageComponents;
     };
+
     return (
         <div className="alertBoard">
-            <h3>Alert: </h3>
-            {getAlertMessage()}
+            <h3>Alert:</h3> 
+            <p onClick={getAlertMessage}>Refresh</p>
+            {createMessageCompoments()}
         </div>
     );
 };

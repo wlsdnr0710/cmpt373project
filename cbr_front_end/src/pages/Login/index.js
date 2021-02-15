@@ -51,7 +51,7 @@ export default class Login extends Component {
     render() {
         return (
             <div className="center">
-                <img src={Logo} className="photo" />
+                <img src={Logo} className="photo" alt=""/>
                 <form onSubmit={this.handleSubmit} className="centerItems">
                     <LoginInputField
                         value={this.state.username}
