@@ -1,19 +1,20 @@
 import React from "react";
-import * as helper from "../HelperFunctions";
+import * as helper from "../HelperFunctions.js";
 
-const DateInputField = ({ name, value, onChange, isDisabled, label }) => {
+const PhoneInputField = (name, value, onChange, isDisabled, label) => {
   return (
     <div>
       {helper.getLabelTag(label)}  
       <input
-        type="date"
+        type="tel"
         name={name}
         value={value}
         onChange={onChange}
         disabled={isDisabled}
+        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
       />
     </div>
   );
 };
 
-export default DateInputField;
+export default PhoneInputField;
