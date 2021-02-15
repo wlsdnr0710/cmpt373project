@@ -6,7 +6,7 @@ const DashBoard = () => {
     return (
         <div className="dashboard">
             <FormHeader 
-                headerText="Dashboard (temporary)"
+                headerText="Dashboard"
             />
             <AlertMessageBoard />
         </div>
