@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import AlertMessage from '../../components/AlertMessage'
-import './style.css'
+import AlertMessage from '../../components/AlertMessage';
+import './style.css';
 
 const AlertMessageBoard = () => {
     const [alertMessages, setAlertMessages] = useState([]);
@@ -13,11 +13,9 @@ const AlertMessageBoard = () => {
 
     useEffect(() => {
         getAlertMessage();
-        console.log("Received Alert Message")
     }, []);
 
     const createMessageCompoments = () => {
-        // getAlertMessage();
         if (!alertMessages) {
             return (<AlertMessage message={"There is no alert now"} />)
         }
