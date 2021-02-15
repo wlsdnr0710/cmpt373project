@@ -1,8 +1,8 @@
 import React from "react";
 
-const TextInputField = ({ isDisabled, defaultValue}) => {
+const TextInputField = ({ name, value, onChange, isDisabled }) => {
     return (
-        <input type="text" disabled={isDisabled} defaultValue={defaultValue}/>
+        <input type="text" name={name} value={value} onChange={onChange} disabled={isDisabled} />
     );
 };
 

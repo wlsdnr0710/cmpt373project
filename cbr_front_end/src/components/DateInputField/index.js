@@ -1,8 +1,8 @@
 import React from "react";
 
-const DateInputField = ( {isDisabled} ) => {
+const DateInputField = ( { name, value, onChange, isDisabled} ) => {
     return (
-        <input type="date" disabled={isDisabled} />
+        <input type="date" name={name} value={value} onChange={onChange} disabled={isDisabled} />
     );
 };
 

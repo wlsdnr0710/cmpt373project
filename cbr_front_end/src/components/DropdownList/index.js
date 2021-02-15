@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, onChange, isDisabled, defaultValue}) => {
+const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, value, onChange, isDisabled }) => {
     const getDropdownListOptions = () => {
         const itemsInOptionTag = [];
         let listChildId = 0;
@@ -10,7 +10,7 @@ const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, onChange, isDis
             const itemValue = dropdownListItemsKeyValue[itemName];
 
             //TODO: Fix bug here, this if statement is never true
-            if(itemValue === {defaultValue}){
+            if(itemValue === {value}){
                 itemsInOptionTag.push(
                     <option value={itemValue} key={listChildId} selected="selected">{itemName}</option>
                 )
@@ -27,7 +27,13 @@ const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, onChange, isDis
     };
 
     return (
-        <select className="dropdown-list" name={dropdownName} onChange={onChange} disabled={isDisabled}>
+        <select 
+            className="dropdown-list" 
+            name={dropdownName} 
+            value={value} 
+            onChange={onChange} 
+            disabled={isDisabled}
+        >
             {getDropdownListOptions()}
         </select>
     );
