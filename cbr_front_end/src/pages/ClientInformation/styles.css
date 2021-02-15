@@ -1,0 +1,25 @@
+.client-information-hr {
+    margin: 2vh;
+}
+
+.client-general-information {
+    margin-left: 10vw;
+    margin-bottom: 16%;
+}
+
+.client-risk-information {
+    margin-left: 10vw;
+}
+
+.client-disability-information {
+    margin-left: 10vw;
+}
+
+.client-information-image{
+    max-width: 25%;
+    max-height: 25%;
+}
+
+.client-edit-button {
+    margin-left: 10vw;
+}

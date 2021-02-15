@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import FormHeader from "../../components/FormHeader";
 import AlertMessageBoard from "../../containers/AlertMessageBoard"
 
-const Dashboard = () => {
+const DashBoard = () => {
     return (
         <div className="dashboard">
             <FormHeader 
@@ -23,4 +23,4 @@ const Dashboard = () => {
     );
 };
 
-export default Dashboard;
+export default DashBoard;
