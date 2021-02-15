@@ -18,3 +18,13 @@
 .new-client-form .show-hide-toggle-title {
     font-size: 1.5rem;
 }
+
+.new-client-form .spinning-submit-button-text {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.new-client-form .spinning-submit-button-text .spinner {
+    margin-right: 0.5rem;
+}

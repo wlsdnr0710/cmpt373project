@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
+import { useHistory } from "react-router-dom";
 import axios from 'axios';
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import CheckBox from "../../components/CheckBox";
@@ -8,6 +10,7 @@ import DateInputField from "../../components/DateInputField";
 import ImageInputField from "../../components/ImageInputField";
 import NewClientSurvey from "../../containers/NewClientSurvey";
 import NumberInputField from "../../components/NumberInputField";
+import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
 
@@ -27,6 +30,7 @@ const defaultClientZones = {
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
+    const history = useHistory();
     const [formInputs, setFormInputs] = useState({
         "doConsentToInterview": false,
         "isCaregiverPresent": false,
@@ -51,42 +55,177 @@ const NewClientForm = () => {
         "clientPhoto": null,
         "caregiverPhoto": null,
     });
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
     const [isPhotographDisabled, setIsPhotographDisabled] = useState(true);
     const [isCaregivenPresent, setIsCaregivenPresent] = useState(false);
     const [showHealthSurvey, setShowHealthSurvey] = useState(true);
     const [showSocialSurvey, setShowSocialSurvey] = useState(true);
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
+    const [errorMessages, setErrorMessages] = useState([]);
 
     // input type file is an uncontrolled component so we need to use reference
     const refClientPhotoInput = useRef(null);
     const refCaregiverPhotoInput = useRef(null);
 
 
+    const reqInputNameAndDisplayNames = {
+        "clientZone": "Client zone",
+        "firstName": "First Name",
+        "lastName": "Last Name",
+    };
+
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
+        clearErrorMessages();
         // We do not set state here because setState is asynchronous.
         // State may not be updated when we submit the form.
         const sendingData = {...formInputs};
         sendingData["clientPhoto"] = getReferenceFile(refClientPhotoInput);
         sendingData["caregiverPhoto"] = getReferenceFile(refCaregiverPhotoInput);
+
+        const unfilledReqInputDisplayNames = getUnfilledInputDisplayNames(reqInputNameAndDisplayNames);
+        if (unfilledReqInputDisplayNames.length !== 0) {
+            setRequiredInputErrorMessages(unfilledReqInputDisplayNames);
+            return;
+        }
+
         submitFormByPostRequest(sendingData);
     }; 
+
+    const getUnfilledInputDisplayNames = inputNameAndDisplayNames => {
+        const unfilledInputDisplayNames = [];
+        for (const inputName in inputNameAndDisplayNames) {
+            const input = formInputs[inputName];
+            if (isInputEmpty(input)) {
+                const displayName = inputNameAndDisplayNames[inputName];
+                unfilledInputDisplayNames.push(displayName);
+            }
+        }
+        return unfilledInputDisplayNames;
+    };
+
+    const isInputEmpty = input => {
+        return input.length === 0 || input === "" || input === null;
+    };
+
+    const setRequiredInputErrorMessages = requiredInputDisplayNames => {
+        const requiredErrorMessages = [];
+        for (const idx in requiredInputDisplayNames) {
+            const displayName = requiredInputDisplayNames[idx];
+            requiredErrorMessages.push(displayName + " is required.");
+        }
+        setErrorMessages(prevErrorMessages => {
+            const newErrorMessages = [...prevErrorMessages, ...requiredErrorMessages];
+            return newErrorMessages;
+        });
+    };
+
+    const clearErrorMessages = () => {
+        setErrorMessages([]);
+    };
 
     const getReferenceFile = ref => {
         return ref.current.files[0];
     };
 
     const submitFormByPostRequest = data => {
-        axios.post('/api/v1/client', {
+        setStatesWhenFormIsSubmitting(true);
+        // TODO: Replace the hardcoded server URL
+        axios.post('http://localhost:8080/api/v1/client', {
             "data": data
         })
         .then(response => {
-
+            const oneSecond = 1000;
+            setIsSubmitSuccess(true);
+            setIsSubmitting(false);
+            // TODO: We redirect user to view client list page for now.
+            // Will need to redirect users to the new added client page
+            setTimeout(() => {
+                history.push("view-client");
+            }, oneSecond);
         })
         .catch(error => {
+            setErrorMessages(prevErrorMessages => {
+                const message = error.message;
+                const newMessages = [...prevErrorMessages, message];
+                return newMessages;
+            });
+            setStatesWhenFormIsSubmitting(false);
+        })
+    };
 
-        });
+    const setStatesWhenFormIsSubmitting = isSubmitting => {
+        if (isSubmitting) {
+            setIsSubmitting(true);
+            setIsFormInputDisabled(true);
+        } else {
+            setIsSubmitting(false);
+            setIsFormInputDisabled(false);
+        }
+    };
+
+    const getSubmitButtonText = () => {
+        if (isSubmitting) {
+            return (
+                <div className="spinning-submit-button-text">
+                    <Spinner
+                        className="spinner"
+                        as="div"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    />
+                    Submitting
+                </div>
+            );
+        } else {
+            return "Submit";
+        }
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const showSuccessMessage = () => {
+        if (isSubmitSuccess) {
+            return (
+                <Alert variant="success">
+                    You submitted the form successfully! You will be redirected to the client page soon.
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
     };
 
     const formInputChangeHandler = event => {
@@ -376,13 +515,16 @@ const NewClientForm = () => {
 
                 <hr/>
 
+                {showErrorMessages()}
+                {showSuccessMessage()}
+
                 <Button 
                     variant="primary" 
                     size="lg" 
                     disabled={isFormInputDisabled}
                     onClick={onSubmitSurveyHandler}
                 >
-                    Submit
+                    {getSubmitButtonText()}
                 </Button>
             </div>
         </div>
