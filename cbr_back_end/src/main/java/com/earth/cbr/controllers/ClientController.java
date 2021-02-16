@@ -6,6 +6,7 @@ import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +22,14 @@ public class ClientController {
     @GetMapping
     public ResponseEntity<JSONObject> getAllClients() {
         List<Client> clients = clientService.getAllClients();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/page/{pageNumber}/size/{pageSize}")
+    public ResponseEntity<JSONObject> getClientsByPage(@PathVariable int pageNumber, @PathVariable int pageSize) {
+        Page<Client> clients = clientService.getClientsByPage(pageNumber, pageSize);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);
