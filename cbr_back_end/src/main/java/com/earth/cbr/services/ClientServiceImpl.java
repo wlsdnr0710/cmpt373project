@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client addClient(@Valid Client client) throws Exception {
+    public Client addClient(@Valid Client client) {
         return clientRepository.save(client);
     }
 

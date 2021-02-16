@@ -35,7 +35,8 @@ public class ClientController {
     }
 
     @PostMapping
-    public ResponseEntity<JSONObject> addClient(@RequestBody JSONObject payload) throws Exception {
+    public ResponseEntity<JSONObject> addClient(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException {
         JSONObject clientJSON = payload.getJSONObject("data");
 
         if (clientJSON == null) {

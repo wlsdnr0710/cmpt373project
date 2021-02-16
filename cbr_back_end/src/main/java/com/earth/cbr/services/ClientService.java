@@ -8,6 +8,6 @@ import java.util.List;
 public interface ClientService {
     List<Client> getAllClients();
     Client getClientById(Long id);
-    Client addClient(@Valid Client client) throws Exception;
+    Client addClient(@Valid Client client);
     void deleteClientById(Long id);
 }
