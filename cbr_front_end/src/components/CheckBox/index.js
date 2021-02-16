@@ -1,17 +1,16 @@
 import React from "react";
 import "./style.css";
 
-const CheckBox = ({ name, value, actionHandler, displayText, isDisabled, isHidden }) => {
+const CheckBox = ({ name, value, actionHandler, displayText, isDisabled }) => {
     return (
         <div className="check-box">
-            <label hidden={isHidden}>{displayText}</label>
+            <label>{displayText}</label>
             <input
                 name={name}
                 value={value}
                 type="checkbox"
                 onChange={actionHandler}
                 disabled={isDisabled}
-                hidden={isHidden}
             />
         </div>
     );
