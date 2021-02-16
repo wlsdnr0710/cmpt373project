@@ -21,7 +21,14 @@ const ClientTable = ({ searchKeyword, sortBy }) => {
 
     const requestClientsByPageable = pageable => {
         const { page, clientsPerPage } = pageable;
-        axios.get("http://localhost:8080/api/v1/client?page=" + page + "&clientsPerPage=" + clientsPerPage)
+        axios.get(
+                "http://localhost:8080/api/v1/client?" + convertToParameterString({
+                    "page": page,
+                    "clientsPerPage": clientsPerPage,
+                    "searchKeyword": searchKeyword,
+                    "sortBy": sortBy,
+                })
+            )
             .then(response => {
                 const receivedClients = response.data.data;
                 updateClients(receivedClients);
@@ -33,6 +40,24 @@ const ClientTable = ({ searchKeyword, sortBy }) => {
             .then(() => {
 
             });
+    };
+
+    const convertToParameterString = paramKeyValues => {
+        let paramString = "";
+        let isFirstParam = true;
+        for (const key in paramKeyValues) {
+            const paramValue = paramKeyValues[key];
+            if (paramValue === undefined) {
+                continue;
+            }
+            if (!isFirstParam) {
+                paramString = paramString + "&";
+            }
+            paramString = paramString + key + "=";
+            paramString = paramString + paramValue;
+            isFirstParam = false;
+        }
+        return paramString;
     };
 
     const updateClients = receivedClients => {
