@@ -2,9 +2,21 @@
     display: flex;
 }
 
-.client-info-card .client-photo {
+.client-info-card .photo-id-display {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
     width: 20%;
     margin-right: 1rem;
+}
+
+.client-info-card .photo-id-display .id-badge-container {
+    display: flex;
+    justify-content: center;
+}
+
+.client-info-card .client-photo {
+    width: 100%;
     display: flex;
     justify-content: center;
 }
