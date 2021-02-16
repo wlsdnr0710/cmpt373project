@@ -4,9 +4,12 @@ import ClientInfoCard from "../../components/ClientInfoCard";
 import Table from "../../components/Table";
 import Button from 'react-bootstrap/Button';
 import DropdownList from "../../components/DropdownList";
+import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
+import "./style.css";
 
 const ClientTable = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [clients, setClients] = useState([]);
     const [hasMoreClients, setHasMoreClients] = useState(true);
     const intersectionObserver = useRef();
@@ -42,6 +45,7 @@ const ClientTable = () => {
 
     const requestClientsByPageable = useCallback(pageable => {
         const { page, clientsPerPage } = pageable;
+        setIsLoading(true);
         axios.get(
                 "http://localhost:8080/api/v1/client?" + convertToParameterString({
                     "page": page,
@@ -59,7 +63,7 @@ const ClientTable = () => {
 
             })
             .then(() => {
-
+                setIsLoading(false);
             });
     }, [searchKeyword, sortBy]);
 
@@ -108,6 +112,7 @@ const ClientTable = () => {
             entries.forEach(entry => {
                 const { isIntersecting } = entry;
                 if (isIntersecting) {
+                    disconnectIntersectionObserver();
                     loadMoreClientsAndSetHasMoreClients();
                 }
             });
@@ -172,6 +177,24 @@ const ClientTable = () => {
         setSearchKeyword(searchKeywordBuffer);
     };
 
+    const showSpinnerWhenIsLoading = isLoading => {
+        if (isLoading) {
+            return (
+                <Spinner
+                    className="spinner"
+                    variant="primary"
+                    as="div"
+                    animation="grow"
+                    size="lg"
+                    role="status"
+                    aria-hidden="true"
+                />
+            );
+        } else {
+            return null;
+        }
+    };
+
     return (
         <div className="client-table">
             <div className="action-group">
@@ -198,6 +221,9 @@ const ClientTable = () => {
                 <Table headers={["Clients"]} data={mapClientToTableData(clients)} />
             </div>
             <div className="infinite-scroll-observer" ref={element => observeeElement.current = element }>
+            </div>
+            <div className="spinner">
+                {showSpinnerWhenIsLoading(isLoading)}
             </div>
         </div>
     );
