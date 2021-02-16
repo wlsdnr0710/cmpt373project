@@ -8,6 +8,7 @@ import java.util.List;
 public interface ClientService {
     List<Client> getAllClients();
     Client getClientById(Long id);
+    Client getClientsByPage(int pageNumber, int pageSize);
     Client addClient(@Valid Client client);
     void deleteClientById(Long id);
 }

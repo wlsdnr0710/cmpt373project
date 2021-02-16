@@ -3,6 +3,8 @@ package com.earth.cbr.services;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -18,6 +20,11 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<Client> getAllClients() {
         return clientRepository.findAll();
+    }
+
+    @Override
+    public Client getClientsByPage(int pageNumber, int pageSize) {
+        return null;
     }
 
     @Override
