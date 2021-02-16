@@ -1,16 +1,36 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
 import Table from "../../components/Table";
+import Button from 'react-bootstrap/Button';
+import DropdownList from "../../components/DropdownList";
+import TextInputField from "../../components/TextInputField";
 
-const ClientTable = ({ searchKeyword, sortBy }) => {
+const ClientTable = () => {
     const [clients, setClients] = useState([]);
     const [hasMoreClients, setHasMoreClients] = useState(true);
     const intersectionObserver = useRef();
     const observeeElement = useRef();
 
-    const [currentPage, setCurrentPage] = useState(1);
+    const firstPage = 1;
+    const [currentPage, setCurrentPage] = useState(firstPage);
     const clientsPerPage = 10;
+
+    const defaultSortBy = "default";
+    const [sortBy, setSortBy] = useState(defaultSortBy);
+    const [searchKeyword, setSearchKeyword] = useState(null);
+
+    const getSortByList = () => {
+        return {
+            "Default": defaultSortBy,
+            "ID": "id",
+            "First Name": "firstName",
+            "Last Name": "lastName",
+            "Location": "location",
+            "Village No.": "villageNumber",
+            "Gender": "gender",
+        };
+    };
 
     const getPageableByPage = page => {
         return {
@@ -19,7 +39,7 @@ const ClientTable = ({ searchKeyword, sortBy }) => {
         }
     };
 
-    const requestClientsByPageable = pageable => {
+    const requestClientsByPageable = useCallback(pageable => {
         const { page, clientsPerPage } = pageable;
         axios.get(
                 "http://localhost:8080/api/v1/client?" + convertToParameterString({
@@ -40,7 +60,7 @@ const ClientTable = ({ searchKeyword, sortBy }) => {
             .then(() => {
 
             });
-    };
+    }, [searchKeyword, sortBy]);
 
     const convertToParameterString = paramKeyValues => {
         let paramString = "";
@@ -93,7 +113,7 @@ const ClientTable = ({ searchKeyword, sortBy }) => {
         };
     
         const loadMoreClientsAndSetHasMoreClients = () => {
-            if (!hasMoreClients) {
+            if (!hasMoreClients || currentPage === 1) {
                 return;
             }
             const pageable = getPageableByPage(currentPage);
@@ -106,9 +126,14 @@ const ClientTable = ({ searchKeyword, sortBy }) => {
             }
         };
 
+        if (currentPage === 1) {
+            const pageable = getPageableByPage(currentPage);
+            requestClientsByPageable(pageable);
+        }
+
         setUpInfiniteScroll();
         return disconnectIntersectionObserver;
-    }, [hasMoreClients, currentPage]);
+    }, [hasMoreClients, currentPage, requestClientsByPageable]);
 
     const mapClientToTableData = clients => {
         const data = [];
@@ -120,8 +145,35 @@ const ClientTable = ({ searchKeyword, sortBy }) => {
         return data;
     };
 
+    const onChangeSortByHandler = event => {
+        const sortByDropdown = event.target;
+        const sortByValue = sortByDropdown.value;
+        setCurrentPage(firstPage);
+        setClients([]);
+        setSortBy(sortByValue);
+    };
+
     return (
         <div className="client-table">
+            <div className="action-group">
+                <div className="section search">
+                    <div className="search-text-input">
+                        <TextInputField />
+                    </div>
+                    <div className="search-button">
+                        <Button variant="secondary" onClick={() => {}}>Search</Button>
+                    </div>
+                </div>
+                <hr />
+                <div className="section">
+                    <span>Sort By: </span> 
+                    <DropdownList 
+                        dropdownName="sort-by" 
+                        dropdownListItemsKeyValue={getSortByList()}
+                        onChange={onChangeSortByHandler}
+                    />
+                </div>
+            </div>
             <div className="table">
                 <Table headers={["Clients"]} data={mapClientToTableData(clients)} />
             </div>
