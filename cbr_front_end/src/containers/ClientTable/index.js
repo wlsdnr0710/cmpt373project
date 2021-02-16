@@ -33,6 +33,9 @@ const ClientTable = () => {
             "Location": "location",
             "Village No.": "villageNumber",
             "Gender": "gender",
+            "Risk": "risk",
+            "Disability": "disability",
+            "Age": "age",
         };
     };
 
