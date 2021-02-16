@@ -5,6 +5,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Entity(name = "Client")
@@ -183,7 +186,13 @@ public class Client {
     }
 
     public Integer getAge() {
-        return age;
+        LocalDate currentDate = LocalDate.now();
+        LocalDate localBirthdate = dateToLocalDate(birthdate);
+        return Period.between(localBirthdate, currentDate).getYears();
+    }
+
+    private LocalDate dateToLocalDate(Date date) {
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public void setAge(Integer age) {
