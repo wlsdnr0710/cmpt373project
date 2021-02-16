@@ -353,7 +353,34 @@ const NewVisitForm = () => {
                 </div>
 
                 <div hidden={(isSocialInputDisabled) || (!isPurposeCBR)}>
+                    <NewClientVisitsSocialForm
+                        referralToSocialOrgName={"referralToSocialOrg"}
+                        referralToSocialOrgValue={formInputs["referralToSocialOrg"]}
+                        referralToSocialOrgNameDescName={"referralToSocialOrgDesc"}
+                        referralToSocialOrgNameDescValue={formInputs["referralToSocialOrgDesc"]}
+                        socialAdviceName={"socialAdvice"}
+                        socialAdviceValue={formInputs["socialdvice"]}
+                        socialAdviceDescName={"socialAdviceDesc"}
+                        socialAdviceDescValue={formInputs["socialAdviceDesc"]}
+                        socialAdvocacyName={"socialAdvocacy"}
+                        socialAdvocacyValue={formInputs["socialAdvocacy"]}
+                        socialAdvocacyDescName={"esocialAdvocacyDesc"}
+                        socialAdvocacyDescValue={formInputs["socialAdvocacyDesc"]}
+                        socialEncouragementName={"socialEncouragement"}
+                        socialEncouragementValue={formInputs["socialEncouragement"]}
+                        socialEncouragementDescName={"socialEncouragementDesc"}
+                        socialEncouragementDescValue={formInputs["socialEncouragement"]}
 
+                        socialGoalConclusionTextName={"socialGoalConclusionText"}
+                        socialGoalConclusionTextValue={formInputs["socialGoalConclusionText"]}
+                        socialGoalMetName={"socialGoalMet"}
+                        socialGoalMetValue={formInputs["socialGoalMet"]}
+                        isSocialGoalConcluded={isSocialGoalConcluded}
+                        actionHandler={doProvidedCheckBoxActionHandler}
+                        onChange={formInputChangeHandler}
+                        goalInputs={defaultGoalInputs}
+                    />
+                    <hr />
                 </div>
                 <hr />
                 <Button
