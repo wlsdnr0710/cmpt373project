@@ -122,7 +122,7 @@ const ClientTable = () => {
         };
     
         const loadMoreClientsAndSetHasMoreClients = () => {
-            if (!hasMoreClients || currentPage === 1) {
+            if (!hasMoreClients || currentPage === firstPage) {
                 return;
             }
             const pageable = getPageableByPage(currentPage);
@@ -135,7 +135,7 @@ const ClientTable = () => {
             }
         };
 
-        if (currentPage === 1) {
+        if (currentPage === firstPage) {
             const pageable = getPageableByPage(currentPage);
             requestClientsByPageable(pageable);
         }
