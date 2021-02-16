@@ -1,7 +1,7 @@
 import React from "react";
 import * as helper from "../HelperFunctions.js";
 
-const PhoneInputField = (name, value, onChange, isDisabled, label) => {
+const PhoneInputField = ({name, value, onChange, isDisabled, label}) => {
   return (
     <div>
       {helper.getLabelTag(label)}  
