@@ -18,7 +18,8 @@ const ClientTable = () => {
 
     const defaultSortBy = "default";
     const [sortBy, setSortBy] = useState(defaultSortBy);
-    const [searchKeyword, setSearchKeyword] = useState(null);
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [searchKeywordBuffer, setSearchKeywordBuffer] = useState("");
 
     const getSortByList = () => {
         return {
@@ -153,15 +154,33 @@ const ClientTable = () => {
         setSortBy(sortByValue);
     };
 
+    const onChangeSearchKeywordHandler = event => {
+        const textField = event.target;
+        const value = textField.value;
+        // We use buffer here because we only send out the search keyword
+        // when users finish typing.
+        setSearchKeywordBuffer(value);
+    };
+
+    const onClickSearchHandler = event => {
+        event.preventDefault();
+        if (searchKeywordBuffer.length === 0) {
+            return;
+        }
+        setCurrentPage(firstPage);
+        setClients([]);
+        setSearchKeyword(searchKeywordBuffer);
+    };
+
     return (
         <div className="client-table">
             <div className="action-group">
                 <div className="section search">
                     <div className="search-text-input">
-                        <TextInputField />
+                        <TextInputField value={searchKeywordBuffer} onChange={onChangeSearchKeywordHandler} />
                     </div>
                     <div className="search-button">
-                        <Button variant="secondary" onClick={() => {}}>Search</Button>
+                        <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button>
                     </div>
                 </div>
                 <hr />
@@ -170,6 +189,7 @@ const ClientTable = () => {
                     <DropdownList 
                         dropdownName="sort-by" 
                         dropdownListItemsKeyValue={getSortByList()}
+                        value={sortBy}
                         onChange={onChangeSortByHandler}
                     />
                 </div>
