@@ -187,12 +187,8 @@ public class Client {
 
     public Integer getAge() {
         LocalDate currentDate = LocalDate.now();
-        LocalDate localBirthdate = dateToLocalDate(birthdate);
+        LocalDate localBirthdate = birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         return Period.between(localBirthdate, currentDate).getYears();
-    }
-
-    private LocalDate dateToLocalDate(Date date) {
-        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
     }
 
     public void setAge(Integer age) {
