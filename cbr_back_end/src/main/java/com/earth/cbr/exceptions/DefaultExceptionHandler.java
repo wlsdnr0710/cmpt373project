@@ -32,6 +32,8 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
         for (ConstraintViolation<?> constraintViolation : constraintViolations) {
             constraintMessages.append(constraintViolation.getMessage());
         }
+
+        responseJson.put("exception type", ex.getClass().getSimpleName());
         responseJson.put("message", constraintMessages);
 
         return new ResponseEntity(responseJson, HttpStatus.BAD_REQUEST);
@@ -42,6 +44,20 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
             MissingRequiredDataObjectException ex, WebRequest request) {
 
         JSONObject responseJson = new JSONObject();
+
+        responseJson.put("exception type", ex.getClass().getSimpleName());
+        responseJson.put("message", ex.getMessage());
+
+        return ResponseEntity.badRequest().body(responseJson);
+    }
+
+    @ExceptionHandler(NumberFormatException.class)
+    public ResponseEntity<Object> handleNumberFormatException(
+            NumberFormatException ex, WebRequest request) {
+
+        JSONObject responseJson = new JSONObject();
+
+        responseJson.put("exception type", ex.getClass().getSimpleName());
         responseJson.put("message", ex.getMessage());
 
         return ResponseEntity.badRequest().body(responseJson);
