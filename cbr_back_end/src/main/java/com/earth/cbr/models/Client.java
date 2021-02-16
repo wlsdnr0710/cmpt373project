@@ -98,6 +98,12 @@ public class Client {
     private String caregiverContact;
 
     @Column(
+            name = "caregiver_photo",
+            columnDefinition = "TEXT"
+    )
+    private String caregiverPhoto;
+
+    @Column(
             name = "required_services",
             columnDefinition = "TEXT"
     )
@@ -125,6 +131,7 @@ public class Client {
                   String contactNumber,
                   Long cbrWorkerId,
                   String caregiverContact,
+                  String caregiverPhoto,
                   String requiredServices,
                   String goals) {
         this.firstName = firstName;
@@ -138,6 +145,7 @@ public class Client {
         this.contactNumber = contactNumber;
         this.cbrWorkerId = cbrWorkerId;
         this.caregiverContact = caregiverContact;
+        this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
         this.individualGoals = goals;
     }
@@ -244,6 +252,14 @@ public class Client {
 
     public void setCaregiverContact(String caregiverContact) {
         this.caregiverContact = caregiverContact;
+    }
+
+    public String getCaregiverPhoto() {
+        return caregiverPhoto;
+    }
+
+    public void setCaregiverPhoto(String caregiverPhoto) {
+        this.caregiverPhoto = caregiverPhoto;
     }
 
     public String getRequiredServices() {
