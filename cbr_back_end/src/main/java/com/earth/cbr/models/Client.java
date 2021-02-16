@@ -1,6 +1,7 @@
 package com.earth.cbr.models;
 
 import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -8,6 +9,7 @@ import java.util.Date;
 
 @Entity(name = "Client")
 @Table(name = "client")
+@EntityListeners(AuditingEntityListener.class)
 public class Client {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
