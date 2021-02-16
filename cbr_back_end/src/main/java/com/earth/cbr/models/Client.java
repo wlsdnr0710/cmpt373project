@@ -63,7 +63,7 @@ public class Client {
     private Integer villageNumber;
 
     @Column(
-            name = "date",
+            name = "created_date",
             columnDefinition = "DATE"
     )
     @CreatedDate
@@ -103,11 +103,11 @@ public class Client {
     private String requiredServices;
 
     @Column(
-            name = "goals",
+            name = "individual_goals",
             columnDefinition = "TEXT"
     )
-    @NotNull(message = "Goals cannot be null")
-    private String goals;
+    @NotNull(message = "Individual goals cannot be null")
+    private String individualGoals;
 
     public Client() {
     }
@@ -137,7 +137,7 @@ public class Client {
         this.cbrWorkerId = cbrWorkerId;
         this.caregiverContact = caregiverContact;
         this.requiredServices = requiredServices;
-        this.goals = goals;
+        this.individualGoals = goals;
     }
 
     public Long getId() {
@@ -252,11 +252,11 @@ public class Client {
         this.requiredServices = requiredServices;
     }
 
-    public String getGoals() {
-        return goals;
+    public String getIndividualGoals() {
+        return individualGoals;
     }
 
-    public void setGoals(String goals) {
-        this.goals = goals;
+    public void setIndividualGoals(String individualGoals) {
+        this.individualGoals = individualGoals;
     }
 }
