@@ -8,6 +8,8 @@ import TextAreaInputField from "../../components/TextAreaInputField";
 import axios from 'axios';
 import Logo from "../../assets/HHALogo.svg";
 import NewClientVisitsHealthForm from "../NewVisitsHealthForm"
+import NewClientVisitsEducationForm from "../NewVisitsEducationForm"
+import NewClientVisitsSocialForm from "../NewVisitsSocialForm"
 import "./style.css";
 
 // TODO: We want to fetch zones from backend server instead of hardcoding them here.
@@ -70,12 +72,24 @@ const NewVisitForm = () => {
         "educationAdvice": false,
         "educationAdvocacy": false,
         "educationEncouragement": false,
+        "referralToEducationOrgDesc": "",
+        "educationAdviceDesc": "",
+        "educationAdvocacyDesc": "",
+        "educationEncouragementDesc": "",
+        "educationGoalMet": "cancelled",
+        "educationConclusionText": "",
 
         //Social Section
         "referralToSocialOrg": false,
         "socialAdvice": false,
         "socialAdvocacy": false,
         "socialEncouragement": false,
+        "referralToSocialOrgDesc": "",
+        "socialAdviceDesc": "",
+        "socialAdvocacyDesc": "",
+        "socialEncouragementDesc": "",
+        "socialGoalMet": "cancelled",
+        "socialConclusionText": "",
 
     });
 
@@ -84,6 +98,8 @@ const NewVisitForm = () => {
     const [isSocialInputDisabled, setIsSocialInputDisabled] = useState(true);
 
     const [isHealthGoalConcluded, setIsHealthGoalConcluded] = useState(false);
+    const [isEducationGoalConcluded, setIsEducationGoalConcluded] = useState(false);
+    const [isSocialGoalConcluded, setIsSocialGoalConcluded] = useState(false);
 
     const [isPurposeCBR, setPurposeCBR] = useState(true);
 
@@ -124,6 +140,18 @@ const NewVisitForm = () => {
         } else if (name === "healthGoalMet" && value === "concluded") {
             setIsHealthGoalConcluded(true);
         }
+        if (name === "educationGoalMet" && value !== "concluded") {
+            setIsEducationGoalConcluded(false);
+        } else if (name === "educationGoalMet" && value === "concluded") {
+            setIsEducationGoalConcluded(true);
+        }
+
+        if (name === "socialGoalMet" && value !== "concluded") {
+            setIsSocialGoalConcluded(false);
+        } else if (name === "socialGoalMet" && value === "concluded") {
+            setIsSocialGoalConcluded(true);
+        }
+
         updateFormInputByNameValue(name, value);
     };
 
@@ -156,13 +184,14 @@ const NewVisitForm = () => {
         updateFormInputByNameValue("doSocialCheckBox", doSocialCheckBox);
     };
 
-    //health section
-    const doHealthProvidedCheckBoxActionHandler = event => {
+
+    const doProvidedCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        const healthProvidedName = checkBox.name
-        const isHealthProvidedChecked = checkBox.checked;
-        updateFormInputByNameValue(healthProvidedName, isHealthProvidedChecked);
+        const name = checkBox.name
+        const isProvidedChecked = checkBox.checked;
+        updateFormInputByNameValue(name, isProvidedChecked);
     }
+
 
 
     return (
@@ -284,10 +313,7 @@ const NewVisitForm = () => {
                         healthGoalMetName="healthGoalMet"
                         healthGoalMetValue={formInputs["healthGoalMet"]}
 
-
-
-
-                        actionHandler={doHealthProvidedCheckBoxActionHandler}
+                        actionHandler={doProvidedCheckBoxActionHandler}
                         onChange={formInputChangeHandler}
                         goalInputs={defaultGoalInputs}
                         isHealthGoalConcluded={isHealthGoalConcluded}
@@ -295,25 +321,40 @@ const NewVisitForm = () => {
                     <hr />
                 </div>
 
-                <div>
-                    <label>For education what was provided?</label>
-                </div>
-                <div>
-                    <label>Goal met?:</label>
-                </div>
-                <div>
-                    <label>(if goal met = concluded) what was the outcome?</label>
-                </div>
-                <div>
-                    <label>For social what was provided?</label>
-                </div>
-                <div>
-                    <label>Goal met?:</label>
-                </div>
-                <div>
-                    <label>(if goal met = concluded) what was the outcome?</label>
+                <div hidden={(isEducationInputDisabled) || (!isPurposeCBR)}>
+                    <NewClientVisitsEducationForm
+                        referralToEducationOrgName={"referralToEducationOrg"}
+                        referralToEducationOrgValue={formInputs["referralToEducationOrg"]}
+                        referralToEducationOrgNameDescName={"referralToEducationOrgDesc"}
+                        referralToEducationOrgNameDescValue={formInputs["referralToEducationOrgDesc"]}
+                        educationAdviceName={"educationAdvice"}
+                        educationAdviceValue={formInputs["educationAdvice"]}
+                        educationAdviceDescName={"educationAdviceDesc"}
+                        educationAdviceDescValue={formInputs["educationAdviceDesc"]}
+                        educationAdvocacyName={"educationAdvocacy"}
+                        educationAdvocacyValue={formInputs["educationAdvocacy"]}
+                        educationAdvocacyDescName={"educationAdvocacyDesc"}
+                        educationAdvocacyDescValue={formInputs["educationAdvocacyDesc"]}
+                        educationEncouragementName={"educationEncouragement"}
+                        educationEncouragementValue={formInputs["educationEncouragement"]}
+                        educationEncouragementDescName={"educationEncouragementDesc"}
+                        educationEncouragementDescValue={formInputs["educationEncouragement"]}
+
+                        educationGoalConclusionTextName={"educationGoalConclusionText"}
+                        educationGoalConclusionTextValue={formInputs["educationGoalConclusionText"]}
+                        educationGoalMetName={"educationGoalMet"}
+                        educationGoalMetValue={formInputs["educationGoalMet"]}
+                        isEducationGoalConcluded={isEducationGoalConcluded}
+                        actionHandler={doProvidedCheckBoxActionHandler}
+                        onChange={formInputChangeHandler}
+                        goalInputs={defaultGoalInputs}
+                    />
+                    <hr />
                 </div>
 
+                <div hidden={(isSocialInputDisabled) || (!isPurposeCBR)}>
+
+                </div>
                 <hr />
                 <Button
                     variant="primary"
