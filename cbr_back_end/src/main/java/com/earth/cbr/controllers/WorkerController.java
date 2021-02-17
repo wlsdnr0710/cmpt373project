@@ -64,23 +64,23 @@ public class WorkerController {
 
     @PutMapping(value = "/{id}")
     public ResponseEntity<JSONObject> updateWorkerById(@PathVariable Long id, @RequestBody JSONObject payload)
-                throws MissingRequiredDataObjectException {
-            JSONObject workerJSON = payload.getJSONObject("data");
+            throws MissingRequiredDataObjectException {
+        JSONObject workerJSON = payload.getJSONObject("data");
 
-            if (workerJSON == null) {
-                throw new MissingRequiredDataObjectException("Missing data object containing Worker data");
-            }
-            String workerString = workerJSON.toJSONString();
-
-            JSONObject responseJson = new JSONObject();
-            Worker worker = JSON.parseObject(workerString, Worker.class);
-
-            Worker updatedWorker = workerService.updateWorkerById(worker);
-
-            // get worker's id to update UI
-            responseJson.put("id", updatedWorker.getId());
-            return ResponseEntity.ok().body(responseJson);
+        if (workerJSON == null) {
+            throw new MissingRequiredDataObjectException("Missing data object containing Worker data");
         }
+        String workerString = workerJSON.toJSONString();
+        
+        JSONObject responseJson = new JSONObject();
+        Worker worker = JSON.parseObject(workerString, Worker.class);
+
+        Worker updatedWorker = workerService.updateWorkerById(worker);
+
+        // get worker's id to update UI
+        responseJson.put("id", updatedWorker.getId());
+        return ResponseEntity.ok().body(responseJson);
+    }
 
     @DeleteMapping
     public ResponseEntity<JSONObject> deleteWorkerById(@RequestBody JSONObject payload) {
