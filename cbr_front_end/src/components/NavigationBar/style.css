@@ -1,0 +1,9 @@
+.side-navigation { 
+    z-index: 1;
+    overflow-x: hidden;
+
+}
+
+.side-navigation .sync {
+    padding-top: 5vh;
+}

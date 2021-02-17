@@ -4,6 +4,7 @@ import ClientInformation from "../../components/ClientInformation";
 import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../components/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
+import NavigationBar from "../../components/NavigationBar";
 import "./styles.css";
 
 //TODO: Get objects using API call
@@ -30,24 +31,25 @@ const disabilityObject = {
 
 const ClientInfo = () => {
   return (
-    <div>
+    <div className = "client-information">
+      <NavigationBar />
       <BackgroundCard>
-        <main className = "client-information">
+        <main>
           <ClientInformation
             className="client-general-information"
             clientObject = {clientObject}
           />
-          <hr className="client-information-hr" />
+          <hr/>
           <h1>Risk Levels</h1>
           <RiskInformation
             className="client-risk-information"
             riskObject = {riskObject}
             includeDateInformation = {true}
           />
-          <hr className="client-information-hr" />
+          <hr/>
           <DisabilityInformation 
             disabilityObject = {disabilityObject}/>
-          <hr className="client-information-hr" />
+          <hr/>
           <button type="button" className="btn btn-secondary">
             Edit
           </button>
