@@ -5,9 +5,9 @@ import DropdownList from "../../components/DropdownList";
 import CheckBox from "../../components/CheckBox";
 import NumberInputField from "../../components/NumberInputField";
 import axios from 'axios';
-import NewClientVisitsHealthForm from "../NewVisitsHealthForm"
-import NewClientVisitsEducationForm from "../NewVisitsEducationForm"
-import NewClientVisitsSocialForm from "../NewVisitsSocialForm"
+import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
+import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
+import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
 import "./style.css";
 
 // TODO: We want to fetch zones from backend server instead of hardcoding them here.
@@ -48,7 +48,7 @@ const NewVisitForm = (props) => {
         "lattitude": "",
         "longitude": "",
         "visitDate": "",
-        "cbrworkerName": "",
+        "cbrWorkerName": "",
 
         // Health Section
         "wheelchair": false,
@@ -115,8 +115,6 @@ const NewVisitForm = (props) => {
 
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
-        // We do not set state here because setState is asynchronous.
-        // State may not be updated when we submit the form.
         const sendingData = { ...formInputs };
         submitFormByPostRequest(sendingData);
     };
@@ -133,32 +131,40 @@ const NewVisitForm = (props) => {
             });
     };
 
-
     const formInputChangeHandler = event => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
 
-        if (name === "purposeForVisit" && value !== "cbr") {
+        const purposeForVisitStr = "purposeForVisit";
+        const cbrStr = "cbr";
+        const healthGoalMetStr = "healthGoalMet";
+        const educationGoalMetStr = "educationGoalMet";
+        const socialGoalMetStr = "socialGoalMet";
+        const concludedStr = "concluded"
+
+
+        if (name === purposeForVisitStr && value !== cbrStr) {
             setPurposeCBR(false);
-        } else if (name === "purposeForVisit" && value === "cbr") {
+        } else if (name === purposeForVisitStr && value === cbrStr) {
             setPurposeCBR(true);
         }
 
-        if (name === "healthGoalMet" && value !== "concluded") {
+        if (name === healthGoalMetStr && value !== concludedStr) {
             setIsHealthGoalConcluded(false);
-        } else if (name === "healthGoalMet" && value === "concluded") {
+        } else if (name === healthGoalMetStr && value === concludedStr) {
             setIsHealthGoalConcluded(true);
         }
-        if (name === "educationGoalMet" && value !== "concluded") {
+
+        if (name === educationGoalMetStr && value !== concludedStr) {
             setIsEducationGoalConcluded(false);
-        } else if (name === "educationGoalMet" && value === "concluded") {
+        } else if (name === educationGoalMetStr && value === concludedStr) {
             setIsEducationGoalConcluded(true);
         }
 
-        if (name === "socialGoalMet" && value !== "concluded") {
+        if (name === socialGoalMetStr && value !== concludedStr) {
             setIsSocialGoalConcluded(false);
-        } else if (name === "socialGoalMet" && value === "concluded") {
+        } else if (name === socialGoalMetStr && value === concludedStr) {
             setIsSocialGoalConcluded(true);
         }
 
@@ -194,7 +200,6 @@ const NewVisitForm = (props) => {
         updateFormInputByNameValue("doSocialCheckBox", doSocialCheckBox);
     };
 
-
     const doProvidedCheckBoxActionHandler = event => {
         const checkBox = event.target;
         const name = checkBox.name
@@ -208,7 +213,7 @@ const NewVisitForm = (props) => {
         setCurrMonth(newDate.getMonth() + 1);
         setCurrYear(newDate.getFullYear());
 
-        updateFormInputByNameValue("cbrworkerName", userName);
+        updateFormInputByNameValue("cbrWorkerName", userName);
         updateFormInputByNameValue("visitDate", currYear + "-" + currMonth + "-" + currDay);
 
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -217,7 +222,7 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue("lattitude", currLattitude);
             updateFormInputByNameValue("longitude", currLongitude);
         });
-    }, [currLattitude, currLongitude]);
+    }, [currLattitude, currLongitude, currDay, currMonth, currYear]);
 
 
     return (

@@ -51,14 +51,12 @@ const NewVisitsHealthForm = ({
             <div className="section">
                 <label>For Health: What was provided?</label>
                 <div>
-
                     <CheckBox
                         name={wheelchairName}
                         value={wheelchairValue}
                         actionHandler={actionHandler}
                         displayText={"Wheelchair"}
                     />
-
                     <div hidden={!wheelchairValue}>
                         <TextAreaInputField
                             name={wheelchairDescName}
@@ -188,7 +186,6 @@ const NewVisitsHealthForm = ({
                         />
                     </div>
                 </div>
-
                 <div >
                     <div>
                         <label>Goal met?:</label>

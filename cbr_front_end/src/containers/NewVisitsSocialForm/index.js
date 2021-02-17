@@ -5,7 +5,6 @@ import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsSocialForm = ({
-
     referralToSocialOrgName,
     referralToSocialOrgValue,
     referralToSocialOrgNameDescName,
@@ -22,7 +21,6 @@ const NewVisitsSocialForm = ({
     socialEncouragementValue,
     socialEncouragementDescName,
     socialEncouragementDescValue,
-
     socialGoalConclusionTextName,
     socialGoalConclusionTextValue,
     socialGoalMetName,
@@ -31,21 +29,18 @@ const NewVisitsSocialForm = ({
     actionHandler,
     onChange,
     goalInputs,
-
 }) => {
     return (
         <div className="new-client-survey">
             <div className="section">
                 <label>For Social: What was provided?</label>
                 <div>
-
                     <CheckBox
                         name={referralToSocialOrgName}
                         value={referralToSocialOrgValue}
                         actionHandler={actionHandler}
                         displayText={"Referral to Social Organization"}
                     />
-
                     <div hidden={!referralToSocialOrgValue}>
                         <TextAreaInputField
                             name={referralToSocialOrgNameDescName}
@@ -107,7 +102,6 @@ const NewVisitsSocialForm = ({
                         />
                     </div>
                 </div>
-
                 <div >
                     <div>
                         <label>Goal met?:</label>

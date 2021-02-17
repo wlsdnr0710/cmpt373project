@@ -1,5 +1,5 @@
 import React from 'react';
-import NewVisitForm from "../../containers/NewVisitForm"
+import NewVisitForm from "../../containers/NewVisitForm";
 import "./style.css";
 
 const NewVisits = props => {

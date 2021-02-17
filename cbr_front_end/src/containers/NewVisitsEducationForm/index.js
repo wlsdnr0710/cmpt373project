@@ -5,7 +5,6 @@ import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsEducationForm = ({
-
     referralToEducationOrgName,
     referralToEducationOrgValue,
     referralToEducationOrgNameDescName,
@@ -22,7 +21,6 @@ const NewVisitsEducationForm = ({
     educationEncouragementValue,
     educationEncouragementDescName,
     educationEncouragementDescValue,
-
     educationGoalConclusionTextName,
     educationGoalConclusionTextValue,
     educationGoalMetName,
@@ -38,7 +36,6 @@ const NewVisitsEducationForm = ({
             <div className="section">
                 <label>For Education: What was provided?</label>
                 <div>
-
                     <CheckBox
                         name={referralToEducationOrgName}
                         value={referralToEducationOrgValue}
@@ -107,7 +104,6 @@ const NewVisitsEducationForm = ({
                         />
                     </div>
                 </div>
-
                 <div >
                     <div>
                         <label>Goal met?:</label>
