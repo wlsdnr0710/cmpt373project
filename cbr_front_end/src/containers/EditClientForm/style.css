@@ -1,8 +1,6 @@
 .edit-client-form{
     margin-left: 2vw;
 }
-
-
 /* TODO: refactor img and upload banner to scale with client-image (no need for duplicate width/maxwidth/minwidth) */
 .edit-client-form .client-image {
     width: 70%;
@@ -36,7 +34,6 @@
     opacity: 1;
 }
 
-
 .edit-client-form .input-field {
     margin: 2vh 1vw;
 }
@@ -49,7 +46,6 @@
     text-align: center;
     position: relative;
 }
-
 
 .edit-client-form .action-buttons input{
     margin: 1vh 1vw;

@@ -3,7 +3,6 @@ import BackgroundCard from "../../components/BackgroundCard";
 import EditClientForm from "../../containers/EditClientForm";
 import "./style.css";
 
-
 const EditClient = () => {
   return (
     <div>

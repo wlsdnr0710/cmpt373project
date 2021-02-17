@@ -6,7 +6,6 @@ import RiskInformation from "../../components/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./styles.css";
 
-
 //TODO: Get objects using API call
 const riskObject = {
   date:"Thu, Sep 29 1988",
