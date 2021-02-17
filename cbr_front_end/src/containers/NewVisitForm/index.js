@@ -45,7 +45,7 @@ const NewVisitForm = (props) => {
         "doSocialCheckBox": false,
         "clientZone": "bidizone1",
         "villageNumber": "0",
-        "lattitude": "",
+        "latitude": "",
         "longitude": "",
         "visitDate": "",
         "cbrWorkerName": "",
@@ -105,7 +105,7 @@ const NewVisitForm = (props) => {
 
     const [isPurposeCBR, setPurposeCBR] = useState(true);
     const [currLongitude, setCurrLongitude] = useState();
-    const [currLattitude, setCurrLattitude] = useState();
+    const [currLatitude, setCurrLatitude] = useState();
 
     const [currDay, setCurrDay] = useState("");
     const [currMonth, setCurrMonth] = useState("");
@@ -217,12 +217,12 @@ const NewVisitForm = (props) => {
         updateFormInputByNameValue("visitDate", Math.floor(newDate / 1000));
 
         navigator.geolocation.getCurrentPosition(function (position) {
-            setCurrLattitude(position.coords.latitude);
+            setCurrLatitude(position.coords.latitude);
             setCurrLongitude(position.coords.longitude);
-            updateFormInputByNameValue("lattitude", currLattitude);
+            updateFormInputByNameValue("latitude", currLatitude);
             updateFormInputByNameValue("longitude", currLongitude);
         });
-    }, [currLattitude, currLongitude, currDay, currMonth, currYear]);
+    }, [currLatitude, currLongitude, currDay, currMonth, currYear]);
 
 
     return (
@@ -277,7 +277,7 @@ const NewVisitForm = (props) => {
                 <div>
                     <label >Location of Visit (GPS) :</label>
                     <div>
-                        <label>Lattitude : {currLattitude}</label>
+                        <label>Latitude : {currLatitude}</label>
                     </div>
                     <div>
                         <label >Longitude : {currLongitude}</label>
