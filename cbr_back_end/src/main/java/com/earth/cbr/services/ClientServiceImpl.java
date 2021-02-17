@@ -31,8 +31,14 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Page<Client> getClientsByPageSorted(int pageNumber, int pageSize, String sortBy) {
-        return null;
+    public Page<Client> getClientsByPageSorted(int pageNumber, int pageSize, String sortBy, boolean order) {
+        Pageable pageable;
+        if(order = true) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        }
+        return clientRepository.findAll(pageable);
     }
 
     @Override
