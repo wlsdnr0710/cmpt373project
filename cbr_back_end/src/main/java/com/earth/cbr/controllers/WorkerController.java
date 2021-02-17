@@ -42,18 +42,6 @@ public class WorkerController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-//    @PostMapping
-//    public ResponseEntity<JSONObject> addWorker(@RequestBody JSONObject payload) {
-//        Worker addedWorker = workerService.addWorker(payload);
-//
-//        JSONObject responseJson = new JSONObject();
-//        // Need to tell front-end the new client's id
-//        // so front-end can update the UI
-//        responseJson.put("id", addedWorker.getId());
-//
-//        return ResponseEntity.ok().body(responseJson);
-//    }
-
     @PostMapping
     public ResponseEntity<JSONObject> addWorker(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException {
@@ -89,9 +77,10 @@ public class WorkerController {
 
             Worker updatedWorker = workerService.updateWorkerById(worker);
 
+            // get worker's id to update UI
+            responseJson.put("id", updatedWorker.getId());
             return ResponseEntity.ok().body(responseJson);
         }
-
 
     @DeleteMapping
     public ResponseEntity<JSONObject> deleteWorkerById(@RequestBody JSONObject payload) {

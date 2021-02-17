@@ -53,7 +53,6 @@ public class Worker {
             name = "email",
             columnDefinition = "TEXT"
     )
-    @NotBlank(message = "Email is mandatory")
     private String email;
 
     @Column(
@@ -67,7 +66,6 @@ public class Worker {
             name = "zone",
             columnDefinition = "TEXT"
     )
-    @NotBlank(message = "Zone is mandatory")
     private String zone;
 
     public Worker() {
