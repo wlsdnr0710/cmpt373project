@@ -16,15 +16,15 @@ import "./style.css";
 
 // TODO: We want to fetch zones from backend server instead of hardcoding them here.
 const defaultClientZones = {
-    "BidiBidi Zone 1": "bidizone1",
-    "BidiBidi Zone 2": "bidizone2",
-    "BidiBidi Zone 3": "bidizone3",
-    "BidiBidi Zone 4": "bidizone4",
-    "BidiBidi Zone 5": "bidizone5",
-    "Palorinya Basecamp": "palBasecamp",
-    "Palorinya Zone 1": "palzone1",
-    "Palorinya Zone 2": "palzone2",
-    "Palorinya Zone 3": "palzone3",
+    "BidiBidi Zone 1": "1",
+    "BidiBidi Zone 2": "2",
+    "BidiBidi Zone 3": "3",
+    "BidiBidi Zone 4": "4",
+    "BidiBidi Zone 5": "5",
+    "Palorinya Basecamp": "6",
+    "Palorinya Zone 1": "7",
+    "Palorinya Zone 2": "8",
+    "Palorinya Zone 3": "9",
 };
 
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
@@ -32,15 +32,16 @@ const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 const NewClientForm = () => {
     const history = useHistory();
     const [formInputs, setFormInputs] = useState({
+        "cbrWorkerId": 1, //TODO: Replace this when login is implemented
         "doConsentToInterview": false,
         "isCaregiverPresent": false,
         "doConsentToPhotograph": false,
-        "clientZone": "bidizone1",
+        "zone": "1",
         "villageNumber": "",
         "birthdate": "",
         "firstName": "",
         "lastName": "",
-        "clientGender": "female",
+        "gender": "F",
         "contactNumber": "",
         "caregiverNumber": "",
         "healthRisk": "low",
@@ -71,7 +72,7 @@ const NewClientForm = () => {
 
 
     const reqInputNameAndDisplayNames = {
-        "clientZone": "Client zone",
+        "zone": "Client zone",
         "firstName": "First Name",
         "lastName": "Last Name",
     };
@@ -79,9 +80,23 @@ const NewClientForm = () => {
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
         clearErrorMessages();
+        // Currently the database only has single column for individual goals and required services
+        // Therefore, we need to combine health, social and educational together for now.
+        // TODO: remove this after back-end implemented three different columns for health, social and educational
+        const goalsAndServices = {};
+        goalsAndServices["individualGoals"] = 
+            formInputs["healthIndividualGoals"] + 
+            formInputs["socialIndividualGoals"] + 
+            formInputs["educationIndividualGoals"];
+
+        goalsAndServices["requiredServices"] = 
+            formInputs["healthNeed"] +
+            formInputs["socialNeed"] +
+            formInputs["educationNeed"];
+
         // We do not set state here because setState is asynchronous.
         // State may not be updated when we submit the form.
-        const sendingData = { ...formInputs };
+        const sendingData = { ...formInputs, ...goalsAndServices };
         sendingData["clientPhoto"] = getReferenceFile(refClientPhotoInput);
         sendingData["caregiverPhoto"] = getReferenceFile(refCaregiverPhotoInput);
 
@@ -148,7 +163,7 @@ const NewClientForm = () => {
             })
             .catch(error => {
                 setErrorMessages(prevErrorMessages => {
-                    const message = error.message;
+                    const message = error.response.data.message;
                     const newMessages = [...prevErrorMessages, message];
                     return newMessages;
                 });
@@ -313,8 +328,8 @@ const NewClientForm = () => {
                         <label>Location:</label>
                     </div>
                     <DropdownList
-                        dropdownName="clientZone"
-                        value={formInputs["clientZone"]}
+                        dropdownName="zone"
+                        value={formInputs["zone"]}
                         dropdownListItemsKeyValue={defaultClientZones}
                         onChange={formInputChangeHandler}
                         isDisabled={isFormInputDisabled}
@@ -374,11 +389,11 @@ const NewClientForm = () => {
                         <label>Gender:</label>
                     </div>
                     <DropdownList
-                        dropdownName="clientGender"
-                        value={formInputs["clientGender"]}
+                        dropdownName="gender"
+                        value={formInputs["gender"]}
                         dropdownListItemsKeyValue={{
-                            "Female": "female",
-                            "Male": "male"
+                            "Female": "F",
+                            "Male": "M"
                         }}
                         onChange={formInputChangeHandler}
                         isDisabled={isFormInputDisabled}
