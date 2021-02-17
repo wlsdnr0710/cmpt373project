@@ -2,14 +2,7 @@ import React from "react";
 import "./style.css";
 import * as helper from "../HelperFunctions";
 
-const DropdownList = ({
-  dropdownName,
-  dropdownListItemsKeyValue,
-  value,
-  onChange,
-  isDisabled,
-  label,
-}) => {
+const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange ,isDisabled ,label}) => {
   const getDropdownListOptions = () => {
     const itemsInOptionTag = [];
     let listChildId = 0;

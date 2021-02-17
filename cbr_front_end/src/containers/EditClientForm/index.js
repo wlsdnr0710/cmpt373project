@@ -5,6 +5,7 @@ import DateInputField from "../../components/DateInputField";
 import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
+import RiskInformation from "../../components/RiskInformation"
 import defaultClientImage from "../../assets/avatar.png";
 import "./style.css";
 
@@ -25,15 +26,24 @@ const genders = {
   Female: "female",
   Male: "male",
 };
+
+const riskObject = {
+  date:"Thu, Sep 29 1988",
+  health: "1",
+  education: "1",
+  social: "1"
+};
+
 const EditClientForm = () => {
-  const [formInputs, setFormInputs] = useState({
+  //TODO: Revert back to these values when clicking discard changes
+  const [clientInformation, setClientInformation] = useState({
     firstName: "adrian",
     lastName: "wong",
     clientZone: "bidizone4",
     villageNumber: "4",
     birthdate: "2018-07-13",
     gender: "male",
-    contactNumber: "6044526517", //TODO: telephone default not displaying
+    contactNumber: "6044526517",
     caregiverNumber: "1",
   });
 
@@ -45,7 +55,7 @@ const EditClientForm = () => {
   };
 
   const updateClientInformation = (name, value) => {
-    setFormInputs((prevFormInputs) => {
+    setClientInformation((prevFormInputs) => {
       const newFormInputs = { ...prevFormInputs };
       newFormInputs[name] = value;
       return newFormInputs;
@@ -54,35 +64,42 @@ const EditClientForm = () => {
 
   const [isUploadingPhoto, setIsUploading] = useState(false);
 
-  const revealImageUpload = () => {
+  const toggleImageUpload = () => {
     setIsUploading(!isUploadingPhoto);
-  }
+  };
+
+  const getImageUploadOnState = (isUploadingPhoto) => {
+    if (isUploadingPhoto) {
+      return (
+        <ImageInputField
+          id="client-photo-input"
+          primaryText="Select a photo for CLIENT"
+          secondaryText="PNG, jpg, gif files up to 10 MB in size"
+        />
+      );
+    } else {
+      return;
+    }
+  };
 
   //TODO: Implement function to send updated form information
 
   return (
     <form className="edit-client-form">
       <div>
-        <div className="client-image" onClick={revealImageUpload}>
+        <div className="client-image" onClick={toggleImageUpload}>
           {/*TODO: Grab client image from database */}
           <img src={defaultClientImage} alt="client"></img>
           <div className="upload-banner">Upload Photo</div>
         </div>
-        {/* RFC: Is there a better way to do this?*/}
-        <div style={{display: isUploadingPhoto ? 'block' : 'none' }}>
-          <ImageInputField
-            id="client-photo-input"
-            primaryText="Select a photo for CLIENT"
-            secondaryText="PNG, jpg, gif files up to 10 MB in size"
-          />
-        </div>
+        {getImageUploadOnState(isUploadingPhoto)}
       </div>
 
       <div className="input-field">
         <DropdownList
           dropdownListItemsKeyValue={defaultClientZones}
           dropdownName="clientZone"
-          value={formInputs.clientZone}
+          value={clientInformation.clientZone}
           label="Location: "
           onChange={handleChange}
         />
@@ -90,7 +107,7 @@ const EditClientForm = () => {
       <div className="input-field">
         <NumberInputField
           name="villageNumber"
-          value={formInputs.villageNumber}
+          value={clientInformation.villageNumber}
           label="Village Number: "
           onChange={handleChange}
         />
@@ -99,7 +116,7 @@ const EditClientForm = () => {
       <div className="input-field">
         <TextInputField
           name="firstName"
-          value={formInputs.firstName}
+          value={clientInformation.firstName}
           label="First Name: "
           onChange={handleChange}
         />
@@ -107,7 +124,7 @@ const EditClientForm = () => {
       <div className="input-field">
         <TextInputField
           name="lastName"
-          value={formInputs.lastName}
+          value={clientInformation.lastName}
           label="Last Name: "
           onChange={handleChange}
         />
@@ -115,7 +132,7 @@ const EditClientForm = () => {
       <div className="input-field">
         <DateInputField
           name="birthdate"
-          value={formInputs.birthdate}
+          value={clientInformation.birthdate}
           label="Birth Date:"
           onChange={handleChange}
         />
@@ -124,7 +141,7 @@ const EditClientForm = () => {
         <DropdownList
           dropdownName="gender"
           dropdownListItemsKeyValue={genders}
-          value={formInputs.gender}
+          value={clientInformation.gender}
           label="Gender: "
           onChange={handleChange}
         />
@@ -133,7 +150,7 @@ const EditClientForm = () => {
       <div className="input-field">
         <PhoneInputField
           name="contactNumber"
-          value={formInputs.contactNumber}
+          value={clientInformation.contactNumber}
           label="Contact Number: "
           onChange={handleChange}
         />
@@ -141,14 +158,31 @@ const EditClientForm = () => {
       <div className="input-field">
         <PhoneInputField
           name="caregiverNumber"
-          value={formInputs.caregiverNumber}
+          value={clientInformation.caregiverNumber}
           label="Caregiver Number: "
           onChange={handleChange}
         />
       </div>
+      <hr />
+      {/*TODO: Add edit information for risk and disability sections */}
       <div>
-        <input type="reset" value="Discard Changes" />
-        <input type="submit" value="Save Changes" />
+        <h1>Risk</h1>
+        <RiskInformation 
+          riskObject = {riskObject}
+          includeDateInformation = {true}
+        />
+        <input className = "btn btn-secondary update-risk-button" type="button" value="Update Risk" />
+      </div>
+      <hr />
+      <div>
+        <h1>Disability and Ailment(s)</h1>
+      </div>
+      <hr />
+      <div className = "action-buttons">
+      {/* TODO: Implement functions for buttons & restructure css layout for mobile*/}
+        <input className = "btn btn-secondary" type="button" value="Delete Client" />
+        <input className = "btn btn-secondary" type="button" value="Discard Changes" />
+        <input className = "btn btn-secondary" type="submit" value="Save Changes" />
       </div>
     </form>
   );

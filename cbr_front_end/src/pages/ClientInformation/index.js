@@ -6,35 +6,53 @@ import RiskInformation from "../../components/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./styles.css";
 
+
+//TODO: Get objects using API call
+const riskObject = {
+  date:"Thu, Sep 29 1988",
+  health: "1",
+  education: "1",
+  social: "1"
+};
+
+const clientObject = {
+  id:"123",
+  name:"Bob Jones",
+  image: avatar,
+  zone:"1",
+  gender:"Male",
+  age:"20",
+  birthdate:"Thu, Sep 29 1961",
+};
+
+const disabilityObject = {
+  disabilityList: ["something", "asda", "asdasd"]
+};
+
 const ClientInfo = () => {
   return (
     <div>
-      <BackgroundCard className="client-information-card">
-        <ClientInformation
-          className="client-general-information"
-          // TODO: insert key once real objects are imported
-          id="123"
-          name="Bob Jones"
-          image={avatar} // TODO: insert real client avatars once objects imported
-          zone="1"
-          gender="Male"
-          age="20"
-        />
-        <hr className="client-information-hr" />
-        <RiskInformation
-          className="client-risk-information"
-          health="1"
-          education="1"
-          social="1"
-        />
-        <hr className="client-information-hr" />
-        <DisabilityInformation 
-          //TODO: Pass in list to display disability information
-          className="client-disability-information" />
-        <hr className="client-information-hr" />
-        <button type="button" className="btn btn-secondary client-edit-button">
-          Edit
-        </button>
+      <BackgroundCard>
+        <main className = "client-information">
+          <ClientInformation
+            className="client-general-information"
+            clientObject = {clientObject}
+          />
+          <hr className="client-information-hr" />
+          <h1>Risk Levels</h1>
+          <RiskInformation
+            className="client-risk-information"
+            riskObject = {riskObject}
+            includeDateInformation = {true}
+          />
+          <hr className="client-information-hr" />
+          <DisabilityInformation 
+            disabilityObject = {disabilityObject}/>
+          <hr className="client-information-hr" />
+          <button type="button" className="btn btn-secondary">
+            Edit
+          </button>
+        </main>
       </BackgroundCard>
     </div>
   );
