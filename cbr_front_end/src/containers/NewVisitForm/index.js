@@ -1,12 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import DropdownList from "../../components/DropdownList";
 import CheckBox from "../../components/CheckBox";
 import NumberInputField from "../../components/NumberInputField";
-import TextAreaInputField from "../../components/TextAreaInputField";
 import axios from 'axios';
-import Logo from "../../assets/HHALogo.svg";
 import NewClientVisitsHealthForm from "../NewVisitsHealthForm"
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm"
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm"
@@ -37,7 +35,8 @@ const defaultClientZones = {
     "Palorinya Zone 3": "palzone3",
 };
 
-const NewVisitForm = () => {
+
+const NewVisitForm = (props) => {
 
     const [formInputs, setFormInputs] = useState({
         "purposeForVisit": "cbr",
@@ -45,7 +44,11 @@ const NewVisitForm = () => {
         "doEducationCheckBox": false,
         "doSocialCheckBox": false,
         "clientZone": "bidizone1",
-        "villageNumber": "",
+        "villageNumber": "0",
+        "lattitude": "",
+        "longitude": "",
+        "visitDate": "",
+        "cbrworkerName": "",
 
         // Health Section
         "wheelchair": false,
@@ -92,7 +95,6 @@ const NewVisitForm = () => {
         "socialConclusionText": "",
 
     });
-
     const [isHealthInputDisabled, setIsHealthInputDisabled] = useState(true);
     const [isEducationInputDisabled, setIsEducationInputDisabled] = useState(true);
     const [isSocialInputDisabled, setIsSocialInputDisabled] = useState(true);
@@ -102,6 +104,14 @@ const NewVisitForm = () => {
     const [isSocialGoalConcluded, setIsSocialGoalConcluded] = useState(false);
 
     const [isPurposeCBR, setPurposeCBR] = useState(true);
+    const [currLongitude, setCurrLongitude] = useState();
+    const [currLattitude, setCurrLattitude] = useState();
+
+    const [currDay, setCurrDay] = useState();
+    const [currMonth, setCurrMonth] = useState();
+    const [currYear, setCurrYear] = useState();
+
+    const [userName, setUserName] = useState(props.name);
 
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
@@ -112,7 +122,7 @@ const NewVisitForm = () => {
     };
 
     const submitFormByPostRequest = data => {
-        axios.post('/api/v1/client', {
+        axios.post('/api/v1/newVisits', {
             "data": data
         })
             .then(response => {
@@ -192,6 +202,22 @@ const NewVisitForm = () => {
         updateFormInputByNameValue(name, isProvidedChecked);
     }
 
+    useEffect(() => {
+        let newDate = new Date();
+        setCurrDay(newDate.getDate());
+        setCurrMonth(newDate.getMonth() + 1);
+        setCurrYear(newDate.getFullYear());
+
+        updateFormInputByNameValue("cbrworkerName", userName);
+        updateFormInputByNameValue("visitDate", currYear + "-" + currMonth + "-" + currDay);
+
+        navigator.geolocation.getCurrentPosition(function (position) {
+            setCurrLattitude(position.coords.latitude);
+            setCurrLongitude(position.coords.longitude);
+            updateFormInputByNameValue("lattitude", currLattitude);
+            updateFormInputByNameValue("longitude", currLongitude);
+        });
+    }, [currLattitude, currLongitude]);
 
 
     return (
@@ -236,14 +262,23 @@ const NewVisitForm = () => {
                 </div>
                 <hr />
                 <div>
-                    <label>Date of Visit:</label>
+                    <label>Date of Visit: {currDay}/{currMonth}/{currYear}</label>
                 </div>
+                <hr />
                 <div>
-                    <label>Name of CBR worker:</label>
+                    <label>Name of CBR worker: {userName}</label>
                 </div>
+                <hr />
                 <div>
-                    <label>Location of Visit(GPS)</label>
+                    <label >Location of Visit (GPS) :</label>
+                    <div>
+                        <label>Lattitude : {currLattitude}</label>
+                    </div>
+                    <div>
+                        <label >Longitude : {currLongitude}</label>
+                    </div>
                 </div>
+                <hr />
                 <div>
                     <div>
                         <label>Location</label>
@@ -256,6 +291,7 @@ const NewVisitForm = () => {
                         isDisabled={false}
                     />
                 </div>
+                <hr />
                 <div className="input-field-container">
                     <div className="label-container">
                         <label>Village Number:</label>
@@ -286,10 +322,7 @@ const NewVisitForm = () => {
                         healthAdvocacyValue={formInputs["healthAdvocacy"]}
                         healthEncouragementName="healthEncouragement"
                         healthEncouragementValue={formInputs["healthEncouragement"]}
-                        healthGoalConclusionTextName="healthGoalConclusionText"
-                        healthGoalConclusionTextValue={formInputs["healthGoalConclusionText"]}
-                        healthGoalMetName="healthGoalMet"
-                        healthGoalMetValue={formInputs["healthGoalMet"]}
+
 
                         wheelchairDescName="wheelchairDesc"
                         wheelchairDescValue={formInputs["wheelchairDesc"]}

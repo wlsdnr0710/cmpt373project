@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 import NewVisitForm from "../../containers/NewVisitForm"
 import "./style.css";
 
 const NewVisits = props => {
     return (
-        <div clsasName="">
-            <NewVisitForm />
+        <div className="">
+            <NewVisitForm name={props.name} />
         </div>
     );
 }
