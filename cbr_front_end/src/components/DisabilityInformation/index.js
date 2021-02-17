@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 
 //TODO: Display items from object 
-const DisabilityInformation = ({disabilityObject}) => {
+const DisabilityInformation = ({disability}) => {
   return (
     <div>
       <h1>Disability and Ailment(s)</h1>

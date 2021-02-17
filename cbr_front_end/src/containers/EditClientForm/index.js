@@ -31,7 +31,7 @@ const riskObject = {
   date:"Thu, Sep 29 1988",
   health: "1",
   education: "1",
-  social: "1"
+  social: "1",
 };
 
 const EditClientForm = () => {
@@ -62,14 +62,14 @@ const EditClientForm = () => {
     });
   };
 
-  const [isUploadingPhoto, setIsUploading] = useState(false);
+  const [showImageUploader, setImageUploader] = useState(false);
 
   const toggleImageUpload = () => {
-    setIsUploading(!isUploadingPhoto);
+    setImageUploader(!showImageUploader);
   };
 
-  const getImageUploadOnState = (isUploadingPhoto) => {
-    if (isUploadingPhoto) {
+  const getImageUploadOnState = (showImageUploader) => {
+    if (showImageUploader) {
       return (
         <ImageInputField
           id="client-photo-input"
@@ -92,7 +92,7 @@ const EditClientForm = () => {
           <img src={defaultClientImage} alt="client"></img>
           <div className="upload-banner">Upload Photo</div>
         </div>
-        {getImageUploadOnState(isUploadingPhoto)}
+        {getImageUploadOnState(showImageUploader)}
       </div>
 
       <div className="input-field">

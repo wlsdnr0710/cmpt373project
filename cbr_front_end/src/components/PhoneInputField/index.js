@@ -11,7 +11,6 @@ const PhoneInputField = ({name, value, onChange, isDisabled, label}) => {
         value={value}
         onChange={onChange}
         disabled={isDisabled}
-        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
       />
     </div>
   );

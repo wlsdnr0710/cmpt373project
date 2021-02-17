@@ -1,7 +1,7 @@
 import React from "react";
 import * as helper from "../HelperFunctions";
 
-const NumberInputField = ({ max, min, name, value, onChange, isDisabled, label}) => {
+const NumberInputField = ({ max, min, name, value, onChange, isDisabled, label }) => {
   return (
     <div>
       {helper.getLabelTag(label)}
