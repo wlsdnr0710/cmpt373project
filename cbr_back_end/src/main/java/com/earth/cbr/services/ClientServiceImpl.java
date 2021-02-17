@@ -42,6 +42,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Page<Client> getClientsByPageSearch(int pageNumber, int pageSize, String SearchBy, String search) {
+        return null;
+    }
+
+    @Override
     public Client getClientById(Long id) {
         Optional<Client> clientOptional = clientRepository.findById(id);
         Client client = clientOptional.get();

@@ -11,6 +11,7 @@ public interface ClientService {
     Client getClientById(Long id);
     Page<Client> getClientsByPage(int pageNumber, int pageSize);
     Page<Client> getClientsByPageSorted(int pageNumber, int pageSize, String sortBy, boolean order);
+    Page<Client> getClientsByPageSearch(int pageNumber, int pageSize, String SearchBy, String search);
     Client addClient(@Valid Client client);
     void deleteClientById(Long id);
 }
