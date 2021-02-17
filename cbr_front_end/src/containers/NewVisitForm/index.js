@@ -107,9 +107,9 @@ const NewVisitForm = (props) => {
     const [currLongitude, setCurrLongitude] = useState();
     const [currLattitude, setCurrLattitude] = useState();
 
-    const [currDay, setCurrDay] = useState();
-    const [currMonth, setCurrMonth] = useState();
-    const [currYear, setCurrYear] = useState();
+    const [currDay, setCurrDay] = useState("");
+    const [currMonth, setCurrMonth] = useState("");
+    const [currYear, setCurrYear] = useState("");
 
     const [userName, setUserName] = useState(props.name);
 
@@ -214,7 +214,7 @@ const NewVisitForm = (props) => {
         setCurrYear(newDate.getFullYear());
 
         updateFormInputByNameValue("cbrWorkerName", userName);
-        updateFormInputByNameValue("visitDate", currYear + "-" + currMonth + "-" + currDay);
+        updateFormInputByNameValue("visitDate", Math.floor(newDate / 1000));
 
         navigator.geolocation.getCurrentPosition(function (position) {
             setCurrLattitude(position.coords.latitude);
@@ -267,7 +267,7 @@ const NewVisitForm = (props) => {
                 </div>
                 <hr />
                 <div>
-                    <label>Date of Visit: {currDay}/{currMonth}/{currYear}</label>
+                    <label>Date of Visit: {currYear}-{currMonth}-{currDay}</label>
                 </div>
                 <hr />
                 <div>

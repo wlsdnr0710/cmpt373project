@@ -64,6 +64,7 @@ const NewClientForm = () => {
     const [showSocialSurvey, setShowSocialSurvey] = useState(true);
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
     const [errorMessages, setErrorMessages] = useState([]);
+    const [dateStr, setDateStr] = useState("");
 
     // input type file is an uncontrolled component so we need to use reference
     const refClientPhotoInput = useRef(null);
@@ -235,6 +236,14 @@ const NewClientForm = () => {
         updateFormInputByNameValue(name, value);
     };
 
+    const dateFormInputChangeHandler = event => {
+        const input = event.target;
+        const name = input.name;
+        const value = getEpochTime(input.value);
+        setDateStr(input.value)
+        updateFormInputByNameValue(name, value);
+    };
+
     const updateFormInputByNameValue = (name, value) => {
         setFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
@@ -290,6 +299,12 @@ const NewClientForm = () => {
         return isShow ? "-" : "+";
     };
 
+    const getEpochTime = date => {
+        const dateTime = new Date(date).getTime();
+        const timeStamp = Math.floor(dateTime / 1000);
+        return timeStamp;
+    }
+
     return (
         <div className="new-client-form">
             <FormHeader
@@ -339,8 +354,8 @@ const NewClientForm = () => {
                     </div>
                     <DateInputField
                         name="birthdate"
-                        value={formInputs["birthdate"]}
-                        onChange={formInputChangeHandler}
+                        value={dateStr}
+                        onChange={dateFormInputChangeHandler}
                         isDisabled={isFormInputDisabled}
                     />
                 </div>
