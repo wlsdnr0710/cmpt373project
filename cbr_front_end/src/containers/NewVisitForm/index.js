@@ -8,6 +8,7 @@ import axios from 'axios';
 import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
+import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 
 // TODO: We want to fetch zones from backend server instead of hardcoding them here.
@@ -120,7 +121,7 @@ const NewVisitForm = (props) => {
     };
 
     const submitFormByPostRequest = data => {
-        axios.post('/api/v1/newVisits', {
+        axios.post(ServerConfig.api.url + '/api/v1/newVisits', {
             "data": data
         })
             .then(response => {
