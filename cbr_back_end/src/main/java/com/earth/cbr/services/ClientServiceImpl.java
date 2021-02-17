@@ -3,10 +3,7 @@ package com.earth.cbr.services;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -43,7 +40,8 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Page<Client> getClientsByPageSearch(int pageNumber, int pageSize, String SearchBy, String search) {
-        return null;
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return clientRepository.findByfirstnameContaining(pageable, search);
     }
 
     @Override
