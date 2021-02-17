@@ -81,7 +81,7 @@ const NewClientForm = () => {
         clearErrorMessages();
         // We do not set state here because setState is asynchronous.
         // State may not be updated when we submit the form.
-        const sendingData = {...formInputs};
+        const sendingData = { ...formInputs };
         sendingData["clientPhoto"] = getReferenceFile(refClientPhotoInput);
         sendingData["caregiverPhoto"] = getReferenceFile(refCaregiverPhotoInput);
 
@@ -92,7 +92,7 @@ const NewClientForm = () => {
         }
 
         submitFormByPostRequest(sendingData);
-    }; 
+    };
 
     const getUnfilledInputDisplayNames = inputNameAndDisplayNames => {
         const unfilledInputDisplayNames = [];
@@ -136,24 +136,24 @@ const NewClientForm = () => {
         axios.post('http://localhost:8080/api/v1/client', {
             "data": data
         })
-        .then(response => {
-            const oneSecond = 1000;
-            setIsSubmitSuccess(true);
-            setIsSubmitting(false);
-            // TODO: We redirect user to view client list page for now.
-            // Will need to redirect users to the new added client page
-            setTimeout(() => {
-                history.push("view-client");
-            }, oneSecond);
-        })
-        .catch(error => {
-            setErrorMessages(prevErrorMessages => {
-                const message = error.message;
-                const newMessages = [...prevErrorMessages, message];
-                return newMessages;
-            });
-            setStatesWhenFormIsSubmitting(false);
-        })
+            .then(response => {
+                const oneSecond = 1000;
+                setIsSubmitSuccess(true);
+                setIsSubmitting(false);
+                // TODO: We redirect user to view client list page for now.
+                // Will need to redirect users to the new added client page
+                setTimeout(() => {
+                    history.push("view-client");
+                }, oneSecond);
+            })
+            .catch(error => {
+                setErrorMessages(prevErrorMessages => {
+                    const message = error.message;
+                    const newMessages = [...prevErrorMessages, message];
+                    return newMessages;
+                });
+                setStatesWhenFormIsSubmitting(false);
+            })
     };
 
     const setStatesWhenFormIsSubmitting = isSubmitting => {
@@ -237,7 +237,7 @@ const NewClientForm = () => {
 
     const updateFormInputByNameValue = (name, value) => {
         setFormInputs(prevFormInputs => {
-            const newFormInputs = {...prevFormInputs};
+            const newFormInputs = { ...prevFormInputs };
             newFormInputs[name] = value;
             return newFormInputs;
         });
@@ -292,13 +292,13 @@ const NewClientForm = () => {
 
     return (
         <div className="new-client-form">
-            <FormHeader 
+            <FormHeader
                 headerText="New Client - Client Information"
             />
 
             <div className="form-body">
                 <div className="input-field-container">
-                    <CheckBox 
+                    <CheckBox
                         name="doConsentToInterview"
                         value={formInputs["doConsentToInterview"]}
                         actionHandler={doConsentToInterviewCheckBoxActionHandler}
@@ -312,7 +312,7 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Location:</label>
                     </div>
-                    <DropdownList 
+                    <DropdownList
                         dropdownName="clientZone"
                         value={formInputs["clientZone"]}
                         dropdownListItemsKeyValue={defaultClientZones}
@@ -325,11 +325,11 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Village Number:</label>
                     </div>
-                    <NumberInputField 
-                        name="villageNumber" 
-                        value={formInputs["villageNumber"]} 
-                        onChange={formInputChangeHandler} 
-                        isDisabled={isFormInputDisabled} 
+                    <NumberInputField
+                        name="villageNumber"
+                        value={formInputs["villageNumber"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isFormInputDisabled}
                     />
                 </div>
 
@@ -337,11 +337,11 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Birth Date:</label>
                     </div>
-                    <DateInputField 
-                        name="birthdate" 
-                        value={formInputs["birthdate"]} 
-                        onChange={formInputChangeHandler} 
-                        isDisabled={isFormInputDisabled} 
+                    <DateInputField
+                        name="birthdate"
+                        value={formInputs["birthdate"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isFormInputDisabled}
                     />
                 </div>
 
@@ -349,11 +349,11 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>First Name:</label>
                     </div>
-                    <TextInputField 
-                        name="firstName" 
-                        value={formInputs["firstName"]} 
-                        onChange={formInputChangeHandler} 
-                        isDisabled={isFormInputDisabled} 
+                    <TextInputField
+                        name="firstName"
+                        value={formInputs["firstName"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isFormInputDisabled}
                     />
                 </div>
 
@@ -361,11 +361,11 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Last Name:</label>
                     </div>
-                    <TextInputField 
+                    <TextInputField
                         name="lastName"
-                        value={formInputs["lastName"]} 
-                        onChange={formInputChangeHandler} 
-                        isDisabled={isFormInputDisabled} 
+                        value={formInputs["lastName"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isFormInputDisabled}
                     />
                 </div>
 
@@ -373,11 +373,11 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Gender:</label>
                     </div>
-                    <DropdownList 
+                    <DropdownList
                         dropdownName="clientGender"
                         value={formInputs["clientGender"]}
                         dropdownListItemsKeyValue={{
-                            "Female": "female", 
+                            "Female": "female",
                             "Male": "male"
                         }}
                         onChange={formInputChangeHandler}
@@ -389,23 +389,24 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Contact Number:</label>
                     </div>
-                    <NumberInputField 
-                        name="contactNumber" 
-                        value={formInputs["contactNumber"]} 
-                        onChange={formInputChangeHandler} 
-                        isDisabled={isFormInputDisabled} 
+                    <NumberInputField
+                        name="contactNumber"
+                        value={formInputs["contactNumber"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isFormInputDisabled}
                     />
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="input-field-container">
-                    <CheckBox 
+                    <CheckBox
                         name="isCaregiverPresent"
                         value={formInputs["isCaregiverPresent"]}
                         actionHandler={isCaregiverPresentCheckBoxActionHandler}
                         displayText={"Is the Caregiver present?"}
                         isDisabled={isFormInputDisabled}
+
                     />
                 </div>
 
@@ -415,16 +416,16 @@ const NewClientForm = () => {
                     </div>
                     <NumberInputField
                         name="caregiverNumber"
-                        value={formInputs["caregiverNumber"]} 
-                        onChange={formInputChangeHandler} 
-                        isDisabled={isCaregiverRelatedInputDisabled()} 
+                        value={formInputs["caregiverNumber"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isCaregiverRelatedInputDisabled()}
                     />
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="input-field-container">
-                    <CheckBox 
+                    <CheckBox
                         name="doConsentToPhotograph"
                         value={formInputs["doConsentToPhotograph"]}
                         actionHandler={doConsentToPhotographCheckBoxActionHandler}
@@ -432,9 +433,9 @@ const NewClientForm = () => {
                         isDisabled={isFormInputDisabled}
                     />
                 </div>
-                
+
                 <div className="input-field-container">
-                    <ImageInputField 
+                    <ImageInputField
                         id="client-photo-input"
                         primaryText="Select a photo for CLIENT"
                         secondaryText={imageUploaderSecondaryText}
@@ -444,7 +445,7 @@ const NewClientForm = () => {
                 </div>
 
                 <div className="input-field-container">
-                    <ImageInputField 
+                    <ImageInputField
                         id="caregiver-photo-input"
                         primaryText="Select a photo for CAREGIVER"
                         secondaryText={imageUploaderSecondaryText}
@@ -453,14 +454,14 @@ const NewClientForm = () => {
                     />
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="input-field-container">
                     <div className="label-container show-hide-toggle-title" onClick={getToggleShowHideHandler(setShowHealthSurvey)}>
                         <label>{getShowHideSymbol(showHealthSurvey)} Health Risk Survey</label>
                     </div>
-                    <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showHealthSurvey)}}>
-                        <NewClientSurvey 
+                    <div className="show-hide-toggle-content" style={{ display: shouldShowBlockElement(showHealthSurvey) }}>
+                        <NewClientSurvey
                             riskInputName="healthRisk"
                             needInputName="healthNeed"
                             individualGoalsInputName="healthIndividualGoals"
@@ -473,14 +474,14 @@ const NewClientForm = () => {
                     </div>
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="input-field-container">
                     <div className="label-container show-hide-toggle-title" onClick={getToggleShowHideHandler(setShowSocialSurvey)}>
                         <label>{getShowHideSymbol(showSocialSurvey)} Social Risk Survey</label>
                     </div>
-                    <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showSocialSurvey)}}>
-                        <NewClientSurvey 
+                    <div className="show-hide-toggle-content" style={{ display: shouldShowBlockElement(showSocialSurvey) }}>
+                        <NewClientSurvey
                             riskInputName="socialRisk"
                             needInputName="socialNeed"
                             individualGoalsInputName="socialIndividualGoals"
@@ -493,14 +494,14 @@ const NewClientForm = () => {
                     </div>
                 </div>
 
-                <hr/>
+                <hr />
 
                 <div className="input-field-container">
                     <div className="label-container show-hide-toggle-title" onClick={getToggleShowHideHandler(setShowEducationSurvey)}>
                         <label>{getShowHideSymbol(showEducationSurvey)} Education Risk Survey</label>
                     </div>
-                    <div className="show-hide-toggle-content" style={{display: shouldShowBlockElement(showEducationSurvey)}}>
-                        <NewClientSurvey 
+                    <div className="show-hide-toggle-content" style={{ display: shouldShowBlockElement(showEducationSurvey) }}>
+                        <NewClientSurvey
                             riskInputName="educationRisk"
                             needInputName="educationNeed"
                             individualGoalsInputName="educationIndividualGoals"
@@ -513,21 +514,21 @@ const NewClientForm = () => {
                     </div>
                 </div>
 
-                <hr/>
+                <hr />
 
                 {showErrorMessages()}
                 {showSuccessMessage()}
 
-                <Button 
-                    variant="primary" 
-                    size="lg" 
+                <Button
+                    variant="primary"
+                    size="lg"
                     disabled={isFormInputDisabled}
                     onClick={onSubmitSurveyHandler}
                 >
                     {getSubmitButtonText()}
                 </Button>
             </div>
-        </div>
+        </div >
     );
 };
 
