@@ -19,7 +19,7 @@ const Router = () => {
                 <Route path="/new-visit" exact component={NewVisit} />
                 <Route path="/example" exact component={ExampleComponent} />
                 <Route path="/client-information" exact component={ClientInformation} />
-                <Redirect to="/new-visit" />
+                <Redirect to="/login" />
             </Switch>
         </div>
     );

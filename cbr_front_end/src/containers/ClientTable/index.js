@@ -1,63 +1,111 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
 import Table from "../../components/Table";
-
-// TODO: Remove this function after we have implemented API to get clients.
-const generateDummyClients = () => {
-    const numberOfClients = 5;
-    const clients = [];
-    const dateOptions = {year: 'numeric', month: 'short', day: 'numeric' };
-    const date = new Date();
-    const dateString = date.toLocaleDateString("en-us", dateOptions);
-    for (let i = 0; i < numberOfClients; i++) {
-        const client = {};
-
-        client.id = i;
-        client.firstName = "Yi Ching";
-        client.lastName = "Chou";
-        client.location = "BidiBidi Zone 1";
-        client.gender = "male";
-        client.age = 21;
-        client.villageNumber = 1;
-        client.contactNumber = "778-3333-3333"
-        client.date = dateString;
-
-        clients.push(client);
-    }
-    return clients;
-};
-
-const getClientTableHeaders = () => {
-    return [
-        "Clients",
-    ];
-}
-
-const getClientTableData = clients => {
-    const data = [];
-    for (const index in clients) {
-        const row = {};
-        row["Clients"] = <ClientInfoCard client={clients[index]} />;
-        data.push(row);
-    }
-    return data;
-};
+import Button from 'react-bootstrap/Button';
+import DropdownList from "../../components/DropdownList";
+import Spinner from 'react-bootstrap/Spinner';
+import TextInputField from "../../components/TextInputField";
+import "./style.css";
 
 const ClientTable = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [clients, setClients] = useState([]);
     const [hasMoreClients, setHasMoreClients] = useState(true);
     const intersectionObserver = useRef();
     const observeeElement = useRef();
 
-    // TODO: To test infinite scroll when there is no more clients to load.
-    // Remove this after back-end API is implemented.
-    const loadMoreClientLimit = 2;
-    const loadMoreClientCounter = useRef(0);
+    const firstPage = 1;
+    const [currentPage, setCurrentPage] = useState(firstPage);
+    const clientsPerPage = 10;
 
-    // TODO: Set clients here to test the asynchronous update.
-    // Need to replace this with an axios call to get clients
-    // after the GET clients API is implemented.
-    useEffect(() => {    
+    const defaultSortBy = "default";
+    const [sortBy, setSortBy] = useState(defaultSortBy);
+    const [searchKeyword, setSearchKeyword] = useState("");
+    const [searchKeywordBuffer, setSearchKeywordBuffer] = useState("");
+
+    const getSortByList = () => {
+        return {
+            "Default": defaultSortBy,
+            "ID": "id",
+            "First Name": "firstName",
+            "Last Name": "lastName",
+            "Location": "location",
+            "Village No.": "villageNumber",
+            "Gender": "gender",
+            "Risk": "risk",
+            "Disability": "disability",
+            "Age": "age",
+        };
+    };
+
+    const getPageableByPage = page => {
+        return {
+            page: page,
+            clientsPerPage: clientsPerPage,
+        }
+    };
+
+    const requestClientsByPageable = useCallback(pageable => {
+        const { page, clientsPerPage } = pageable;
+        setIsLoading(true);
+        axios.get(
+                "http://localhost:8080/api/v1/client?" + convertToParameterString({
+                    "page": page,
+                    "clientsPerPage": clientsPerPage,
+                    "searchKeyword": searchKeyword,
+                    "sortBy": sortBy,
+                })
+            )
+            .then(response => {
+                const receivedClients = response.data.data;
+                updateClients(receivedClients);
+                incrementPage();
+            })
+            .catch(error => {
+
+            })
+            .then(() => {
+                setIsLoading(false);
+            });
+    }, [searchKeyword, sortBy]);
+
+    const convertToParameterString = paramKeyValues => {
+        let paramString = "";
+        let isFirstParam = true;
+        for (const key in paramKeyValues) {
+            const paramValue = paramKeyValues[key];
+            if (paramValue === undefined) {
+                continue;
+            }
+            if (!isFirstParam) {
+                paramString = paramString + "&";
+            }
+            paramString = paramString + key + "=";
+            paramString = paramString + paramValue;
+            isFirstParam = false;
+        }
+        return paramString;
+    };
+
+    const updateClients = receivedClients => {
+        setClients(prevClients => {
+            if (receivedClients.length === 0) {
+                setHasMoreClients(false);
+                return prevClients;
+            }
+            const newClients = [...prevClients, ...receivedClients];
+            return newClients;
+        });
+    };
+
+    const incrementPage = () => {
+        setCurrentPage(prevPage => {
+            return prevPage + 1;
+        });
+    };
+
+    useEffect(() => {
         const setUpInfiniteScroll = () => {
             intersectionObserver.current = new IntersectionObserver(infScrollIntersecObserverCallBack);
             intersectionObserver.current.observe(observeeElement.current);
@@ -67,32 +115,18 @@ const ClientTable = () => {
             entries.forEach(entry => {
                 const { isIntersecting } = entry;
                 if (isIntersecting) {
+                    disconnectIntersectionObserver();
                     loadMoreClientsAndSetHasMoreClients();
                 }
             });
         };
     
         const loadMoreClientsAndSetHasMoreClients = () => {
-            if (!hasMoreClients) {
+            if (!hasMoreClients || currentPage === firstPage) {
                 return;
             }
-            setClients(prevClients => {
-                // TODO: replace generateDummyClients() with API call
-                const moreClients = generateDummyClients();
-                if (moreClients.length === 0) {
-                    setHasMoreClients(false);
-                    return;
-                }
-                const clients = [...prevClients, ...moreClients];
-                return clients;
-            });
-
-            // TODO: To test infinite scroll when there is no more clients to load.
-            // Remove this after back-end API is implemented.
-            if (loadMoreClientCounter.current > loadMoreClientLimit) {
-                setHasMoreClients(false);
-            }
-            loadMoreClientCounter.current++;    
+            const pageable = getPageableByPage(currentPage);
+            requestClientsByPageable(pageable);
         };
 
         const disconnectIntersectionObserver = () => {
@@ -101,17 +135,98 @@ const ClientTable = () => {
             }
         };
 
+        if (currentPage === firstPage) {
+            const pageable = getPageableByPage(currentPage);
+            requestClientsByPageable(pageable);
+        }
+
         setUpInfiniteScroll();
         return disconnectIntersectionObserver;
-    }, [hasMoreClients]);
+    }, [hasMoreClients, currentPage, requestClientsByPageable]);
 
-    const tableHeaders = getClientTableHeaders();
+    const mapClientToTableData = clients => {
+        const data = [];
+        for (const index in clients) {
+            const row = {};
+            row["Clients"] = <ClientInfoCard client={clients[index]} />;
+            data.push(row);
+        }
+        return data;
+    };
+
+    const onChangeSortByHandler = event => {
+        const sortByDropdown = event.target;
+        const sortByValue = sortByDropdown.value;
+        setCurrentPage(firstPage);
+        setClients([]);
+        setSortBy(sortByValue);
+    };
+
+    const onChangeSearchKeywordHandler = event => {
+        const textField = event.target;
+        const value = textField.value;
+        // We use buffer here because we only send out the search keyword
+        // when users finish typing.
+        setSearchKeywordBuffer(value);
+    };
+
+    const onClickSearchHandler = event => {
+        event.preventDefault();
+        if (searchKeywordBuffer.length === 0) {
+            return;
+        }
+        setCurrentPage(firstPage);
+        setClients([]);
+        setSearchKeyword(searchKeywordBuffer);
+    };
+
+    const showSpinnerWhenIsLoading = isLoading => {
+        if (isLoading) {
+            return (
+                <Spinner
+                    className="spinner"
+                    variant="primary"
+                    as="div"
+                    animation="grow"
+                    size="lg"
+                    role="status"
+                    aria-hidden="true"
+                />
+            );
+        } else {
+            return null;
+        }
+    };
+
     return (
         <div className="client-table">
+            <div className="action-group">
+                <div className="section search">
+                    <div className="search-text-input">
+                        <TextInputField value={searchKeywordBuffer} onChange={onChangeSearchKeywordHandler} />
+                    </div>
+                    <div className="search-button">
+                        <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button>
+                    </div>
+                </div>
+                <hr />
+                <div className="section">
+                    <span>Sort By: </span> 
+                    <DropdownList 
+                        dropdownName="sort-by" 
+                        dropdownListItemsKeyValue={getSortByList()}
+                        value={sortBy}
+                        onChange={onChangeSortByHandler}
+                    />
+                </div>
+            </div>
             <div className="table">
-                <Table headers={tableHeaders} data={getClientTableData(clients)} />
+                <Table headers={["Clients"]} data={mapClientToTableData(clients)} />
             </div>
             <div className="infinite-scroll-observer" ref={element => observeeElement.current = element }>
+            </div>
+            <div className="spinner">
+                {showSpinnerWhenIsLoading(isLoading)}
             </div>
         </div>
     );

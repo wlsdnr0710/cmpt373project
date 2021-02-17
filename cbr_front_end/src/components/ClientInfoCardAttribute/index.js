@@ -8,7 +8,7 @@ const ClientInfoCardAttribute = ({ keyText, valueText }) => {
                 {keyText}
             </div>
             <div className="value">
-                {valueText}
+                {valueText ? valueText : "N/A"}
             </div>
         </div>
     );
