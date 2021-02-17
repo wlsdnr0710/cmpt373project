@@ -35,43 +35,17 @@ public class WorkerServiceImpl implements WorkerService {
         return worker;
     }
 
+
     @Override
-    public Worker addWorker(JSONObject payload) {
-        String workerFirstName = (String) payload.get("first_name");
-        String workerLastName = (String) payload.get("last_name");
-        String workerUsername = (String) payload.get("username");
-        String workerPassword = (String) payload.get("password");
-        String workerPhone = (String) payload.get("phone");
-        String workerEmail = (String) payload.get("email");
-        String workerRole = (String) payload.get("role");
-        String workerZone = (String) payload.get("zone");
-        Worker worker = new Worker(workerFirstName, workerLastName, workerUsername, workerPassword, workerPhone,
-                workerEmail, workerRole, workerZone);
+    public Worker addWorker(@Valid Worker worker) {
         return workerRepository.save(worker);
     }
 
     @Override
-    public Worker updateWorkerById(Long id, JSONObject payload) {
-        String workerFirstName = (String) payload.get("first_name");
-        String workerLastName = (String) payload.get("last_name");
-        String workerUsername = (String) payload.get("username");
-        String workerPassword = (String) payload.get("password");
-        String workerPhone = (String) payload.get("phone");
-        String workerEmail = (String) payload.get("email");
-        String workerRole = (String) payload.get("role");
-        String workerZone = (String) payload.get("zone");
+    public Worker updateWorkerById(@Valid Worker worker) {
 
-        Optional<Worker> workerOptional = workerRepository.findById(id);
-        Worker worker = workerOptional.get();
-
-        worker.setFirstName(workerFirstName);
-        worker.setLastName(workerLastName);
-        worker.setUsername(workerUsername);
-        worker.setPassword(workerPassword);
-        worker.setPhone(workerPhone);
-        worker.setEmail(workerEmail);
-        worker.setRole(workerRole);
-        worker.setZone(workerZone);
+//        Optional<Worker> workerOptional = workerRepository.findById(id);
+//        Worker workerId = workerOptional.get();
         return workerRepository.save(worker);
     }
 
@@ -80,3 +54,28 @@ public class WorkerServiceImpl implements WorkerService {
         workerRepository.deleteById(id);
     }
 }
+
+//    @Override
+//    public Worker updateWorkerById(Long id, JSONObject payload) {
+//        String workerFirstName = (String) payload.get("first_name");
+//        String workerLastName = (String) payload.get("last_name");
+//        String workerUsername = (String) payload.get("username");
+//        String workerPassword = (String) payload.get("password");
+//        String workerPhone = (String) payload.get("phone");
+//        String workerEmail = (String) payload.get("email");
+//        String workerRole = (String) payload.get("role");
+//        String workerZone = (String) payload.get("zone");
+//
+//        Optional<Worker> workerOptional = workerRepository.findById(id);
+//        Worker worker = workerOptional.get();
+//
+//        worker.setFirstName(workerFirstName);
+//        worker.setLastName(workerLastName);
+//        worker.setUsername(workerUsername);
+//        worker.setPassword(workerPassword);
+//        worker.setPhone(workerPhone);
+//        worker.setEmail(workerEmail);
+//        worker.setRole(workerRole);
+//        worker.setZone(workerZone);
+//        return workerRepository.save(worker);
+//    }

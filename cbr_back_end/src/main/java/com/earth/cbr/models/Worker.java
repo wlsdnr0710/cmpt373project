@@ -2,10 +2,6 @@ package com.earth.cbr.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
-import java.util.Date;
 
 @Entity(name = "Worker")
 @Table(name = "worker")
