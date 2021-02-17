@@ -35,6 +35,15 @@ public class ClientController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/page/{pageNumber}/size/{pageSize}/sort/{sortBy}/order/{sortOrder}")
+    public ResponseEntity<JSONObject> getClientsByPageSorted(@PathVariable int pageNumber, @PathVariable int pageSize,
+                                                            @PathVariable String sortBy, @PathVariable boolean sortOrder) {
+        Page<Client> clients = clientService.getClientsByPageSorted(pageNumber, pageSize, sortBy, sortOrder);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<JSONObject> getClientById(@PathVariable Long id) {
         Client client = clientService.getClientById(id);
