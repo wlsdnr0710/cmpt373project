@@ -1,35 +1,41 @@
 import React from "react";
 import "./style.css";
+import * as helper from "../HelperFunctions";
 
-const DropdownList = ({ dropdownName, dropdownListItemsKeyValue, value, onChange, isDisabled }) => {
-    const getDropdownListOptions = () => {
-        const itemsInOptionTag = [];
-        let listChildId = 0;
+const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange ,isDisabled ,label}) => {
+  const getDropdownListOptions = () => {
+    const itemsInOptionTag = [];
+    let listChildId = 0;
 
-        for (const itemName in dropdownListItemsKeyValue) {
-            const itemValue = dropdownListItemsKeyValue[itemName];
+    for (const itemName in dropdownListItemsKeyValue) {
+      const itemValue = dropdownListItemsKeyValue[itemName];
 
-            itemsInOptionTag.push(
-                <option value={itemValue} key={listChildId}>{itemName}</option>
-            );
+      itemsInOptionTag.push(
+        <option value={itemValue} key={listChildId}>
+          {itemName}
+        </option>
+      );
 
-            listChildId++;
-        }
+      listChildId++;
+    }
 
-        return itemsInOptionTag;
-    };
+    return itemsInOptionTag;
+  };
 
-    return (
-        <select 
-            className="dropdown-list" 
-            name={dropdownName} 
-            value={value} 
-            onChange={onChange} 
-            disabled={isDisabled}
-        >
-            {getDropdownListOptions()}
-        </select>
-    );
+  return (
+    <div>
+      {helper.getLabelTag(label)}
+      <select
+        className="dropdown-list"
+        name={dropdownName}
+        value={value}
+        onChange={onChange}
+        disabled={isDisabled}
+      >
+        {getDropdownListOptions()}
+      </select>
+    </div>
+  );
 };
 
 export default DropdownList;

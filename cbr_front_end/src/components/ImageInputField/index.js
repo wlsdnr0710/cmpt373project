@@ -16,7 +16,7 @@ const ImageInputField = ({ id, primaryText, secondaryText, isDisabled, reference
 
     return (
         <div className={"image-input-field " + getDisabledClassName()} onClick={onClickToUploadHandler}>
-            <input type="file" accept="image/*" id={id} disabled={isDisabled} ref={reference} />
+            <input type="file" accept="image/*" id={id} disabled={isDisabled} ref={reference}/>
             <div className="primary-text">
                 <label>{primaryText}</label>
             </div>

@@ -1,14 +1,13 @@
 import React from "react";
 import "./style.css";
 
-const DisabilityInformation = ({className}) => {
+//TODO: Display items from object 
+const DisabilityInformation = ({disability}) => {
   return (
-    <div className={className}>
+    <div>
       <h1>Disability and Ailment(s)</h1>
       <ul>
-        <li>Amputee </li>
-        <li>Polio </li>
-        <li>Spinal cord injury </li>
+        <li></li>
       </ul>
     </div>
   );

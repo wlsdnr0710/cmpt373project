@@ -1,19 +1,21 @@
-.client-information-name{
-    margin-top: 1rem;
-}
-
 .client-information-image{
-    margin-right: 20px;
-    height: 30%;
-    width: 30%;
-    float: left;
+    width: 70%;
+    min-width: 250px;
+    max-width: 500px;
+    height: auto;
 }
 
 .client-information-card {
     font-size: 1.25rem;
-
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
-.client-information-details {
-    margin-left: 10px;
+.client-information .name{
+    margin: 0 1vw 1vh 1vw;
+}
+
+.client-information .details {
+    margin: 1vh 1vw;
 }

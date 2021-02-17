@@ -7,6 +7,7 @@ import NewClient from "../pages/NewClient";
 import NewVisit from "../pages/NewVisit";
 import ExampleComponent from "../components/ExampleComponent";
 import ClientInformation from "../pages/ClientInformation";
+import EditClient from "../pages/EditClient";
 
 const Router = () => {
     return (
@@ -19,7 +20,8 @@ const Router = () => {
                 <Route path="/new-visit" exact component={NewVisit} />
                 <Route path="/example" exact component={ExampleComponent} />
                 <Route path="/client-information" exact component={ClientInformation} />
-                <Redirect to="/new-client" />
+                <Route path="/edit-client" exact component={EditClient} />
+                <Redirect to="/login" />
             </Switch>
         </div>
     );

@@ -1,16 +1,19 @@
 import React from "react";
 import "./style.css";
 
-const ClientInformation = ({className, name, image, id, zone, gender, age}) => {
+const ClientInformation = ({clientObject: client}) => {
   return (
-    <div className={className}>
-      <h1 className ="client-information-name">{name}</h1>
+    <div>
       <div className="client-information-card">
-        <img className="client-information-image" src={image} alt="client" />
-        <div className = "client-information-details">ID: {id}</div>
-        <div className = "client-information-details">Zone: {zone}</div>
-        <div className = "client-information-details">Gender: {gender}</div>
-        <div className = "client-information-details">Age: {age}</div>
+        <img className = "client-information-image" src={client.image} alt="client" />
+        <div>
+          <h1 className ="name">{client.name}</h1>
+          <div className = "details">ID: {client.id}</div>
+          <div className = "details">Village No: {client.zone}</div>
+          <div className = "details">Gender: {client.gender}</div>
+          <div className = "details">Age: {client.age}</div>
+          <div className = "details">Birthdate: {client.birthdate}</div>
+        </div>
       </div>
     </div>
   );
