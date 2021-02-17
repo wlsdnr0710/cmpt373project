@@ -1,6 +1,11 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
 
 @Entity(name = "Worker")
 @Table(name = "worker")
@@ -13,48 +18,60 @@ public class Worker {
             name = "first_name",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "First name is mandatory")
     private String firstName;
 
     @Column(
             name = "last_name",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Last name is mandatory")
     private String lastName;
 
     @Column(
             name = "username",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Username is mandatory")
     private String username;
 
     @Column(
             name = "password",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Password is mandatory")
     private String password;
 
     @Column(
             name = "phone",
             columnDefinition = "TEXT"
     )
+    @Pattern(
+            regexp = "\\d{10}",
+            message = "Contact number should be 10 consecutive digits with no special characters ex. 0123456789"
+    )
+
     private String phone;
 
     @Column(
             name = "email",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Email is mandatory")
     private String email;
 
     @Column(
             name = "role",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Role is mandatory")
     private String role;
 
     @Column(
             name = "zone",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Zone is mandatory")
     private String zone;
 
     public Worker() {
