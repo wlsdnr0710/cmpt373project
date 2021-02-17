@@ -30,7 +30,7 @@ export default class Login extends Component {
         const { username, password } = this.state;
         axios.post(
             //Springboot API link
-            "http://",
+            '/api/v1/login',
             {
                 user: {
                     username: username,
