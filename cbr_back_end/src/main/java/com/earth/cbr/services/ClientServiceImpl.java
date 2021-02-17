@@ -41,7 +41,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Page<Client> getClientsByPageSearch(int pageNumber, int pageSize, String SearchBy, String search) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        return clientRepository.findByfirstnameContaining(pageable, search);
+        return clientRepository.findByfirstNameContaining(pageable, search);
     }
 
     @Override

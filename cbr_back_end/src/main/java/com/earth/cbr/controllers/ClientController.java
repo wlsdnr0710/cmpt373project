@@ -44,6 +44,15 @@ public class ClientController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/page/{pageNumber}/size/{pageSize}/searchBy/{searchBy}/search/{search}")
+    public ResponseEntity<JSONObject> getClientsByPageSearch(@PathVariable int pageNumber, @PathVariable int pageSize,
+                                                             @PathVariable String searchBy, @PathVariable String search) {
+        Page<Client> clients = clientService.getClientsByPageSearch(pageNumber, pageSize, searchBy, search);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<JSONObject> getClientById(@PathVariable Long id) {
         Client client = clientService.getClientById(id);
