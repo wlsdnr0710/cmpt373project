@@ -34,11 +34,13 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Page<Client> getClientsByPageSorted(int pageNumber, int pageSize, String sortBy, boolean ascending) {
         Pageable pageable;
+
         if(ascending = true) {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         } else {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
         }
+
         return clientRepository.findAll(pageable);
     }
 
@@ -47,6 +49,41 @@ public class ClientServiceImpl implements ClientService {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         Page<Client> filteredClients = null;
+
+        switch (columns.valueOf(filterBy)) {
+            case firstName:
+                filteredClients = clientRepository.findByfirstNameContaining(pageable, filter);
+                break;
+            case lastName:
+                filteredClients = clientRepository.findBylastNameContaining(pageable, filter);
+                break;
+            case cbrWorkerId:
+                filteredClients = clientRepository.findBycbrWorkerId(pageable, Long.parseLong(filter));
+                break;
+            case zone:
+                filteredClients = clientRepository.findByzone(pageable, filter);
+                break;
+            case villageNumber:
+                filteredClients = clientRepository.findByvillageNumber(pageable, Integer.parseInt(filter));
+                break;
+            default:
+                filteredClients = null;
+        }
+
+        return filteredClients;
+    }
+
+    @Override
+    public Page<Client> getClientsByPageFilteredAndSorted(int pageNumber, int pageSize, String filterBy, String filter,
+                                                          String sortBy, boolean ascending) {
+        Pageable pageable;
+        Page<Client> filteredClients = null;
+
+        if(ascending = true) {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        } else {
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+        }
 
         switch (columns.valueOf(filterBy)) {
             case firstName:
