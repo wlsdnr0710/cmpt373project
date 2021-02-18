@@ -48,7 +48,6 @@ public class Visit {
             columnDefinition = "TEXT"
     )
     @NotBlank(message = "Purpose is mandatory")
-
     private String purpose;
 
     @Column(
