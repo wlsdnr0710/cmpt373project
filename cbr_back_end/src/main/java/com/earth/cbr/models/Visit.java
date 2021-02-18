@@ -1,7 +1,17 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
-import java.sql.Date;
+import javax.validation.constraints.*;
+
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
+
+
+
 
 @Entity(name = "Visit")
 @Table(name = "visit")
@@ -14,24 +24,30 @@ public class Visit {
             name = "consent",
             columnDefinition = "BINARY"
     )
+    @NotNull(message = "Consent cannot be null")
     private int consent;
 
     @Column(
             name = "date",
             columnDefinition = "DATE"
     )
+    @NotNull(message = "Date cannot be null")
+    @PastOrPresent(message = "Date must be in the past or past")
+
     private Date date;
 
     @Column(
             name = "cbr_worker_name",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "CBR Worker name is mandatory")
     private String cbrWorkerName;
 
     @Column(
             name = "purpose",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Purpose is mandatory")
     private String purpose;
 
     @Column(
@@ -44,12 +60,14 @@ public class Visit {
             name = "village_number",
             columnDefinition = "INT"
     )
+    @NotNull(message = "Village number cannot be null")
     private int villageNumber;
 
     @Column(
             name = "health_goal_progress",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Health goal progress is mandatory")
     private String healthGoalProgress;
 
     @Column(
