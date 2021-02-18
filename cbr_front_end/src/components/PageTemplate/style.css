@@ -1,16 +1,9 @@
 .page-template {
-  display: flex;
-  flex-flow: column;
   padding-bottom: 5vh;
 }
 
 .page-template .top-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: left;
-  align-items: center;
   margin-bottom: 3vh;
-
 }
 
 .page-template .bottom-container {
@@ -23,36 +16,31 @@
 .side-navigation {
   margin: 0 3vw 0 5vw;
   height: fit-content;
-  /* border: 1px black solid; */
 }
 
 .side-navigation .sync {
   padding-top: 5vh;
 }
 
-.top-navigation {
-  position: relative;
-  overflow:auto;
-  /* TODO: flex grow / shrink is bugged */
-  flex-grow: 0;
-  flex-shrink: 0;
-  height: 9vh;
-  width: 100%;
-}
-
 /* TODO: Resize HHALogo, currently too much white space on top / bottom 
          requiring the negative position */
 .logo {
-  margin: -40px auto;
+  margin: -40px 0;
   height: auto;
   width: 300px;
+}
+
+.top-navigation {
+  position: relative;
+  height: 6rem;
+  width: 100%;
 }
 
 .top-navigation .style-bar {
   background-color: #56af31;
   bottom: 0;
   position: absolute;
-  height: 1vh;
+  height: 0.5rem;
   width: 100%;
 }
 
@@ -61,27 +49,26 @@
   padding: 0 2vw;
 }
 
-.hamburger-menu{
+.hamburger-menu {
   display: none;
 }
 
-@media only screen and (max-width: 1200px){
-  .hamburger-menu{
+@media only screen and (max-width: 1200px) {
+  .hamburger-menu {
     display: block;
-    width: 50px;
+    width: 2.5rem;
     height: auto;
   }
 }
 
-@media only screen and (max-width: 1200px){
-  .logo{
+@media only screen and (max-width: 1200px) {
+  .logo {
     display: none;
   }
 }
 
-@media only screen and (max-width: 1200px){
-  .side-navigation{
+@media only screen and (max-width: 1200px) {
+  .side-navigation {
     display: none;
   }
 }
-
