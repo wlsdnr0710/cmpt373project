@@ -1,8 +1,16 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
-import java.sql.Date;
 import javax.validation.constraints.*;
+
+import org.springframework.data.annotation.CreatedDate;
+
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.Date;
+
+
 
 
 @Entity(name = "Visit")
@@ -23,15 +31,16 @@ public class Visit {
             name = "date",
             columnDefinition = "DATE"
     )
-    @PastOrPresent(message = "Date must be in the past or present")
-    @NotBlank(message = "Date is mandatory")
+    @NotNull(message = "Date cannot be null")
+    @PastOrPresent(message = "Date must be in the past or past")
+
     private Date date;
 
     @Column(
             name = "cbr_worker_name",
             columnDefinition = "TEXT"
     )
-    @NotBlank(message = "CBR worker name is mandatory")
+    @NotBlank(message = "CBR Worker name is mandatory")
     private String cbrWorkerName;
 
     @Column(
@@ -39,6 +48,7 @@ public class Visit {
             columnDefinition = "TEXT"
     )
     @NotBlank(message = "Purpose is mandatory")
+
     private String purpose;
 
     @Column(
