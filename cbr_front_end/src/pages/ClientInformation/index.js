@@ -4,7 +4,7 @@ import ClientInformation from "../../components/ClientInformation";
 import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../components/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
-import NavigationBar from "../../components/NavigationBar";
+import PageTemplate from "../../components/PageTemplate";
 import "./styles.css";
 
 //TODO: Get objects using API call
@@ -32,29 +32,30 @@ const disabilityObject = {
 const ClientInfo = () => {
   return (
     <div className = "client-information">
-      <NavigationBar />
-      <BackgroundCard>
-        <main>
-          <ClientInformation
-            className="client-general-information"
-            clientObject = {clientObject}
-          />
-          <hr/>
-          <h1>Risk Levels</h1>
-          <RiskInformation
-            className="client-risk-information"
-            riskObject = {riskObject}
-            includeDateInformation = {true}
-          />
-          <hr/>
-          <DisabilityInformation 
-            disabilityObject = {disabilityObject}/>
-          <hr/>
-          <button type="button" className="btn btn-secondary">
-            Edit
-          </button>
-        </main>
-      </BackgroundCard>
+      <PageTemplate>
+        <BackgroundCard>
+          <main>
+            <ClientInformation
+              className="client-general-information"
+              clientObject = {clientObject}
+            />
+            <hr/>
+            <h1>Risk Levels</h1>
+            <RiskInformation
+              className="client-risk-information"
+              riskObject = {riskObject}
+              includeDateInformation = {true}
+            />
+            <hr/>
+            <DisabilityInformation 
+              disabilityObject = {disabilityObject}/>
+            <hr/>
+            <button type="button" className="btn btn-secondary">
+              Edit
+            </button>
+          </main>
+        </BackgroundCard>
+      </PageTemplate>
     </div>
   );
 };
