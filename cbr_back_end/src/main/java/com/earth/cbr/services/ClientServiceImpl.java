@@ -13,6 +13,10 @@ import java.util.Optional;
 @Service
 public class ClientServiceImpl implements ClientService {
 
+    enum columns {
+        firstName, lastName, cbrWorkerId, zone, villageNumber
+    }
+
     @Autowired
     private ClientRepository clientRepository;
 
@@ -44,20 +48,20 @@ public class ClientServiceImpl implements ClientService {
 
         Page<Client> filteredClients = null;
 
-        switch (filterBy) {
-            case "firstName":
+        switch (columns.valueOf(filterBy)) {
+            case firstName:
                 filteredClients = clientRepository.findByfirstNameContaining(pageable, filter);
                 break;
-            case "lastName":
+            case lastName:
                 filteredClients = clientRepository.findBylastNameContaining(pageable, filter);
                 break;
-            case "cbrWorkerId":
+            case cbrWorkerId:
                 filteredClients = clientRepository.findBycbrWorkerIdContaining(pageable, Long.parseLong(filter));
                 break;
-            case "zone":
+            case zone:
                 filteredClients = clientRepository.findByzoneContaining(pageable, filter);
                 break;
-            case "villageNumber":
+            case villageNumber:
                 filteredClients = clientRepository.findByvillageNumberContaining(pageable, Integer.parseInt(filter));
                 break;
             default:
