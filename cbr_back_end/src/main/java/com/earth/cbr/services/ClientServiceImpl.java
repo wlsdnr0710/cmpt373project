@@ -35,7 +35,7 @@ public class ClientServiceImpl implements ClientService {
     public Page<Client> getClientsByPageSorted(int pageNumber, int pageSize, String sortBy, boolean ascending) {
         Pageable pageable;
 
-        if(ascending = true) {
+        if(ascending == true) {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         } else {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
@@ -61,7 +61,7 @@ public class ClientServiceImpl implements ClientService {
                 filteredClients = clientRepository.findBycbrWorkerId(pageable, Long.parseLong(filter));
                 break;
             case zone:
-                filteredClients = clientRepository.findByzone(pageable, filter);
+                filteredClients = clientRepository.findByzoneContaining(pageable, filter);
                 break;
             case villageNumber:
                 filteredClients = clientRepository.findByvillageNumber(pageable, Integer.parseInt(filter));
@@ -79,7 +79,7 @@ public class ClientServiceImpl implements ClientService {
         Pageable pageable;
         Page<Client> filteredClients = null;
 
-        if(ascending = true) {
+        if(ascending == true) {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         } else {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
@@ -96,7 +96,7 @@ public class ClientServiceImpl implements ClientService {
                 filteredClients = clientRepository.findBycbrWorkerId(pageable, Long.parseLong(filter));
                 break;
             case zone:
-                filteredClients = clientRepository.findByzone(pageable, filter);
+                filteredClients = clientRepository.findByzoneContaining(pageable, filter);
                 break;
             case villageNumber:
                 filteredClients = clientRepository.findByvillageNumber(pageable, Integer.parseInt(filter));
