@@ -38,29 +38,8 @@ public class VisitServiceImpl implements VisitService{
     }
 
     @Override
-    public Visit updateVisitById(Long id, JSONObject payload) {
-        int visitConsent = (int) payload.get("consent");
-        java.sql.Date visitDate = formatDate((String) payload.get("date"));
-        String visitCbrWorkerName = (String) payload.get("cbr_worker_name");
-        String visitPurpose = (String) payload.get("purpose");
-        String visitZone = (String) payload.get("zone");
-        int visitVillageNumber = (int) payload.get("village_number");
-        String visitHealthGoalProgress = (String) payload.get("health_goal_progress");
-        String visitHealthOutcome = (String) payload.get("health_outcome");
+    public Visit updateVisitById(@Valid Visit visit) { return visitRepository.save(visit); }
 
-        Optional<Visit> visitOptional = visitRepository.findById(id);
-        Visit visit = visitOptional.get();
-
-        visit.setConsent(visitConsent);
-        visit.setDate(visitDate);
-        visit.setCbrWorkerName(visitCbrWorkerName);
-        visit.setPurpose(visitPurpose);
-        visit.setZone(visitZone);
-        visit.setVillageNumber(visitVillageNumber);
-        visit.setHealthGoalProgress(visitHealthGoalProgress);
-        visit.setHealthOutcome(visitHealthOutcome);
-        return visitRepository.save(visit);
-    }
 
     @Override
     public void deleteVisitById(Long id) {
