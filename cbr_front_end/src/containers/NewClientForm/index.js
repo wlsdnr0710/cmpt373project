@@ -10,6 +10,7 @@ import DateInputField from "../../components/DateInputField";
 import ImageInputField from "../../components/ImageInputField";
 import NewClientSurvey from "../../containers/NewClientSurvey";
 import NumberInputField from "../../components/NumberInputField";
+import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
@@ -149,7 +150,7 @@ const NewClientForm = () => {
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
         // TODO: Replace the hardcoded server URL
-        axios.post('http://localhost:8080/api/v1/client', {
+        axios.post(ServerConfig.api.url + '/api/v1/client', {
             "data": data
         })
             .then(response => {

@@ -4,6 +4,7 @@ import ClientInfoCard from "../../components/ClientInfoCard";
 import Table from "../../components/Table";
 import Button from 'react-bootstrap/Button';
 import DropdownList from "../../components/DropdownList";
+import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
@@ -50,7 +51,7 @@ const ClientTable = () => {
         const { page, clientsPerPage } = pageable;
         setIsLoading(true);
         axios.get(
-                "http://localhost:8080/api/v1/client?" + convertToParameterString({
+                ServerConfig.api.url + "/api/v1/client?" + convertToParameterString({
                     "page": page,
                     "clientsPerPage": clientsPerPage,
                     "searchKeyword": searchKeyword,

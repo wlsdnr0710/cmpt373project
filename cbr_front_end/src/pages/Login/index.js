@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import LoginInputField from "../../components/LoginInputField";
 import Logo from "../../assets/HHALogo.svg";
+import ServerConfig from "../../config/ServerConfig";
 import "./style.css";
 
 
@@ -29,8 +30,7 @@ export default class Login extends Component {
     handleSubmit(event) {
         const { username, password } = this.state;
         axios.post(
-            //Springboot API link
-            '/api/v1/login',
+            ServerConfig.api.url + '/api/v1/login',
             {
                 user: {
                     username: username,
