@@ -28,6 +28,16 @@ const defaultClientZones = {
     "Palorinya Zone 3": "9",
 };
 
+const disabilityType = {
+    "Amputee": "1",
+    "Polio": "2",
+    "Spinal Cord Injury": "3",
+    "Cerebral Palsy": "4",
+    "Spina Bifida": "5",
+    "Hydrocephalus": "6",
+    "other": "7",
+};
+
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
@@ -45,6 +55,7 @@ const NewClientForm = () => {
         "gender": "F",
         "contactNumber": "",
         "caregiverNumber": "",
+        "disabilityType": "Amputee",
         "healthRisk": "low",
         "healthNeed": "",
         "healthIndividualGoals": "",
@@ -482,6 +493,21 @@ const NewClientForm = () => {
                         secondaryText={imageUploaderSecondaryText}
                         isDisabled={isCaregiverPhotographDisabled()}
                         reference={refCaregiverPhotoInput}
+                    />
+                </div>
+
+                <hr />
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Disability Type:</label>
+                    </div>
+                    <DropdownList
+                        dropdownName="disabilityType"
+                        value={formInputs["disabilityType"]}
+                        dropdownListItemsKeyValue={disabilityType}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isFormInputDisabled}
                     />
                 </div>
 
