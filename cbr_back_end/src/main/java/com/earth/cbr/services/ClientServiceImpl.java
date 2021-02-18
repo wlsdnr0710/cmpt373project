@@ -39,32 +39,32 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Page<Client> getClientsByPageSearch(int pageNumber, int pageSize, String SearchBy, String search) {
+    public Page<Client> getClientsByPageFiltered(int pageNumber, int pageSize, String filterBy, String filter) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
-        Page<Client> searchedClient = null;
+        Page<Client> filteredClients = null;
 
-        switch (SearchBy) {
+        switch (filterBy) {
             case "firstName":
-                searchedClient = clientRepository.findByfirstNameContaining(pageable, search);
+                filteredClients = clientRepository.findByfirstNameContaining(pageable, filter);
                 break;
             case "lastName":
-                searchedClient = clientRepository.findBylastNameContaining(pageable, search);
+                filteredClients = clientRepository.findBylastNameContaining(pageable, filter);
                 break;
             case "cbrWorkerId":
-                searchedClient = clientRepository.findBycbrWorkerIdContaining(pageable, search);
+                filteredClients = clientRepository.findBycbrWorkerIdContaining(pageable, Long.parseLong(filter));
                 break;
             case "zone":
-                searchedClient = clientRepository.findByzoneContaining(pageable, search);
+                filteredClients = clientRepository.findByzoneContaining(pageable, filter);
                 break;
             case "villageNumber":
-                searchedClient = clientRepository.findByvillageNumberContaining(pageable, search);
+                filteredClients = clientRepository.findByvillageNumberContaining(pageable, Integer.parseInt(filter));
                 break;
             default:
-                searchedClient = null;
+                filteredClients = null;
         }
 
-        return searchedClient;
+        return filteredClients;
     }
 
     @Override
