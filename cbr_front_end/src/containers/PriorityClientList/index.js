@@ -4,7 +4,6 @@ import PriorityClient from '../../components/PriorityClient';
 
 const PriorityClientList = () => {
     const [priorityClients, setPriorityClients] = useState([]);
-    const priorityClientsClientComponents = [];
 
     const getPriorityClients = () => {
         // TODO: Replace with API call for priorty patients. 
@@ -48,11 +47,12 @@ const PriorityClientList = () => {
     }, []);
 
     const createPriorityClientListComponents = () => {
+        const priorityClientsClientComponents = [];
         if(priorityClients === undefined || priorityClients.length == 0) {
             return (<p>Currently there isn't any priority client.</p>);
         }
         for (const index in priorityClients) {
-            priorityClientsClientComponents.push(<PriorityClient number={index} client={priorityClients[index]}/>);
+            priorityClientsClientComponents.push(<PriorityClient number={index} client={priorityClients[index]} key={index.toString()}/>);
         }
         return priorityClientsClientComponents;
     };
