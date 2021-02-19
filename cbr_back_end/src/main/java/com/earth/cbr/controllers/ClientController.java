@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
+import com.earth.cbr.models.Worker;
 import com.earth.cbr.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +23,42 @@ public class ClientController {
     @GetMapping
     public ResponseEntity<JSONObject> getAllClients() {
         List<Client> clients = clientService.getAllClients();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}")
+    public ResponseEntity<JSONObject> getClientsByPage(@PathVariable int pageNumber, @PathVariable int pageSize) {
+        Page<Client> clients = clientService.getClientsByPage(pageNumber, pageSize);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/sortBy/{sortBy}/ascending/{sortOrder}")
+    public ResponseEntity<JSONObject> getClientsByPageSorted(@PathVariable int pageNumber, @PathVariable int pageSize,
+                                                             @PathVariable String sortBy, @PathVariable boolean sortOrder) {
+        Page<Client> clients = clientService.getClientsByPageSorted(pageNumber, pageSize, sortBy, sortOrder);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/filterBy/{filterBy}/filter/{filter}")
+    public ResponseEntity<JSONObject> getClientsByPageFiltered(@PathVariable int pageNumber, @PathVariable int pageSize,
+                                                               @PathVariable String filterBy, @PathVariable String filter) {
+        Page<Client> clients = clientService.getClientsByPageFiltered(pageNumber, pageSize, filterBy, filter);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/filterBy/{filterBy}/filter/{filter}/sortBy/{sortBy}/ascending/{sortOrder}")
+    public ResponseEntity<JSONObject> getClientsByPageFilteredAndSorted(@PathVariable int pageNumber, @PathVariable int pageSize,
+                                                                        @PathVariable String filterBy, @PathVariable String filter,
+                                                                        @PathVariable String sortBy, @PathVariable boolean sortOrder) {
+        Page<Client> clients = clientService.getClientsByPageFilteredAndSorted(pageNumber, pageSize, filterBy, filter, sortBy, sortOrder);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);
@@ -52,6 +90,26 @@ public class ClientController {
         // Need to tell front-end the new client's id
         // so front-end can update the UI
         responseJson.put("id", addedClient.getId());
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> updateClientById(@PathVariable Long id, @RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException {
+        JSONObject clientJSON = payload.getJSONObject("data");
+
+        if (clientJSON == null) {
+            throw new MissingRequiredDataObjectException("Missing data object containing Client data");
+        }
+        String clientString = clientJSON.toJSONString();
+
+        JSONObject responseJson = new JSONObject();
+        Client client = JSON.parseObject(clientString, Client.class);
+
+        Client updatedClient = clientService.updateClientById(client);
+
+        // get client's id to update UI
+        responseJson.put("id", updatedClient.getId());
         return ResponseEntity.ok().body(responseJson);
     }
 
