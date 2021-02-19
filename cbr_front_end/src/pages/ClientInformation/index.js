@@ -9,10 +9,11 @@ import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import "./styles.css";
 
-//TODO: Must add the JSONData for health, education, social and disabiltiy list when it's added to the API
 //TODO: Must test again with the actual the actual api rather than a mockup api
 //TODO: The disability component is under works
+
 const ClientInfo = props => {
+  const history = useHistory();
   const getClientDataByGetRequest = () => {
     axios.get(ServerConfig.api.url + '/api/v1/client/' + props.id)
       .then(response => {
@@ -25,10 +26,10 @@ const ClientInfo = props => {
         formInputs["image"] = JSONData.data.image;
         formInputs["birthdate"] = JSONData.data.birthDate;
         formInputs["date"] = JSONData.data.signupDate;
-        formInputs["health"] = "";
-        formInputs["education"] = "";
-        formInputs["social"] = "";
-        formInputs["disabilityList"] = [];
+        formInputs["health"] = JSONData.data.health;
+        formInputs["education"] = JSONData.data.education;
+        formInputs["social"] = JSONData.data.social;
+        formInputs["disabilityList"] = JSONData.data.disabilityList;
         setFormInputs(formInputs);
       })
       .catch(error => {
@@ -48,7 +49,7 @@ const ClientInfo = props => {
     "gender": "M/F",
     "age": "-1",
     "birthdate": "YYYY-MM-DD",
-    "disabilityList": ["hi"]
+    "disabilityList": ["One Disability", "Two Disability"]
   });
 
   const riskObject = {
@@ -71,9 +72,12 @@ const ClientInfo = props => {
   const disabilityObject = {
     disabilityList: formInputs["disabilityList"]
   };
-  const history = useHistory();
+
   const onClickGetNewVisitPage = props => {
-    history.push("/new-visit");
+    history.push({
+      pathname: "/new-visit",
+      state: { clientID: formInputs["id"] }
+    });
   };
 
   return (

@@ -50,6 +50,7 @@ const NewVisitForm = (props) => {
         "longitude": "",
         "visitDate": "",
         "cbrWorkerName": "",
+        "clientID": "",
 
         // Health Section
         "wheelchair": false,
@@ -144,7 +145,6 @@ const NewVisitForm = (props) => {
         const socialGoalMetStr = "socialGoalMet";
         const concludedStr = "concluded"
 
-
         if (name === purposeForVisitStr && value !== cbrStr) {
             setPurposeCBR(false);
         } else if (name === purposeForVisitStr && value === cbrStr) {
@@ -227,6 +227,7 @@ const NewVisitForm = (props) => {
     }
 
     useEffect(() => {
+        updateFormInputByNameValue("clientID", props.clientID);
         initEpochDateTime();
         initGeolocation();
     }, []);
