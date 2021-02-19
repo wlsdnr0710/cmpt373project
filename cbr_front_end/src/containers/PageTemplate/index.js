@@ -12,7 +12,7 @@ import "./style.css";
 
 //TODO: Find way to import all assets at once 
 
-const PageTemplate = ({ children }) => {
+const PageTemplate = ({children}) => {
   const getTopBar = () => {
     return (
       <div className="top-navigation">
