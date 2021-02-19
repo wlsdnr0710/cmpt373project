@@ -30,29 +30,29 @@ const disabilityObject = {
 
 const ClientInfo = () => {
   return (
-    <div>
-      <BackgroundCard>
-        <main className = "client-information">
-          <ClientInformation
-            className="client-general-information"
-            clientObject = {clientObject}
-          />
-          <hr className="client-information-hr" />
-          <h1>Risk Levels</h1>
-          <RiskInformation
-            className="client-risk-information"
-            riskObject = {riskObject}
-            includeDateInformation = {true}
-          />
-          <hr className="client-information-hr" />
-          <DisabilityInformation 
-            disabilityObject = {disabilityObject}/>
-          <hr className="client-information-hr" />
-          <button type="button" className="btn btn-secondary">
-            Edit
-          </button>
-        </main>
-      </BackgroundCard>
+    <div className = "client-information">
+        <BackgroundCard>
+          <main>
+            <ClientInformation
+              className="client-general-information"
+              clientObject = {clientObject}
+            />
+            <hr/>
+            <h1>Risk Levels</h1>
+            <RiskInformation
+              className="client-risk-information"
+              riskObject = {riskObject}
+              includeDateInformation = {true}
+            />
+            <hr/>
+            <DisabilityInformation 
+              disabilityObject = {disabilityObject}/>
+            <hr/>
+            <button type="button" className="btn btn-secondary">
+              Edit
+            </button>
+          </main>
+        </BackgroundCard>
     </div>
   );
 };
