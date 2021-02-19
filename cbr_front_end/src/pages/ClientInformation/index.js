@@ -4,7 +4,6 @@ import ClientInformation from "../../components/ClientInformation";
 import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../components/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
-import PageTemplate from "../../components/PageTemplate";
 import "./styles.css";
 
 //TODO: Get objects using API call
@@ -32,7 +31,6 @@ const disabilityObject = {
 const ClientInfo = () => {
   return (
     <div className = "client-information">
-      <PageTemplate>
         <BackgroundCard>
           <main>
             <ClientInformation
@@ -55,7 +53,6 @@ const ClientInfo = () => {
             </button>
           </main>
         </BackgroundCard>
-      </PageTemplate>
     </div>
   );
 };

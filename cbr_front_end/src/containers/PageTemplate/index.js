@@ -1,5 +1,5 @@
-import React from "react";
-import NavigationBarEntry from "../NavigationBarEntry";
+import React, { useState } from "react";
+import NavigationBarEntry from "../../components/NavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
 import newClientIcon from "../../assets/svg/navigation_icons/user_plus.svg";
 import newVisitIcon from "../../assets/svg/navigation_icons/user_pin.svg";
@@ -10,21 +10,43 @@ import hamburgerMenuIcon from "../../assets/svg/navigation_icons/hamburger.svg";
 import logo from "../../assets/HHALogo.svg";
 import "./style.css";
 
-//TODO: Fix importing all images
+//TODO: Find way to import all assets at once 
 
 const PageTemplate = ({ children }) => {
-  const getSideBar = () => {
+  const getTopBar = () => {
     return (
-      <div className="side-navigation">
+      <div className="top-navigation">
+        <div onClick={toggleSideBarMobile}>
+          <img
+            className="hamburger-menu"
+            src={hamburgerMenuIcon}
+            alt="Navigation Menu"
+          />
+        </div>
+        <img className="logo" src={logo} alt="Hope Health Action Logo" />
+        <div className="style-bar"></div>
+      </div>
+    );
+  };
+
+  const [showSideBarMobile, setSideBarMobile] = useState(false);
+
+  const toggleSideBarMobile = () => {
+    setSideBarMobile(!showSideBarMobile);
+  };
+
+  const getNavigationItems = () => {
+    return (
+      <div>
         <NavigationBarEntry
           label="Dashboard"
-          destination="#"
+          destination="/dashboard"
           iconSource={dashboardIcon}
           iconAlt="Dashboard"
         />
         <NavigationBarEntry
           label="New Client"
-          destination="#"
+          destination="/new-client"
           iconSource={newClientIcon}
           iconAlt="New Client"
         />
@@ -42,7 +64,7 @@ const PageTemplate = ({ children }) => {
         />
         <NavigationBarEntry
           label="All Clients"
-          destination="#"
+          destination="/view-client"
           iconSource={allClientsIcon}
           iconAlt="All Clients"
         />
@@ -58,21 +80,24 @@ const PageTemplate = ({ children }) => {
     );
   };
 
-  const getTopBar = () => {
-    return (
-      <div className="top-navigation">
-          <img className="hamburger-menu"src={hamburgerMenuIcon} alt="Navigation Menu"/>
-          <img className="logo" src={logo} alt="Hope Health Action Logo"/>
-        <div className="style-bar"></div>
-      </div>
-    );
+  const getSideBarMobileOnState = (showSideBarMobile) => {
+    if (showSideBarMobile) {
+      return <div className="side-navigation-mobile">{getNavigationItems()}</div>;
+    } else {
+      return;
+    }
+  };
+
+  const getSideBarDesktop = () => {
+    return <div className="side-navigation-desktop">{getNavigationItems()}</div>;
   };
 
   return (
     <div className="page-template">
       <div className="top-container">{getTopBar()}</div>
       <div className="bottom-container">
-        <div className="side-navigation">{getSideBar()}</div>
+        {getSideBarMobileOnState(showSideBarMobile)}
+        <div className="side-navigation">{getSideBarDesktop()}</div>
         <div className="page-content">{children}</div>
       </div>
     </div>
