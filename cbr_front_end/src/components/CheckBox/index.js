@@ -1,10 +1,10 @@
 import React from "react";
 import "./style.css";
 
-const CheckBox = ({ name, value, actionHandler, displayText, isDisabled }) => {
+const CheckBox = ({ name, value, actionHandler, displayText, displayTextOnRight, isDisabled }) => {
     return (
         <div className="check-box">
-            <label>{displayText}</label>
+            {displayTextOnRight ? null : <label>{displayText}</label>}
             <input
                 name={name}
                 value={value}
@@ -12,6 +12,7 @@ const CheckBox = ({ name, value, actionHandler, displayText, isDisabled }) => {
                 onChange={actionHandler}
                 disabled={isDisabled}
             />
+            {displayTextOnRight ? <label className="text-on-right">{displayText}</label> : null}
         </div>
     );
 };

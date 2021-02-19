@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
+import DisabilityTypeCheckBoxes from "../DisabilityTypeCheckBoxes";
 import FormHeader from "../../components/FormHeader";
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
@@ -28,16 +29,6 @@ const defaultClientZones = {
     "Palorinya Zone 3": "9",
 };
 
-const disabilityType = {
-    "Amputee": "1",
-    "Polio": "2",
-    "Spinal Cord Injury": "3",
-    "Cerebral Palsy": "4",
-    "Spina Bifida": "5",
-    "Hydrocephalus": "6",
-    "other": "7",
-};
-
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
@@ -55,7 +46,7 @@ const NewClientForm = () => {
         "gender": "F",
         "contactNumber": "",
         "caregiverNumber": "",
-        "disabilityType": "Amputee",
+        "disabilityType": [],
         "healthRisk": "low",
         "healthNeed": "",
         "healthIndividualGoals": "",
@@ -331,6 +322,33 @@ const NewClientForm = () => {
         const timeStamp = Math.floor(dateTime / 1000);
         return timeStamp;
     }
+    
+    const getDisabilityTypeCheckBoxesOnChangeHandler = name => {
+        const disabilityTypeKeyValues = {
+            "Amputee": "1",
+            "Polio": "2",
+            "Spinal Cord Injury": "3",
+            "Cerebral Palsy": "4",
+            "Spina Bifida": "5",
+            "Hydrocephalus": "6",
+            "Other": "7",
+        };
+
+        return event => {
+            const checkBox = event.target;
+            let checkBoxesValues = formInputs["disabilityType"];
+            if (checkBox.checked) {
+                checkBoxesValues = [...checkBoxesValues, disabilityTypeKeyValues[name]];
+            } else {
+                const matchedItemIndex = checkBoxesValues.indexOf(disabilityTypeKeyValues[name]);
+                // If the item exists
+                if (matchedItemIndex !== -1) {
+                    checkBoxesValues.splice(matchedItemIndex, 1);
+                }
+            }
+            updateFormInputByNameValue("disabilityType", checkBoxesValues);
+        };
+    };
 
     return (
         <div className="new-client-form">
@@ -502,11 +520,9 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Disability Type:</label>
                     </div>
-                    <DropdownList
-                        dropdownName="disabilityType"
-                        value={formInputs["disabilityType"]}
-                        dropdownListItemsKeyValue={disabilityType}
-                        onChange={formInputChangeHandler}
+                    <DisabilityTypeCheckBoxes 
+                        values={formInputs["disabilityType"]}
+                        getOnChangeHandlers={getDisabilityTypeCheckBoxesOnChangeHandler}
                         isDisabled={isFormInputDisabled}
                     />
                 </div>
