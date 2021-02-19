@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import DropdownList from "../../components/DropdownList";
 import CheckBox from "../../components/CheckBox";
 import NumberInputField from "../../components/NumberInputField";
-import axios from 'axios';
 import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
+import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 
@@ -208,7 +208,7 @@ const NewVisitForm = (props) => {
         updateFormInputByNameValue(name, isProvidedChecked);
     }
 
-    useEffect(() => {
+    const initEpochDateTime = () => {
         let newDate = new Date();
         setCurrDay(newDate.getDate());
         setCurrMonth(newDate.getMonth() + 1);
@@ -216,18 +216,22 @@ const NewVisitForm = (props) => {
 
         updateFormInputByNameValue("cbrWorkerName", userName);
         updateFormInputByNameValue("visitDate", Math.floor(newDate / 1000));
+    }
 
+    const initGeolocation = () => {
         navigator.geolocation.getCurrentPosition(function (position) {
             setCurrLatitude(position.coords.latitude);
             setCurrLongitude(position.coords.longitude);
             updateFormInputByNameValue("latitude", currLatitude);
             updateFormInputByNameValue("longitude", currLongitude);
         });
-    }, [currLatitude, currLongitude, currDay, currMonth, currYear]);
+    }
 
 
     return (
         <div className="new-visit-form">
+            {initEpochDateTime()}
+            {initGeolocation()}
             <FormHeader
                 headerText="New Visit - Visit Information"
             />
