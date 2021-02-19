@@ -21,7 +21,7 @@ public class Zone {
 
     }
 
-    public Zone(Long id, @NotBlank(message = "Name is mandatory") String name) {
+    public Zone(Long id, String name) {
         this.id = id;
         this.name = name;
     }

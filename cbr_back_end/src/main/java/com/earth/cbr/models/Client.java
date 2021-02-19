@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Set;
 
 @Entity(name = "Client")
 @Table(name = "client")
@@ -120,6 +121,10 @@ public class Client {
     @NotNull(message = "Individual goals cannot be null")
     private String individualGoals;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
+    private Zone zoneName;
+
     public Client() {
     }
 
@@ -136,7 +141,8 @@ public class Client {
                   String caregiverContact,
                   String caregiverPhoto,
                   String requiredServices,
-                  String goals) {
+                  String goals,
+                  Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthDate;
@@ -151,6 +157,7 @@ public class Client {
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
         this.individualGoals = goals;
+        this.zoneName = zoneName;
     }
 
     public Long getId() {
@@ -281,5 +288,13 @@ public class Client {
 
     public void setIndividualGoals(String individualGoals) {
         this.individualGoals = individualGoals;
+    }
+
+    public Zone getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(Zone zoneName) {
+        this.zoneName = zoneName;
     }
 }
