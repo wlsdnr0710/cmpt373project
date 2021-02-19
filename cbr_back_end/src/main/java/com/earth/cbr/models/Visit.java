@@ -17,7 +17,7 @@ public class Visit {
             columnDefinition = "BINARY"
     )
     @NotNull(message = "Consent cannot be null")
-    private int consent;
+    private Integer consent;
 
     @Column(
             name = "date",
@@ -42,10 +42,12 @@ public class Visit {
     private String purpose;
 
     @Column(
-            name = "zone"
+            name = "zone",
+            columnDefinition = "INT"
     )
-    @NotBlank(message = "Zone is mandatory")
-    private String zone;
+    @NotNull(message = "Zone cannot be null")
+    @PositiveOrZero(message = "Zone should be positive or zero")
+    private Integer zone;
 
     @Column(
             name = "village_number",
@@ -82,7 +84,7 @@ public class Visit {
 
     }
 
-    public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, String zone, Integer villageNumber,
+    public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, Integer zone, Integer villageNumber,
                  String healthGoalProgress, String healthOutcome, Long clientId, Zone zoneName) {
         this.consent = consent;
         this.date = date;
@@ -104,7 +106,7 @@ public class Visit {
         this.id = id;
     }
 
-    public int getConsent() {
+    public Integer getConsent() {
         return consent;
     }
 
@@ -136,11 +138,11 @@ public class Visit {
         this.purpose = purpose;
     }
 
-    public String getZone() {
+    public Integer getZone() {
         return zone;
     }
 
-    public void setZone(String zone) {
+    public void setZone(Integer zone) {
         this.zone = zone;
     }
 

@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.Set;
 
 @Entity(name = "Client")
 @Table(name = "client")
@@ -56,13 +55,15 @@ public class Client {
     private String photo;
 
     @Column(
-            name = "zone"
+            name = "zone",
+            columnDefinition = "INT"
     )
     @NotBlank(message = "Zone is mandatory")
-    private String zone;
+    private Integer zone;
 
     @Column(
-            name = "village_no"
+            name = "village_no",
+            columnDefinition = "INT"
     )
     @NotNull(message = "Village number cannot be null")
     @PositiveOrZero(message = "Village number should be positive or zero")
@@ -85,7 +86,8 @@ public class Client {
     private String contactNumber;
 
     @Column(
-            name = "worker_id"
+            name = "worker_id",
+            columnDefinition = "INT"
     )
     @NotNull(message = "Worker ID cannot be null")
     @PositiveOrZero(message = "Worker ID should be positive or zero")
@@ -133,7 +135,7 @@ public class Client {
                   Date birthDate,
                   Character gender,
                   String image,
-                  String zone,
+                  Integer zone,
                   Integer villageNumber,
                   Date signupDate,
                   String contactNumber,
@@ -218,11 +220,11 @@ public class Client {
         this.photo = photo;
     }
 
-    public String getZone() {
+    public Integer getZone() {
         return zone;
     }
 
-    public void setZone(String zone) {
+    public void setZone(Integer zone) {
         this.zone = zone;
     }
 

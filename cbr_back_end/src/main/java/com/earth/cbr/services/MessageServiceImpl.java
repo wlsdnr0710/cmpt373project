@@ -1,6 +1,5 @@
 package com.earth.cbr.services;
 
-import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Message;
 import com.earth.cbr.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -46,7 +46,6 @@ public class Worker {
             regexp = "\\d{10}",
             message = "Contact number should be 10 consecutive digits with no special characters ex. 0123456789"
     )
-
     private String phone;
 
     @Column(
@@ -63,10 +62,12 @@ public class Worker {
     private String role;
 
     @Column(
-            name = "zone"
+            name = "zone",
+            columnDefinition = "INT"
     )
-    @NotBlank(message = "Zone is mandatory")
-    private String zone;
+    @NotNull(message = "Zone cannot be null")
+    @PositiveOrZero(message = "Zone should be positive or zero")
+    private Integer zone;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
@@ -77,7 +78,7 @@ public class Worker {
     }
 
     public Worker(String firstName, String lastName, String username, String password, String phone, String email,
-                  String role, String zone, Zone zoneName) {
+                  String role, Integer zone, Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -153,11 +154,11 @@ public class Worker {
         this.role = role;
     }
 
-    public String getZone() {
+    public Integer getZone() {
         return zone;
     }
 
-    public void setZone(String zone) {
+    public void setZone(Integer zone) {
         this.zone = zone;
     }
 
