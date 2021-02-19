@@ -4,10 +4,10 @@ import com.earth.cbr.models.Visit;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface VisitRepository extends JpaRepository<Visit, Long> {
-    Optional<Visit> findByCbrWorkerName(String cbrWorkerName);
-    Optional<Visit> findByClientId(Long clientId);
+    List<Visit> findAllByCbrWorkerName(String cbrWorkerName);
+    List<Visit> findAllByClientId(Long clientId);
 }

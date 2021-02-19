@@ -35,6 +35,22 @@ public class VisitController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/clientId/{clientId}")
+    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId) {
+        List<Visit> visits = visitService.getAllVisitsByClientId(clientId);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", visits);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/workerName/{cbrWorkerName}")
+    public ResponseEntity<JSONObject> getAllVisitsByCbrWorkerName(@PathVariable String cbrWorkerName) {
+        List<Visit> visits = visitService.getAllVisitsByCbrWorkerName(cbrWorkerName);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", visits);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @PostMapping
     public ResponseEntity<JSONObject> addVisit(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException {

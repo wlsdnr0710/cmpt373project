@@ -31,17 +31,13 @@ public class VisitServiceImpl implements VisitService{
     }
 
     @Override
-    public Visit getVisitByCbrWorkerName(String cbrWorkerName) {
-        Optional<Visit> visitOptional = visitRepository.findByCbrWorkerName(cbrWorkerName);
-        Visit visit = visitOptional.get();
-        return visit;
+    public List<Visit> getAllVisitsByCbrWorkerName(String cbrWorkerName) {
+        return visitRepository.findAllByCbrWorkerName(cbrWorkerName);
     }
 
     @Override
-    public Visit getVisitByClientId(Long clientId) {
-        Optional<Visit> visitOptional = visitRepository.findByClientId(clientId);
-        Visit visit = visitOptional.get();
-        return visit;
+    public List<Visit> getAllVisitsByClientId(Long clientId) {
+        return visitRepository.findAllByClientId(clientId);
     }
 
     @Override
