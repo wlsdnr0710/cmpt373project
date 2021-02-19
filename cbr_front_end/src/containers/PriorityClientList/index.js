@@ -7,7 +7,8 @@ const PriorityClientList = () => {
     const priorityClientsClientComponents = [];
 
     const getPriorityClients = () => {
-        //TODO: Replace with API call for priorty patients. 
+        // TODO: Replace with API call for priorty patients. 
+        //      Add sorting function / Filter button if necessary. (I think we need filterin functionality by patient's zone and risk category.)
         setPriorityClients([
             {
                 "Name": "Patrick Taban",
@@ -47,8 +48,8 @@ const PriorityClientList = () => {
     }, []);
 
     const createPriorityClientListComponents = () => {
-        if(!priorityClients) {
-            return <p>Currently there isn't any priority client.</p>;
+        if(priorityClients === undefined || priorityClients.length == 0) {
+            return (<p>Currently there isn't any priority client.</p>);
         }
         for (const index in priorityClients) {
             priorityClientsClientComponents.push(<PriorityClient number={index} client={priorityClients[index]}/>);
