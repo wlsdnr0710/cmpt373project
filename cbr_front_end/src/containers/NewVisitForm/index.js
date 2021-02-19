@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import DropdownList from "../../components/DropdownList";
@@ -213,7 +213,6 @@ const NewVisitForm = (props) => {
         setCurrDay(newDate.getDate());
         setCurrMonth(newDate.getMonth() + 1);
         setCurrYear(newDate.getFullYear());
-
         updateFormInputByNameValue("cbrWorkerName", userName);
         updateFormInputByNameValue("visitDate", Math.floor(newDate / 1000));
     }
@@ -227,11 +226,13 @@ const NewVisitForm = (props) => {
         });
     }
 
+    useEffect(() => {
+        initEpochDateTime();
+        initGeolocation();
+    }, []);
 
     return (
         <div className="new-visit-form">
-            {initEpochDateTime()}
-            {initGeolocation()}
             <FormHeader
                 headerText="New Visit - Visit Information"
             />
