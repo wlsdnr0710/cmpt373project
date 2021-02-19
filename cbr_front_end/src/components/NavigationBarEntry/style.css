@@ -8,6 +8,7 @@
 .navigation-entry .text {
     text-decoration: none;
     color: black;
+    cursor: pointer;
 }
 
 .navigation-entry .icon {
