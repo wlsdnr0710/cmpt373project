@@ -10,9 +10,6 @@ import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
 
-
-
-
 @Entity(name = "Visit")
 @Table(name = "visit")
 public class Visit {
