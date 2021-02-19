@@ -3,11 +3,6 @@ package com.earth.cbr.models;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import org.springframework.data.annotation.CreatedDate;
-
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
 import java.util.Date;
 
 @Entity(name = "Visit")
@@ -58,7 +53,7 @@ public class Visit {
             columnDefinition = "INT"
     )
     @NotNull(message = "Village number cannot be null")
-    private int villageNumber;
+    private Integer villageNumber;
 
     @Column(
             name = "health_goal_progress",
@@ -73,11 +68,19 @@ public class Visit {
     )
     private String healthOutcome;
 
+    @Column(
+            name = "client_id",
+            columnDefinition = "INT"
+    )
+    @NotNull(message = "Village number cannot be null")
+    private Integer clientId;
+
     public Visit() {
 
     }
 
-    public Visit(int consent, Date date, String cbrWorkerName, String purpose, String zone, int villageNumber, String healthGoalProgress, String healthOutcome) {
+    public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, String zone, Integer villageNumber,
+                 String healthGoalProgress, String healthOutcome, Integer clientId) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -86,6 +89,7 @@ public class Visit {
         this.villageNumber = villageNumber;
         this.healthGoalProgress = healthGoalProgress;
         this.healthOutcome = healthOutcome;
+        this.clientId = clientId;
     }
 
     public Long getId() {
@@ -100,7 +104,7 @@ public class Visit {
         return consent;
     }
 
-    public void setConsent(int consent) {
+    public void setConsent(Integer consent) {
         this.consent = consent;
     }
 
@@ -136,7 +140,7 @@ public class Visit {
         this.zone = zone;
     }
 
-    public int getVillageNumber() {
+    public Integer getVillageNumber() {
         return villageNumber;
     }
 
@@ -158,5 +162,13 @@ public class Visit {
 
     public void setHealthOutcome(String healthOutcome) {
         this.healthOutcome = healthOutcome;
+    }
+
+    public Integer getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
     }
 }
