@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Message;
 import com.earth.cbr.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.text.ParseException;
@@ -11,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class MessageServiceImpl implements MessageService{
 
     @Autowired
@@ -29,30 +31,12 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
-	public Message addMessage(JSONObject payload) {
-		Long messageWorkerId = (Long) payload.get("worker_id");
-        java.sql.Date messageDate = formatDate((String) payload.get("date"));
-        String messageMessage = (String) payload.get("message");
-        int messagePriority = (int) payload.get("priority");
-		Message message = new Message(messageWorkerId, messageDate, messageMessage, messagePriority);
+	public Message addMessage(Message message) {
         return messageRepository.save(message);
-
 	}
 
     @Override
-	public Message updateMessageById(Long id, JSONObject payload) {
-        Long messageWorkerId = (Long) payload.get("worker_id");
-        java.sql.Date messageDate = formatDate((String) payload.get("date"));
-        String messageMessage = (String) payload.get("message");
-        int messagePriority = (int) payload.get("priority");
-
-        Optional<Message> messageOptional = messageRepository.findById(id);
-        Message message = messageOptional.get();
-
-        message.setWorkerId(messageWorkerId);
-        message.setDate(messageDate);
-        message.setMessage(messageMessage);
-        message.setPriority(messagePriority);
+	public Message updateMessageById(Long id, Message message) {
         return messageRepository.save(message);
 	}
 

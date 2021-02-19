@@ -5,7 +5,6 @@ import java.sql.Date;
 
 @Entity(name = "Message")
 @Table(name = "message")
-
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,7 +14,7 @@ public class Message {
         name = "worker_id",
         columnDefinition = "LONG" 
     )
-    private Long worker_id;
+    private Long workerId;
 
     @Column(
         name = "date",
@@ -39,8 +38,8 @@ public class Message {
         
     }
 
-    public Message(Long worker_id, Date date, String message, int priority) {
-        this.worker_id = worker_id;
+    public Message(Long workerId, Date date, String message, int priority) {
+        this.workerId = workerId;
         this.date = date;
         this.message = message;
         this.priority = priority;
@@ -55,11 +54,11 @@ public class Message {
     }
 
     public Long getWorkerId(){
-        return worker_id;
+        return workerId;
     }
 
-    public void setWorkerId(Long worker_id){
-        this.worker_id = worker_id;
+    public void setWorkerId(Long workerId){
+        this.workerId = workerId;
     }
 
     public Date getDate(){
