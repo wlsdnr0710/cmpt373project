@@ -5,7 +5,7 @@ import "./style.css";
 const NewVisits = props => {
     return (
         <div className="">
-            <NewVisitForm name={props.name} />
+            <NewVisitForm name={props.name} clientID={props.location.state.clientID} />
         </div>
     );
 }

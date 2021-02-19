@@ -1,11 +1,11 @@
 .client-information {
-    margin: 5vh auto;
-    display: flex;
+    /* display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: center; */
 }
 
 .client-information hr {
     margin: 2vh;
 }
+

@@ -1,6 +1,7 @@
 package com.earth.cbr.services;
 
 import com.earth.cbr.models.Client;
+import com.earth.cbr.models.Worker;
 import org.springframework.data.domain.Page;
 
 import javax.validation.Valid;
@@ -14,6 +15,7 @@ public interface ClientService {
     Page<Client> getClientsByPageFiltered(int pageNumber, int pageSize, String filterBy, String filter);
     Page<Client> getClientsByPageFilteredAndSorted(int pageNumber, int pageSize, String filterBy, String filter,
                                                    String sortBy, boolean ascending);
+    Client updateClientById(@Valid Client client);
     Client addClient(@Valid Client client);
     void deleteClientById(Long id);
 }
