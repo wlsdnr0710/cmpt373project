@@ -72,14 +72,14 @@ public class Visit {
             columnDefinition = "INT"
     )
     @NotNull(message = "Village number cannot be null")
-    private Integer clientId;
+    private Long clientId;
 
     public Visit() {
 
     }
 
     public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, String zone, Integer villageNumber,
-                 String healthGoalProgress, String healthOutcome, Integer clientId) {
+                 String healthGoalProgress, String healthOutcome, Long clientId) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -163,11 +163,11 @@ public class Visit {
         this.healthOutcome = healthOutcome;
     }
 
-    public Integer getClientId() {
+    public Long getClientId() {
         return clientId;
     }
 
-    public void setClientId(Integer clientId) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 }

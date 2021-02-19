@@ -33,6 +33,16 @@ public class VisitServiceImpl implements VisitService{
     }
 
     @Override
+    public Visit getVisitByCbrWorkerName(String cbrWorkerName) {
+        return null;
+    }
+
+    @Override
+    public Visit getVisitByClientId(Long clientId) {
+        return null;
+    }
+
+    @Override
     public Visit addVisit(@Valid Visit visit) {
         return visitRepository.save(visit);
     }
