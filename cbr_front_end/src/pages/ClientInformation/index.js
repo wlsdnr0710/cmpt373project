@@ -1,59 +1,121 @@
-import React from "react";
+import React, { useState } from "react";
+import { useHistory } from "react-router-dom";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
 import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../components/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
+import axios from 'axios';
+import ServerConfig from '../../config/ServerConfig';
 import "./styles.css";
 
-//TODO: Get objects using API call
-const riskObject = {
-  date:"Thu, Sep 29 1988",
-  health: "1",
-  education: "1",
-  social: "1"
-};
+//TODO: Must test again with the actual the actual api rather than a mockup api
+//TODO: The disability component is under works
+const ClientInfo = props => {
+  const history = useHistory();
+  const getClientDataByGetRequest = () => {
+    axios.get(ServerConfig.api.url + '/api/v1/client/' + props.id)
+      .then(response => {
+        var JSONData = response.data;
+        formInputs["name"] = JSONData.data.firstName + " " + JSONData.data.lastName;
+        formInputs["id"] = JSONData.data.id;
+        formInputs["zone"] = JSONData.data.zone;
+        formInputs["gender"] = JSONData.data.gender;
+        formInputs["age"] = JSONData.data.age;
+        formInputs["image"] = JSONData.data.image;
+        formInputs["birthdate"] = JSONData.data.birthDate;
+        formInputs["date"] = JSONData.data.signupDate;
+        formInputs["health"] = JSONData.data.health;
+        formInputs["education"] = JSONData.data.education;
+        formInputs["social"] = JSONData.data.social;
+        formInputs["disabilityList"] = JSONData.data.disabilityList;
+        setFormInputs(formInputs);
+      })
+      .catch(error => {
+        console.log("Get request failed, error: " + error)
+      });
+  };
 
-const clientObject = {
-  id:"123",
-  name:"Bob Jones",
-  image: avatar,
-  zone:"1",
-  gender:"Male",
-  age:"20",
-  birthdate:"Thu, Sep 29 1961",
-};
+  const [formInputs, setFormInputs] = useState({
+    "date": "YYYY-MM-DD",
+    "health": "-1",
+    "education": "-1",
+    "social": "-1",
+    "id": "123456789",
+    "name": "First Last",
+    "image": avatar,
+    "zone": "zone",
+    "gender": "M/F",
+    "age": "-1",
+    "birthdate": "YYYY-MM-DD",
+    "disabilityList": ["One Disability", "Two Disability"]
+  });
 
-const disabilityObject = {
-  disabilityList: ["something", "asda", "asdasd"]
-};
+  const riskObject = {
+    date: formInputs["date"],
+    health: formInputs["health"],
+    education: formInputs["education"],
+    social: formInputs["social"]
+  };
 
-const ClientInfo = () => {
+  const clientObject = {
+    id: formInputs["id"],
+    name: formInputs["name"],
+    image: formInputs["image"],
+    zone: formInputs["zone"],
+    gender: formInputs["gender"],
+    age: formInputs["age"],
+    birthdate: formInputs["birthdate"],
+  };
+
+  const disabilityObject = {
+    disabilityList: formInputs["disabilityList"]
+  };
+
+  const onClickGetNewVisitPage = props => {
+    history.push({
+      pathname: "/new-visit",
+      state: { clientID: formInputs["id"] }
+    });
+  };
+
   return (
-    <div className = "client-information">
-        <BackgroundCard>
-          <main>
-            <ClientInformation
-              className="client-general-information"
-              clientObject = {clientObject}
-            />
-            <hr/>
+    < div >
+      {getClientDataByGetRequest()}
+      <BackgroundCard>
+        <main className="client-information">
+          <ClientInformation
+            className="client-general-information"
+            clientObject={clientObject}
+          />
+          <hr className="client-information-hr" />
+          <div>
             <h1>Risk Levels</h1>
             <RiskInformation
               className="client-risk-information"
-              riskObject = {riskObject}
-              includeDateInformation = {true}
+              riskObject={riskObject}
+              includeDateInformation={true}
             />
-            <hr/>
-            <DisabilityInformation 
-              disabilityObject = {disabilityObject}/>
-            <hr/>
-            <button type="button" className="btn btn-secondary">
-              Edit
-            </button>
-          </main>
-        </BackgroundCard>
-    </div>
+          </div>
+          <hr className="client-information-hr" />
+          <DisabilityInformation
+            disabilityObject={disabilityObject}
+          />
+          <div className="client-information-hr">
+            <div className="client-information-hr ml-5 mt-3">
+              <button type="button" className="btn btn-secondary">
+                Edit
+              </button>
+            </div>
+            <div className="client-information-hr ml-5 mt-3">
+              <button type="button" className="btn btn-secondary" onClick={onClickGetNewVisitPage}>
+                Add Visit
+              </button>
+            </div>
+          </div>
+        </main>
+      </BackgroundCard>
+    </div >
   );
 };
 
