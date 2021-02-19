@@ -42,9 +42,9 @@ public class Visit {
     private String purpose;
 
     @Column(
-            name = "zone",
-            columnDefinition = "TEXT"
+            name = "zone"
     )
+    @NotBlank(message = "Zone is mandatory")
     private String zone;
 
     @Column(
@@ -74,12 +74,16 @@ public class Visit {
     @NotNull(message = "Village number cannot be null")
     private Long clientId;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
+    private Zone zoneName;
+
     public Visit() {
 
     }
 
     public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, String zone, Integer villageNumber,
-                 String healthGoalProgress, String healthOutcome, Long clientId) {
+                 String healthGoalProgress, String healthOutcome, Long clientId, Zone zoneName) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -89,6 +93,7 @@ public class Visit {
         this.healthGoalProgress = healthGoalProgress;
         this.healthOutcome = healthOutcome;
         this.clientId = clientId;
+        this.zoneName = zoneName;
     }
 
     public Long getId() {
@@ -169,5 +174,13 @@ public class Visit {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
+    }
+
+    public Zone getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(Zone zoneName) {
+        this.zoneName = zoneName;
     }
 }
