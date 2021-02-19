@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
+import com.earth.cbr.models.Worker;
 import com.earth.cbr.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -89,6 +90,26 @@ public class ClientController {
         // Need to tell front-end the new client's id
         // so front-end can update the UI
         responseJson.put("id", addedClient.getId());
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> updateClientById(@PathVariable Long id, @RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException {
+        JSONObject clientJSON = payload.getJSONObject("data");
+
+        if (clientJSON == null) {
+            throw new MissingRequiredDataObjectException("Missing data object containing Client data");
+        }
+        String clientString = clientJSON.toJSONString();
+
+        JSONObject responseJson = new JSONObject();
+        Client client = JSON.parseObject(clientString, Client.class);
+
+        Client updatedClient = clientService.updateClientById(client);
+
+        // get client's id to update UI
+        responseJson.put("id", updatedClient.getId());
         return ResponseEntity.ok().body(responseJson);
     }
 

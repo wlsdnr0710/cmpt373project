@@ -1,6 +1,7 @@
 package com.earth.cbr.services;
 
 import com.earth.cbr.models.Client;
+import com.earth.cbr.models.Worker;
 import com.earth.cbr.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -119,6 +120,9 @@ public class ClientServiceImpl implements ClientService {
     public Client addClient(@Valid Client client) {
         return clientRepository.save(client);
     }
+
+    @Override
+    public Client updateClientById(@Valid Client client) { return clientRepository.save(client); }
 
     @Override
     public void deleteClientById(Long id) {
