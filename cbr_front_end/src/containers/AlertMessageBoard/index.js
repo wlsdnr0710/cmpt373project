@@ -26,9 +26,9 @@ const AlertMessageBoard = () => {
     };
 
     return (
-        <div className="alertBoard">
-            <h3>Alert:</h3> 
-            <p onClick={getAlertMessage}>Refresh</p>
+        <div className="alert-board">
+            <h4>Alert:</h4> 
+            <button onClick={getAlertMessage}>Refresh</button>
             {createMessageCompoments()}
         </div>
     );
