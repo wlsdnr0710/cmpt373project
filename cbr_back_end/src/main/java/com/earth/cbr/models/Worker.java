@@ -63,16 +63,21 @@ public class Worker {
     private String role;
 
     @Column(
-            name = "zone",
-            columnDefinition = "TEXT"
+            name = "zone"
     )
+    @NotBlank(message = "Zone is mandatory")
     private String zone;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
+    private Zone zoneName;
 
     public Worker() {
 
     }
 
-    public Worker(String firstName, String lastName, String username, String password, String phone, String email, String role, String zone) {
+    public Worker(String firstName, String lastName, String username, String password, String phone, String email,
+                  String role, String zone, Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -81,6 +86,7 @@ public class Worker {
         this.email = email;
         this.role = role;
         this.zone = zone;
+        this.zoneName = zoneName;
     }
 
     public Long getId() {
@@ -153,5 +159,13 @@ public class Worker {
 
     public void setZone(String zone) {
         this.zone = zone;
+    }
+
+    public Zone getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(Zone zoneName) {
+        this.zoneName = zoneName;
     }
 }
