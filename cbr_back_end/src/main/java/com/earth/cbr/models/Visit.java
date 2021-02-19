@@ -25,7 +25,6 @@ public class Visit {
     )
     @NotNull(message = "Date cannot be null")
     @PastOrPresent(message = "Date must be in the past or past")
-
     private Date date;
 
     @Column(
