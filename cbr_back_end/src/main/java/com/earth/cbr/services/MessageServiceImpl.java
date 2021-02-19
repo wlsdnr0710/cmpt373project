@@ -5,9 +5,6 @@ import com.earth.cbr.repositories.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,19 +41,4 @@ public class MessageServiceImpl implements MessageService{
 		messageRepository.deleteById(id);
 		
 	}
-
-    public java.sql.Date formatDate(String date) {
-        Date longDate = null;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            longDate = dateFormat.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        java.sql.Date sqlDate = new java.sql.Date(longDate.getTime());
-
-        return sqlDate;
-    }
-
-    
 }

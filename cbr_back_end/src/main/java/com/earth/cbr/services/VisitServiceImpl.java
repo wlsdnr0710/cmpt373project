@@ -5,9 +5,6 @@ import com.earth.cbr.repositories.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -48,22 +45,8 @@ public class VisitServiceImpl implements VisitService{
     @Override
     public Visit updateVisitById(@Valid Visit visit) { return visitRepository.save(visit); }
 
-
     @Override
     public void deleteVisitById(Long id) {
         visitRepository.deleteById(id);
-    }
-
-    public java.sql.Date formatDate(String date) {
-        Date longDate = null;
-        try {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            longDate = dateFormat.parse(date);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        java.sql.Date sqlDate = new java.sql.Date(longDate.getTime());
-
-        return sqlDate;
     }
 }
