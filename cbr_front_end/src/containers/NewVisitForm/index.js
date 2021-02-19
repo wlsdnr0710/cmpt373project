@@ -36,9 +36,7 @@ const defaultClientZones = {
     "Palorinya Zone 3": "palzone3",
 };
 
-
 const NewVisitForm = (props) => {
-
     const [formInputs, setFormInputs] = useState({
         "purposeForVisit": "cbr",
         "doHealthCheckBox": false,
@@ -334,7 +332,6 @@ const NewVisitForm = (props) => {
                         healthAdvocacyValue={formInputs["healthAdvocacy"]}
                         healthEncouragementName="healthEncouragement"
                         healthEncouragementValue={formInputs["healthEncouragement"]}
-
 
                         wheelchairDescName="wheelchairDesc"
                         wheelchairDescValue={formInputs["wheelchairDesc"]}
