@@ -39,8 +39,7 @@ public class Message {
         
     }
 
-    public Message(Long id, Long worker_id, Date date, String message, int priority) {
-        this.id = id;
+    public Message(Long worker_id, Date date, String message, int priority) {
         this.worker_id = worker_id;
         this.date = date;
         this.message = message;
