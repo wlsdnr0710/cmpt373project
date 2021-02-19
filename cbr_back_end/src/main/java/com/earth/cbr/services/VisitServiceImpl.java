@@ -1,8 +1,6 @@
 package com.earth.cbr.services;
 
-import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Visit;
-import com.earth.cbr.models.Worker;
 import com.earth.cbr.repositories.VisitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,12 +32,16 @@ public class VisitServiceImpl implements VisitService{
 
     @Override
     public Visit getVisitByCbrWorkerName(String cbrWorkerName) {
-        return null;
+        Optional<Visit> visitOptional = visitRepository.findByCbrWorkerName(cbrWorkerName);
+        Visit visit = visitOptional.get();
+        return visit;
     }
 
     @Override
     public Visit getVisitByClientId(Long clientId) {
-        return null;
+        Optional<Visit> visitOptional = visitRepository.findByClientId(clientId);
+        Visit visit = visitOptional.get();
+        return visit;
     }
 
     @Override
