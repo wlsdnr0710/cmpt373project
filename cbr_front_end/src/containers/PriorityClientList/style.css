@@ -1,12 +1,9 @@
-.alert-board {
-    background-color: lightgray;
+.priority-client-list {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-left: 10%;
     margin-right: 10%;
-    margin-top: 10%;
     margin-bottom: 10%;
-    padding-top: 10px;
 }
