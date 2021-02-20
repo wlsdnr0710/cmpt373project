@@ -1,7 +1,6 @@
 package com.earth.cbr.services;
 
 import com.earth.cbr.models.Client;
-import com.earth.cbr.models.Worker;
 import com.earth.cbr.repositories.ClientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.*;
@@ -14,7 +13,7 @@ import java.util.Optional;
 @Service
 public class ClientServiceImpl implements ClientService {
 
-    enum columns {
+    private enum columns {
         firstName, lastName, cbrWorkerId, zone, villageNumber
     }
 
@@ -27,13 +26,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Page<Client> getClientsByPage(int pageNumber, int pageSize) {
+    public Page<Client> getClientsByPage(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return clientRepository.findAll(pageable);
     }
 
     @Override
-    public Page<Client> getClientsByPageSorted(int pageNumber, int pageSize, String sortBy, boolean ascending) {
+    public Page<Client> getClientsByPageSorted(Integer pageNumber, Integer pageSize, String sortBy, Boolean ascending) {
         Pageable pageable;
 
         if(ascending == true) {
@@ -46,26 +45,26 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Page<Client> getClientsByPageFiltered(int pageNumber, int pageSize, String filterBy, String filter) {
+    public Page<Client> getClientsByPageFiltered(Integer pageNumber, Integer pageSize, String filterBy, String filter) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
         Page<Client> filteredClients = null;
 
         switch (columns.valueOf(filterBy)) {
             case firstName:
-                filteredClients = clientRepository.findByfirstNameContaining(pageable, filter);
+                filteredClients = clientRepository.findByFirstNameContaining(pageable, filter);
                 break;
             case lastName:
-                filteredClients = clientRepository.findBylastNameContaining(pageable, filter);
+                filteredClients = clientRepository.findByLastNameContaining(pageable, filter);
                 break;
             case cbrWorkerId:
-                filteredClients = clientRepository.findBycbrWorkerId(pageable, Long.parseLong(filter));
+                filteredClients = clientRepository.findAllByCbrWorkerId(pageable, Long.parseLong(filter));
                 break;
             case zone:
-                filteredClients = clientRepository.findByzoneContaining(pageable, filter);
+                filteredClients = clientRepository.findAllByZone(pageable, Integer.parseInt(filter));
                 break;
             case villageNumber:
-                filteredClients = clientRepository.findByvillageNumber(pageable, Integer.parseInt(filter));
+                filteredClients = clientRepository.findByVillageNumber(pageable, Integer.parseInt(filter));
                 break;
             default:
                 filteredClients = null;
@@ -75,8 +74,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Page<Client> getClientsByPageFilteredAndSorted(int pageNumber, int pageSize, String filterBy, String filter,
-                                                          String sortBy, boolean ascending) {
+    public Page<Client> getClientsByPageFilteredAndSorted(Integer pageNumber, Integer pageSize, String filterBy,
+                                                          String filter, String sortBy, Boolean ascending) {
         Pageable pageable;
         Page<Client> filteredClients = null;
 
@@ -88,19 +87,19 @@ public class ClientServiceImpl implements ClientService {
 
         switch (columns.valueOf(filterBy)) {
             case firstName:
-                filteredClients = clientRepository.findByfirstNameContaining(pageable, filter);
+                filteredClients = clientRepository.findByFirstNameContaining(pageable, filter);
                 break;
             case lastName:
-                filteredClients = clientRepository.findBylastNameContaining(pageable, filter);
+                filteredClients = clientRepository.findByLastNameContaining(pageable, filter);
                 break;
             case cbrWorkerId:
-                filteredClients = clientRepository.findBycbrWorkerId(pageable, Long.parseLong(filter));
+                filteredClients = clientRepository.findAllByCbrWorkerId(pageable, Long.parseLong(filter));
                 break;
             case zone:
-                filteredClients = clientRepository.findByzoneContaining(pageable, filter);
+                filteredClients = clientRepository.findAllByZone(pageable, Integer.parseInt(filter));
                 break;
             case villageNumber:
-                filteredClients = clientRepository.findByvillageNumber(pageable, Integer.parseInt(filter));
+                filteredClients = clientRepository.findByVillageNumber(pageable, Integer.parseInt(filter));
                 break;
             default:
                 filteredClients = null;
