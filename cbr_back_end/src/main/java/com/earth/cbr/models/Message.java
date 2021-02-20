@@ -32,13 +32,13 @@ public class Message {
         name = "priority",
         columnDefinition = "INT"
     )
-    private int priority;
+    private Integer priority;
     
     public Message(){
         
     }
 
-    public Message(Long workerId, Date date, String message, int priority) {
+    public Message(Long workerId, Date date, String message, Integer priority) {
         this.workerId = workerId;
         this.date = date;
         this.message = message;
@@ -77,11 +77,11 @@ public class Message {
         this.message = message;
     }
 
-    public int getPriority(){
+    public Integer getPriority(){
         return priority;
     }
 
-    public void setPriority(int priority){
+    public void setPriority(Integer priority){
         this.priority = priority;
     }
 }

@@ -55,13 +55,15 @@ public class Client {
     private String photo;
 
     @Column(
-            name = "zone"
+            name = "zone",
+            columnDefinition = "INT"
     )
     @NotBlank(message = "Zone is mandatory")
-    private String zone;
+    private Integer zone;
 
     @Column(
-            name = "village_no"
+            name = "village_no",
+            columnDefinition = "INT"
     )
     @NotNull(message = "Village number cannot be null")
     @PositiveOrZero(message = "Village number should be positive or zero")
@@ -84,7 +86,8 @@ public class Client {
     private String contactNumber;
 
     @Column(
-            name = "worker_id"
+            name = "worker_id",
+            columnDefinition = "INT"
     )
     @NotNull(message = "Worker ID cannot be null")
     @PositiveOrZero(message = "Worker ID should be positive or zero")
@@ -120,6 +123,10 @@ public class Client {
     @NotNull(message = "Individual goals cannot be null")
     private String individualGoals;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
+    private Zone zoneName;
+
     public Client() {
     }
 
@@ -128,7 +135,7 @@ public class Client {
                   Date birthDate,
                   Character gender,
                   String image,
-                  String zone,
+                  Integer zone,
                   Integer villageNumber,
                   Date signupDate,
                   String contactNumber,
@@ -136,7 +143,8 @@ public class Client {
                   String caregiverContact,
                   String caregiverPhoto,
                   String requiredServices,
-                  String goals) {
+                  String goals,
+                  Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthDate;
@@ -151,6 +159,7 @@ public class Client {
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
         this.individualGoals = goals;
+        this.zoneName = zoneName;
     }
 
     public Long getId() {
@@ -211,11 +220,11 @@ public class Client {
         this.photo = photo;
     }
 
-    public String getZone() {
+    public Integer getZone() {
         return zone;
     }
 
-    public void setZone(String zone) {
+    public void setZone(Integer zone) {
         this.zone = zone;
     }
 
@@ -281,5 +290,13 @@ public class Client {
 
     public void setIndividualGoals(String individualGoals) {
         this.individualGoals = individualGoals;
+    }
+
+    public Zone getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(Zone zoneName) {
+        this.zoneName = zoneName;
     }
 }
