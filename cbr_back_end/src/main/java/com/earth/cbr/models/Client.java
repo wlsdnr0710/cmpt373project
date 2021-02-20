@@ -56,13 +56,15 @@ public class Client {
     private String photo;
 
     @Column(
-            name = "zone"
+            name = "zone",
+            columnDefinition = "INT"
     )
-    @NotBlank(message = "Zone is mandatory")
-    private String zone;
+    @NotNull(message = "Zone cannot be null")
+    private Integer zone;
 
     @Column(
-            name = "village_no"
+            name = "village_no",
+            columnDefinition = "INT"
     )
     @NotNull(message = "Village number cannot be null")
     @PositiveOrZero(message = "Village number should be positive or zero")
@@ -85,7 +87,8 @@ public class Client {
     private String contactNumber;
 
     @Column(
-            name = "worker_id"
+            name = "worker_id",
+            columnDefinition = "INT"
     )
     @NotNull(message = "Worker ID cannot be null")
     @PositiveOrZero(message = "Worker ID should be positive or zero")
@@ -132,6 +135,10 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private Set<RiskHistory> riskHistories;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
+    private Zone zoneName;
+
     public Client() {
     }
 
@@ -141,7 +148,7 @@ public class Client {
                   Integer age,
                   Character gender,
                   String photo,
-                  String zone,
+                  Integer zone,
                   Integer villageNumber,
                   Date signupDate,
                   String contactNumber,
@@ -151,7 +158,8 @@ public class Client {
                   String requiredServices,
                   String individualGoals,
                   Set<Disability> disabilities,
-                  Set<RiskHistory> riskHistories) {
+                  Set<RiskHistory> riskHistories,
+                  Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
@@ -168,6 +176,7 @@ public class Client {
         this.individualGoals = individualGoals;
         this.disabilities = disabilities;
         this.riskHistories = riskHistories;
+        this.zoneName = zoneName;
     }
 
     public Long getId() {
@@ -228,11 +237,11 @@ public class Client {
         this.photo = photo;
     }
 
-    public String getZone() {
+    public Integer getZone() {
         return zone;
     }
 
-    public void setZone(String zone) {
+    public void setZone(Integer zone) {
         this.zone = zone;
     }
 
@@ -314,5 +323,13 @@ public class Client {
 
     public void setRiskHistories(Set<RiskHistory> riskHistories) {
         this.riskHistories = riskHistories;
+    }
+
+    public Zone getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(Zone zoneName) {
+        this.zoneName = zoneName;
     }
 }

@@ -17,7 +17,7 @@ public class Visit {
             columnDefinition = "BINARY"
     )
     @NotNull(message = "Consent cannot be null")
-    private int consent;
+    private Integer consent;
 
     @Column(
             name = "date",
@@ -43,9 +43,11 @@ public class Visit {
 
     @Column(
             name = "zone",
-            columnDefinition = "TEXT"
+            columnDefinition = "INT"
     )
-    private String zone;
+    @NotNull(message = "Zone cannot be null")
+    @PositiveOrZero(message = "Zone should be positive or zero")
+    private Integer zone;
 
     @Column(
             name = "village_number",
@@ -74,12 +76,16 @@ public class Visit {
     @NotNull(message = "Village number cannot be null")
     private Long clientId;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
+    private Zone zoneName;
+
     public Visit() {
 
     }
 
-    public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, String zone, Integer villageNumber,
-                 String healthGoalProgress, String healthOutcome, Long clientId) {
+    public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, Integer zone, Integer villageNumber,
+                 String healthGoalProgress, String healthOutcome, Long clientId, Zone zoneName) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -89,6 +95,7 @@ public class Visit {
         this.healthGoalProgress = healthGoalProgress;
         this.healthOutcome = healthOutcome;
         this.clientId = clientId;
+        this.zoneName = zoneName;
     }
 
     public Long getId() {
@@ -99,7 +106,7 @@ public class Visit {
         this.id = id;
     }
 
-    public int getConsent() {
+    public Integer getConsent() {
         return consent;
     }
 
@@ -131,11 +138,11 @@ public class Visit {
         this.purpose = purpose;
     }
 
-    public String getZone() {
+    public Integer getZone() {
         return zone;
     }
 
-    public void setZone(String zone) {
+    public void setZone(Integer zone) {
         this.zone = zone;
     }
 
@@ -169,5 +176,13 @@ public class Visit {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
+    }
+
+    public Zone getZoneName() {
+        return zoneName;
+    }
+
+    public void setZoneName(Zone zoneName) {
+        this.zoneName = zoneName;
     }
 }

@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.util.List;
 
 @CrossOrigin
@@ -34,18 +33,6 @@ public class MessageController {
         responseJson.put("data", message);
         return ResponseEntity.ok().body(responseJson);
     }
-/*
-    @PostMapping
-    public ResponseEntity<JSONObject> addMessage(@RequestBody JSONObject payload){
-        Message addedMessage = messageService.addMessage(payload);
-
-        JSONObject responseJson = new JSONObject();
-         // Need to tell front-end the new client's id
-        // so front-end can update the UI
-        responseJson.put("id", addedMessage.getId());
-
-        return ResponseEntity.ok().body(responseJson);
-    } */
 
     @PostMapping
     public ResponseEntity<JSONObject> addMessage(@RequestBody JSONObject payload)
@@ -88,15 +75,6 @@ public class MessageController {
         responseJson.put("id", updatedMessage.getId());
         return ResponseEntity.ok().body(responseJson);
     }
-    /*
-        Message updatedMessage = messageService.updateMessageById(id, payload);
-
-        JSONObject responseJson = new JSONObject();
-        // Need to tell front-end the new client's id
-        // so front-end can update the UI
-        responseJson.put("id", updatedMessage.getId());
-
-        return ResponseEntity.ok().body(responseJson);*/
 
     @DeleteMapping
     public ResponseEntity<JSONObject> deleteMessageById(@RequestBody JSONObject payload) {
@@ -105,7 +83,4 @@ public class MessageController {
         messageService.deleteMessageById(messageId);
         return ResponseEntity.ok().body(null);
     }
-
-
-
 }
