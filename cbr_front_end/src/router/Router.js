@@ -21,7 +21,7 @@ const Router = () => {
                 <Route path="/example" exact component={ExampleComponent} />
                 <Route path="/client-information" exact component={ClientInformation} />
                 <Route path="/edit-client" exact component={EditClient} />
-                <Redirect to="/client-information" />
+                <Redirect to="/login" />
             </Switch>
         </div>
     );
