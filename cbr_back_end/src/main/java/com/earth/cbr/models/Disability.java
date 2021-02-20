@@ -20,7 +20,7 @@ public class Disability {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "disabilities")
-    Set<Client> clients;
+    private Set<Client> clients;
 
     public Disability() {
     }

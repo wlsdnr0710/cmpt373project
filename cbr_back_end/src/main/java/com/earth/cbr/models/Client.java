@@ -127,7 +127,7 @@ public class Client {
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "disability_id")
     )
-    Set<Disability> disabilities;
+    private Set<Disability> disabilities;
 
     @OneToMany(mappedBy = "client")
     private Set<RiskHistory> riskHistories;
