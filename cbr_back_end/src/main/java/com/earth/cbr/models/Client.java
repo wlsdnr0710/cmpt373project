@@ -135,8 +135,7 @@ public class Client {
     public Client() {
     }
 
-    public Client(Long id,
-                  String firstName,
+    public Client(String firstName,
                   String lastName,
                   Date birthdate,
                   Integer age,
@@ -153,7 +152,6 @@ public class Client {
                   String individualGoals,
                   Set<Disability> disabilities,
                   Set<RiskHistory> riskHistories) {
-        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
