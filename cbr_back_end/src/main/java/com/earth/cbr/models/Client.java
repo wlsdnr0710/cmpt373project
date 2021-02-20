@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Set;
 
 @Entity(name = "Client")
 @Table(name = "client")
@@ -119,6 +120,14 @@ public class Client {
     )
     @NotNull(message = "Individual goals cannot be null")
     private String individualGoals;
+
+    @ManyToMany
+    @JoinTable(
+            name = "disabled",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "disability_id")
+    )
+    Set<Disability> disabilities;
 
     public Client() {
     }
