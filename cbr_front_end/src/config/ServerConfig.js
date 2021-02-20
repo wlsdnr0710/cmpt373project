@@ -6,7 +6,7 @@ const getServerConfigByEnvironment = () => {
         url = "http://localhost:8080";
     } else {
         // production environment
-        url = "https://cmpt373-1211-03.cmpt.sfu.ca:8080";
+        url = "https://cmpt373-1211-03.cmpt.sfu.ca";
     }
     return {
         api: {
