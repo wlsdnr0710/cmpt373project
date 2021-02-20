@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Set;
 
 @Entity(name = "Client")
 @Table(name = "client")
@@ -58,7 +59,7 @@ public class Client {
             name = "zone",
             columnDefinition = "INT"
     )
-    @NotBlank(message = "Zone is mandatory")
+    @NotNull(message = "Zone cannot be null")
     private Integer zone;
 
     @Column(
@@ -123,6 +124,17 @@ public class Client {
     @NotNull(message = "Individual goals cannot be null")
     private String individualGoals;
 
+    @ManyToMany
+    @JoinTable(
+            name = "disabled",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "disability_id")
+    )
+    private Set<Disability> disabilities;
+
+    @OneToMany(mappedBy = "client")
+    private Set<RiskHistory> riskHistories;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
@@ -132,9 +144,10 @@ public class Client {
 
     public Client(String firstName,
                   String lastName,
-                  Date birthDate,
+                  Date birthdate,
+                  Integer age,
                   Character gender,
-                  String image,
+                  String photo,
                   Integer zone,
                   Integer villageNumber,
                   Date signupDate,
@@ -143,13 +156,15 @@ public class Client {
                   String caregiverContact,
                   String caregiverPhoto,
                   String requiredServices,
-                  String goals,
+                  String individualGoals,
+                  Set<Disability> disabilities,
+                  Set<RiskHistory> riskHistories,
                   Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthdate = birthDate;
+        this.birthdate = birthdate;
         this.gender = gender;
-        this.photo = image;
+        this.photo = photo;
         this.zone = zone;
         this.villageNumber = villageNumber;
         this.signupDate = signupDate;
@@ -158,7 +173,9 @@ public class Client {
         this.caregiverContact = caregiverContact;
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
-        this.individualGoals = goals;
+        this.individualGoals = individualGoals;
+        this.disabilities = disabilities;
+        this.riskHistories = riskHistories;
         this.zoneName = zoneName;
     }
 
@@ -290,6 +307,22 @@ public class Client {
 
     public void setIndividualGoals(String individualGoals) {
         this.individualGoals = individualGoals;
+    }
+
+    public Set<Disability> getDisabilities() {
+        return disabilities;
+    }
+
+    public void setDisabilities(Set<Disability> disabilities) {
+        this.disabilities = disabilities;
+    }
+
+    public Set<RiskHistory> getRiskHistories() {
+        return riskHistories;
+    }
+
+    public void setRiskHistories(Set<RiskHistory> riskHistories) {
+        this.riskHistories = riskHistories;
     }
 
     public Zone getZoneName() {
