@@ -19,7 +19,9 @@ const Router = () => {
                 <Route path="/new-visit" exact component={NewVisit} />
                 <Route path="/client-information" exact component={ClientInformation} />
                 <Route path="/edit-client" exact component={EditClient} />
-                <Redirect to="/login" />
+
+                {/* We should not redirect to login page before login function is implemented */}
+                <Redirect to="/dashboard" />
             </Switch>
         </div>
     );
