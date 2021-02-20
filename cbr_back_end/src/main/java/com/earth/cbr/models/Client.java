@@ -155,7 +155,6 @@ public class Client {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
-        this.age = age;
         this.gender = gender;
         this.photo = photo;
         this.zone = zone;
