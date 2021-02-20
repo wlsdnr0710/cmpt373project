@@ -132,11 +132,13 @@ public class Client {
     public Client() {
     }
 
-    public Client(String firstName,
+    public Client(Long id,
+                  String firstName,
                   String lastName,
-                  Date birthDate,
+                  Date birthdate,
+                  Integer age,
                   Character gender,
-                  String image,
+                  String photo,
                   String zone,
                   Integer villageNumber,
                   Date signupDate,
@@ -145,12 +147,15 @@ public class Client {
                   String caregiverContact,
                   String caregiverPhoto,
                   String requiredServices,
-                  String goals) {
+                  String individualGoals,
+                  Set<Disability> disabilities) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.birthdate = birthDate;
+        this.birthdate = birthdate;
+        this.age = age;
         this.gender = gender;
-        this.photo = image;
+        this.photo = photo;
         this.zone = zone;
         this.villageNumber = villageNumber;
         this.signupDate = signupDate;
@@ -159,7 +164,8 @@ public class Client {
         this.caregiverContact = caregiverContact;
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
-        this.individualGoals = goals;
+        this.individualGoals = individualGoals;
+        this.disabilities = disabilities;
     }
 
     public Long getId() {
@@ -290,5 +296,13 @@ public class Client {
 
     public void setIndividualGoals(String individualGoals) {
         this.individualGoals = individualGoals;
+    }
+
+    public Set<Disability> getDisabilities() {
+        return disabilities;
+    }
+
+    public void setDisabilities(Set<Disability> disabilities) {
+        this.disabilities = disabilities;
     }
 }

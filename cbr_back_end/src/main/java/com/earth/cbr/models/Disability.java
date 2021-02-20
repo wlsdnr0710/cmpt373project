@@ -1,5 +1,7 @@
 package com.earth.cbr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -16,15 +18,17 @@ public class Disability {
     )
     private String type;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "disabilities")
     Set<Client> clients;
 
     public Disability() {
     }
 
-    public Disability(Long id, String type) {
+    public Disability(Long id, String type, Set<Client> clients) {
         this.id = id;
         this.type = type;
+        this.clients = clients;
     }
 
     public Long getId() {
@@ -41,5 +45,13 @@ public class Disability {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public Set<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(Set<Client> clients) {
+        this.clients = clients;
     }
 }
