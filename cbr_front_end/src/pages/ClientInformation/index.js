@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
@@ -21,7 +21,7 @@ const ClientInfo = props => {
         formInputs["id"] = JSONData.data.id;
         formInputs["zone"] = JSONData.data.zone;
         formInputs["gender"] = JSONData.data.gender;
-        formInputs["age"] = JSONData.data.age;
+        formInputs["age"] = "";
         formInputs["image"] = JSONData.data.image;
         formInputs["birthdate"] = JSONData.data.birthDate;
         formInputs["date"] = JSONData.data.signupDate;
@@ -79,9 +79,32 @@ const ClientInfo = props => {
     });
   };
 
+  const updateFormInputByNameValue = (name, value) => {
+    setFormInputs(prevFormInputs => {
+      const newFormInputs = { ...prevFormInputs };
+      newFormInputs[name] = value;
+      return newFormInputs;
+    });
+  };
+
+  const updateAgeFromBirthdate = () => {
+    var currDate = new Date(0);
+    currDate.setUTCSeconds(formInputs["birthdate"]);
+    var birthDate = new Date(0);
+    birthDate.setUTCSeconds(1519096078);
+    var currYear = currDate.getFullYear();
+    var dateYear = birthDate.getFullYear();
+    var age = currYear - dateYear;
+    updateFormInputByNameValue("age", age);
+  }
+
+  useEffect(() => {
+    getClientDataByGetRequest();
+    updateAgeFromBirthdate();
+  }, []);
+
   return (
     < div >
-      {getClientDataByGetRequest()}
       <BackgroundCard>
         <main className="client-information">
           <ClientInformation
