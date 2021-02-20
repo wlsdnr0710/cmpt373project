@@ -15,7 +15,7 @@ public class RiskHistory {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     Client client;
 
