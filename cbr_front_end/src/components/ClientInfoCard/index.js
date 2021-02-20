@@ -2,11 +2,18 @@ import React from "react";
 import Badge from 'react-bootstrap/Badge';
 import ClientInfoCardAttribute from "../../components/ClientInfoCardAttribute";
 import PersonSVG from "../../assets/svg/person.svg";
+import { useHistory } from "react-router-dom";
 import "./style.css";
 
 const ClientInfoCard = ({ client }) => {
+    const history = useHistory();
+    const onClickInfoCardHandler = event => {
+        history.push("/client-information?id=" + client.id);
+        window.scrollTo(0, 0);
+    };
+
     return (
-        <div className="client-info-card">
+        <div className="client-info-card" onClick={onClickInfoCardHandler}>
             <div className="photo-id-display">
                 <div className="client-photo">
                     <img src={PersonSVG} alt="" />

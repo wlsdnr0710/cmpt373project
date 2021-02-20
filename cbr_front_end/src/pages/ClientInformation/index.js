@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
@@ -18,7 +18,7 @@ const ClientInfo = props => {
   const parameterString = props.location.search;
   const clientId = qs.parse(parameterString).id;
 
-  const getClientDataByGetRequest = () => {
+  const getClientDataByGetRequest = useCallback(() => {
     axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId)
       .then(response => {
         var JSONData = response.data;
@@ -56,7 +56,7 @@ const ClientInfo = props => {
       .catch(error => {
         console.log("Get request failed, error: " + error)
       });
-  };
+  }, [clientId]);
 
   const parseISODateString = ISODateString => {
     const epoch = parseDateStringToEpoch(ISODateString);
@@ -109,7 +109,7 @@ const ClientInfo = props => {
 
   useEffect(() => {
     getClientDataByGetRequest();
-  }, []);
+  }, [getClientDataByGetRequest]);
 
   return (
     < div >

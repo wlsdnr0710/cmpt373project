@@ -2,6 +2,10 @@
     display: flex;
 }
 
+.client-info-card:hover {
+    opacity: 0.8;
+}
+
 .client-info-card .photo-id-display {
     display: flex;
     justify-content: center;
