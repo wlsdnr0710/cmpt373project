@@ -12,7 +12,7 @@ import "./style.css";
 
 //TODO: Find way to import all assets at once 
 
-const PageTemplate = ({children}) => {
+const PageTemplate = ({ children }) => {
   const getTopBar = () => {
     return (
       <div className="top-navigation">
@@ -82,26 +82,41 @@ const PageTemplate = ({children}) => {
 
   const getSideBarMobileOnState = (showSideBarMobile) => {
     if (showSideBarMobile) {
-      return <div className="side-navigation-mobile">{getNavigationItems()}</div>;
+      return (
+        <div className="side-navigation-mobile">{getNavigationItems()}</div>
+      );
     } else {
       return;
     }
   };
 
   const getSideBarDesktop = () => {
-    return <div className="side-navigation-desktop">{getNavigationItems()}</div>;
+    return (
+      <div className="side-navigation-desktop">{getNavigationItems()}</div>
+    );
   };
 
-  return (
-    <div className="page-template">
-      <div className="top-container">{getTopBar()}</div>
-      <div className="bottom-container">
-        {getSideBarMobileOnState(showSideBarMobile)}
-        <div className="side-navigation">{getSideBarDesktop()}</div>
-        <div className="page-content">{children}</div>
+  const currentHost = window.location.href;
+  const currentPageIsLogin = currentHost.indexOf("login") !== -1;
+
+  if (currentPageIsLogin) {
+    return (
+      <div>
+        {children}
       </div>
-    </div>
-  );
+    );
+  } else {
+    return (
+      <div className="page-template">
+        <div className="top-container">{getTopBar()}</div>
+        <div className="bottom-container">
+          {getSideBarMobileOnState(showSideBarMobile)}
+          <div className="side-navigation">{getSideBarDesktop()}</div>
+          <div className="page-content">{children}</div>
+        </div>
+      </div>
+    );
+  }
 };
 
 export default PageTemplate;
