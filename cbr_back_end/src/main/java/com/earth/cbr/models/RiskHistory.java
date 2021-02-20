@@ -15,7 +15,7 @@ public class RiskHistory {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "client_id", referencedColumnName = "id")
     Client client;
 
@@ -80,12 +80,6 @@ public class RiskHistory {
     )
     private String socialRiskDescription;
 
-    @Column(
-            name = "type",
-            columnDefinition = "TEXT"
-    )
-    private String type;
-
     public RiskHistory() {
     }
 
@@ -100,8 +94,7 @@ public class RiskHistory {
                        String healthRiskDescription,
                        String socialGoal,
                        Integer socialRisk,
-                       String socialRiskDescription,
-                       String type) {
+                       String socialRiskDescription) {
         this.id = id;
         this.client = client;
         this.createdDate = createdDate;
@@ -114,7 +107,6 @@ public class RiskHistory {
         this.socialGoal = socialGoal;
         this.socialRisk = socialRisk;
         this.socialRiskDescription = socialRiskDescription;
-        this.type = type;
     }
 
     public Long getId() {
@@ -211,13 +203,5 @@ public class RiskHistory {
 
     public void setSocialRiskDescription(String socialRiskDescription) {
         this.socialRiskDescription = socialRiskDescription;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

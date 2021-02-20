@@ -129,6 +129,9 @@ public class Client {
     )
     Set<Disability> disabilities;
 
+    @OneToMany(mappedBy = "client")
+    private Set<RiskHistory> riskHistories;
+
     public Client() {
     }
 
@@ -148,7 +151,8 @@ public class Client {
                   String caregiverPhoto,
                   String requiredServices,
                   String individualGoals,
-                  Set<Disability> disabilities) {
+                  Set<Disability> disabilities,
+                  Set<RiskHistory> riskHistories) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -166,6 +170,7 @@ public class Client {
         this.requiredServices = requiredServices;
         this.individualGoals = individualGoals;
         this.disabilities = disabilities;
+        this.riskHistories = riskHistories;
     }
 
     public Long getId() {
@@ -304,5 +309,13 @@ public class Client {
 
     public void setDisabilities(Set<Disability> disabilities) {
         this.disabilities = disabilities;
+    }
+
+    public Set<RiskHistory> getRiskHistories() {
+        return riskHistories;
+    }
+
+    public void setRiskHistories(Set<RiskHistory> riskHistories) {
+        this.riskHistories = riskHistories;
     }
 }
