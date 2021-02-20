@@ -48,11 +48,11 @@ const PriorityClientList = () => {
 
     const createPriorityClientListComponents = () => {
         const priorityClientsClientComponents = [];
-        if(priorityClients === undefined || priorityClients.length == 0) {
+        if(priorityClients === undefined || priorityClients.length === 0) {
             return (<p>Currently there isn't any priority client.</p>);
         }
         for (const index in priorityClients) {
-            priorityClientsClientComponents.push(<PriorityClient number={index} client={priorityClients[index]} key={index.toString()}/>);
+            priorityClientsClientComponents.push(<PriorityClient number={index} client={priorityClients[index]} key={index}/>);
         }
         return priorityClientsClientComponents;
     };

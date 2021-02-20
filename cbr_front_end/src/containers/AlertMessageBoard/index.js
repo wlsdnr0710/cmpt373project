@@ -20,7 +20,7 @@ const AlertMessageBoard = () => {
             return (<AlertMessage message={"There is no alert now"} />)
         }
         for (const index in alertMessages) {
-            alertMessageComponents.push(<AlertMessage message={alertMessages[index]} key={index.toString()}/>)
+            alertMessageComponents.push(<AlertMessage message={alertMessages[index]} key={index}/>)
         }
         return alertMessageComponents;
     };
