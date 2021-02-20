@@ -51,10 +51,12 @@ const PriorityClientList = () => {
         if(priorityClients === undefined || priorityClients.length === 0) {
             return (<p>Currently there isn't any priority client.</p>);
         }
-        for (const index in priorityClients) {
-            priorityClientsClientComponents.push(<PriorityClient number={index} client={priorityClients[index]} key={index}/>);
+        else {
+            for (const index in priorityClients) {
+                priorityClientsClientComponents.push(<PriorityClient number={index} client={priorityClients[index]} key={index}/>);
+            }
+            return priorityClientsClientComponents;
         }
-        return priorityClientsClientComponents;
     };
 
     return (
