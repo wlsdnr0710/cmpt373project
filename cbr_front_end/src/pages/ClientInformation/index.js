@@ -11,14 +11,21 @@ import ServerConfig from '../../config/ServerConfig';
 import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
 import "./styles.css";
 
-//TODO: The disability component is under works
 const ClientInfo = props => {
   const history = useHistory();
 
   const parameterString = props.location.search;
   const clientId = qs.parse(parameterString).id;
 
-  const getClientDataByGetRequest = useCallback(() => {
+  const getClientDataByGetRequest = useCallback(() => {  
+    const getAgeFromBirthdate = brithdate => {
+      const birthdateEpoch = parseDateStringToEpoch(brithdate);
+      const birthdateObj = new Date(birthdateEpoch);
+      const currDateObj = new Date();
+      const age = currDateObj.getFullYear() - birthdateObj.getFullYear();
+      return age;
+    };
+
     axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId)
       .then(response => {
         var JSONData = response.data;
@@ -36,7 +43,7 @@ const ClientInfo = props => {
           newFormInputs["zone"] = data.zoneName.name;
           newFormInputs["villageNumber"] = data.villageNumber;
           newFormInputs["gender"] = data.gender;
-          newFormInputs["age"] = data.age;
+          newFormInputs["age"] = getAgeFromBirthdate(data.birthdate);
           newFormInputs["birthdate"] = parseISODateString(data.birthdate);
           newFormInputs["date"] = parseISODateString(data.signupDate);
 

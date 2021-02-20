@@ -17,7 +17,7 @@ const RiskDateInformation = (includeDateInformation, date) => {
   }
 };
 
-const RiskInformation = ({riskObject, includeHeader, includeDateInformation}) => {
+const RiskInformation = ({ riskObject, includeHeader, includeDateInformation }) => {
   //TODO: Refactor health, education, social and dates to be in a risk object
   return (
     <div className="risk-information-card">

@@ -4,7 +4,6 @@ import './style.css';
 
 const AlertMessageBoard = () => {
     const [alertMessages, setAlertMessages] = useState([]);
-    const alertMessageComponents = [];
 
     const getAlertMessage = () => {
         // TODO: get alert message from backend.
@@ -16,19 +15,22 @@ const AlertMessageBoard = () => {
     }, []);
 
     const createMessageCompoments = () => {
+        const alertMessageComponents = [];
         if (!alertMessages) {
             return (<AlertMessage message={"There is no alert now"} />)
         }
-        for (const index in alertMessages) {
-            alertMessageComponents.push(<AlertMessage message={alertMessages[index]}/>)
+        else {
+            for (const index in alertMessages) {
+                alertMessageComponents.push(<AlertMessage message={alertMessages[index]} key={index}/>)
+            }
+            return alertMessageComponents;
         }
-        return alertMessageComponents;
     };
 
     return (
-        <div className="alertBoard">
-            <h3>Alert:</h3> 
-            <p onClick={getAlertMessage}>Refresh</p>
+        <div className="alert-board">
+            <h4>Alert:</h4> 
+            <button onClick={getAlertMessage}>Refresh</button>
             {createMessageCompoments()}
         </div>
     );

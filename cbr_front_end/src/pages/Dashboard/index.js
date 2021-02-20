@@ -1,6 +1,7 @@
 import React from "react";
 import FormHeader from "../../components/FormHeader";
 import AlertMessageBoard from "../../containers/AlertMessageBoard";
+import PriorityClientList from "../../containers/PriorityClientList";
 
 const DashBoard = () => {
     return (
@@ -9,6 +10,8 @@ const DashBoard = () => {
                 headerText="Dashboard"
             />
             <AlertMessageBoard />
+
+            <PriorityClientList />
         </div>
     );
 };
