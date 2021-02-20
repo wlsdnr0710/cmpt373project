@@ -10,7 +10,6 @@ import ServerConfig from '../../config/ServerConfig';
 import "./styles.css";
 
 //TODO: Must test again with the actual the actual api rather than a mockup api
-//TODO: The disability component is under works
 const ClientInfo = props => {
   const history = useHistory();
   const getClientDataByGetRequest = () => {

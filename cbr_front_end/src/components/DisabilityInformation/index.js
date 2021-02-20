@@ -1,7 +1,6 @@
 import React from "react";
 import "./style.css";
 
-//TODO: Display items from object 
 const DisabilityInformation = ({ disabilityObject }) => {
   return (
     <div>
