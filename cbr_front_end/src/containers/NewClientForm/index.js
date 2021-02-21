@@ -56,8 +56,8 @@ const NewClientForm = () => {
         "educationRisk": "low",
         "educationNeed": "",
         "educationIndividualGoals": "",
-        "clientPhoto": "",
-        "caregiverPhoto": "",
+        "clientPhoto": null,
+        "caregiverPhoto": null,
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
@@ -171,7 +171,7 @@ const NewClientForm = () => {
                     if (error.response) {
                         message = error.response.data.message;
                     } else {
-                        message = "Something went wrong on server.";
+                        message = "Something went wrong on the server.";
                     }
 
                     const newMessages = [...prevErrorMessages, message];
@@ -325,8 +325,7 @@ const NewClientForm = () => {
 
     const getEpochTime = date => {
         const dateTime = new Date(date).getTime();
-        const timeStamp = Math.floor(dateTime / 1000);
-        return timeStamp;
+        return dateTime;
     }
     
     const getDisabilityTypeCheckBoxesOnChangeHandler = name => {
