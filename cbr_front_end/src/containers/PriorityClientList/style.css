@@ -1,9 +1,9 @@
 .priority-client-list {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-bottom: 10%;
+    border: 0.1rem;
+    margin: auto;
+    padding: 1rem;
+}
+
+.priority-client-list .priority-client-title {
+    font-size: 2rem;
 }

@@ -1,6 +1,22 @@
 .priority-client {
-    margin-top: 2px;
-    margin-bottom : 2px;
-    font-size: 15px;
-    text-align: center;
+    margin-top: 1rem;
+}
+
+.priority-client .client-photo-container {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-items: center;
+}
+
+.priority-client .client-name {
+    font-size: 1.5rem;
+}
+
+.priority-client .attribute {
+    margin-bottom: 0.5rem;
+}
+
+.priority-client .attribute-title {
+    font-size: 1.2rem;
 }

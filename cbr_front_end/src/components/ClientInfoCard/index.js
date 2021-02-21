@@ -1,7 +1,7 @@
 import React from "react";
 import Badge from 'react-bootstrap/Badge';
 import ClientInfoCardAttribute from "../../components/ClientInfoCardAttribute";
-import PersonSVG from "../../assets/svg/person.svg";
+import avatar from "../../assets/avatar.png";
 import "./style.css";
 
 const ClientInfoCard = ({ client }) => {
@@ -9,12 +9,11 @@ const ClientInfoCard = ({ client }) => {
         <div className="client-info-card">
             <div className="photo-id-display">
                 <div className="client-photo">
-                    <img src={PersonSVG} alt="" />
+                    <img src={avatar} alt="" />
                 </div>
                 <div className="id-badge-container">
                     <Badge variant="info">
-                        <div>ID</div> 
-                        <div>{client.id}</div>
+                        <div>ID: {client.id}</div> 
                     </Badge>
                 </div>
             </div>
