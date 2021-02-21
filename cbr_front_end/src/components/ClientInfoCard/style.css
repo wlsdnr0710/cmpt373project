@@ -13,6 +13,7 @@
 .client-info-card .photo-id-display .id-badge-container {
     display: flex;
     justify-content: center;
+    margin-top: 0.5rem;
 }
 
 .client-info-card .client-photo {
