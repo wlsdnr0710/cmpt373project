@@ -1,13 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import AlertMessage from '../../components/AlertMessage';
+import Button from 'react-bootstrap/Button';
 import './style.css';
 
 const AlertMessageBoard = () => {
-    const [alertMessages, setAlertMessages] = useState([]);
+    const [alertMessages, setAlertMessages] = useState({});
 
     const getAlertMessage = () => {
         // TODO: get alert message from backend.
-        setAlertMessages(["testMessage1", "testMessage2", "testMessage3", "testMessage4"]);
+        setAlertMessages([
+            {
+                "variant": "primary",
+                "message": "Welcome to the CBR worker management system.",
+            },
+            {
+                "variant": "danger",
+                "message": "A client has high risk level!",
+            },
+            {
+                "variant": "warning",
+                "message": "Please complete your profile.",
+            },
+        ]);
     };
 
     useEffect(() => {
@@ -21,7 +35,9 @@ const AlertMessageBoard = () => {
         }
         else {
             for (const index in alertMessages) {
-                alertMessageComponents.push(<AlertMessage message={alertMessages[index]} key={index}/>)
+                const message = alertMessages[index].message;
+                const variant = alertMessages[index].variant;
+                alertMessageComponents.push(<AlertMessage message={message} variant={variant} key={index}/>)
             }
             return alertMessageComponents;
         }
@@ -29,9 +45,11 @@ const AlertMessageBoard = () => {
 
     return (
         <div className="alert-board">
-            <h4>Alert:</h4> 
-            <button onClick={getAlertMessage}>Refresh</button>
-            {createMessageCompoments()}
+            <div className="alert-board-title">Alert Messages</div> 
+            <div className="messages">
+                {createMessageCompoments()}
+            </div>
+            <Button onClick={getAlertMessage} variant="primary">Refresh</Button>
         </div>
     );
 };

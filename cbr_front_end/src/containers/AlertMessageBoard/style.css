@@ -1,12 +1,13 @@
 .alert-board {
-    background-color: lightgray;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-left: 10%;
-    margin-right: 10%;
-    margin-top: 10%;
-    margin-bottom: 10%;
-    padding-top: 10px;
+    border: 0.1rem;
+    margin: auto;
+    padding: 1rem;
+}
+
+.alert-board .alert-board-title {
+    font-size: 2rem;
+}
+
+.alert-board .messages {
+    margin-top: 1rem;
 }

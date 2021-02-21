@@ -61,7 +61,7 @@ const PriorityClientList = () => {
 
     return (
         <div className='priority-client-list'>
-            <h4>Priority Clients:</h4> 
+            <div className="priority-client-title">Priority Clients</div> 
             {createPriorityClientListComponents()}
         </div>
     );
