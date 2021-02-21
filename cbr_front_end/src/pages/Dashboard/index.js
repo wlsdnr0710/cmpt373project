@@ -11,6 +11,8 @@ const DashBoard = () => {
             />
             <AlertMessageBoard />
 
+            <hr />
+
             <PriorityClientList />
         </div>
     );
