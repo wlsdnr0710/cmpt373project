@@ -159,15 +159,21 @@ const NewClientForm = () => {
                 const oneSecond = 1000;
                 setIsSubmitSuccess(true);
                 setIsSubmitting(false);
-                // TODO: We redirect user to view client list page for now.
-                // Will need to redirect users to the new added client page
+                const clientId = response.data.id;
                 setTimeout(() => {
-                    history.push("view-client");
+                    history.push("/client-information?id=" + clientId);
+                    window.scrollTo(0, 0);
                 }, oneSecond);
             })
             .catch(error => {
                 setErrorMessages(prevErrorMessages => {
-                    const message = error.response.data.message;
+                    let message = "";
+                    if (error.response) {
+                        message = error.response.data.message;
+                    } else {
+                        message = "Something went wrong on the server.";
+                    }
+
                     const newMessages = [...prevErrorMessages, message];
                     return newMessages;
                 });
@@ -319,8 +325,7 @@ const NewClientForm = () => {
 
     const getEpochTime = date => {
         const dateTime = new Date(date).getTime();
-        const timeStamp = Math.floor(dateTime / 1000);
-        return timeStamp;
+        return dateTime;
     }
     
     const getDisabilityTypeCheckBoxesOnChangeHandler = name => {

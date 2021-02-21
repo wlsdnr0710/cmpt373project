@@ -5,14 +5,19 @@ const ClientInformation = ({clientObject: client}) => {
   return (
     <div>
       <div className="client-information-card">
-        <img className = "client-information-image" src={client.image} alt="client" />
-        <div>
+        <div className="client-information-image-container">
+          <img className = "client-information-image" src={client.image} alt="client" />
           <h1 className ="name">{client.name}</h1>
-          <div className = "details">ID: {client.id}</div>
-          <div className = "details">Village No: {client.zone}</div>
-          <div className = "details">Gender: {client.gender}</div>
-          <div className = "details">Age: {client.age}</div>
-          <div className = "details">Birthdate: {client.birthdate}</div>
+        </div>
+        <div className="client-info-body">
+          <div className="client-info-container">
+            <div className = "details"><strong>ID:</strong> {client.id}</div>
+            <div className = "details"><strong>Zone:</strong> {client.zone}</div>
+            <div className = "details"><strong>Village No:</strong> {client.villageNumber}</div>
+            <div className = "details"><strong>Gender:</strong> {client.gender}</div>
+            <div className = "details"><strong>Age:</strong> {client.age}</div>
+            <div className = "details"><strong>Birthdate:</strong> {client.birthdate}</div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
@@ -6,40 +6,67 @@ import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../components/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import axios from 'axios';
+import qs from "query-string";
 import ServerConfig from '../../config/ServerConfig';
+import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
 import "./styles.css";
 
-//TODO: Must test again with the actual the actual api rather than a mockup api
 const ClientInfo = props => {
   const history = useHistory();
-  const getClientDataByGetRequest = () => {
-    axios.get(ServerConfig.api.url + '/api/v1/client/' + props.id)
+
+  const parameterString = props.location.search;
+  const clientId = qs.parse(parameterString).id;
+
+  const getClientDataByGetRequest = useCallback(() => {  
+    axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId)
       .then(response => {
         var JSONData = response.data;
-        formInputs["name"] = JSONData.data.firstName + " " + JSONData.data.lastName;
-        formInputs["id"] = JSONData.data.id;
-        formInputs["zone"] = JSONData.data.zone;
-        formInputs["gender"] = JSONData.data.gender;
-        formInputs["age"] = "";
-        formInputs["image"] = JSONData.data.image;
-        formInputs["birthdate"] = JSONData.data.birthDate;
-        formInputs["date"] = JSONData.data.signupDate;
-        formInputs["health"] = JSONData.data.health;
-        formInputs["education"] = JSONData.data.education;
-        formInputs["social"] = JSONData.data.social;
-        formInputs["disabilityList"] = JSONData.data.disabilityList;
-        setFormInputs(formInputs);
+        setFormInputs(prevFormInputs => {
+          const data = JSONData.data;
+          const newFormInputs = {...prevFormInputs};
+
+          // Keep using default image if no client's image is uploaded
+          if (data.image) {
+            newFormInputs["image"] = data.image;
+          }
+
+          newFormInputs["name"] = data.firstName + " " + data.lastName;
+          newFormInputs["id"] = data.id;
+          newFormInputs["zone"] = data.zoneName.name;
+          newFormInputs["villageNumber"] = data.villageNumber;
+          newFormInputs["gender"] = data.gender;
+          newFormInputs["age"] = data.age;
+          newFormInputs["birthdate"] = parseISODateString(data.birthdate);
+          newFormInputs["date"] = parseISODateString(data.signupDate);
+
+          // TODO: Make sure the first one is always the latest history
+          // Make a sorting funtion to sort histories based on date
+          const risk = data.riskHistories[0];
+          if (risk) {
+            newFormInputs["health"] = risk.healthRiskDescription;
+            newFormInputs["education"] = risk.educationRiskDescription;
+            newFormInputs["social"] = risk.socialRiskDescription;
+          }
+
+          newFormInputs["disabilityList"] = data.disabilities;
+          return newFormInputs;
+        });
       })
       .catch(error => {
         console.log("Get request failed, error: " + error)
       });
+  }, [clientId]);
+
+  const parseISODateString = ISODateString => {
+    const epoch = parseDateStringToEpoch(ISODateString);
+    return parseEpochToDateString(epoch);
   };
 
   const [formInputs, setFormInputs] = useState({
     "date": "YYYY-MM-DD",
-    "health": "-1",
-    "education": "-1",
-    "social": "-1",
+    "health": "N/A",
+    "education": "N/A",
+    "social": "N/A",
     "id": "123456789",
     "name": "First Last",
     "image": avatar,
@@ -47,7 +74,7 @@ const ClientInfo = props => {
     "gender": "M/F",
     "age": "-1",
     "birthdate": "YYYY-MM-DD",
-    "disabilityList": ["One Disability", "Two Disability"]
+    "disabilityList": ["N/A"]
   });
 
   const riskObject = {
@@ -62,6 +89,7 @@ const ClientInfo = props => {
     name: formInputs["name"],
     image: formInputs["image"],
     zone: formInputs["zone"],
+    villageNumber: formInputs["villageNumber"],
     gender: formInputs["gender"],
     age: formInputs["age"],
     birthdate: formInputs["birthdate"],
@@ -78,29 +106,9 @@ const ClientInfo = props => {
     });
   };
 
-  const updateFormInputByNameValue = (name, value) => {
-    setFormInputs(prevFormInputs => {
-      const newFormInputs = { ...prevFormInputs };
-      newFormInputs[name] = value;
-      return newFormInputs;
-    });
-  };
-
-  const updateAgeFromBirthdate = () => {
-    var currDate = new Date(0);
-    currDate.setUTCSeconds(formInputs["birthdate"]);
-    var birthDate = new Date(0);
-    birthDate.setUTCSeconds(1519096078);
-    var currYear = currDate.getFullYear();
-    var dateYear = birthDate.getFullYear();
-    var age = currYear - dateYear;
-    updateFormInputByNameValue("age", age);
-  }
-
   useEffect(() => {
     getClientDataByGetRequest();
-    updateAgeFromBirthdate();
-  }, []);
+  }, [getClientDataByGetRequest]);
 
   return (
     < div >
@@ -124,13 +132,13 @@ const ClientInfo = props => {
             disabilityObject={disabilityObject}
           />
           <div className="client-information-hr">
-            <div className="client-information-hr ml-5 mt-3">
+            <div className="client-information-hr mt-3">
               <button type="button" className="btn btn-secondary">
                 Edit
               </button>
             </div>
-            <div className="client-information-hr ml-5 mt-3">
-              <button type="button" className="btn btn-secondary" onClick={onClickGetNewVisitPage}>
+            <div className="client-information-hr mt-3">
+              <button type="button" className="btn btn-primary" onClick={onClickGetNewVisitPage}>
                 Add Visit
               </button>
             </div>
