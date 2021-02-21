@@ -2,15 +2,21 @@
     margin-top: 1rem;
 }
 
+.priority-client .client-photo-container {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    justify-items: center;
+}
+
+.priority-client .client-name {
+    font-size: 1.5rem;
+}
+
 .priority-client .attribute {
     margin-bottom: 0.5rem;
 }
 
 .priority-client .attribute-title {
-    font-size: 1.5rem;
-}
-
-.priority-client .button-container {
-    display: flex;
-    justify-content: center;
+    font-size: 1.2rem;
 }
