@@ -2,12 +2,19 @@ package com.earth.cbr.models;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity(name = "Health_Option")
 @Table(name = "health_option")
 public class ServiceOption {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @JsonIgnore
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "id", referencedColumnName = "visit_id")
+
 
     @Column(
         name = "health_option",

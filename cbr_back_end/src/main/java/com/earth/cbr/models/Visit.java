@@ -3,7 +3,10 @@ package com.earth.cbr.models;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.Date;
+import java.util.Set;
 
 @Entity(name = "Visit")
 @Table(name = "visit")
@@ -11,6 +14,21 @@ public class Visit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @ManyToMany
+    @JoinTable(
+            name = "health_provided",
+            joinColumns = @JoinColumn(name = "visit_id"),
+            inverseJoinColumns = @JoinColumn(name = "id")
+    )
+    private Set<ServiceProvided> serviceProvided;
+
+    @OneToMany(mappedBy = "visit")
+    private Set<ServiceOption> serviceOption;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "visit_id", referencedColumnName = "id", insertable = false, updatable = false)
+
 
     @Column(
             name = "consent",
