@@ -74,11 +74,11 @@ public class ServiceProvided {
         this.id = id;
     }
 
-    public int getVisitId(){
+    public Integer getVisitId(){
         return visitId;
     }
 
-    public void setVisitId(int visitId){
+    public void setVisitId(Integer visitId){
         this.visitId = visitId;
     }
 
@@ -112,10 +112,6 @@ public class ServiceProvided {
 
     public void setType(String type){
         this.type = type;
-    }
-
-    public void setVisitId(Integer visitId) {
-        this.visitId = visitId;
     }
 
     public Visit getVisit() {
