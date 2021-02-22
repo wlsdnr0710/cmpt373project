@@ -1,9 +1,11 @@
 package com.earth.cbr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
-@Entity(name = "Health_Provided")
-@Table(name = "health_provided")
+@Entity(name = "Service_Provided")
+@Table(name = "service_provided")
 public class ServiceProvided {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +15,7 @@ public class ServiceProvided {
         name = "visit_id",
         columnDefinition = "INT"
     )
-    private int visitId;
+    private Integer visitId;
 
     @Column(
         name = "description",
@@ -38,17 +40,30 @@ public class ServiceProvided {
         columnDefinition = "TEXT"
     )
     private String type;
+
+    @JsonIgnore
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "visit_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Visit visit;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    private ServiceOption serviceOption;
     
     public ServiceProvided(){
         
     }
 
-    public ServiceProvided(int visitId, String description, String goal, String outcome, String type) {
+    public ServiceProvided(Long id, Integer visitId, String description, String goal, String outcome, String type,
+                           Visit visit, ServiceOption serviceOption) {
+        this.id = id;
         this.visitId = visitId;
         this.description = description;
         this.goal = goal;
         this.outcome = outcome;
         this.type = type;
+        this.visit = visit;
+        this.serviceOption = serviceOption;
     }
 
     public Long getId(){
@@ -97,5 +112,25 @@ public class ServiceProvided {
 
     public void setType(String type){
         this.type = type;
+    }
+
+    public void setVisitId(Integer visitId) {
+        this.visitId = visitId;
+    }
+
+    public Visit getVisit() {
+        return visit;
+    }
+
+    public void setVisit(Visit visit) {
+        this.visit = visit;
+    }
+
+    public ServiceOption getServiceOption() {
+        return serviceOption;
+    }
+
+    public void setServiceOption(ServiceOption serviceOption) {
+        this.serviceOption = serviceOption;
     }
 }

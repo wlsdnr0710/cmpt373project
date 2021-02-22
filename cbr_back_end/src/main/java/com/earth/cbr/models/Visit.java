@@ -3,8 +3,6 @@ package com.earth.cbr.models;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -14,21 +12,6 @@ public class Visit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @ManyToMany
-    @JoinTable(
-            name = "health_provided",
-            joinColumns = @JoinColumn(name = "visit_id"),
-            inverseJoinColumns = @JoinColumn(name = "id")
-    )
-    private Set<ServiceProvided> serviceProvided;
-
-    @OneToMany(mappedBy = "visit")
-    private Set<ServiceOption> serviceOption;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "visit_id", referencedColumnName = "id", insertable = false, updatable = false)
-
 
     @Column(
             name = "consent",
@@ -98,12 +81,15 @@ public class Visit {
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
 
+    @OneToMany(mappedBy = "visit")
+    private Set<ServiceProvided> serviceProvided;
+
     public Visit() {
 
     }
 
     public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, Integer zone, Integer villageNumber,
-                 String healthGoalProgress, String healthOutcome, Long clientId, Zone zoneName) {
+                 String healthGoalProgress, String healthOutcome, Long clientId, Zone zoneName, Set<ServiceProvided> serviceProvided) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -114,6 +100,7 @@ public class Visit {
         this.healthOutcome = healthOutcome;
         this.clientId = clientId;
         this.zoneName = zoneName;
+        this.serviceProvided = serviceProvided;
     }
 
     public Long getId() {
@@ -202,5 +189,17 @@ public class Visit {
 
     public void setZoneName(Zone zoneName) {
         this.zoneName = zoneName;
+    }
+
+    public void setVillageNumber(Integer villageNumber) {
+        this.villageNumber = villageNumber;
+    }
+
+    public Set<ServiceProvided> getServiceProvided() {
+        return serviceProvided;
+    }
+
+    public void setServiceProvided(Set<ServiceProvided> serviceProvided) {
+        this.serviceProvided = serviceProvided;
     }
 }
