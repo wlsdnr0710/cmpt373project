@@ -2,7 +2,7 @@ package com.earth.cbr.models;
 
 import javax.persistence.*;
 
-@Entity(name = "Health_provided")
+@Entity(name = "Health_Provided")
 @Table(name = "health_provided")
 public class ServiceProvided {
     @Id
