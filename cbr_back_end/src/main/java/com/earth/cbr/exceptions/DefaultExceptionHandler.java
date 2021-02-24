@@ -15,6 +15,8 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 
@@ -28,13 +30,13 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
         JSONObject responseJson = new JSONObject();
 
         Set<ConstraintViolation<?>> constraintViolations = ex.getConstraintViolations();
-        StringBuilder constraintMessages = new StringBuilder();
+        List<String> constraintMessages = new ArrayList<>();
         for (ConstraintViolation<?> constraintViolation : constraintViolations) {
-            constraintMessages.append(constraintViolation.getMessage());
+            constraintMessages.add(constraintViolation.getMessage());
         }
 
         responseJson.put("exception type", ex.getClass().getSimpleName());
-        responseJson.put("message", constraintMessages);
+        responseJson.put("messages", constraintMessages);
 
         return new ResponseEntity(responseJson, HttpStatus.BAD_REQUEST);
     }
