@@ -9,7 +9,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
 
-const ClientTable = () => {
+const ClientTable = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [clients, setClients] = useState([]);
     const [hasMoreClients, setHasMoreClients] = useState(true);
@@ -51,13 +51,13 @@ const ClientTable = () => {
         const { page, clientsPerPage } = pageable;
         setIsLoading(true);
         axios.get(
-                ServerConfig.api.url + "/api/v1/client?" + convertToParameterString({
-                    "page": page,
-                    "clientsPerPage": clientsPerPage,
-                    "searchKeyword": searchKeyword,
-                    "sortBy": sortBy,
-                })
-            )
+            ServerConfig.api.url + "/api/v1/client?" + convertToParameterString({
+                "page": page,
+                "clientsPerPage": clientsPerPage,
+                "searchKeyword": searchKeyword,
+                "sortBy": sortBy,
+            })
+        )
             .then(response => {
                 const receivedClients = response.data.data;
                 updateClients(receivedClients);
@@ -111,7 +111,7 @@ const ClientTable = () => {
             intersectionObserver.current = new IntersectionObserver(infScrollIntersecObserverCallBack);
             intersectionObserver.current.observe(observeeElement.current);
         };
-    
+
         const infScrollIntersecObserverCallBack = entries => {
             entries.forEach(entry => {
                 const { isIntersecting } = entry;
@@ -121,7 +121,7 @@ const ClientTable = () => {
                 }
             });
         };
-    
+
         const loadMoreClientsAndSetHasMoreClients = () => {
             if (!hasMoreClients || currentPage === firstPage) {
                 return;
@@ -149,7 +149,7 @@ const ClientTable = () => {
         const data = [];
         for (const index in clients) {
             const row = {};
-            row["Clients"] = <ClientInfoCard client={clients[index]} />;
+            row["Clients"] = <ClientInfoCard client={clients[index]} queryData={props.query} />;
             data.push(row);
         }
         return data;
@@ -212,9 +212,9 @@ const ClientTable = () => {
                 </div>
                 <hr />
                 <div className="section">
-                    <span>Sort By: </span> 
-                    <DropdownList 
-                        dropdownName="sort-by" 
+                    <span>Sort By: </span>
+                    <DropdownList
+                        dropdownName="sort-by"
                         dropdownListItemsKeyValue={getSortByList()}
                         value={sortBy}
                         onChange={onChangeSortByHandler}
@@ -224,7 +224,7 @@ const ClientTable = () => {
             <div className="table">
                 <Table headers={["Clients"]} data={mapClientToTableData(clients)} />
             </div>
-            <div className="infinite-scroll-observer" ref={element => observeeElement.current = element }>
+            <div className="infinite-scroll-observer" ref={element => observeeElement.current = element}>
             </div>
             <div className="spinner">
                 {showSpinnerWhenIsLoading(isLoading)}

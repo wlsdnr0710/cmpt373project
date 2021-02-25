@@ -52,7 +52,8 @@ const PageTemplate = ({ children }) => {
         />
         <NavigationBarEntry
           label="New Visit"
-          destination="#"
+          destination="/view-client"
+          query="visits"
           iconSource={newVisitIcon}
           iconAlt="New Visit"
         />
@@ -65,6 +66,7 @@ const PageTemplate = ({ children }) => {
         <NavigationBarEntry
           label="All Clients"
           destination="/view-client"
+          query="clients"
           iconSource={allClientsIcon}
           iconAlt="All Clients"
         />
