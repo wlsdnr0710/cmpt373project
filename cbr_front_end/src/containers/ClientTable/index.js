@@ -51,15 +51,10 @@ const ClientTable = props => {
         const { page, clientsPerPage } = pageable;
         setIsLoading(true);
         axios.get(
-            ServerConfig.api.url + "/api/v1/client?" + convertToParameterString({
-                "page": page,
-                "clientsPerPage": clientsPerPage,
-                "searchKeyword": searchKeyword,
-                "sortBy": sortBy,
-            })
+            ServerConfig.api.url + "/api/v1/client/" + "pageNumber/" + page + "/pageSize/" + clientsPerPage
         )
             .then(response => {
-                const receivedClients = response.data.data;
+                const receivedClients = response.data.data.content;
                 updateClients(receivedClients);
                 incrementPage();
             })
@@ -71,6 +66,7 @@ const ClientTable = props => {
             });
     }, [searchKeyword, sortBy]);
 
+    // TODO: This function will be used in the future when syntax search is implemented
     const convertToParameterString = paramKeyValues => {
         let paramString = "";
         let isFirstParam = true;
@@ -228,6 +224,9 @@ const ClientTable = props => {
             </div>
             <div className="spinner">
                 {showSpinnerWhenIsLoading(isLoading)}
+            </div>
+            <div className="no-more-clients">
+                {!hasMoreClients ? "No more clients" : null}
             </div>
         </div>
     );

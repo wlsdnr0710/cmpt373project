@@ -14,13 +14,11 @@ const ClientInfoCard = props => {
             state: { clientID: clientData.id }
         });
         window.scrollTo(0, 0);
-        console.log("New visits");
     }
 
     const onClickHandlerAllClients = () => {
         history.push("/client-information?id=" + clientData.id);
         window.scrollTo(0, 0);
-        console.log("All Clients");
     }
 
     const onClickHandlerComparison = () => {

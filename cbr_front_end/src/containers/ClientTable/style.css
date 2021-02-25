@@ -3,3 +3,9 @@
     justify-content: center;
     margin-bottom: 1rem;
 }
+
+.client-table .no-more-clients {
+    display: flex;
+    justify-content: center;
+    opacity: 0.8;
+}

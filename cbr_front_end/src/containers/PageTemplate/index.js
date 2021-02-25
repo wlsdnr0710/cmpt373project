@@ -11,7 +11,6 @@ import logo from "../../assets/HHALogo.svg";
 import "./style.css";
 
 //TODO: Find way to import all assets at once 
-
 const PageTemplate = ({ children }) => {
   const getTopBar = () => {
     return (
