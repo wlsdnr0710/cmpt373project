@@ -1,5 +1,9 @@
 # CBR Manager - Group Earth
 
+## Project Introduction
+
+This project is an application that managers CBR worker workflow. For example, CBR workers can use the application to add new clients, new visits and coordinate their works.
+
 ## Set up environment
 
 Please npm install all dependencies for the first time you run the front-end code.
