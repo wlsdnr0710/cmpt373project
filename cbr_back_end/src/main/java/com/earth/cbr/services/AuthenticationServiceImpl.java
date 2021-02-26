@@ -11,6 +11,9 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Autowired
     private WorkerService workerService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Override
     public boolean isCredentialValid(Credential credential) {
         return areUsernamePasswordValid(credential.username, credential.password);
@@ -18,7 +21,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public String getAuthenticationToken(Credential credential) {
-        return "JWT token";
+        Worker worker = workerService.getWorkerByUsername(credential.username);
+        return tokenService.getTokenForWorker(worker);
     }
 
     private boolean areUsernamePasswordValid(String username, String password) {

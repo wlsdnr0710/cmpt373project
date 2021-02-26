@@ -1,5 +1,6 @@
 package com.earth.cbr.services;
 
+import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.authentication.Credential;
 
 public interface AuthenticationService {
