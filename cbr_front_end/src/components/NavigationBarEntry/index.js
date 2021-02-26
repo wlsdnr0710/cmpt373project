@@ -12,7 +12,8 @@ const displayIcon = (iconSource, iconAlt) => {
 const NavigationBarEntry = ({ label, destination, iconSource, iconAlt, query }) => {
   let history = useHistory();
   const OnClickNavigationHandler = () => {
-    history.push(destination + "?query=" + query);
+    if (query)
+      history.push(destination + "?query=" + query);
   }
 
   return (

@@ -5,26 +5,25 @@ import { useHistory } from "react-router-dom";
 import avatar from "../../assets/avatar.png";
 import "./style.css";
 
-const ClientInfoCard = props => {
+const ClientInfoCard = ({ client, queryData }) => {
     const history = useHistory();
-    const clientData = props.client;
     const onClickHandlerNewVisits = () => {
         history.push({
             pathname: "/new-visit",
-            state: { clientID: clientData.id }
+            state: { clientID: client.id }
         });
         window.scrollTo(0, 0);
     }
 
     const onClickHandlerAllClients = () => {
-        history.push("/client-information?id=" + clientData.id);
+        history.push("/client-information?id=" + client.id);
         window.scrollTo(0, 0);
     }
 
     const onClickHandlerComparison = () => {
-        if (props.queryData === "visits") {
+        if (queryData === "visits") {
             onClickHandlerNewVisits();
-        } else if (props.queryData === "clients") {
+        } else if (queryData === "clients") {
             onClickHandlerAllClients();
         }
     }
@@ -37,23 +36,23 @@ const ClientInfoCard = props => {
                 </div>
                 <div className="id-badge-container">
                     <Badge variant="info">
-                        <div>ID: {clientData.id}</div>
+                        <div>ID: {client.id}</div>
                     </Badge>
                 </div>
             </div>
 
             <div className="client-info">
                 <div className="section">
-                    <ClientInfoCardAttribute keyText="First Name" valueText={clientData.firstName} />
-                    <ClientInfoCardAttribute keyText="Location" valueText={clientData.location} />
-                    <ClientInfoCardAttribute keyText="Risk" valueText={clientData.risk} />
-                    <ClientInfoCardAttribute keyText="Age" valueText={clientData.age} />
+                    <ClientInfoCardAttribute keyText="First Name" valueText={client.firstName} />
+                    <ClientInfoCardAttribute keyText="Location" valueText={client.location} />
+                    <ClientInfoCardAttribute keyText="Risk" valueText={client.risk} />
+                    <ClientInfoCardAttribute keyText="Age" valueText={client.age} />
                 </div>
                 <div className="section">
-                    <ClientInfoCardAttribute keyText="Gender" valueText={clientData.gender} />
-                    <ClientInfoCardAttribute keyText="Last Name" valueText={clientData.lastName} />
-                    <ClientInfoCardAttribute keyText="Village No." valueText={clientData.villageNumber} />
-                    <ClientInfoCardAttribute keyText="Disability" valueText={clientData.disability} />
+                    <ClientInfoCardAttribute keyText="Gender" valueText={client.gender} />
+                    <ClientInfoCardAttribute keyText="Last Name" valueText={client.lastName} />
+                    <ClientInfoCardAttribute keyText="Village No." valueText={client.villageNumber} />
+                    <ClientInfoCardAttribute keyText="Disability" valueText={client.disability} />
                 </div>
             </div>
         </div>

@@ -4,13 +4,13 @@ import ClientTable from "../../containers/ClientTable";
 import qs from "query-string"
 import "./style.css";
 
-const ViewClient = props => {
+const ViewClient = ({ history, location }) => {
     const onClickCreateButtonHandler = () => {
-        props.history.push("/new-client");
+        history.push("/new-client");
     };
 
     const parseQueryData = () => {
-        const parameterString = props.location.search;
+        const parameterString = location.search;
         const queryData = qs.parse(parameterString).query;
         return queryData;
     }
