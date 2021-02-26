@@ -106,6 +106,13 @@ const ClientInfo = props => {
     });
   };
 
+  const onClickGetEditClientPage = () => {
+    history.push({
+      pathname: "edit-client",
+      state: { clientID: formInputs.id} //refactor to brackets? 
+    })
+  }
+
   useEffect(() => {
     getClientDataByGetRequest();
   }, [getClientDataByGetRequest]);
@@ -133,7 +140,7 @@ const ClientInfo = props => {
           />
           <div className="client-information-hr">
             <div className="client-information-hr mt-3">
-              <button type="button" className="btn btn-secondary">
+              <button type="button" className="btn btn-secondary" onClick={onClickGetEditClientPage}>
                 Edit
               </button>
             </div>

@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
+import avatar from "../../assets/avatar.png";
 import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import RiskInformation from "../../components/RiskInformation"
-import defaultClientImage from "../../assets/avatar.png";
+import { getClientInformationFromAPI } from "../../utils/Utilities";
 import "./style.css";
 
 //TODO: Grab dropdown options from database table
@@ -34,18 +35,15 @@ const riskObject = {
   social: "1",
 };
 
-const EditClientForm = () => {
+const EditClientForm = props => {
+  // const parameterString = props.location.search;
+  // const clientId = qs.parse(parameterString).id;
+
   //TODO: Revert back to these values when clicking discard changes
-  const [clientInformation, setClientInformation] = useState({
-    firstName: "adrian",
-    lastName: "wong",
-    clientZone: "bidizone4",
-    villageNumber: "4",
-    birthdate: "2018-07-13",
-    gender: "male",
-    contactNumber: "6044526517",
-    caregiverNumber: "1",
-  });
+  
+
+  //TODO: Refactor and place in utils (same with ClientInformation page)
+  const [clientInformation, setClientInformation] = useState(getClientInformationFromAPI(11));
 
   const handleChange = (event) => {
     const input = event.target;
@@ -89,7 +87,7 @@ const EditClientForm = () => {
       <div>
         <div className="client-image" onClick={toggleImageUpload}>
           {/*TODO: Grab client image from database */}
-          <img src={defaultClientImage} alt="client"></img>
+          <img src={avatar} alt="client"></img>
           <div className="upload-banner">Upload Photo</div>
         </div>
         {getImageUploadOnState(showImageUploader)}
@@ -158,7 +156,7 @@ const EditClientForm = () => {
       <div className="input-field">
         <PhoneInputField
           name="caregiverNumber"
-          value={clientInformation.caregiverNumber}
+          value={clientInformation.cbrWorkerId}
           label="Caregiver Number: "
           onChange={handleChange}
         />
