@@ -1,9 +1,11 @@
 import React from "react";
+import { doAuthentication } from "../../utils/AuthenticationUtil";
 import Button from 'react-bootstrap/Button';
 import ClientTable from "../../containers/ClientTable";
 import "./style.css";
 
 const ViewClient = ({ history }) => {
+    doAuthentication();
     const onClickCreateButtonHandler = () => {
         history.push("/new-client");
     };

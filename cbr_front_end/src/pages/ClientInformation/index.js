@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { doAuthentication } from "../../utils/AuthenticationUtil";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
 import BackgroundCard from "../../components/BackgroundCard";
@@ -12,6 +13,7 @@ import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Util
 import "./styles.css";
 
 const ClientInfo = props => {
+  doAuthentication();
   const history = useHistory();
 
   const parameterString = props.location.search;

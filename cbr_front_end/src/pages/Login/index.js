@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { saveToken } from "../../utils/AuthenticationUtil";
 import LoginInputField from "../../components/LoginInputField";
 import Logo from "../../assets/HHALogo.svg";
 import ServerConfig from "../../config/ServerConfig";
@@ -30,20 +31,19 @@ export default class Login extends Component {
     handleSubmit(event) {
         const { username, password } = this.state;
         axios.post(
-            ServerConfig.api.url + '/api/v1/login',
+            ServerConfig.api.url + '/api/v1/authentication/worker',
             {
-                user: {
-                    username: username,
-                    password: password
-                }
-            },
-            { withCredentials: true }
+                username: username,
+                password: password
+            }
         )
             .then(response => {
+                const token = response.data.data;
+                saveToken(token);
                 this.redirectToDashboard();
             })
             .catch(error => {
-                this.setState({ errorMessage: error.message });
+                this.setState({ errorMessage: error.response.data.message });
             });
         event.preventDefault();
     }
