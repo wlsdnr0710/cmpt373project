@@ -12,7 +12,11 @@ const displayIcon = (iconSource, iconAlt) => {
 const NavigationBarEntry = ({ label, destination, iconSource, iconAlt, query }) => {
   let history = useHistory();
   const OnClickNavigationHandler = () => {
+    if (query !== "#") {
       history.push(destination + "?query=" + query);
+    } else if (destination !== "#") {
+      history.push(destination)
+    }
   }
 
   return (
