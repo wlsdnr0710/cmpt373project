@@ -3,6 +3,7 @@ package com.earth.cbr.controllers;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.authentication.Credential;
+import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.AuthenticationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,7 @@ public class AuthenticationController {
 
     private String credentialInvalidMessage = "Username/password are invalid.";
 
+    @PassToken
     @PostMapping(value = "/worker")
     public ResponseEntity<JSONObject> authenticateWorker(@RequestBody Credential credential)
             throws MissingRequiredDataObjectException {

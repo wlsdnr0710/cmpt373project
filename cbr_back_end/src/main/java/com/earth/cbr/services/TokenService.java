@@ -9,4 +9,5 @@ public interface TokenService {
     Long getWorkerIdFromToken(String token);
     String getWorkerUsernameFromToken(String token);
     Date getExpireDateSinceToday(Long days);
+    boolean doesTokenHasValidWorker(String token);
 }
