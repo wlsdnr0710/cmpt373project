@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
 import newClientIcon from "../../assets/svg/navigation_icons/user_plus.svg";
@@ -96,10 +97,18 @@ const PageTemplate = ({ children }) => {
     );
   };
 
-  const currentHost = window.location.href;
-  const currentPageIsLogin = currentHost.indexOf("login") !== -1;
+  const [isCurrentPageLogin, setIsCurrentPageLogin] = useState(false);
+  const location = useLocation();
+  const hideNavInLoginPage = useCallback(() => {
+    const currentPageIsLogin = location.pathname.indexOf("login") !== -1;
+    setIsCurrentPageLogin(currentPageIsLogin);
+  }, [location]);
 
-  if (currentPageIsLogin) {
+  useEffect(() => {
+    hideNavInLoginPage();
+  }, [hideNavInLoginPage]);
+
+  if (isCurrentPageLogin) {
     return (
       <div>
         {children}
