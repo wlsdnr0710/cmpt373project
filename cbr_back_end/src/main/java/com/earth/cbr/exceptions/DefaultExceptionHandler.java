@@ -26,7 +26,8 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity<Object> handleConstraintViolationException(
-            ConstraintViolationException ex, WebRequest request) {
+            ConstraintViolationException ex,
+            WebRequest request) {
 
         JSONObject responseJson = new JSONObject();
 
@@ -44,36 +45,48 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
     public ResponseEntity<Object> handleSQLIntegrityConstraintViolationException(
-            SQLIntegrityConstraintViolationException ex, WebRequest request) {
+            SQLIntegrityConstraintViolationException ex,
+            WebRequest request) {
 
         JSONObject responseJson = new JSONObject();
 
+        // Put into a list for consistent output
+        List<String> constraintMessages = new ArrayList<>();
+        constraintMessages.add(ex.getMessage());
         responseJson.put("exception type", ex.getClass().getSimpleName());
-        responseJson.put("message", ex.getMessage());
+        responseJson.put("message", constraintMessages);
 
         return ResponseEntity.badRequest().body(responseJson);
     }
 
     @ExceptionHandler(MissingRequiredDataObjectException.class)
     public ResponseEntity<Object> handleMissingRequiredDataObjectException(
-            MissingRequiredDataObjectException ex, WebRequest request) {
+            MissingRequiredDataObjectException ex,
+            WebRequest request) {
 
         JSONObject responseJson = new JSONObject();
 
+        // Put into a list for consistent output
+        List<String> constraintMessages = new ArrayList<>();
+        constraintMessages.add(ex.getMessage());
         responseJson.put("exception type", ex.getClass().getSimpleName());
-        responseJson.put("message", ex.getMessage());
+        responseJson.put("message", constraintMessages);
 
         return ResponseEntity.badRequest().body(responseJson);
     }
 
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<Object> handleNumberFormatException(
-            NumberFormatException ex, WebRequest request) {
+            NumberFormatException ex,
+            WebRequest request) {
 
         JSONObject responseJson = new JSONObject();
 
+        // Put into a list for consistent output
+        List<String> constraintMessages = new ArrayList<>();
+        constraintMessages.add(ex.getMessage());
         responseJson.put("exception type", ex.getClass().getSimpleName());
-        responseJson.put("message", ex.getMessage());
+        responseJson.put("message", constraintMessages);
 
         return ResponseEntity.badRequest().body(responseJson);
     }
