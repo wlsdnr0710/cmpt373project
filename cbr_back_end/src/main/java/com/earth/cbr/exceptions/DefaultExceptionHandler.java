@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -39,6 +40,18 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
         responseJson.put("messages", constraintMessages);
 
         return new ResponseEntity(responseJson, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(SQLIntegrityConstraintViolationException.class)
+    public ResponseEntity<Object> handleSQLIntegrityConstraintViolationException(
+            SQLIntegrityConstraintViolationException ex, WebRequest request) {
+
+        JSONObject responseJson = new JSONObject();
+
+        responseJson.put("exception type", ex.getClass().getSimpleName());
+        responseJson.put("message", ex.getMessage());
+
+        return ResponseEntity.badRequest().body(responseJson);
     }
 
     @ExceptionHandler(MissingRequiredDataObjectException.class)
