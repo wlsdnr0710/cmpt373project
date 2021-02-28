@@ -13,8 +13,8 @@ import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Util
 import "./styles.css";
 
 const ClientInfo = props => {
-  doAuthentication();
   const history = useHistory();
+  doAuthentication(history);
 
   const parameterString = props.location.search;
   const clientId = qs.parse(parameterString).id;

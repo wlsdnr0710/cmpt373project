@@ -50,3 +50,7 @@ export const saveToken = token => {
 export const getToken = () => {
     return window.localStorage.getItem("token");
 };
+
+export const removeToken = () => {
+    window.localStorage.removeItem("token");
+};

@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import { removeToken } from "../../utils/AuthenticationUtil";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
 import newClientIcon from "../../assets/svg/navigation_icons/user_plus.svg";
@@ -7,6 +8,7 @@ import newVisitIcon from "../../assets/svg/navigation_icons/user_pin.svg";
 import newReferralIcon from "../../assets/svg/navigation_icons/id_card.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/layers_alt.svg";
 import cloudSyncIcon from "../../assets/svg/navigation_icons/cloud.svg";
+import logoutIcon from "../../assets/svg/navigation_icons/logout.svg";
 import hamburgerMenuIcon from "../../assets/svg/navigation_icons/hamburger.svg";
 import logo from "../../assets/HHALogo.svg";
 import "./style.css";
@@ -34,6 +36,10 @@ const PageTemplate = ({ children }) => {
 
   const toggleSideBarMobile = () => {
     setSideBarMobile(!showSideBarMobile);
+  };
+
+  const onClickSignOut = () => {
+    removeToken();
   };
 
   const getNavigationItems = () => {
@@ -69,6 +75,14 @@ const PageTemplate = ({ children }) => {
           iconSource={allClientsIcon}
           iconAlt="All Clients"
         />
+        <div onClick={onClickSignOut}>
+          <NavigationBarEntry
+            label="Sign out"
+            destination="/login"
+            iconSource={logoutIcon}
+            iconAlt="Sign out"
+          />
+        </div>
         <div className="sync">
           <NavigationBarEntry
             label="Sync"

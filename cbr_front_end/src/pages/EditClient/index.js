@@ -4,8 +4,8 @@ import BackgroundCard from "../../components/BackgroundCard";
 import EditClientForm from "../../containers/EditClientForm";
 import "./style.css";
 
-const EditClient = () => {
-  doAuthentication();
+const EditClient = ({ history }) => {
+  doAuthentication(history);
   return (
     <div>
       <BackgroundCard heading="Edit Client">

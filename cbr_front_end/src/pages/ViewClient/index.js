@@ -5,7 +5,7 @@ import ClientTable from "../../containers/ClientTable";
 import "./style.css";
 
 const ViewClient = ({ history }) => {
-    doAuthentication();
+    doAuthentication(history);
     const onClickCreateButtonHandler = () => {
         history.push("/new-client");
     };

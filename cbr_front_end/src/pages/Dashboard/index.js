@@ -4,8 +4,8 @@ import FormHeader from "../../components/FormHeader";
 import AlertMessageBoard from "../../containers/AlertMessageBoard";
 import PriorityClientList from "../../containers/PriorityClientList";
 
-const DashBoard = () => {
-    doAuthentication();
+const DashBoard = ({ history }) => {
+    doAuthentication(history);
     return (
         <div className="dashboard">
             <FormHeader 
