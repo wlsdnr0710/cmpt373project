@@ -7,7 +7,7 @@ import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import RiskInformation from "../../components/RiskInformation"
-import { getClientInformationFromAPI } from "../../utils/Utilities";
+import { getClientInformationFromApi, getClientObject } from "../../utils/Utilities";
 import "./style.css";
 
 //TODO: Grab dropdown options from database table
@@ -43,7 +43,7 @@ const EditClientForm = props => {
   
 
   //TODO: Refactor and place in utils (same with ClientInformation page)
-  const [clientInformation, setClientInformation] = useState(getClientInformationFromAPI(11));
+  const [clientInformation, setClientInformation] = useState(getClientObject());
 
   const handleChange = (event) => {
     const input = event.target;
