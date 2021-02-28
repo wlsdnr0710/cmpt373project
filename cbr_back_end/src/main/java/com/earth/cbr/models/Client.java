@@ -23,7 +23,6 @@ public class Client {
             name = "first_name",
             columnDefinition = "TEXT"
     )
-    @NotNull(message = "test")
     @NotBlank(message = "First name is mandatory")
     private String firstName;
 

@@ -47,41 +47,25 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleSQLIntegrityConstraintViolationException(
             SQLIntegrityConstraintViolationException ex,
             WebRequest request) {
-
-        JSONObject responseJson = new JSONObject();
-
-        // Put into a list for consistent output
-        List<String> constraintMessages = new ArrayList<>();
-        constraintMessages.add(ex.getMessage());
-        responseJson.put("exception type", ex.getClass().getSimpleName());
-        responseJson.put("message", constraintMessages);
-
-        return ResponseEntity.badRequest().body(responseJson);
+        return standardExceptionHandling(ex);
     }
 
     @ExceptionHandler(MissingRequiredDataObjectException.class)
     public ResponseEntity<Object> handleMissingRequiredDataObjectException(
             MissingRequiredDataObjectException ex,
             WebRequest request) {
-
-        JSONObject responseJson = new JSONObject();
-
-        // Put into a list for consistent output
-        List<String> constraintMessages = new ArrayList<>();
-        constraintMessages.add(ex.getMessage());
-        responseJson.put("exception type", ex.getClass().getSimpleName());
-        responseJson.put("message", constraintMessages);
-
-        return ResponseEntity.badRequest().body(responseJson);
+        return standardExceptionHandling(ex);
     }
 
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<Object> handleNumberFormatException(
             NumberFormatException ex,
             WebRequest request) {
+        return standardExceptionHandling(ex);
+    }
 
+    private ResponseEntity<Object> standardExceptionHandling(Exception ex) {
         JSONObject responseJson = new JSONObject();
-
         // Put into a list for consistent output
         List<String> constraintMessages = new ArrayList<>();
         constraintMessages.add(ex.getMessage());
