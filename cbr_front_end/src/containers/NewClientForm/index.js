@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getToken } from "../../utils/AuthenticationUtil";
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
@@ -151,9 +152,14 @@ const NewClientForm = () => {
 
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
-        // TODO: Replace the hardcoded server URL
+        
+        const requestHeader = {
+            token: getToken()
+        };
         axios.post(ServerConfig.api.url + '/api/v1/client', {
             "data": data
+        }, {
+            headers: requestHeader,
         })
             .then(response => {
                 const oneSecond = 1000;

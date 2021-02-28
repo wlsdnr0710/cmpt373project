@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { getToken } from "../../utils/AuthenticationUtil";
 import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
 import Table from "../../components/Table";
@@ -49,6 +50,10 @@ const ClientTable = () => {
 
     const requestClientsByPageable = useCallback(pageable => {
         const { page, clientsPerPage } = pageable;
+
+        const requestHeader = {
+            token: getToken()
+        };
         setIsLoading(true);
         axios.get(
                 ServerConfig.api.url + "/api/v1/client?" + convertToParameterString({
@@ -56,7 +61,9 @@ const ClientTable = () => {
                     "clientsPerPage": clientsPerPage,
                     "searchKeyword": searchKeyword,
                     "sortBy": sortBy,
-                })
+                }), {
+                    headers: requestHeader,
+                }
             )
             .then(response => {
                 const receivedClients = response.data.data;

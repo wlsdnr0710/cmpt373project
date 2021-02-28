@@ -80,6 +80,6 @@ public class TokenServiceImpl implements TokenService {
             return false;
         }
 
-        return false;
+        return true;
     }
 }
