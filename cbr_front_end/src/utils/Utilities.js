@@ -1,5 +1,6 @@
 import axios from "axios";
 import ServerConfig from "../config/ServerConfig";
+import React, { useState } from 'react';
 
 export const parseDateStringToEpoch = dateString => {
     return Date.parse(dateString);
@@ -11,30 +12,26 @@ export const parseEpochToDateString = epoch => {
 
 //TODO: compile helper functions into this file
 
-export const getClientInformationFromApi = (clientID) => {
-    //TODO: current issue is with using Promises 
-    var client;
-    axios.get(ServerConfig.api.url + '/api/v1/client/' + clientID)
-    .then(response =>{
-        // client = getClientObjectFromResponse(response.data);
-        console.log(response.data.data);
-        return response.data;
-    })
-    .catch(error => {
-        console.log("Get request failed, error: " + error)
-        return null;
-    });
-}
+export const getClientInformationFromApi = (clientId) => {
+
+    return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId);
+};
 
 const getClientObjectFromResponse = (responseData) => {
     //Loop over object and update object
-    var client = getClientObject();
-    console.log(client);
+    const client = getClientObject();
 
     Object.keys(client).forEach(function(key){
         client[key] = responseData.data[key];
     });
     return client; 
+}
+
+const initiateClientRequest = (clientId) => {
+    const promise = axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId);
+    const dataPromise = promise.then((response) => response.data);
+
+    return dataPromise;
 }
 
 
