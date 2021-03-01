@@ -48,14 +48,14 @@ public class ServiceProvided {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private ServiceOption serviceOption;
+    private Service service;
     
     public ServiceProvided(){
         
     }
 
     public ServiceProvided(Long id, Integer visitId, String description, String goal, String outcome, String type,
-                           Visit visit, ServiceOption serviceOption) {
+                           Visit visit, Service service) {
         this.id = id;
         this.visitId = visitId;
         this.description = description;
@@ -63,7 +63,7 @@ public class ServiceProvided {
         this.outcome = outcome;
         this.type = type;
         this.visit = visit;
-        this.serviceOption = serviceOption;
+        this.service = service;
     }
 
     public Long getId(){
@@ -122,11 +122,11 @@ public class ServiceProvided {
         this.visit = visit;
     }
 
-    public ServiceOption getServiceOption() {
-        return serviceOption;
+    public Service getService() {
+        return service;
     }
 
-    public void setServiceOption(ServiceOption serviceOption) {
-        this.serviceOption = serviceOption;
+    public void setService(Service service) {
+        this.service = service;
     }
 }

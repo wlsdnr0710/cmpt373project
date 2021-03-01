@@ -2,19 +2,18 @@ package com.earth.cbr.models;
 
 import javax.persistence.*;
 
-@Entity(name = "Service_Option")
-@Table(name = "service_option")
-public class ServiceOption {
+@Entity(name = "Service")
+@Table(name = "service")
+public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(
-        name = "health_option",
+        name = "name",
         columnDefinition = "TEXT" 
     )
-    private String healthOption;
-
+    private String name;
    
     @Column(
         name = "type",
@@ -22,13 +21,13 @@ public class ServiceOption {
     )
     private String type;
     
-    public ServiceOption(){
+    public Service(){
         
     }
 
-    public ServiceOption(Long id, String healthOption, String type) {
+    public Service(Long id, String name, String type) {
         this.id = id;
-        this.healthOption = healthOption;
+        this.name = name;
         this.type = type;
     }
 
@@ -40,12 +39,12 @@ public class ServiceOption {
         this.id = id;
     }
 
-    public String getHealthOption(){
-        return healthOption;
+    public String getName(){
+        return name;
     }
 
-    public void setHealthOption(String healthOption){
-        this.healthOption = healthOption;
+    public void setName(String name){
+        this.name = name;
     }
 
     public String getType(){
