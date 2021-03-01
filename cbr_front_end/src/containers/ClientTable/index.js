@@ -56,7 +56,7 @@ const ClientTable = props => {
         };
         setIsLoading(true);
         axios.get(
-                ServerConfig.api.url + "/api/v1/client/" + "pageNumber/" + page + "/pageSize/" + clientsPerPage, 
+                ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage, 
                 {
                     headers: requestHeader,
                 }
@@ -72,7 +72,7 @@ const ClientTable = props => {
             .then(() => {
                 setIsLoading(false);
             });
-    }, [searchKeyword, sortBy]);
+    }, [searchKeyword, sortBy]); // TODO: Will use searchKeyword and sortBy dependencies
 
     // TODO: This function will be used in the future when syntax search is implemented
     const convertToParameterString = paramKeyValues => {

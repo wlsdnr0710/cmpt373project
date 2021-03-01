@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { isAuthenticated } from "../../utils/AuthenticationUtil";
 import { saveToken } from "../../utils/AuthenticationUtil";
 import LoginInputField from "../../components/LoginInputField";
 import Logo from "../../assets/HHALogo.svg";
@@ -16,6 +17,12 @@ export default class Login extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+    }
+
+    componentDidMount() {
+        if (isAuthenticated()) {
+            this.redirectToDashboard();
+        }
     }
 
     redirectToDashboard() {
