@@ -74,6 +74,7 @@ public class Visit {
             name = "social_goal_progress",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Social goal progress is mandatory")
     private String socialGoalProgress;
 
     @Column(
@@ -86,6 +87,7 @@ public class Visit {
             name = "education_goal_progress",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Education goal progress is mandatory")
     private String educationGoalProgress;
 
     @Column(

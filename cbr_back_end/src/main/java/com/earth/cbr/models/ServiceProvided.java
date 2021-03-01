@@ -48,8 +48,7 @@ public class ServiceProvided {
         
     }
 
-    public ServiceProvided(Long id, Integer visitId, String description, Integer serviceId, String type, Visit visit, Service service) {
-        this.id = id;
+    public ServiceProvided(Integer visitId, String description, Integer serviceId, String type, Visit visit, Service service) {
         this.visitId = visitId;
         this.description = description;
         this.type = type;

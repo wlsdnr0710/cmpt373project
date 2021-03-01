@@ -25,8 +25,7 @@ public class Service {
         
     }
 
-    public Service(Long id, String name, String type) {
-        this.id = id;
+    public Service(String name, String type) {
         this.name = name;
         this.type = type;
     }
