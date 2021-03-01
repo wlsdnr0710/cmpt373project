@@ -23,7 +23,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         }
 
         Method method = getMethodFromHandlerMethod((HandlerMethod) handler);
-        if (!doesRequestNeedAuth(method)) {
+        if (!doesRequestNeedAuthentication(method)) {
             return true;
         }
         if (!doesTokenPresentInHeader(request)) {
@@ -49,7 +49,7 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
         return handlerMethod.getMethod();
     }
 
-    private boolean doesRequestNeedAuth(Method method) {
+    private boolean doesRequestNeedAuthentication(Method method) {
         return !hasPassToken(method);
     }
 

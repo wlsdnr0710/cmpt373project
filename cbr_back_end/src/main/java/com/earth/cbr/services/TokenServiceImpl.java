@@ -15,7 +15,7 @@ import java.util.Date;
 
 @Service
 public class TokenServiceImpl implements TokenService {
-    // Change this secret when on production
+    // TODO: Change this secret when on production
     private String tokenSecret = "0eqk di3!@)310edqw-[lkd";
     private Algorithm algorithm = Algorithm.HMAC256(tokenSecret);
     private JWTVerifier jwtVerifier = JWT.require(algorithm).build();

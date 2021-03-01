@@ -31,8 +31,8 @@ public class AuthenticationController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseJson);
         }
 
-        String authToken = authenticationService.getAuthenticationToken(credential);
-        responseJson.put("data", authToken);
+        String authenticationToken = authenticationService.getAuthenticationToken(credential);
+        responseJson.put("data", authenticationToken);
         return ResponseEntity.ok().body(responseJson);
     }
 }
