@@ -24,22 +24,16 @@ public class ServiceProvided {
     private String description;
 
     @Column(
-        name = "goal",
-        columnDefinition = "TEXT"
-    )
-    private String goal;
-
-    @Column(
-        name = "outcome",
-        columnDefinition = "TEXT"
-    )
-    private String outcome;
-
-    @Column(
         name = "type",
         columnDefinition = "TEXT"
     )
     private String type;
+
+    @Column(
+            name = "service_id",
+            columnDefinition = "INT"
+    )
+    private Integer serviceId;
 
     @JsonIgnore
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -54,14 +48,12 @@ public class ServiceProvided {
         
     }
 
-    public ServiceProvided(Long id, Integer visitId, String description, String goal, String outcome, String type,
-                           Visit visit, Service service) {
+    public ServiceProvided(Long id, Integer visitId, String description, Integer serviceId, String type, Visit visit, Service service) {
         this.id = id;
         this.visitId = visitId;
         this.description = description;
-        this.goal = goal;
-        this.outcome = outcome;
         this.type = type;
+        this.serviceId = serviceId;
         this.visit = visit;
         this.service = service;
     }
@@ -90,28 +82,20 @@ public class ServiceProvided {
         this.description = description;
     }
 
-    public String getGoal(){
-        return goal;
-    }
-
-    public void setGoal(String goal){
-        this.goal = goal;
-    }
-
-    public String getOutcome(){
-        return outcome;
-    }
-
-    public void setOutcome(String outcome){
-        this.outcome = outcome;
-    }
-
     public String getType(){
         return type;
     }
 
     public void setType(String type){
         this.type = type;
+    }
+
+    public Integer getServiceId() {
+        return serviceId;
+    }
+
+    public void setServiceId(Integer serviceId) {
+        this.serviceId = serviceId;
     }
 
     public Visit getVisit() {
