@@ -162,29 +162,39 @@ const NewClientForm = () => {
             headers: requestHeader,
         })
             .then(response => {
-                const oneSecond = 1000;
-                setIsSubmitSuccess(true);
-                setIsSubmitting(false);
+                setFormStateAfterSubmitSuccess();
                 const clientId = response.data.id;
-                setTimeout(() => {
-                    history.push("/client-information?id=" + clientId);
-                    window.scrollTo(0, 0);
-                }, oneSecond);
+                const oneSecond = 1;
+                redirectToClientInfoPageAfter(clientId, oneSecond);
             })
             .catch(error => {
-                setErrorMessages(prevErrorMessages => {
-                    let message = "";
-                    if (error.response) {
-                        message = error.response.data.message;
-                    } else {
-                        message = "Something went wrong on the server.";
-                    }
-
-                    const newMessages = [...prevErrorMessages, message];
-                    return newMessages;
-                });
+                updateErrorMessages(error);
                 setStatesWhenFormIsSubmitting(false);
             })
+    };
+
+    const setFormStateAfterSubmitSuccess = () => {
+        setIsSubmitSuccess(true);
+        setIsSubmitting(false);
+    };
+
+    const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("/client-information?id=" + clientId);
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
+    };
+
+    const updateErrorMessages = error => {
+        setErrorMessages(prevErrorMessages => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
     };
 
     const setStatesWhenFormIsSubmitting = isSubmitting => {
@@ -334,31 +344,33 @@ const NewClientForm = () => {
         return dateTime;
     }
     
+    const disabilityTypeKeyValues = {
+        "Amputee": "1",
+        "Polio": "2",
+        "Spinal Cord Injury": "3",
+        "Cerebral Palsy": "4",
+        "Spina Bifida": "5",
+        "Hydrocephalus": "6",
+        "Other": "7",
+    };
     const getDisabilityTypeCheckBoxesOnChangeHandler = name => {
-        const disabilityTypeKeyValues = {
-            "Amputee": "1",
-            "Polio": "2",
-            "Spinal Cord Injury": "3",
-            "Cerebral Palsy": "4",
-            "Spina Bifida": "5",
-            "Hydrocephalus": "6",
-            "Other": "7",
-        };
-
         return event => {
             const checkBox = event.target;
             let checkBoxesValues = formInputs["disabilityType"];
             if (checkBox.checked) {
                 checkBoxesValues = [...checkBoxesValues, disabilityTypeKeyValues[name]];
             } else {
-                const matchedItemIndex = checkBoxesValues.indexOf(disabilityTypeKeyValues[name]);
-                // If the item exists
-                if (matchedItemIndex !== -1) {
-                    checkBoxesValues.splice(matchedItemIndex, 1);
-                }
+                removeCheckBoxValuesByName(checkBoxesValues, name);
             }
             updateFormInputByNameValue("disabilityType", checkBoxesValues);
         };
+    };
+
+    const removeCheckBoxValuesByName = (checkBoxesValues, name) => {
+        const matchedItemIndex = checkBoxesValues.indexOf(disabilityTypeKeyValues[name]);
+        if (matchedItemIndex !== -1) {
+            checkBoxesValues.splice(matchedItemIndex, 1);
+        }
     };
 
     return (

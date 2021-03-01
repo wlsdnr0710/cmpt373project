@@ -14,7 +14,6 @@ import logo from "../../assets/HHALogo.svg";
 import "./style.css";
 
 //TODO: Find way to import all assets at once 
-
 const PageTemplate = ({ children }) => {
   const getTopBar = () => {
     return (
@@ -48,30 +47,35 @@ const PageTemplate = ({ children }) => {
         <NavigationBarEntry
           label="Dashboard"
           destination="/dashboard"
+          query="#"
           iconSource={dashboardIcon}
           iconAlt="Dashboard"
         />
         <NavigationBarEntry
           label="New Client"
           destination="/new-client"
+          query="#"
           iconSource={newClientIcon}
           iconAlt="New Client"
         />
         <NavigationBarEntry
           label="New Visit"
-          destination="#"
+          destination="/view-client"
+          query="visits"
           iconSource={newVisitIcon}
           iconAlt="New Visit"
         />
         <NavigationBarEntry
           label="New Referral"
           destination="#"
+          query="#"
           iconSource={newReferralIcon}
           iconAlt="New Referral"
         />
         <NavigationBarEntry
           label="All Clients"
           destination="/view-client"
+          query="clients"
           iconSource={allClientsIcon}
           iconAlt="All Clients"
         />
@@ -87,6 +91,7 @@ const PageTemplate = ({ children }) => {
           <NavigationBarEntry
             label="Sync"
             destination="#"
+            query="#"
             iconSource={cloudSyncIcon}
             iconAlt="Sync"
           />

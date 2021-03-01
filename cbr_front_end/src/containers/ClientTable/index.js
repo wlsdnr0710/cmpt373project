@@ -10,7 +10,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
 
-const ClientTable = () => {
+const ClientTable = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [clients, setClients] = useState([]);
     const [hasMoreClients, setHasMoreClients] = useState(true);
@@ -56,17 +56,13 @@ const ClientTable = () => {
         };
         setIsLoading(true);
         axios.get(
-                ServerConfig.api.url + "/api/v1/client?" + convertToParameterString({
-                    "page": page,
-                    "clientsPerPage": clientsPerPage,
-                    "searchKeyword": searchKeyword,
-                    "sortBy": sortBy,
-                }), {
+                ServerConfig.api.url + "/api/v1/client/" + "pageNumber/" + page + "/pageSize/" + clientsPerPage, 
+                {
                     headers: requestHeader,
                 }
             )
             .then(response => {
-                const receivedClients = response.data.data;
+                const receivedClients = response.data.data.content;
                 updateClients(receivedClients);
                 incrementPage();
             })
@@ -78,6 +74,7 @@ const ClientTable = () => {
             });
     }, [searchKeyword, sortBy]);
 
+    // TODO: This function will be used in the future when syntax search is implemented
     const convertToParameterString = paramKeyValues => {
         let paramString = "";
         let isFirstParam = true;
@@ -118,7 +115,7 @@ const ClientTable = () => {
             intersectionObserver.current = new IntersectionObserver(infScrollIntersecObserverCallBack);
             intersectionObserver.current.observe(observeeElement.current);
         };
-    
+
         const infScrollIntersecObserverCallBack = entries => {
             entries.forEach(entry => {
                 const { isIntersecting } = entry;
@@ -128,7 +125,7 @@ const ClientTable = () => {
                 }
             });
         };
-    
+
         const loadMoreClientsAndSetHasMoreClients = () => {
             if (!hasMoreClients || currentPage === firstPage) {
                 return;
@@ -156,7 +153,7 @@ const ClientTable = () => {
         const data = [];
         for (const index in clients) {
             const row = {};
-            row["Clients"] = <ClientInfoCard client={clients[index]} />;
+            row["Clients"] = <ClientInfoCard client={clients[index]} queryData={props.query} />;
             data.push(row);
         }
         return data;
@@ -219,9 +216,9 @@ const ClientTable = () => {
                 </div>
                 <hr />
                 <div className="section">
-                    <span>Sort By: </span> 
-                    <DropdownList 
-                        dropdownName="sort-by" 
+                    <span>Sort By: </span>
+                    <DropdownList
+                        dropdownName="sort-by"
                         dropdownListItemsKeyValue={getSortByList()}
                         value={sortBy}
                         onChange={onChangeSortByHandler}
@@ -231,10 +228,13 @@ const ClientTable = () => {
             <div className="table">
                 <Table headers={["Clients"]} data={mapClientToTableData(clients)} />
             </div>
-            <div className="infinite-scroll-observer" ref={element => observeeElement.current = element }>
+            <div className="infinite-scroll-observer" ref={element => observeeElement.current = element}>
             </div>
             <div className="spinner">
                 {showSpinnerWhenIsLoading(isLoading)}
+            </div>
+            <div className="no-more-clients">
+                {!hasMoreClients ? "No more clients" : null}
             </div>
         </div>
     );
