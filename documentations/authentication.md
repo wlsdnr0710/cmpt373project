@@ -20,6 +20,19 @@ axios.get(
     )
 ```
 
+## Bypass an API for Authentication
+
+By default, the interceptor will intercept all requests and check whether the requests contain authentication token in the headers. However, if developers want to bypass authentication for an API, they can pust the @PassToken on top of the controller method. As a result, the interceptor will just let the requests pass without authentication. For example,
+
+```java
+@PassToken
+@PostMapping(value = "/worker")
+public ResponseEntity<JSONObject> authenticateWorker(@RequestBody Credential credential)
+        throws MissingRequiredDataObjectException {
+    // ...
+}
+```
+
 ## Authenticating Users in Pages
 
 If a page requires authentication, developers should call the method doAuthentication() at the first line of their page component and pass a history object to the method. doAuthentication() will use the history object to redirect the user to the login page if the user is not authenticated.
