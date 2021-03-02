@@ -3,7 +3,6 @@ package com.earth.cbr.controllers;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
-import com.earth.cbr.models.Message;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.services.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,21 +37,50 @@ public class ZoneController {
     @PostMapping
     public ResponseEntity<JSONObject> addZone(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException {
-        JSONObject messageJSON = payload.getJSONObject("data");
+        JSONObject zoneJSON = payload.getJSONObject("data");
 
-        if (messageJSON == null) {
+        if (zoneJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Zone data");
         }
-        String zoneString = messageJSON.toJSONString();
+        String zoneString = zoneJSON.toJSONString();
 
         JSONObject responseJson = new JSONObject();
         Zone zone = JSON.parseObject(zoneString, Zone.class);
 
         Zone addedZone = zoneService.addZone(zone);
 
-        // Need to tell front-end the new message's id
+        // Need to tell front-end the new zone's id
         // so front-end can update the UI
         responseJson.put("id", addedZone.getId());
         return ResponseEntity.ok().body(responseJson);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> updateZoneById(@PathVariable Long id, @RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException {
+        JSONObject zoneJSON = payload.getJSONObject("data");
+
+        if (zoneJSON == null) {
+            throw new MissingRequiredDataObjectException("Missing data object containing Zone data");
+        }
+        String zoneString = zoneJSON.toJSONString();
+
+        JSONObject responseJson = new JSONObject();
+        Zone zone = JSON.parseObject(zoneString, Zone.class);
+
+        Zone updatedZone = zoneService.updateZoneById(id, zone);
+
+        // Need to tell front-end the new zone's id
+        // so front-end can update the UI
+        responseJson.put("id", updatedZone.getId());
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<JSONObject> deleteZoneById(@RequestBody JSONObject payload) {
+        Integer zoneIdInt = (Integer) payload.get("id");
+        Long zoneId = Long.valueOf(zoneIdInt);
+        zoneService.deleteZoneById(zoneId);
+        return ResponseEntity.ok().body(null);
     }
 }
