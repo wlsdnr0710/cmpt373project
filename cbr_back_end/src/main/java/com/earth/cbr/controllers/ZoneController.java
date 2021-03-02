@@ -2,6 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.exceptions.IdDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.services.ZoneService;
@@ -27,7 +28,11 @@ public class ZoneController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getZoneById(@PathVariable Long id){
+    public ResponseEntity<JSONObject> getZoneById(@PathVariable Long id) throws IdDoesNotExistException{
+        if(zoneService.getZoneById(id) == null) {
+            throw new IdDoesNotExistException("Zone ID does not exist");
+        }
+
         Zone zone = zoneService.getZoneById(id);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", zone);
@@ -57,12 +62,17 @@ public class ZoneController {
 
     @PutMapping
     public ResponseEntity<JSONObject> updateZone(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException {
+            throws MissingRequiredDataObjectException, IdDoesNotExistException {
         JSONObject zoneJSON = payload.getJSONObject("data");
 
         if (zoneJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Zone data");
         }
+
+        if(zoneService.getZoneById(zoneJSON.getLong("id")) == null) {
+            throw new IdDoesNotExistException("Zone ID does not exist");
+        }
+
         String zoneString = zoneJSON.toJSONString();
 
         JSONObject responseJson = new JSONObject();
@@ -77,10 +87,11 @@ public class ZoneController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteZoneById(@PathVariable Long id) {
+    public ResponseEntity<JSONObject> deleteZoneById(@PathVariable Long id) throws IdDoesNotExistException{
         if(zoneService.getZoneById(id) == null) {
-
+            throw new IdDoesNotExistException("Zone ID does not exist");
         }
+
         zoneService.deleteZoneById(id);
         return ResponseEntity.ok().body(null);
     }
