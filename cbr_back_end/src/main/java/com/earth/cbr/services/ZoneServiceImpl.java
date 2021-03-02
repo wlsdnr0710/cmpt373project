@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ZoneServiceImpl implements ZoneService{
@@ -15,26 +16,28 @@ public class ZoneServiceImpl implements ZoneService{
 
     @Override
     public List<Zone> getAllZones() {
-        return null;
+        return zoneRepository.findAll();
     }
 
     @Override
     public Zone getZoneById(Long id) {
-        return null;
+        Optional<Zone> zoneOptional = zoneRepository.findById(id);
+        Zone zone = zoneOptional.get();
+        return zone;
     }
 
     @Override
     public Zone addZone(Zone zone) {
-        return null;
+        return zoneRepository.save(zone);
     }
 
     @Override
     public Zone updateZoneById(Long id, Zone zone) {
-        return null;
+        return zoneRepository.save(zone);
     }
 
     @Override
     public void deleteZoneById(Long id) {
-        return;
+        zoneRepository.deleteById(id);
     }
 }
