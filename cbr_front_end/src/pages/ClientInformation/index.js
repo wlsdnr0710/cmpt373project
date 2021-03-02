@@ -62,6 +62,7 @@ const ClientInfo = props => {
     return parseEpochToDateString(epoch);
   };
 
+  //TODO: refactor to get object from utilities.js
   const [formInputs, setFormInputs] = useState({
     "date": "YYYY-MM-DD",
     "health": "N/A",
@@ -108,7 +109,7 @@ const ClientInfo = props => {
 
   const onClickGetEditClientPage = () => {
     history.push({
-      pathname: "edit-client",
+      pathname: "/edit-client",
       state: { clientID: formInputs.id} //refactor to brackets? 
     })
   }

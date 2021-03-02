@@ -3,11 +3,11 @@ import BackgroundCard from "../../components/BackgroundCard";
 import EditClientForm from "../../containers/EditClientForm";
 import "./style.css";
 
-const EditClient = () => {
+const EditClient = (props) => {
   return (
     <div>
       <BackgroundCard heading="Edit Client">
-        <EditClientForm />
+        <EditClientForm clientID={props.location.state.clientID}/>
       </BackgroundCard>
     </div>
   );

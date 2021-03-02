@@ -13,7 +13,6 @@ export const parseEpochToDateString = epoch => {
 //TODO: compile helper functions into this file
 
 export const getClientInformationFromApi = (clientId) => {
-
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId);
 };
 

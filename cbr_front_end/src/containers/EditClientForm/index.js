@@ -43,21 +43,21 @@ const EditClientForm = (props) => {
 
   //TODO: Refactor and place in utils (same with ClientInformation page)
   const [clientInformation, setClientInformation] = useState(getClientObject());
+  // const originalClientInformation;
 
   const getClientInformation = useCallback(() => {
-    getClientInformationFromApi(11)
+    getClientInformationFromApi(props.clientID)
       .then((response) => {
         setClientInformation(response.data.data);
       })
       .catch((error) => {
         console.log("Get request failed, error: " + error);
       });
-  }, []);
+  }, [props.clientID]);
 
   useEffect(() => {
     getClientInformation();
   }, [getClientInformation]);
-  // console.log(getClientInformationFromApi(11));
 
   const handleChange = (event) => {
     const input = event.target;
@@ -110,7 +110,7 @@ const EditClientForm = (props) => {
       <div className="input-field">
         <DropdownList
           dropdownListItemsKeyValue={defaultClientZones}
-          dropdownName="clientZone"
+          dropdownName="clientZone" //Might need to change this to name
           value={clientInformation.zone}
           label="Location: "
           onChange={handleChange}
