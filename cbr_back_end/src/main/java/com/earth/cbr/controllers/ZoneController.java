@@ -76,11 +76,12 @@ public class ZoneController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @DeleteMapping
-    public ResponseEntity<JSONObject> deleteZoneById(@RequestBody JSONObject payload) {
-        Integer zoneIdInt = (Integer) payload.get("id");
-        Long zoneId = Long.valueOf(zoneIdInt);
-        zoneService.deleteZoneById(zoneId);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> deleteZoneById(@PathVariable Long id) {
+        if(zoneService.getZoneById(id) == null) {
+
+        }
+        zoneService.deleteZoneById(id);
         return ResponseEntity.ok().body(null);
     }
 }
