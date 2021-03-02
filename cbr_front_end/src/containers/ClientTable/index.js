@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { getToken } from "../../utils/AuthenticationUtil";
 import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
+import CsvGenerator from "../../components/CsvGenerator";
 import Table from "../../components/Table";
 import Button from 'react-bootstrap/Button';
 import DropdownList from "../../components/DropdownList";
@@ -206,6 +207,11 @@ const ClientTable = props => {
     return (
         <div className="client-table">
             <div className="action-group">
+                <CsvGenerator 
+                    headers={["First Name", "Last Name"]}
+                    headersMapping={{"First Name": "firstName", "Last Name": "lastName"}}
+                    jsonArray={clients}
+                />
                 <div className="section search">
                     <div className="search-text-input">
                         <TextInputField value={searchKeywordBuffer} onChange={onChangeSearchKeywordHandler} />
