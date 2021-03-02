@@ -5,6 +5,7 @@ import com.earth.cbr.repositories.ZoneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,17 +23,17 @@ public class ZoneServiceImpl implements ZoneService{
     @Override
     public Zone getZoneById(Long id) {
         Optional<Zone> zoneOptional = zoneRepository.findById(id);
-        Zone zone = zoneOptional.get();
+        Zone zone = zoneOptional.orElse(null);
         return zone;
     }
 
     @Override
-    public Zone addZone(Zone zone) {
+    public Zone addZone(@Valid Zone zone) {
         return zoneRepository.save(zone);
     }
 
     @Override
-    public Zone updateZoneById(Long id, Zone zone) {
+    public Zone updateZone(@Valid Zone zone) {
         return zoneRepository.save(zone);
     }
 
