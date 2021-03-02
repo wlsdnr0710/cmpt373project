@@ -6,7 +6,7 @@ const ClientInformation = ({clientObject: client}) => {
     <div>
       <div className="client-information-card">
         <div className="client-information-image-container">
-          <img className = "client-information-image" src={client.image} alt="client" />
+          <img className = "client-information-image" src={client.photo} alt="client" />
           <h1 className ="name">{client.name}</h1>
         </div>
         <div className="client-info-body">

@@ -7,32 +7,43 @@ import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import RiskInformation from "../../components/RiskInformation";
-import {getClientInformationFromApi, getClientObject } from "../../utils/Utilities";
+import {getClientInformationFromApi, getClientObject, getRiskObject, getLatestRiskUpdate} from "../../utils/Utilities";
 import "./style.css";
+import DisabilityInformation from "../../components/DisabilityInformation";
 
 //TODO: Grab dropdown options from database table
 const defaultClientZones = {
-  "BidiBidi Zone 1": "bidizone1",
-  "BidiBidi Zone 2": "bidizone2",
-  "BidiBidi Zone 3": "bidizone3",
-  "BidiBidi Zone 4": "bidizone4",
-  "BidiBidi Zone 5": "bidizone5",
-  "Palorinya Basecamp": "palBasecamp",
-  "Palorinya Zone 1": "palzone1",
-  "Palorinya Zone 2": "palzone2",
-  "Palorinya Zone 3": "palzone3",
+  "BidiBidi Zone 1": "1",
+  "BidiBidi Zone 2": "2",
+  "BidiBidi Zone 3": "3",
+  "BidiBidi Zone 4": "4",
+  "BidiBidi Zone 5": "5",
+  "Palorinya Basecamp": "6",
+  "Palorinya Zone 1": "7",
+  "Palorinya Zone 2": "8",
+  "Palorinya Zone 3": "9",
 };
 
+
+//TODO: Database is giving back F/M not Female / Male, making it not select correct data if not in same format 
 const genders = {
-  Female: "female",
-  Male: "male",
+  F: "F",
+  M: "M",
 };
 
+//Will be passed an array of risk objects 
 const riskObject = {
-  date: "Thu, Sep 29 1988",
-  health: "1",
-  education: "1",
-  social: "1",
+    "id": 2,
+    "createdDate": "2020-03-20T07:00:00.000+00:00",
+    "educationGoal": "some goal",
+    "educationRisk": 4,
+    "educationRiskDescription": "some description",
+    "healthGoal": "some goal",
+    "healthRisk": 1,
+    "healthRiskDescription": "some description",
+    "socialGoal": "some goal",
+    "socialRisk": 3,
+    "socialRiskDescription": "some description"
 };
 
 const EditClientForm = (props) => {
@@ -41,7 +52,6 @@ const EditClientForm = (props) => {
 
   //TODO: Revert back to these values when clicking discard changes
 
-  //TODO: Refactor and place in utils (same with ClientInformation page)
   const [clientInformation, setClientInformation] = useState(getClientObject());
   // const originalClientInformation;
 
@@ -110,7 +120,7 @@ const EditClientForm = (props) => {
       <div className="input-field">
         <DropdownList
           dropdownListItemsKeyValue={defaultClientZones}
-          dropdownName="clientZone" //Might need to change this to name
+          dropdownName="zone" //Might need to change this to name
           value={clientInformation.zone}
           label="Location: "
           onChange={handleChange}
@@ -144,6 +154,7 @@ const EditClientForm = (props) => {
       <div className="input-field">
         <DateInputField
           name="birthdate"
+          //TODO: need to pass it date in format yyyy-MM-dd
           value={clientInformation.birthdate}
           label="Birth Date:"
           onChange={handleChange}
@@ -170,7 +181,7 @@ const EditClientForm = (props) => {
       <div className="input-field">
         <PhoneInputField
           name="caregiverNumber"
-          value={clientInformation.cbrWorkerId}
+          value={clientInformation.caregiverContact}
           label="Caregiver Number: "
           onChange={handleChange}
         />
@@ -180,7 +191,7 @@ const EditClientForm = (props) => {
       <div>
         <h1>Risk</h1>
         <RiskInformation
-          riskObject={riskObject}
+          riskObject={getLatestRiskUpdate(clientInformation)}
           includeDateInformation={true}
         />
         <input
@@ -191,7 +202,9 @@ const EditClientForm = (props) => {
       </div>
       <hr />
       <div>
-        <h1>Disability and Ailment(s)</h1>
+        <DisabilityInformation 
+          disabilityList ={clientInformation.disabilities}
+        />
       </div>
       <hr />
       <div className="action-buttons">

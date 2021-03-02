@@ -8,7 +8,7 @@ import DisabilityInformation from "../../components/DisabilityInformation";
 import axios from 'axios';
 import qs from "query-string";
 import ServerConfig from '../../config/ServerConfig';
-import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
+import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getLatestRiskUpdate} from "../../utils/Utilities";
 import "./styles.css";
 
 const ClientInfo = props => {
@@ -26,8 +26,11 @@ const ClientInfo = props => {
           const newFormInputs = {...prevFormInputs};
 
           // Keep using default image if no client's image is uploaded
-          if (data.image) {
-            newFormInputs["image"] = data.image;
+          console.log(data.photo)
+          if (data.photo) {
+            newFormInputs["photo"] = data.photo;
+          } else {
+            newFormInputs["photo"] = {avatar};
           }
 
           newFormInputs["name"] = data.firstName + " " + data.lastName;
@@ -39,14 +42,7 @@ const ClientInfo = props => {
           newFormInputs["birthdate"] = parseISODateString(data.birthdate);
           newFormInputs["date"] = parseISODateString(data.signupDate);
 
-          // TODO: Make sure the first one is always the latest history
-          // Make a sorting funtion to sort histories based on date
-          const risk = data.riskHistories[0];
-          if (risk) {
-            newFormInputs["health"] = risk.healthRiskDescription;
-            newFormInputs["education"] = risk.educationRiskDescription;
-            newFormInputs["social"] = risk.socialRiskDescription;
-          }
+          newFormInputs["riskHistories"] = data.riskHistories;
 
           newFormInputs["disabilityList"] = data.disabilities;
           return newFormInputs;
@@ -62,43 +58,9 @@ const ClientInfo = props => {
     return parseEpochToDateString(epoch);
   };
 
-  //TODO: refactor to get object from utilities.js
-  const [formInputs, setFormInputs] = useState({
-    "date": "YYYY-MM-DD",
-    "health": "N/A",
-    "education": "N/A",
-    "social": "N/A",
-    "id": "123456789",
-    "name": "First Last",
-    "image": avatar,
-    "zone": "zone",
-    "gender": "M/F",
-    "age": "-1",
-    "birthdate": "YYYY-MM-DD",
-    "disabilityList": ["N/A"]
-  });
-
-  const riskObject = {
-    date: formInputs["date"],
-    health: formInputs["health"],
-    education: formInputs["education"],
-    social: formInputs["social"]
-  };
-
-  const clientObject = {
-    id: formInputs["id"],
-    name: formInputs["name"],
-    image: formInputs["image"],
-    zone: formInputs["zone"],
-    villageNumber: formInputs["villageNumber"],
-    gender: formInputs["gender"],
-    age: formInputs["age"],
-    birthdate: formInputs["birthdate"],
-  };
-
-  const disabilityObject = {
-    disabilityList: formInputs["disabilityList"]
-  };
+  const [formInputs, setFormInputs] = useState(
+    getClientObject()
+  );
 
   const onClickGetNewVisitPage = props => {
     history.push({
@@ -124,20 +86,20 @@ const ClientInfo = props => {
         <main className="client-information">
           <ClientInformation
             className="client-general-information"
-            clientObject={clientObject}
+            clientObject={formInputs}
           />
           <hr className="client-information-hr" />
           <div>
             <h1>Risk Levels</h1>
             <RiskInformation
               className="client-risk-information"
-              riskObject={riskObject}
+              riskObject={getLatestRiskUpdate(formInputs)}
               includeDateInformation={true}
             />
           </div>
           <hr className="client-information-hr" />
           <DisabilityInformation
-            disabilityObject={disabilityObject}
+            disabilityList={formInputs.disabilities}
           />
           <div className="client-information-hr">
             <div className="client-information-hr mt-3">

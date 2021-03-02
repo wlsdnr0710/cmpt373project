@@ -1,6 +1,5 @@
 import axios from "axios";
 import ServerConfig from "../config/ServerConfig";
-import React, { useState } from 'react';
 
 export const parseDateStringToEpoch = dateString => {
     return Date.parse(dateString);
@@ -48,6 +47,7 @@ export const getClientObject = () => {
         signupDate:"N/A",
         contactNumber:"N/A",
         cbrWorkerId:"N/A",
+        caregiverContact: "N/A",
         caregiverPhoto: "image.png",
         requiredServices: "N/A",
         individualGoals: "N/A",
@@ -55,3 +55,37 @@ export const getClientObject = () => {
         riskHistories: [],
     });
 }
+
+export const getRiskObject = () => {
+    return ({
+        id: "N/A",
+        createdDate: "N/A",
+        educationGoal: "N/A",
+        educationRisk: "N/A",
+        educationRiskDescription: "N/A",
+        healthGoal: "N/A",
+        healthRisk: "N/A",
+        healthRiskDescription: "N/A",
+        socialGoal: "N/A",
+        socialRisk: "N/A",
+        socialRiskDescription: "N/A"
+    })
+}
+
+export const getDisabilityObject = () => {
+    return {
+        id: 1,
+        type: "Amputee"
+    }
+}
+
+//TODO: get latest clientObject by id? instead of array position 
+export const getLatestRiskUpdate = (clientObject) => {
+    const riskHistoryListLength = clientObject.riskHistories.length;
+    if(riskHistoryListLength < 1){
+      return getRiskObject();
+    } else {
+      const lastRiskUpdateIndex = riskHistoryListLength - 1;
+      return clientObject.riskHistories[lastRiskUpdateIndex];
+    }
+  }
