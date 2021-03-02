@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import "./style.css";
 
-const ExportToCsv = ({ headers, headersMapping, jsonArray }) => {
+const ExportToCsv = ({ filename, headers, headersMapping, jsonArray }) => {
     const linkRef = useRef(null);
 
     const getUrl = () => {
@@ -55,7 +55,13 @@ const ExportToCsv = ({ headers, headersMapping, jsonArray }) => {
 
     return (
         <div className="export-to-csv">
-            <a ref={linkRef} download="export.csv" href={getUrl()} style={{visibility: "hidden"}}></a>
+            <a 
+                ref={linkRef} 
+                download={filename ? filename + ".csv" : "export.csv"} 
+                href={getUrl()} 
+                style={{visibility: "hidden"}}
+            >
+            </a>
             <button onClick={onDownloadHandler}>Export to CSV</button>
         </div>
     );

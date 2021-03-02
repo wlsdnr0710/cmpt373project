@@ -1,0 +1,19 @@
+.export-to-csv button {
+    background-color: #65ae26;
+    border: none;
+    color: #fff;
+    padding: 0.5rem;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 1rem;
+    border-radius: 5px;
+}
+
+.export-to-csv button:hover {
+    background-color: #4e871c;
+}
+
+.export-to-csv button:focus {
+    box-shadow: 0 0 0 0.2rem rgb(78 135 28 / 50%);
+}
