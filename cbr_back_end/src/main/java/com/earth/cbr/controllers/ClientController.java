@@ -2,7 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.IdDoesNotExistException;
+import com.earth.cbr.exceptions.ObjectDoesNotExist;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
@@ -65,9 +65,9 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getClientById(@PathVariable Long id) throws IdDoesNotExistException {
+    public ResponseEntity<JSONObject> getClientById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(clientService.getClientById(id) == null) {
-            throw new IdDoesNotExistException("Client ID does not exist");
+            throw new ObjectDoesNotExist("Client with that ID does not exist");
         }
 
         Client client = clientService.getClientById(id);
@@ -98,8 +98,8 @@ public class ClientController {
     }
 
     @PutMapping
-    public ResponseEntity<JSONObject> updateClientById(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, IdDoesNotExistException {
+    public ResponseEntity<JSONObject> updateClient(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
         JSONObject clientJSON = payload.getJSONObject("data");
 
         if (clientJSON == null) {
@@ -107,7 +107,7 @@ public class ClientController {
         }
 
         if(clientService.getClientById(clientJSON.getLong("id")) == null) {
-            throw new IdDoesNotExistException("Client ID does not exist");
+            throw new ObjectDoesNotExist("Client with that ID does not exist");
         }
 
         String clientString = clientJSON.toJSONString();
@@ -115,7 +115,7 @@ public class ClientController {
         JSONObject responseJson = new JSONObject();
         Client client = JSON.parseObject(clientString, Client.class);
 
-        Client updatedClient = clientService.updateClientById(client);
+        Client updatedClient = clientService.updateClient(client);
 
         // get client's id to update UI
         responseJson.put("id", updatedClient.getId());
@@ -123,9 +123,9 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteClient(@PathVariable Long id) throws IdDoesNotExistException {
+    public ResponseEntity<JSONObject> deleteClient(@PathVariable Long id) throws ObjectDoesNotExist {
         if(clientService.getClientById(id) == null) {
-            throw new IdDoesNotExistException("Client ID does not exist");
+            throw new ObjectDoesNotExist("Client with that ID does not exist");
         }
 
         clientService.deleteClientById(id);

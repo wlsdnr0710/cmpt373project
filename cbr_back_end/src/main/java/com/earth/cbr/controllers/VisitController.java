@@ -2,7 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.IdDoesNotExistException;
+import com.earth.cbr.exceptions.ObjectDoesNotExist;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Visit;
 import com.earth.cbr.services.VisitService;
@@ -28,9 +28,9 @@ public class VisitController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getVisitById(@PathVariable Long id) throws IdDoesNotExistException {
+    public ResponseEntity<JSONObject> getVisitById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(visitService.getVisitById(id) == null) {
-            throw new IdDoesNotExistException("Visit ID does not exist");
+            throw new ObjectDoesNotExist("Visit with that ID does not exist");
         }
 
         Visit visit = visitService.getVisitById(id);
@@ -40,9 +40,9 @@ public class VisitController {
     }
 
     @GetMapping(value = "/clientId/{clientId}")
-    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId) throws IdDoesNotExistException {
+    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId) throws ObjectDoesNotExist {
         if(visitService.getAllVisitsByClientId(clientId) == null) {
-            throw new IdDoesNotExistException("Client not associated with any visits");
+            throw new ObjectDoesNotExist("Client not associated with any visits");
         }
 
         List<Visit> visits = visitService.getAllVisitsByClientId(clientId);
@@ -53,9 +53,9 @@ public class VisitController {
 
     @GetMapping(value = "/workerName/{cbrWorkerName}")
     public ResponseEntity<JSONObject> getAllVisitsByCbrWorkerName(@PathVariable String cbrWorkerName)
-            throws IdDoesNotExistException{
+            throws ObjectDoesNotExist {
         if(visitService.getAllVisitsByCbrWorkerName(cbrWorkerName) == null) {
-            throw new IdDoesNotExistException("CBR worker not associated with any visits");
+            throw new ObjectDoesNotExist("CBR worker not associated with any visits");
         }
 
         List<Visit> visits = visitService.getAllVisitsByCbrWorkerName(cbrWorkerName);
@@ -85,8 +85,8 @@ public class VisitController {
     }
 
     @PutMapping
-    public ResponseEntity<JSONObject> updateVisitById(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, IdDoesNotExistException {
+    public ResponseEntity<JSONObject> updateVisit(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
         JSONObject visitJSON = payload.getJSONObject("data");
 
         if (visitJSON == null) {
@@ -94,7 +94,7 @@ public class VisitController {
         }
 
         if(visitService.getVisitById(visitJSON.getLong("id")) == null) {
-            throw new IdDoesNotExistException("Visit ID does not exist");
+            throw new ObjectDoesNotExist("Visit with that ID does not exist");
         }
 
         String visitString = visitJSON.toJSONString();
@@ -102,7 +102,7 @@ public class VisitController {
         JSONObject responseJson = new JSONObject();
         Visit visit = JSON.parseObject(visitString, Visit.class);
 
-        Visit updatedVisit = visitService.updateVisitById(visit);
+        Visit updatedVisit = visitService.updateVisit(visit);
 
         // get visit's id to update UI
         responseJson.put("id", updatedVisit.getId());
@@ -110,9 +110,9 @@ public class VisitController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteVisitById(@PathVariable Long id) throws IdDoesNotExistException {
+    public ResponseEntity<JSONObject> deleteVisitById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(visitService.getVisitById(id) == null) {
-            throw new IdDoesNotExistException("Visit ID does not exist");
+            throw new ObjectDoesNotExist("Visit with that ID does not exist");
         }
 
         visitService.deleteVisitById(id);
