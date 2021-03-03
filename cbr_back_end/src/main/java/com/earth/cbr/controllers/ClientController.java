@@ -2,6 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.exceptions.IdDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
@@ -64,7 +65,11 @@ public class ClientController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getClientById(@PathVariable Long id) {
+    public ResponseEntity<JSONObject> getClientById(@PathVariable Long id) throws IdDoesNotExistException {
+        if(clientService.getClientById(id) == null) {
+            throw new IdDoesNotExistException("Client ID does not exist");
+        }
+
         Client client = clientService.getClientById(id);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", client);
@@ -92,14 +97,19 @@ public class ClientController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> updateClientById(@PathVariable Long id, @RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException {
+    @PutMapping
+    public ResponseEntity<JSONObject> updateClientById(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, IdDoesNotExistException {
         JSONObject clientJSON = payload.getJSONObject("data");
 
         if (clientJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Client data");
         }
+
+        if(clientService.getClientById(clientJSON.getLong("id")) == null) {
+            throw new IdDoesNotExistException("Client ID does not exist");
+        }
+
         String clientString = clientJSON.toJSONString();
 
         JSONObject responseJson = new JSONObject();
@@ -112,11 +122,13 @@ public class ClientController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @DeleteMapping
-    public ResponseEntity<JSONObject> deleteClient(@RequestBody JSONObject payload) {
-        Integer clientIdInt = (Integer) payload.get("id");
-        Long clientId = Long.valueOf(clientIdInt);
-        clientService.deleteClientById(clientId);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> deleteClient(@PathVariable Long id) throws IdDoesNotExistException {
+        if(clientService.getClientById(id) == null) {
+            throw new IdDoesNotExistException("Client ID does not exist");
+        }
+
+        clientService.deleteClientById(id);
         return ResponseEntity.ok().body(null);
     }
 }
