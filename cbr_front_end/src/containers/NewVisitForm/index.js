@@ -50,6 +50,8 @@ const NewVisitForm = (props) => {
         "cbrWorkerName": "",
         "clientID": "",
 
+        "serviceProvided": [],
+
         // Health Section
         "wheelchair": false,
         "prosthetic": false,
