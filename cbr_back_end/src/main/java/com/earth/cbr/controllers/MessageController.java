@@ -2,6 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.exceptions.IdDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Message;
 import com.earth.cbr.services.MessageService;
@@ -19,7 +20,7 @@ public class MessageController {
     private MessageService messageService;
 
     @GetMapping
-    public ResponseEntity<JSONObject> getAllMessages(){
+    public ResponseEntity<JSONObject> getAllMessages() {
         List<Message> messages = messageService.getAllMessages();
         JSONObject responseJson = new JSONObject();
         responseJson.put("data",messages);
@@ -27,7 +28,11 @@ public class MessageController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getMessageById(@PathVariable Long id){
+    public ResponseEntity<JSONObject> getMessageById(@PathVariable Long id) throws IdDoesNotExistException {
+        if(messageService.getMessageById(id) == null) {
+            throw new IdDoesNotExistException("Message ID does not exist");
+        }
+
         Message message = messageService.getMessageById(id);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", message);
@@ -55,20 +60,25 @@ public class MessageController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> updateMessageById(@PathVariable Long id, @RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException {
+    @PutMapping
+    public ResponseEntity<JSONObject> updateMessageById(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, IdDoesNotExistException {
         JSONObject messageJSON = payload.getJSONObject("data");
 
         if (messageJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Message data");
         }
+
+        if(messageService.getMessageById(messageJSON.getLong("id")) == null) {
+            throw new IdDoesNotExistException("Message ID does not exist");
+        }
+
         String messageString = messageJSON.toJSONString();
 
         JSONObject responseJson = new JSONObject();
         Message message = JSON.parseObject(messageString, Message.class);
 
-        Message updatedMessage = messageService.updateMessageById(id,message);
+        Message updatedMessage = messageService.updateMessageById(message);
 
         // Need to tell front-end the new message's id
         // so front-end can update the UI
@@ -76,11 +86,13 @@ public class MessageController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @DeleteMapping
-    public ResponseEntity<JSONObject> deleteMessageById(@RequestBody JSONObject payload) {
-        Integer messageIdInt = (Integer) payload.get("id");
-        Long messageId = Long.valueOf(messageIdInt);
-        messageService.deleteMessageById(messageId);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> deleteMessageById(@PathVariable Long id) throws IdDoesNotExistException{
+        if(messageService.getMessageById(id) == null) {
+            throw new IdDoesNotExistException("Message ID does not exist");
+        }
+
+        messageService.deleteMessageById(id);
         return ResponseEntity.ok().body(null);
     }
 }

@@ -32,7 +32,7 @@ public class MessageServiceImpl implements MessageService{
 	}
 
     @Override
-	public Message updateMessageById(Long id, Message message) {
+	public Message updateMessageById(Message message) {
         return messageRepository.save(message);
 	}
 
