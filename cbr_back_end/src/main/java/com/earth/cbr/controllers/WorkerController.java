@@ -2,6 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.exceptions.IdDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.services.WorkerService;
@@ -27,7 +28,11 @@ public class WorkerController {
     }
 
     @GetMapping(value = "username/{username}")
-    public ResponseEntity<JSONObject> getWorkerByUsername(@PathVariable String username) {
+    public ResponseEntity<JSONObject> getWorkerByUsername(@PathVariable String username) throws IdDoesNotExistException {
+        if(workerService.getWorkerByUsername(username) == null) {
+            throw new IdDoesNotExistException("Worker username does not exist");
+        }
+
         Worker worker = workerService.getWorkerByUsername(username);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", worker);
@@ -35,7 +40,11 @@ public class WorkerController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getWorkerById(@PathVariable Long id) {
+    public ResponseEntity<JSONObject> getWorkerById(@PathVariable Long id) throws IdDoesNotExistException {
+        if(workerService.getWorkerById(id) == null) {
+            throw new IdDoesNotExistException("Worker ID does not exist");
+        }
+
         Worker worker = workerService.getWorkerById(id);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", worker);
@@ -62,14 +71,19 @@ public class WorkerController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> updateWorkerById(@PathVariable Long id, @RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException {
+    @PutMapping
+    public ResponseEntity<JSONObject> updateWorkerById(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, IdDoesNotExistException {
         JSONObject workerJSON = payload.getJSONObject("data");
 
         if (workerJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Worker data");
         }
+
+        if(workerService.getWorkerById(workerJSON.getLong("id")) == null) {
+            throw new IdDoesNotExistException("Worker ID does not exist");
+        }
+
         String workerString = workerJSON.toJSONString();
         
         JSONObject responseJson = new JSONObject();
@@ -82,11 +96,13 @@ public class WorkerController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @DeleteMapping
-    public ResponseEntity<JSONObject> deleteWorkerById(@RequestBody JSONObject payload) {
-        Integer workerIdInt = (Integer) payload.get("id");
-        Long workerId = Long.valueOf(workerIdInt);
-        workerService.deleteWorkerById(workerId);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> deleteWorkerById(@PathVariable Long id) throws IdDoesNotExistException {
+        if(workerService.getWorkerById(id) == null) {
+            throw new IdDoesNotExistException("Worker ID does not exist");
+        }
+
+        workerService.deleteWorkerById(id);
         return ResponseEntity.ok().body(null);
     }
 }
