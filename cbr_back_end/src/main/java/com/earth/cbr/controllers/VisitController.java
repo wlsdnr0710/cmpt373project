@@ -2,6 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.exceptions.IdDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Visit;
 import com.earth.cbr.services.VisitService;
@@ -27,7 +28,11 @@ public class VisitController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getVisitById(@PathVariable Long id) {
+    public ResponseEntity<JSONObject> getVisitById(@PathVariable Long id) throws IdDoesNotExistException {
+        if(visitService.getVisitById(id) == null) {
+            throw new IdDoesNotExistException("Visit ID does not exist");
+        }
+
         Visit visit = visitService.getVisitById(id);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", visit);
@@ -35,7 +40,11 @@ public class VisitController {
     }
 
     @GetMapping(value = "/clientId/{clientId}")
-    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId) {
+    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId) throws IdDoesNotExistException {
+        if(visitService.getAllVisitsByClientId(clientId) == null) {
+            throw new IdDoesNotExistException("Client not associated with any visits");
+        }
+
         List<Visit> visits = visitService.getAllVisitsByClientId(clientId);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", visits);
@@ -43,7 +52,12 @@ public class VisitController {
     }
 
     @GetMapping(value = "/workerName/{cbrWorkerName}")
-    public ResponseEntity<JSONObject> getAllVisitsByCbrWorkerName(@PathVariable String cbrWorkerName) {
+    public ResponseEntity<JSONObject> getAllVisitsByCbrWorkerName(@PathVariable String cbrWorkerName)
+            throws IdDoesNotExistException{
+        if(visitService.getAllVisitsByCbrWorkerName(cbrWorkerName) == null) {
+            throw new IdDoesNotExistException("CBR worker not associated with any visits");
+        }
+
         List<Visit> visits = visitService.getAllVisitsByCbrWorkerName(cbrWorkerName);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", visits);
@@ -70,14 +84,19 @@ public class VisitController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> updateVisitById(@PathVariable Long id, @RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException {
+    @PutMapping
+    public ResponseEntity<JSONObject> updateVisitById(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, IdDoesNotExistException {
         JSONObject visitJSON = payload.getJSONObject("data");
 
         if (visitJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Visit data");
         }
+
+        if(visitService.getVisitById(visitJSON.getLong("id")) == null) {
+            throw new IdDoesNotExistException("Visit ID does not exist");
+        }
+
         String visitString = visitJSON.toJSONString();
 
         JSONObject responseJson = new JSONObject();
@@ -90,11 +109,13 @@ public class VisitController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @DeleteMapping
-    public ResponseEntity<JSONObject> deleteVisitById(@RequestBody JSONObject payload) {
-        Integer visitIdInt = (Integer) payload.get("id");
-        Long visitId = Long.valueOf(visitIdInt);
-        visitService.deleteVisitById(visitId);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> deleteVisitById(@PathVariable Long id) throws IdDoesNotExistException {
+        if(visitService.getVisitById(id) == null) {
+            throw new IdDoesNotExistException("Visit ID does not exist");
+        }
+
+        visitService.deleteVisitById(id);
         return ResponseEntity.ok().body(null);
     }
 }
