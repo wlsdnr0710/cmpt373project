@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { getToken } from "../../utils/AuthenticationUtil";
 import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
 import Table from "../../components/Table";
@@ -49,10 +50,17 @@ const ClientTable = props => {
 
     const requestClientsByPageable = useCallback(pageable => {
         const { page, clientsPerPage } = pageable;
+
+        const requestHeader = {
+            token: getToken()
+        };
         setIsLoading(true);
         axios.get(
-            ServerConfig.api.url + "/api/v1/client/" + "pageNumber/" + page + "/pageSize/" + clientsPerPage
-        )
+                ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage, 
+                {
+                    headers: requestHeader,
+                }
+            )
             .then(response => {
                 const receivedClients = response.data.data.content;
                 updateClients(receivedClients);
@@ -64,7 +72,7 @@ const ClientTable = props => {
             .then(() => {
                 setIsLoading(false);
             });
-    }, [searchKeyword, sortBy]);
+    }, [searchKeyword, sortBy]); // TODO: Will use searchKeyword and sortBy dependencies
 
     // TODO: This function will be used in the future when syntax search is implemented
     const convertToParameterString = paramKeyValues => {

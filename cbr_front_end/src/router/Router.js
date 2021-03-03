@@ -20,7 +20,8 @@ const Router = () => {
                 <Route path="/client-information" exact component={ClientInformation} />
                 <Route path="/edit-client" exact component={EditClient} />
 
-                {/* We should not redirect to login page before login function is implemented */}
+                {/* We can redirect the user to dashboard even after login is implemented because if the user
+                is not authenticated, the user will be further redirected to login page. */}
                 <Redirect to="/dashboard" />
             </Switch>
         </div>

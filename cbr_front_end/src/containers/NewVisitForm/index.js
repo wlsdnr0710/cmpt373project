@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getToken } from "../../utils/AuthenticationUtil";
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import DropdownList from "../../components/DropdownList";
@@ -121,9 +122,14 @@ const NewVisitForm = (props) => {
         submitFormByPostRequest(sendingData);
     };
 
+    const requestHeader = {
+        token: getToken()
+    };
     const submitFormByPostRequest = data => {
         axios.post(ServerConfig.api.url + '/api/v1/newVisits', {
             "data": data
+        }, {
+            headers: requestHeader,
         })
             .then(response => {
 
