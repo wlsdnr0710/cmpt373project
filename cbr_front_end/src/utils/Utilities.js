@@ -25,25 +25,17 @@ const getClientObjectFromResponse = (responseData) => {
     return client; 
 }
 
-const initiateClientRequest = (clientId) => {
-    const promise = axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId);
-    const dataPromise = promise.then((response) => response.data);
-
-    return dataPromise;
-}
-
-
 export const getClientObject = () => {
     return( {
         id:"N/A",
-        firstName:"Adrian",
-        lastName:"Wong",
-        birthdate:"2018-07-13",
+        firstName:"N/A",
+        lastName:"N/A",
+        birthdate:"N/A",
         age:"N/A",
         gender:"N/A",
         photo:"N/A",
         zone:"N/A",
-        villageNumber:"5",
+        villageNumber:"N/A",
         signupDate:"N/A",
         contactNumber:"N/A",
         cbrWorkerId:"N/A",
@@ -79,6 +71,19 @@ export const getDisabilityObject = () => {
     }
 }
 
+export const getClientZonesObject = () => {
+    return {
+        "BidiBidi Zone 1": "1",
+        "BidiBidi Zone 2": "2",
+        "BidiBidi Zone 3": "3",
+        "BidiBidi Zone 4": "4",
+        "BidiBidi Zone 5": "5",
+        "Palorinya Basecamp": "6",
+        "Palorinya Zone 1": "7",
+        "Palorinya Zone 2": "8",
+        "Palorinya Zone 3": "9",
+      };
+}
 //TODO: get latest clientObject by id? instead of array position 
 export const getLatestRiskUpdate = (clientObject) => {
     const riskHistoryListLength = clientObject.riskHistories.length;
@@ -89,3 +94,4 @@ export const getLatestRiskUpdate = (clientObject) => {
       return clientObject.riskHistories[lastRiskUpdateIndex];
     }
   }
+  

@@ -44,7 +44,7 @@ const ClientInfo = props => {
 
           newFormInputs["riskHistories"] = data.riskHistories;
 
-          newFormInputs["disabilityList"] = data.disabilities;
+          newFormInputs["disabilities"] = data.disabilities;
           return newFormInputs;
         });
       })
@@ -72,7 +72,7 @@ const ClientInfo = props => {
   const onClickGetEditClientPage = () => {
     history.push({
       pathname: "/edit-client",
-      state: { clientID: formInputs.id} //refactor to brackets? 
+      state: { clientID: formInputs["id"]}
     })
   }
 
@@ -83,7 +83,7 @@ const ClientInfo = props => {
   return (
     < div >
       <BackgroundCard>
-        <main className="client-information">
+        <main className>
           <ClientInformation
             className="client-general-information"
             clientObject={formInputs}

@@ -7,7 +7,7 @@ import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import RiskInformation from "../../components/RiskInformation";
-import {getClientInformationFromApi, getClientObject, getRiskObject, getLatestRiskUpdate} from "../../utils/Utilities";
+import {getClientInformationFromApi, getClientObject, getLatestRiskUpdate, parseEpochToDateString} from "../../utils/Utilities";
 import "./style.css";
 import DisabilityInformation from "../../components/DisabilityInformation";
 
@@ -31,21 +31,6 @@ const genders = {
   M: "M",
 };
 
-//Will be passed an array of risk objects 
-const riskObject = {
-    "id": 2,
-    "createdDate": "2020-03-20T07:00:00.000+00:00",
-    "educationGoal": "some goal",
-    "educationRisk": 4,
-    "educationRiskDescription": "some description",
-    "healthGoal": "some goal",
-    "healthRisk": 1,
-    "healthRiskDescription": "some description",
-    "socialGoal": "some goal",
-    "socialRisk": 3,
-    "socialRiskDescription": "some description"
-};
-
 const EditClientForm = (props) => {
   // const parameterString = props.location.search;
   // const clientId = qs.parse(parameterString).id;
@@ -53,12 +38,17 @@ const EditClientForm = (props) => {
   //TODO: Revert back to these values when clicking discard changes
 
   const [clientInformation, setClientInformation] = useState(getClientObject());
-  // const originalClientInformation;
+  const [originalClientInformation , setOriginalClientInformation] = useState(getClientObject());
+
+  const discardChanges = () => {
+    setClientInformation(originalClientInformation);
+  }
 
   const getClientInformation = useCallback(() => {
     getClientInformationFromApi(props.clientID)
       .then((response) => {
         setClientInformation(response.data.data);
+        setOriginalClientInformation(response.data.data);
       })
       .catch((error) => {
         console.log("Get request failed, error: " + error);
@@ -83,6 +73,7 @@ const EditClientForm = (props) => {
       return newFormInputs;
     });
   };
+
 
   const [showImageUploader, setImageUploader] = useState(false);
 
@@ -155,7 +146,7 @@ const EditClientForm = (props) => {
         <DateInputField
           name="birthdate"
           //TODO: need to pass it date in format yyyy-MM-dd
-          value={clientInformation.birthdate}
+          value={clientInformation.birthdate.substring(0,10)}
           label="Birth Date:"
           onChange={handleChange}
         />
@@ -218,6 +209,7 @@ const EditClientForm = (props) => {
           className="btn btn-secondary"
           type="button"
           value="Discard Changes"
+          onClick={discardChanges}
         />
         <input
           className="btn btn-secondary"
