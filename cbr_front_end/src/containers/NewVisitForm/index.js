@@ -37,8 +37,22 @@ const defaultClientZones = {
     "Palorinya Zone 3": "9",
 };
 
+
+
 const NewVisitForm = (props) => {
+
+    const [serviceProvidedInputs, setServiceProvidedInputs] = useState({
+        "description": "",
+        "type": "",
+        "visit": "",
+        "service": {
+            "name": "",
+            "type": ""
+        }
+    });
+
     const [formInputs, setFormInputs] = useState({
+
         "purpose": "cbr",
         "doHealthCheckBox": false,
         "doEducationCheckBox": false,
@@ -51,17 +65,7 @@ const NewVisitForm = (props) => {
         "cbrWorkerName": "",
         "clientId": "",
 
-        "serviceProvided": [
-            {
-                "description": "",
-                "type": "",
-                "visit": "",
-                "service": {
-                    "name": "",
-                    "type": ""
-                }
-            },
-        ],
+        "serviceProvided": [],
 
         // Health Section
         "wheelchair": false,
@@ -115,10 +119,7 @@ const NewVisitForm = (props) => {
 
     });
 
-    const [serviceProvidedInputs, setServiceProvidedInputs] = useState({
-        "description": "",
-        "type": ""
-    });
+
     const [isHealthInputDisabled, setIsHealthInputDisabled] = useState(true);
     const [isEducationInputDisabled, setIsEducationInputDisabled] = useState(true);
     const [isSocialInputDisabled, setIsSocialInputDisabled] = useState(true);
@@ -256,6 +257,13 @@ const NewVisitForm = (props) => {
     }
 
     useEffect(() => {
+
+        let testedValues = formInputs["serviceProvided"];
+        let serviceProvided = serviceProvidedInputs;
+        testedValues = [...testedValues, serviceProvided];
+        updateFormInputByNameValue("serviceProvided", testedValues);
+
+
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
