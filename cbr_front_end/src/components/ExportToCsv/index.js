@@ -50,6 +50,7 @@ const ExportToCsv = ({ filename, headers, headersMapping, jsonArray }) => {
 
     const onDownloadHandler = event => {
         event.preventDefault();
+        linkRef.current.href = getUrl();
         linkRef.current.click();
     };
 
@@ -58,7 +59,7 @@ const ExportToCsv = ({ filename, headers, headersMapping, jsonArray }) => {
             <a 
                 ref={linkRef} 
                 download={filename ? filename + ".csv" : "export.csv"} 
-                href={getUrl()} 
+                href="" 
                 style={{visibility: "hidden"}}
             >
             </a>
