@@ -1,8 +1,9 @@
 package com.earth.cbr.models;
 
+import com.earth.cbr.models.authentication.UniqueUsername;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
-import com.earth.cbr.models.authentication.UniqueUsername;
 
 @Entity(name = "Worker")
 @Table(name = "worker")
