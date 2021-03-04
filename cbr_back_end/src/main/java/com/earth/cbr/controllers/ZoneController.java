@@ -2,7 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.IdDoesNotExistException;
+import com.earth.cbr.exceptions.ObjectDoesNotExist;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.services.ZoneService;
@@ -28,9 +28,9 @@ public class ZoneController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getZoneById(@PathVariable Long id) throws IdDoesNotExistException{
+    public ResponseEntity<JSONObject> getZoneById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(zoneService.getZoneById(id) == null) {
-            throw new IdDoesNotExistException("Zone ID does not exist");
+            throw new ObjectDoesNotExist("Zone with that ID does not exist");
         }
 
         Zone zone = zoneService.getZoneById(id);
@@ -61,8 +61,8 @@ public class ZoneController {
     }
 
     @PutMapping
-    public ResponseEntity<JSONObject> updateZone(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, IdDoesNotExistException {
+    public ResponseEntity<JSONObject> updateZoneById(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
         JSONObject zoneJSON = payload.getJSONObject("data");
 
         if (zoneJSON == null) {
@@ -70,7 +70,7 @@ public class ZoneController {
         }
 
         if(zoneService.getZoneById(zoneJSON.getLong("id")) == null) {
-            throw new IdDoesNotExistException("Zone ID does not exist");
+            throw new ObjectDoesNotExist("Zone with that ID does not exist");
         }
 
         String zoneString = zoneJSON.toJSONString();
@@ -78,7 +78,7 @@ public class ZoneController {
         JSONObject responseJson = new JSONObject();
         Zone zone = JSON.parseObject(zoneString, Zone.class);
 
-        Zone updatedZone = zoneService.updateZone(zone);
+        Zone updatedZone = zoneService.updateZoneById(zone);
 
         // Need to tell front-end the new zone's id
         // so front-end can update the UI
@@ -87,9 +87,9 @@ public class ZoneController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteZoneById(@PathVariable Long id) throws IdDoesNotExistException{
+    public ResponseEntity<JSONObject> deleteZoneById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(zoneService.getZoneById(id) == null) {
-            throw new IdDoesNotExistException("Zone ID does not exist");
+            throw new ObjectDoesNotExist("Zone with that ID does not exist");
         }
 
         zoneService.deleteZoneById(id);

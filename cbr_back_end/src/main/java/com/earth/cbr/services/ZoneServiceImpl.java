@@ -33,7 +33,7 @@ public class ZoneServiceImpl implements ZoneService{
     }
 
     @Override
-    public Zone updateZone(@Valid Zone zone) {
+    public Zone updateZoneById(@Valid Zone zone) {
         return zoneRepository.save(zone);
     }
 
