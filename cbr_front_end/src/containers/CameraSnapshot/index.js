@@ -3,35 +3,51 @@ import "./style.css";
 
 const CameraSnapshot = props => {
     const videoRef = useRef(null);
+    const [stream, setStream] = useState(null);
     const [facingMode, setFacingMode] = useState("user");
-    const [doesSupportMedia, setDoesSupportMedia] = useState(false);
 
     useEffect(() => {
-        if (!supportMediaDevice) {
+        if (!doesSupportMediaDevice()) {
             return;
         }
-        setDoesSupportMedia(true);
-        getUserPermissionForVideo();
-    }, []);
 
-    const supportMediaDevice = () => {
+        if (stream === null) {
+            requestToOpenCamera();
+        }
+
+        const turnOffCamera = () => {
+            if (stream === null) {
+                return;
+            }
+
+            const tracks = stream.getTracks();
+            for (const index in tracks) {
+                const track = tracks[index];
+                track.stop();
+            }
+        };
+
+        return turnOffCamera;
+    }, [stream]);
+
+    const doesSupportMediaDevice = () => {
         return 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices;
     };
 
-    const getUserPermissionForVideo = () => {
-        navigator.mediaDevices.getUserMedia({video: true})
-            .then((stream) => {
-                videoRef.current.srcObject = stream;
-                videoRef.current.play();
-            });
-    };
-
-    const getConstraint = () => {
-        return {
-            video: {
-                facingMode: facingMode
-            }
+    const requestToOpenCamera = () => {
+        const videoConstraint = {
+            facingMode: {
+                ideal: "user" // Or environment
+            },
         };
+
+        navigator.getUserMedia({audio: false, video: videoConstraint}, stream => {
+            setStream(stream);
+            videoRef.current.srcObject = stream;
+            videoRef.current.play();
+        }, error => {
+
+        });
     };
 
     return (
