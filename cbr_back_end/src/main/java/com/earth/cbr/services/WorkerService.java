@@ -10,6 +10,6 @@ public interface WorkerService {
     Worker getWorkerByUsername(String username);
     Worker getWorkerById(Long id);
     Worker addWorker(@Valid Worker worker);
-    Worker updateWorker(@Valid Worker worker);
+    Worker updateWorkerById(@Valid Worker worker);
     void deleteWorkerById(Long id);
 }

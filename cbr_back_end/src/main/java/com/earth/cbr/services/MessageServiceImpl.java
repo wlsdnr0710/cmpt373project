@@ -33,7 +33,7 @@ public class MessageServiceImpl implements MessageService{
 	}
 
     @Override
-	public Message updateMessage(@Valid Message message) {
+	public Message updateMessageById(@Valid Message message) {
         return messageRepository.save(message);
 	}
 

@@ -85,7 +85,7 @@ public class VisitController {
     }
 
     @PutMapping
-    public ResponseEntity<JSONObject> updateVisit(@RequestBody JSONObject payload)
+    public ResponseEntity<JSONObject> updateVisitById(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException, ObjectDoesNotExist {
         JSONObject visitJSON = payload.getJSONObject("data");
 
@@ -102,7 +102,7 @@ public class VisitController {
         JSONObject responseJson = new JSONObject();
         Visit visit = JSON.parseObject(visitString, Visit.class);
 
-        Visit updatedVisit = visitService.updateVisit(visit);
+        Visit updatedVisit = visitService.updateVisitById(visit);
 
         // get visit's id to update UI
         responseJson.put("id", updatedVisit.getId());

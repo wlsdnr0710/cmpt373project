@@ -9,6 +9,6 @@ public interface MessageService {
     List<Message> getAllMessages();
     Message getMessageById(Long id);
     Message addMessage(@Valid Message message);
-    Message updateMessage(@Valid Message message);
+    Message updateMessageById(@Valid Message message);
     void deleteMessageById(Long id);
 }

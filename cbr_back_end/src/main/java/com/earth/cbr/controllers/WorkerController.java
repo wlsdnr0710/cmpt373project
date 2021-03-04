@@ -72,7 +72,7 @@ public class WorkerController {
     }
 
     @PutMapping
-    public ResponseEntity<JSONObject> updateWorker(@RequestBody JSONObject payload)
+    public ResponseEntity<JSONObject> updateWorkerById(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException, ObjectDoesNotExist {
         JSONObject workerJSON = payload.getJSONObject("data");
 
@@ -89,7 +89,7 @@ public class WorkerController {
         JSONObject responseJson = new JSONObject();
         Worker worker = JSON.parseObject(workerString, Worker.class);
 
-        Worker updatedWorker = workerService.updateWorker(worker);
+        Worker updatedWorker = workerService.updateWorkerById(worker);
 
         // get worker's id to update UI
         responseJson.put("id", updatedWorker.getId());

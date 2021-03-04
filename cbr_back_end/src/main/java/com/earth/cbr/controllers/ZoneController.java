@@ -61,7 +61,7 @@ public class ZoneController {
     }
 
     @PutMapping
-    public ResponseEntity<JSONObject> updateZone(@RequestBody JSONObject payload)
+    public ResponseEntity<JSONObject> updateZoneById(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException, ObjectDoesNotExist {
         JSONObject zoneJSON = payload.getJSONObject("data");
 
@@ -78,7 +78,7 @@ public class ZoneController {
         JSONObject responseJson = new JSONObject();
         Zone zone = JSON.parseObject(zoneString, Zone.class);
 
-        Zone updatedZone = zoneService.updateZone(zone);
+        Zone updatedZone = zoneService.updateZoneById(zone);
 
         // Need to tell front-end the new zone's id
         // so front-end can update the UI

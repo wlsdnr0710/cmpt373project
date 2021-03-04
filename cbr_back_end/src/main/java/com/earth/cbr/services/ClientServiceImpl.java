@@ -121,7 +121,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client updateClient(@Valid Client client) { return clientRepository.save(client); }
+    public Client updateClientById(@Valid Client client) { return clientRepository.save(client); }
 
     @Override
     public void deleteClientById(Long id) {

@@ -61,7 +61,7 @@ public class MessageController {
     }
 
     @PutMapping
-    public ResponseEntity<JSONObject> updateMessage(@RequestBody JSONObject payload)
+    public ResponseEntity<JSONObject> updateMessageById(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException, ObjectDoesNotExist {
         JSONObject messageJSON = payload.getJSONObject("data");
 
@@ -78,7 +78,7 @@ public class MessageController {
         JSONObject responseJson = new JSONObject();
         Message message = JSON.parseObject(messageString, Message.class);
 
-        Message updatedMessage = messageService.updateMessage(message);
+        Message updatedMessage = messageService.updateMessageById(message);
 
         // Need to tell front-end the new message's id
         // so front-end can update the UI

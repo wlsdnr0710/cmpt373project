@@ -43,7 +43,7 @@ public class VisitServiceImpl implements VisitService{
     }
 
     @Override
-    public Visit updateVisit(@Valid Visit visit) { return visitRepository.save(visit); }
+    public Visit updateVisitById(@Valid Visit visit) { return visitRepository.save(visit); }
 
     @Override
     public void deleteVisitById(Long id) {

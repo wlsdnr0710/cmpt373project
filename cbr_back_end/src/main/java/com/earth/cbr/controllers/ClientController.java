@@ -98,7 +98,7 @@ public class ClientController {
     }
 
     @PutMapping
-    public ResponseEntity<JSONObject> updateClient(@RequestBody JSONObject payload)
+    public ResponseEntity<JSONObject> updateClientById(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException, ObjectDoesNotExist {
         JSONObject clientJSON = payload.getJSONObject("data");
 
@@ -115,7 +115,7 @@ public class ClientController {
         JSONObject responseJson = new JSONObject();
         Client client = JSON.parseObject(clientString, Client.class);
 
-        Client updatedClient = clientService.updateClient(client);
+        Client updatedClient = clientService.updateClientById(client);
 
         // get client's id to update UI
         responseJson.put("id", updatedClient.getId());
@@ -123,7 +123,7 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteClient(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> deleteClientById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(clientService.getClientById(id) == null) {
             throw new ObjectDoesNotExist("Client with that ID does not exist");
         }

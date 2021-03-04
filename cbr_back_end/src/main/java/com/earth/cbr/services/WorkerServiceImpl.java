@@ -40,7 +40,7 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public Worker updateWorker(@Valid Worker worker) { return workerRepository.save(worker); }
+    public Worker updateWorkerById(@Valid Worker worker) { return workerRepository.save(worker); }
 
     @Override
     public void deleteWorkerById(Long id) {
