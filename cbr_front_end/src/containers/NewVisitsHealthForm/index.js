@@ -5,41 +5,23 @@ import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsHealthForm = ({
-    wheelchairName,
     wheelchairValue,
-    wheelchairDescName,
     wheelchairDescValue,
-    prostheticName,
     prostheticValue,
-    prostheticDescName,
     prostheticDescValue,
-    orthoticName,
     orthoticValue,
-    orthoticDescName,
     orthoticDescValue,
-    wheelchairRepairsName,
     wheelchairRepairsValue,
-    wheelchairRepairsDescName,
     wheelchairRepairsDescValue,
-    referralToHealthCentreName,
     referralToHealthCentreValue,
-    referralToHealthDescCentreName,
-    referralToHealthDescCentreValue,
-    healthAdviceName,
+    referralToHealthCentreDescValue,
     healthAdviceValue,
-    healthAdviceDescName,
     healthAdviceDescValue,
-    healthAdvocacyName,
     healthAdvocacyValue,
-    healthAdvocacyDescName,
     healthAdvocacyDescValue,
-    healthEncouragementName,
     healthEncouragementValue,
-    healthEncouragementDescName,
     healthEncouragementDescValue,
-    healthGoalConclusionTextName,
     healthGoalConclusionTextValue,
-    healthGoalMetName,
     healthGoalMetValue,
     isHealthGoalConcluded,
     actionHandler,
@@ -52,14 +34,14 @@ const NewVisitsHealthForm = ({
                 <label>For Health: What was provided?</label>
                 <div>
                     <CheckBox
-                        name={wheelchairName}
+                        name="wheelchair"
                         value={wheelchairValue}
                         actionHandler={actionHandler}
                         displayText={"Wheelchair"}
                     />
                     <div hidden={!wheelchairValue}>
                         <TextAreaInputField
-                            name={wheelchairDescName}
+                            name="wheelchairDesc"
                             value={wheelchairDescValue}
                             onChange={onChange}
                             rows="4"
@@ -69,14 +51,14 @@ const NewVisitsHealthForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={prostheticName}
+                        name="prosthetic"
                         value={prostheticValue}
                         actionHandler={actionHandler}
                         displayText={"Prosthetic"}
                     />
                     <div hidden={!prostheticValue}>
                         <TextAreaInputField
-                            name={prostheticDescName}
+                            name="prostheticDesc"
                             value={prostheticDescValue}
                             onChange={onChange}
                             rows="4"
@@ -86,14 +68,14 @@ const NewVisitsHealthForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={orthoticName}
+                        name="orthotic"
                         value={orthoticValue}
                         actionHandler={actionHandler}
                         displayText={"Orthotic"}
                     />
                     <div hidden={!orthoticValue}>
                         <TextAreaInputField
-                            name={orthoticDescName}
+                            name="orthoticDesc"
                             value={orthoticDescValue}
                             onChange={onChange}
                             rows="4"
@@ -103,14 +85,14 @@ const NewVisitsHealthForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={wheelchairRepairsName}
+                        name="wheelchairRepairs"
                         value={wheelchairRepairsValue}
                         actionHandler={actionHandler}
                         displayText={"Wheelchair Repairs"}
                     />
                     <div hidden={!wheelchairRepairsValue}>
                         <TextAreaInputField
-                            name={wheelchairRepairsDescName}
+                            name="wheelchairRepairsDesc"
                             value={wheelchairRepairsDescValue}
                             onChange={onChange}
                             rows="4"
@@ -120,15 +102,15 @@ const NewVisitsHealthForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={referralToHealthCentreName}
+                        name="referralToHealthCentre"
                         value={referralToHealthCentreValue}
                         actionHandler={actionHandler}
                         displayText={"Referral to Health Centre"}
                     />
                     <div hidden={!referralToHealthCentreValue}>
                         <TextAreaInputField
-                            name={referralToHealthDescCentreName}
-                            value={referralToHealthDescCentreValue}
+                            name="referralToHealthCentreDesc"
+                            value={referralToHealthCentreDescValue}
                             onChange={onChange}
                             rows="4"
                             isDisabled={false}
@@ -137,14 +119,14 @@ const NewVisitsHealthForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={healthAdviceName}
+                        name="healthAdvice"
                         value={healthAdviceValue}
                         actionHandler={actionHandler}
                         displayText={"Health Advice"}
                     />
                     <div hidden={!healthAdviceValue}>
                         <TextAreaInputField
-                            name={healthAdviceDescName}
+                            name="healthAdviceDesc"
                             value={healthAdviceDescValue}
                             onChange={onChange}
                             rows="4"
@@ -154,14 +136,14 @@ const NewVisitsHealthForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={healthAdvocacyName}
+                        name="healthAdvocacy"
                         value={healthAdvocacyValue}
                         actionHandler={actionHandler}
                         displayText={"Health Advocacy"}
                     />
                     <div hidden={!healthAdvocacyValue} >
                         <TextAreaInputField
-                            name={healthAdvocacyDescName}
+                            name="healthAdvocacyDesc"
                             value={healthAdvocacyDescValue}
                             onChange={onChange}
                             rows="4"
@@ -171,14 +153,14 @@ const NewVisitsHealthForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={healthEncouragementName}
+                        name="healthEncouragement"
                         value={healthEncouragementValue}
                         actionHandler={actionHandler}
                         displayText={"Health Encouragement"}
                     />
                     <div hidden={!healthEncouragementValue} >
                         <TextAreaInputField
-                            name={healthEncouragementDescName}
+                            name="healthEncouragementDesc"
                             value={healthEncouragementDescValue}
                             onChange={onChange}
                             rows="4"
@@ -191,7 +173,7 @@ const NewVisitsHealthForm = ({
                         <label>Goal met?:</label>
                     </div>
                     <DropdownList
-                        dropdownName={healthGoalMetName}
+                        dropdownName="healthGoalMet"
                         value={healthGoalMetValue}
                         dropdownListItemsKeyValue={goalInputs}
                         onChange={onChange}
@@ -204,7 +186,7 @@ const NewVisitsHealthForm = ({
                     </div>
                     <div >
                         <TextAreaInputField
-                            name={healthGoalConclusionTextName}
+                            name="healthGoalConclusionText"
                             value={healthGoalConclusionTextValue}
                             onChange={onChange}
                             rows="4"

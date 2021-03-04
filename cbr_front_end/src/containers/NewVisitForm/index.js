@@ -37,14 +37,10 @@ const defaultClientZones = {
     "Palorinya Zone 3": "9",
 };
 
-
-
 const NewVisitForm = (props) => {
-
     const [serviceProvidedInputs, setServiceProvidedInputs] = useState({
         "description": "",
         "type": "",
-        "visit": "",
         "service": {
             "name": "",
             "type": ""
@@ -52,7 +48,6 @@ const NewVisitForm = (props) => {
     });
 
     const [formInputs, setFormInputs] = useState({
-
         "purpose": "cbr",
         "doHealthCheckBox": false,
         "doEducationCheckBox": false,
@@ -66,25 +61,6 @@ const NewVisitForm = (props) => {
         "clientId": "",
 
         "serviceProvided": [],
-
-        // Health Section
-        "wheelchair": false,
-        "prosthetic": false,
-        "orthotic": false,
-        "wheelchairRepairs": false,
-        "referralToHealthCentre": false,
-        "healthAdvice": false,
-        "healthAdvocacy": false,
-        "healthEncouragement": false,
-        "wheelchairDesc": "",
-        "prostheticDesc": "",
-        "orthoticDesc": "",
-        "wheelchairRepairsDesc": "",
-        "referralToHealthCentreDesc": "",
-        "healthAdviceDesc": "",
-        "healthAdvocacyDesc": "",
-        "healthEncouragementDesc": "",
-
 
         //Education Section
         "referralToEducationOrg": false,
@@ -107,10 +83,8 @@ const NewVisitForm = (props) => {
         "socialAdvocacyDesc": "",
         "socialEncouragementDesc": "",
 
-        //Goals
-        "healthGoalProgress": "cancelled",
-        "healthOutcome": "",
 
+  //Goals
         "socialGoalProgress": "cancelled",
         "socialOutcome": "",
 
@@ -118,6 +92,30 @@ const NewVisitForm = (props) => {
         "educationOutcome": "",
 
     });
+
+    const [healthFormInputs, setHealthFormInputs] = useState({
+        //Health Section
+        "wheelchair": false,
+        "prosthetic": false,
+        "orthotic": false,
+        "wheelchairRepairs": false,
+        "referralToHealthCentre": false,
+        "healthAdvice": false,
+        "healthAdvocacy": false,
+        "healthEncouragement": false,
+        "wheelchairDesc": "",
+        "prostheticDesc": "",
+        "orthoticDesc": "",
+        "wheelchairRepairsDesc": "",
+        "referralToHealthCentreDesc": "",
+        "healthAdviceDesc": "",
+        "healthAdvocacyDesc": "",
+        "healthEncouragementDesc": "",
+
+        "healthGoalProgress": "cancelled",
+        "healthOutcome": "",
+    });
+
 
 
     const [isHealthInputDisabled, setIsHealthInputDisabled] = useState(true);
@@ -140,10 +138,21 @@ const NewVisitForm = (props) => {
 
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
+        //TODO: add to actual form
+        updateFormInputsFromHealthForm();
+        
         const sendingData = { ...formInputs };
         submitFormByPostRequest(sendingData);
     };
 
+    const updateFormInputsFromHealthForm = () =>{
+        if (healthFormInputs.wheelchair === true ){
+            addServiceProvided("wheelchair", "health", healthFormInputs.wheelchairDesc);
+        } 
+        if (healthFormInputs.prosthetic === true){
+            addServiceProvided("prosthetic", "health", healthFormInputs.wheelchairDesc);
+        }
+    }
 
     const submitFormByPostRequest = data => {
         const requestHeader = {
@@ -170,7 +179,6 @@ const NewVisitForm = (props) => {
 
         const purposeStr = "purpose";
         const cbrStr = "cbr";
-        const healthGoalProgressStr = "healthGoalProgress";
         const educationGoalProgressStr = "educationGoalProgress";
         const socialGoalProgressStr = "socialGoalProgress";
         const concludedStr = "concluded"
@@ -180,13 +188,6 @@ const NewVisitForm = (props) => {
         } else if (name === purposeStr && value === cbrStr) {
             setPurposeCBR(true);
         }
-
-        if (name === healthGoalProgressStr && value !== concludedStr) {
-            setIsHealthGoalConcluded(false);
-        } else if (name === healthGoalProgressStr && value === concludedStr) {
-            setIsHealthGoalConcluded(true);
-        }
-
         if (name === educationGoalProgressStr && value !== concludedStr) {
             setIsEducationGoalConcluded(false);
         } else if (name === educationGoalProgressStr && value === concludedStr) {
@@ -198,8 +199,33 @@ const NewVisitForm = (props) => {
         } else if (name === socialGoalProgressStr && value === concludedStr) {
             setIsSocialGoalConcluded(true);
         }
-
+        if (name => formInputs === name){
+            console.log("works");
+        }
         updateFormInputByNameValue(name, value);
+    };
+
+    const healthFormInputChangeHandler = event =>{
+        const input = event.target;
+        const name = input.name;
+        const value = input.value;
+        const healthGoalProgressStr = "healthGoalProgress";
+        const concludedStr = "concluded"
+
+        if (name === healthGoalProgressStr && value !== concludedStr) {
+            setIsHealthGoalConcluded(false);
+        } else if (name === healthGoalProgressStr && value === concludedStr) {
+            setIsHealthGoalConcluded(true);
+        }
+        updateHealthFormInputByNameValue(name, value);
+    }
+    
+    const updateHealthFormInputByNameValue = (name, value) => {
+        setHealthFormInputs(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
+        });
     };
 
     const updateFormInputByNameValue = (name, value) => {
@@ -209,6 +235,19 @@ const NewVisitForm = (props) => {
             return newFormInputs;
         });
     };
+
+    const addServiceProvided = (name, type, description) => {
+        let testedValues = formInputs["serviceProvided"];
+        let serviceProvided = serviceProvidedInputs;
+        serviceProvided["description"] = description;
+        serviceProvided["service"]["name"] = name;
+        serviceProvided["service"]["type"] = type;
+        serviceProvided["type"] = type;
+        testedValues = [...testedValues, serviceProvided];
+        
+        updateFormInputByNameValue("serviceProvided", testedValues);
+    }
+
 
     const doHealthCheckBoxActionHandler = event => {
         const checkBox = event.target;
@@ -230,6 +269,13 @@ const NewVisitForm = (props) => {
         setIsSocialInputDisabled(!doSocialCheckBox)
         updateFormInputByNameValue("doSocialCheckBox", doSocialCheckBox);
     };
+
+    const doProvidedHealthCheckBoxActionHandler = event => {
+        const checkBox = event.target;
+        const name = checkBox.name
+        const isProvidedChecked = checkBox.checked;
+        updateHealthFormInputByNameValue(name, isProvidedChecked);
+    }
 
     const doProvidedCheckBoxActionHandler = event => {
         const checkBox = event.target;
@@ -256,14 +302,11 @@ const NewVisitForm = (props) => {
         });
     }
 
+    
+
+  
+
     useEffect(() => {
-
-        let testedValues = formInputs["serviceProvided"];
-        let serviceProvided = serviceProvidedInputs;
-        testedValues = [...testedValues, serviceProvided];
-        updateFormInputByNameValue("serviceProvided", testedValues);
-
-
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
@@ -355,47 +398,29 @@ const NewVisitForm = (props) => {
                 <hr />
                 <div hidden={(isHealthInputDisabled) || (!isPurposeCBR)}>
                     <NewClientVisitsHealthForm
-                        wheelchairName="wheelchair"
-                        wheelchairValue={formInputs["wheelchair"]}
-                        prostheticName="prosthetic"
-                        prostheticValue={formInputs["prosthetic"]}
-                        orthoticName="orthotic"
-                        orthoticValue={formInputs["orthotic"]}
-                        wheelchairRepairsName="wheelchairRepairs"
-                        wheelchairRepairsValue={formInputs["wheelchairRepairs"]}
-                        referralToHealthCentreName="referralToHealthCentre"
-                        referralToHealthCentreValue={formInputs["referralToHealthCentre"]}
-                        healthAdviceName="healthAdvice"
-                        healthAdviceValue={formInputs["healthAdvice"]}
-                        healthAdvocacyName="healthAdvocacy"
-                        healthAdvocacyValue={formInputs["healthAdvocacy"]}
-                        healthEncouragementName="healthEncouragement"
-                        healthEncouragementValue={formInputs["healthEncouragement"]}
+                        wheelchairValue={healthFormInputs["wheelchair"]}
+                        prostheticValue={healthFormInputs["prosthetic"]}
+                        orthoticValue={healthFormInputs["orthotic"]}
+                        wheelchairRepairsValue={healthFormInputs["wheelchairRepairs"]}
+                        referralToHealthCentreValue={healthFormInputs["referralToHealthCentre"]}
+                        healthAdviceValue={healthFormInputs["healthAdvice"]}
+                        healthAdvocacyValue={healthFormInputs["healthAdvocacy"]}
+                        healthEncouragementValue={healthFormInputs["healthEncouragement"]}
 
-                        wheelchairDescName="wheelchairDesc"
-                        wheelchairDescValue={formInputs["wheelchairDesc"]}
-                        prostheticDescName="prostheticDesc"
-                        prostheticDescValue={formInputs["prostheticDesc"]}
-                        orthoticDescName="orthoticDesc"
-                        orthoticDescValue={formInputs["orthoticDesc"]}
-                        wheelchairRepairsDescName="wheelchairRepairsDesc"
-                        wheelchairRepairsDescValue={formInputs["wheelchairRepairsDesc"]}
-                        referralToHealthCentreDescName="referralToHealthCentreDesc"
-                        referralToHealthCentreDescValue={formInputs["referralToHealthCentreDesc"]}
-                        healthAdviceDescName="healthAdviceDesc"
-                        healthAdviceDescValue={formInputs["healthAdviceDesc"]}
-                        healthAdvocacyDescName="healthAdvocacyDesc"
-                        healthAdvocacyDescValue={formInputs["healthAdvocacyDesc"]}
-                        healthEncouragementDescName="healthEncouragementDesc"
-                        healthEncouragementDescValue={formInputs["healthEncouragementDesc"]}
+                        wheelchairDescValue={healthFormInputs["wheelchairDesc"]}
+                        prostheticDescValue={healthFormInputs["prostheticDesc"]}
+                        orthoticDescValue={healthFormInputs["orthoticDesc"]}
+                        wheelchairRepairsDescValue={healthFormInputs["wheelchairRepairsDesc"]}
+                        referralToHealthCentreDescValue={healthFormInputs["referralToHealthCentreDesc"]}
+                        healthAdviceDescValue={healthFormInputs["healthAdviceDesc"]}
+                        healthAdvocacyDescValue={healthFormInputs["healthAdvocacyDesc"]}
+                        healthEncouragementDescValue={healthFormInputs["healthEncouragementDesc"]}
 
-                        healthGoalConclusionTextName="healthOutcome"
-                        healthGoalConclusionTextValue={formInputs["healthOutcome"]}
-                        healthGoalMetName="healthGoalProgress"
-                        healthGoalMetValue={formInputs["healthGoalProgress"]}
+                        healthGoalConclusionTextValue={healthFormInputs["healthOutcome"]}
+                        healthGoalMetValue={healthFormInputs["healthGoalProgress"]}
 
-                        actionHandler={doProvidedCheckBoxActionHandler}
-                        onChange={formInputChangeHandler}
+                        actionHandler={doProvidedHealthCheckBoxActionHandler}
+                        onChange={healthFormInputChangeHandler}
                         goalInputs={defaultGoalInputs}
                         isHealthGoalConcluded={isHealthGoalConcluded}
                     />
