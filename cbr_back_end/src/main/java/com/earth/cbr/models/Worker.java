@@ -2,6 +2,7 @@ package com.earth.cbr.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import com.earth.cbr.models.authentication.UniqueUsername;
 
 @Entity(name = "Worker")
 @Table(name = "worker")
@@ -28,6 +29,7 @@ public class Worker {
             name = "username",
             columnDefinition = "TEXT"
     )
+    @UniqueUsername(message = "Username must be unique")
     @NotBlank(message = "Username is mandatory")
     private String username;
 
