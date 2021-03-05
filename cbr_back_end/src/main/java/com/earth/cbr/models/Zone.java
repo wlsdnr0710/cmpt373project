@@ -21,8 +21,7 @@ public class Zone {
 
     }
 
-    public Zone(Long id, String name) {
-        this.id = id;
+    public Zone(String name) {
         this.name = name;
     }
 

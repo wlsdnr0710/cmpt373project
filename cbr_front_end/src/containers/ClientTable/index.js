@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
+import { getToken } from "../../utils/AuthenticationUtil";
+import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
+import ExportToCsv from "../../components/ExportToCsv";
+import { getClientCsvHeaders } from "../../utils/CsvHeaders";
 import Table from "../../components/Table";
 import Button from 'react-bootstrap/Button';
 import DropdownList from "../../components/DropdownList";
@@ -9,7 +13,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
 
-const ClientTable = () => {
+const ClientTable = props => {
     const [isLoading, setIsLoading] = useState(true);
     const [clients, setClients] = useState([]);
     const [hasMoreClients, setHasMoreClients] = useState(true);
@@ -49,9 +53,16 @@ const ClientTable = () => {
 
     const requestClientsByPageable = useCallback(pageable => {
         const { page, clientsPerPage } = pageable;
+
+        const requestHeader = {
+            token: getToken()
+        };
         setIsLoading(true);
         axios.get(
-                ServerConfig.api.url + "/api/v1/client/" + "pageNumber/" + page + "/pageSize/" + clientsPerPage
+                ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage, 
+                {
+                    headers: requestHeader,
+                }
             )
             .then(response => {
                 const receivedClients = response.data.data.content;
@@ -64,7 +75,7 @@ const ClientTable = () => {
             .then(() => {
                 setIsLoading(false);
             });
-    }, [searchKeyword, sortBy]);
+    }, [searchKeyword, sortBy]); // TODO: Will use searchKeyword and sortBy dependencies
 
     // TODO: This function will be used in the future when syntax search is implemented
     const convertToParameterString = paramKeyValues => {
@@ -107,7 +118,7 @@ const ClientTable = () => {
             intersectionObserver.current = new IntersectionObserver(infScrollIntersecObserverCallBack);
             intersectionObserver.current.observe(observeeElement.current);
         };
-    
+
         const infScrollIntersecObserverCallBack = entries => {
             entries.forEach(entry => {
                 const { isIntersecting } = entry;
@@ -117,7 +128,7 @@ const ClientTable = () => {
                 }
             });
         };
-    
+
         const loadMoreClientsAndSetHasMoreClients = () => {
             if (!hasMoreClients || currentPage === firstPage) {
                 return;
@@ -145,7 +156,7 @@ const ClientTable = () => {
         const data = [];
         for (const index in clients) {
             const row = {};
-            row["Clients"] = <ClientInfoCard client={clients[index]} />;
+            row["Clients"] = <ClientInfoCard client={clients[index]} queryData={props.query} />;
             data.push(row);
         }
         return data;
@@ -195,9 +206,39 @@ const ClientTable = () => {
         }
     };
 
+    const getAndCleanClientsJsonArray = clients => {
+        const cleanClientJsonArray = [];
+        for (const index in clients) {
+            const clientJson = clients[index];
+            // Important: construct a new object, do not pollute the original client state
+            const cleanClientJson = {...clientJson};
+            cleanClientJson["zone"] = cleanClientJson["zoneName"]["name"];
+            cleanClientJson["birthdate"] = formatDateString(cleanClientJson["birthdate"]);
+            cleanClientJson["signupDate"] = formatDateString(cleanClientJson["signupDate"]);
+            cleanClientJsonArray.push(cleanClientJson);
+        }
+        return cleanClientJsonArray;
+    };
+
+    const formatDateString = date => {
+        const epoch = parseDateStringToEpoch(date);
+        const dateString = parseEpochToDateString(epoch);
+        return dateString;
+    };
+
     return (
         <div className="client-table">
             <div className="action-group">
+                <div className="section">
+                    {/* TODO: Currently we only export pageable client data. May want an option to export
+                    all client data from server. */}
+                    <ExportToCsv 
+                        filename="client_data"
+                        headers={getClientCsvHeaders().headers}
+                        headersMapping={getClientCsvHeaders().headersMapping}
+                        jsonArray={getAndCleanClientsJsonArray(clients)}
+                    />
+                </div>
                 <div className="section search">
                     <div className="search-text-input">
                         <TextInputField value={searchKeywordBuffer} onChange={onChangeSearchKeywordHandler} />
@@ -208,9 +249,9 @@ const ClientTable = () => {
                 </div>
                 <hr />
                 <div className="section">
-                    <span>Sort By: </span> 
-                    <DropdownList 
-                        dropdownName="sort-by" 
+                    <span>Sort By: </span>
+                    <DropdownList
+                        dropdownName="sort-by"
                         dropdownListItemsKeyValue={getSortByList()}
                         value={sortBy}
                         onChange={onChangeSortByHandler}
@@ -220,7 +261,7 @@ const ClientTable = () => {
             <div className="table">
                 <Table headers={["Clients"]} data={mapClientToTableData(clients)} />
             </div>
-            <div className="infinite-scroll-observer" ref={element => observeeElement.current = element }>
+            <div className="infinite-scroll-observer" ref={element => observeeElement.current = element}>
             </div>
             <div className="spinner">
                 {showSpinnerWhenIsLoading(isLoading)}

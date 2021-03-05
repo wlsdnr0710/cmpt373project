@@ -5,22 +5,38 @@ import { useHistory } from "react-router-dom";
 import avatar from "../../assets/avatar.png";
 import "./style.css";
 
-const ClientInfoCard = ({ client }) => {
+const ClientInfoCard = ({ client, queryData }) => {
     const history = useHistory();
-    const onClickInfoCardHandler = event => {
+    const onClickHandlerNewVisits = () => {
+        history.push({
+            pathname: "/new-visit",
+            state: { clientID: client.id }
+        });
+        window.scrollTo(0, 0);
+    }
+
+    const onClickHandlerAllClients = () => {
         history.push("/client-information?id=" + client.id);
         window.scrollTo(0, 0);
-    };
+    }
+
+    const onClickHandlerComparison = () => {
+        if (queryData === "visits") {
+            onClickHandlerNewVisits();
+        } else if (queryData === "clients") {
+            onClickHandlerAllClients();
+        }
+    }
 
     return (
-        <div className="client-info-card" onClick={onClickInfoCardHandler}>
+        <div className="client-info-card" onClick={onClickHandlerComparison}>
             <div className="photo-id-display">
                 <div className="client-photo">
                     <img src={avatar} alt="" />
                 </div>
                 <div className="id-badge-container">
                     <Badge variant="info">
-                        <div>ID: {client.id}</div> 
+                        <div>ID: {client.id}</div>
                     </Badge>
                 </div>
             </div>

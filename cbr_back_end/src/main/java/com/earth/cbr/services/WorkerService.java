@@ -13,3 +13,4 @@ public interface WorkerService {
     Worker updateWorkerById(@Valid Worker worker);
     void deleteWorkerById(Long id);
 }
+
