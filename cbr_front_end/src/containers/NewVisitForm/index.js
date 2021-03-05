@@ -38,20 +38,10 @@ const defaultClientZones = {
 };
 
 const NewVisitForm = (props) => {
-    const [serviceProvidedInputs, setServiceProvidedInputs] = useState({
-        "description": "",
-        "type": "",
-        "service": {
-            "name": "",
-            "type": ""
-        }
-    });
+    
 
     const [formInputs, setFormInputs] = useState({
         "purpose": "cbr",
-        "doHealthCheckBox": false,
-        "doEducationCheckBox": false,
-        "doSocialCheckBox": false,
         "zone": "1",
         "villageNumber": "0",
         "latitude": "",
@@ -72,7 +62,6 @@ const NewVisitForm = (props) => {
         "educationAdvocacyDesc": "",
         "educationEncouragementDesc": "",
 
-
         //Social Section
         "referralToSocialOrg": false,
         "socialAdvice": false,
@@ -83,12 +72,14 @@ const NewVisitForm = (props) => {
         "socialAdvocacyDesc": "",
         "socialEncouragementDesc": "",
 
+        //Goals
+        "healthGoalProgress": "N/A",
+        "healthOutcome": "",
 
-  //Goals
-        "socialGoalProgress": "cancelled",
+        "socialGoalProgress": "N/A",
         "socialOutcome": "",
 
-        "educationGoalProgress": "cancelled",
+        "educationGoalProgress": "N/A",
         "educationOutcome": "",
 
     });
@@ -111,12 +102,15 @@ const NewVisitForm = (props) => {
         "healthAdviceDesc": "",
         "healthAdvocacyDesc": "",
         "healthEncouragementDesc": "",
-
-        "healthGoalProgress": "cancelled",
-        "healthOutcome": "",
     });
 
+    const [educationFormInputs, setEducationFormInputs] = useState({
 
+    });
+
+    const [healthCheckBox, setHealthCheckBox] = useState(false);
+    const [educationCheckBox, setEducationCheckBox] = useState(false);
+    const [socialCheckBox, setSocialCheckBox] = useState(false);
 
     const [isHealthInputDisabled, setIsHealthInputDisabled] = useState(true);
     const [isEducationInputDisabled, setIsEducationInputDisabled] = useState(true);
@@ -137,21 +131,44 @@ const NewVisitForm = (props) => {
     const [userName, setUserName] = useState(props.name);
 
     const onSubmitSurveyHandler = event => {
-        event.preventDefault();
         //TODO: add to actual form
-        updateFormInputsFromHealthForm();
+        let submittedForm = formInputs;
+        submittedForm = updateFormInputsFromHealthForm(submittedForm);
         
-        const sendingData = { ...formInputs };
+        event.preventDefault();
+        const sendingData = submittedForm;
         submitFormByPostRequest(sendingData);
     };
 
-    const updateFormInputsFromHealthForm = () =>{
+
+
+    const updateFormInputsFromHealthForm = (submittedForm) =>{
         if (healthFormInputs.wheelchair === true ){
-            addServiceProvided("wheelchair", "health", healthFormInputs.wheelchairDesc);
+            submittedForm = addServiceProvided("wheelchair", "health", healthFormInputs.wheelchairDesc, submittedForm);
         } 
         if (healthFormInputs.prosthetic === true){
-            addServiceProvided("prosthetic", "health", healthFormInputs.wheelchairDesc);
+            submittedForm = addServiceProvided("prosthetic", "health", healthFormInputs.prostheticDesc, submittedForm);
         }
+        if (healthFormInputs.orthotic === true){
+            submittedForm = addServiceProvided("orthotic", "health", healthFormInputs.orthoticDesc, submittedForm);
+        }
+        if (healthFormInputs.wheelchairRepairs === true){
+            submittedForm = addServiceProvided("wheelchairRepairs", "health", healthFormInputs.wheelchairRepairsDesc, submittedForm);
+        }
+        if (healthFormInputs.referralToHealthCentre === true){
+            submittedForm = addServiceProvided("referralToHealthCentre", "health", healthFormInputs.referralToHealthCentreDesc, submittedForm);
+        }
+        if (healthFormInputs.healthAdvice === true){
+            submittedForm = addServiceProvided("healthAdvice", "health", healthFormInputs.healthAdviceDesc, submittedForm);
+        }
+        if (healthFormInputs.healthAdvocacy === true){
+            submittedForm = addServiceProvided("healthAdvocacy", "health", healthFormInputs.healthAdvocacyDesc, submittedForm);
+        }
+        if (healthFormInputs.healthEncouragement === true){
+            submittedForm = addServiceProvided("healthEncouragement", "health", healthFormInputs.healthEncouragementDesc, submittedForm);
+        }
+        
+        return submittedForm
     }
 
     const submitFormByPostRequest = data => {
@@ -199,9 +216,7 @@ const NewVisitForm = (props) => {
         } else if (name === socialGoalProgressStr && value === concludedStr) {
             setIsSocialGoalConcluded(true);
         }
-        if (name => formInputs === name){
-            console.log("works");
-        }
+
         updateFormInputByNameValue(name, value);
     };
 
@@ -209,15 +224,22 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
+
         const healthGoalProgressStr = "healthGoalProgress";
         const concludedStr = "concluded"
 
-        if (name === healthGoalProgressStr && value !== concludedStr) {
-            setIsHealthGoalConcluded(false);
-        } else if (name === healthGoalProgressStr && value === concludedStr) {
-            setIsHealthGoalConcluded(true);
+        if (name === healthGoalProgressStr) {
+            if (value !== concludedStr){
+                setIsHealthGoalConcluded(false);
+            } else if (value === concludedStr){
+                setIsHealthGoalConcluded(true);
+            }
+            updateFormInputByNameValue(name, value);
+        } else if (name === "healthOutcome"){
+            updateFormInputByNameValue(name, value);
+        }   else {
+            updateHealthFormInputByNameValue(name, value);
         }
-        updateHealthFormInputByNameValue(name, value);
     }
     
     const updateHealthFormInputByNameValue = (name, value) => {
@@ -236,38 +258,47 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const addServiceProvided = (name, type, description) => {
-        let testedValues = formInputs["serviceProvided"];
-        let serviceProvided = serviceProvidedInputs;
+
+    const addServiceProvided = (name, type, description, submittedForm) => {
+        let testedValues = submittedForm["serviceProvided"];
+        const serviceProvided = ({
+            "description": "",
+            "type": "",
+            "service": {
+                "name": "",
+                "type": ""
+            }
+        });
         serviceProvided["description"] = description;
         serviceProvided["service"]["name"] = name;
         serviceProvided["service"]["type"] = type;
         serviceProvided["type"] = type;
-        testedValues = [...testedValues, serviceProvided];
-        
-        updateFormInputByNameValue("serviceProvided", testedValues);
-    }
 
+        testedValues = [...testedValues, serviceProvided];
+        submittedForm["serviceProvided"] = testedValues;
+        updateFormInputByNameValue("serviceProvided", testedValues);
+        return submittedForm;
+    }
 
     const doHealthCheckBoxActionHandler = event => {
         const checkBox = event.target;
         const doHealthCheckBox = checkBox.checked;
         setIsHealthInputDisabled(!doHealthCheckBox);
-        updateFormInputByNameValue("doHealthCheckBox", doHealthCheckBox);
+        setHealthCheckBox(doHealthCheckBox);
     };
 
     const doEducationCheckBoxActionHandler = event => {
         const checkBox = event.target;
         const doEducationCheckBox = checkBox.checked;
         setIsEducationInputDisabled(!doEducationCheckBox);
-        updateFormInputByNameValue("doEducationCheckBox", doEducationCheckBox);
+        setEducationCheckBox(doEducationCheckBox);
     };
 
     const doSocialCheckBoxActionHandler = event => {
         const checkBox = event.target;
         const doSocialCheckBox = checkBox.checked;
         setIsSocialInputDisabled(!doSocialCheckBox)
-        updateFormInputByNameValue("doSocialCheckBox", doSocialCheckBox);
+        setSocialCheckBox(doSocialCheckBox);
     };
 
     const doProvidedHealthCheckBoxActionHandler = event => {
@@ -302,10 +333,6 @@ const NewVisitForm = (props) => {
         });
     }
 
-    
-
-  
-
     useEffect(() => {
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
@@ -334,19 +361,19 @@ const NewVisitForm = (props) => {
                     <div hidden={!isPurposeCBR}>
                         <CheckBox
                             name="doHealthCheckBox"
-                            value={formInputs["doHealthCheckBox"]}
+                            value={healthCheckBox}
                             actionHandler={doHealthCheckBoxActionHandler}
                             displayText={"Health"}
                         />
                         <CheckBox
                             name="doEducationCheckBox"
-                            value={formInputs["doEducationCheckBox"]}
+                            value={educationCheckBox}
                             actionHandler={doEducationCheckBoxActionHandler}
                             displayText={"Education"}
                         />
                         <CheckBox
                             name="doSocialCheckBox"
-                            value={formInputs["doSocialCheckBox"]}
+                            value={socialCheckBox}
                             actionHandler={doSocialCheckBoxActionHandler}
                             displayText={"Social"}
                         />
@@ -416,8 +443,8 @@ const NewVisitForm = (props) => {
                         healthAdvocacyDescValue={healthFormInputs["healthAdvocacyDesc"]}
                         healthEncouragementDescValue={healthFormInputs["healthEncouragementDesc"]}
 
-                        healthGoalConclusionTextValue={healthFormInputs["healthOutcome"]}
-                        healthGoalMetValue={healthFormInputs["healthGoalProgress"]}
+                        healthGoalConclusionTextValue={formInputs["healthOutcome"]}
+                        healthGoalMetValue={formInputs["healthGoalProgress"]}
 
                         actionHandler={doProvidedHealthCheckBoxActionHandler}
                         onChange={healthFormInputChangeHandler}

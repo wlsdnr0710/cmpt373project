@@ -173,7 +173,7 @@ const NewVisitsHealthForm = ({
                         <label>Goal met?:</label>
                     </div>
                     <DropdownList
-                        dropdownName="healthGoalMet"
+                        dropdownName="healthGoalProgress"
                         value={healthGoalMetValue}
                         dropdownListItemsKeyValue={goalInputs}
                         onChange={onChange}
@@ -186,7 +186,7 @@ const NewVisitsHealthForm = ({
                     </div>
                     <div >
                         <TextAreaInputField
-                            name="healthGoalConclusionText"
+                            name="healthOutcome"
                             value={healthGoalConclusionTextValue}
                             onChange={onChange}
                             rows="4"
