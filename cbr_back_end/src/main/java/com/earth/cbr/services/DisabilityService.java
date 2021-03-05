@@ -8,4 +8,3 @@ import java.util.List;
 public interface DisabilityService {
     List<Disability> getAllDisabilities();
 }
-
