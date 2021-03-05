@@ -77,7 +77,7 @@ public class VisitController {
         if (visitJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Visit data");
         }
-        
+
         String visitString = visitJSON.toJSONString();
         JSONObject responseJson = new JSONObject();
         Visit visit = JSON.parseObject(visitString, Visit.class);

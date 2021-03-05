@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { isAuthenticated } from "../../utils/AuthenticationUtil";
+import { isAuthenticated, saveUsername } from "../../utils/AuthenticationUtil";
 import { saveToken } from "../../utils/AuthenticationUtil";
 import LoginInputField from "../../components/LoginInputField";
 import Logo from "../../assets/HHALogo.svg";
@@ -46,6 +46,8 @@ export default class Login extends Component {
         )
             .then(response => {
                 const token = response.data.data;
+                //If getUsernameFromToken() works properly, this should be removed
+                saveUsername(username);
                 saveToken(token);
                 this.redirectToDashboard();
             })

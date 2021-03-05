@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import { getToken } from "../../utils/AuthenticationUtil";
+import { getToken, getUsername} from "../../utils/AuthenticationUtil";
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import DropdownList from "../../components/DropdownList";
@@ -42,7 +43,7 @@ const NewVisitForm = (props) => {
     const history = useHistory();
     const [formInputs, setFormInputs] = useState({
         "consent" : 1,
-        "cbr_worker_name" : "Wanda Chandra", 
+        "cbr_worker_name" : "", 
         "purpose": "cbr",
         "zone": "1",
         "villageNumber": "0",
@@ -50,6 +51,10 @@ const NewVisitForm = (props) => {
         "cbrWorkerName": "",
         "clientId": "",
         "serviceProvided": [],
+
+    //  TODO: add GPS in the visits table
+    //  "latitude" : "",
+    //  "longitude" : "",
 
         //Goals
         "healthGoalProgress": "cancelled",
@@ -122,10 +127,12 @@ const NewVisitForm = (props) => {
     const [currMonth, setCurrMonth] = useState("");
     const [currYear, setCurrYear] = useState("");
 
-    const [userName, setUserName] = useState(props.name);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+    const [errorMessages, setErrorMessages] = useState([]);
 
     const onSubmitSurveyHandler = event => {
-        //TODO: add to actual form
+        clearErrorMessages();
         let submittedForm = formInputs;
         if (healthCheckBox){
             submittedForm = updateFormInputsFromHealthForm(submittedForm);
@@ -201,8 +208,8 @@ const NewVisitForm = (props) => {
         return submittedForm
     }
     
-
     const submitFormByPostRequest = data => {
+        setStatesWhenFormIsSubmitting(true);
         const requestHeader = {
             token: getToken()
         };
@@ -212,14 +219,31 @@ const NewVisitForm = (props) => {
             headers: requestHeader,
         })
         .then(response => {
+            setFormStateAfterSubmitSuccess();
             const clientId = props.clientID;
             const oneSecond = 1;
-            redirectToClientInfoPageAfter(clientId, oneSecond)
+            redirectToClientInfoPageAfter(clientId, oneSecond);
         })
         .catch(error => {
-
+            updateErrorMessages(error);
+            setStatesWhenFormIsSubmitting(false);
         });
     };
+
+    const getWorkerNameByGetRequest = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.get(ServerConfig.api.url +  '/api/v1/worker/username/' + getUsername(), {
+            headers: requestHeader,
+        })
+        .then(response => {
+            updateFormInputByNameValue("cbr_worker_name", response.data.data.firstName + " " + response.data.data.lastName);
+        })
+        .catch(error => {
+            updateFormInputByNameValue("cbr_worker_name" , "Unable to fetch CBR worker name");
+        });
+    }
 
     const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
         const timeInMilliSecond = timeInSecond * 1000;
@@ -405,7 +429,6 @@ const NewVisitForm = (props) => {
         setCurrDay(newDate.getDate());
         setCurrMonth(newDate.getMonth() + 1);
         setCurrYear(newDate.getFullYear());
-        updateFormInputByNameValue("cbrWorkerName", userName);
         updateFormInputByNameValue("date", Math.floor(newDate / 1000));
     }
 
@@ -418,7 +441,78 @@ const NewVisitForm = (props) => {
         });
     }
 
+    const updateErrorMessages = error => {
+        setErrorMessages(prevErrorMessages => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const setStatesWhenFormIsSubmitting = isSubmitting => {
+        if (isSubmitting) {
+            setIsSubmitting(true);
+        } else {
+            setIsSubmitting(false);
+        }
+    };
+
+    const showSuccessMessage = () => {
+        if (isSubmitSuccess) {
+            return (
+                <Alert variant="success">
+                    You submitted the form successfully! You will be redirected to the client page soon.
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const setFormStateAfterSubmitSuccess = () => {
+        setIsSubmitSuccess(true);
+        setIsSubmitting(false);
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
+    };
+
+    const clearErrorMessages = () => {
+        setErrorMessages([]);
+    };
+
     useEffect(() => {
+        getWorkerNameByGetRequest();
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
@@ -466,11 +560,11 @@ const NewVisitForm = (props) => {
                 </div>
                 <hr />
                 <div>
-                    <label>Date of Visit: {currYear}-{currMonth}-{currDay}</label>
+                    <label>Date of Visit: {currDay}/{currMonth}/{currYear}</label>
                 </div>
                 <hr />
                 <div>
-                    <label>Name of CBR worker: {userName}</label>
+                    <label>Name of CBR worker: {formInputs["cbr_worker_name"]}</label>
                 </div>
                 <hr />
                 <div>
@@ -581,6 +675,8 @@ const NewVisitForm = (props) => {
                     <hr />
                 </div>
                 <hr />
+                {showErrorMessages()}
+                {showSuccessMessage()}
                 <Button
                     variant="primary"
                     size="lg"
@@ -592,7 +688,6 @@ const NewVisitForm = (props) => {
             </div>
         </div >
     );
-
 }
 
 export default NewVisitForm;
