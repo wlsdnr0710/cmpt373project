@@ -46,8 +46,6 @@ export default class Login extends Component {
         )
             .then(response => {
                 const token = response.data.data;
-                //If getUsernameFromToken() works properly, this should be removed
-                saveUsername(username);
                 saveToken(token);
                 this.redirectToDashboard();
             })

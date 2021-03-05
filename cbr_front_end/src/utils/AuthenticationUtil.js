@@ -47,16 +47,6 @@ export const saveToken = token => {
     window.localStorage.setItem("token", token);
 };
 
-//TODO: saveUsername, and getUsername should be removed in the future due to redundancy.
-//      Was added because getWorkerUsernameFromToken doesn't seem to work (returns undefined)
-export const saveUsername = username => {
-    window.localStorage.setItem("username", username);
-};
-
-export const getUsername = () =>{
-    return window.localStorage.getItem("username");
-}
-
 export const getToken = () => {
     return window.localStorage.getItem("token");
 };

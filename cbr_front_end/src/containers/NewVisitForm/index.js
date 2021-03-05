@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import { getToken, getUsername} from "../../utils/AuthenticationUtil";
+import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -234,7 +234,7 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(ServerConfig.api.url +  '/api/v1/worker/username/' + getUsername(), {
+        axios.get(ServerConfig.api.url +  '/api/v1/worker/username/' + getWorkerUsernameFromToken(getToken()), {
             headers: requestHeader,
         })
         .then(response => {

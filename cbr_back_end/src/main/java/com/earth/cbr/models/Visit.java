@@ -6,6 +6,13 @@ import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Set;
 
+enum goalProgressOptions {
+    cancelled,
+    ongoing,
+    concluded,
+    omit;
+}
+
 @Entity(name = "Visit")
 @Table(name = "visit")
 public class Visit {
@@ -62,6 +69,7 @@ public class Visit {
             columnDefinition = "ENUM"
     )
     @NotBlank(message = "Health goal progress is mandatory")
+    @Enumerated(EnumType.STRING)
     private String healthGoalProgress;
 
     @Column(
