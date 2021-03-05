@@ -3,6 +3,7 @@ import "./style.css";
 
 const CameraSnapshot = props => {
     const videoRef = useRef(null);
+    const canvasRef = useRef(null);
     const [stream, setStream] = useState(null);
     const [facingMode, setFacingMode] = useState("user");
 
@@ -50,14 +51,23 @@ const CameraSnapshot = props => {
         });
     };
 
+    const onClickTakePhoto = () => {
+        const context = canvasRef.current.getContext('2d');
+        context.drawImage(videoRef.current, 0, 0, 320, 240);
+    };
+
     return (
         <div className="camera-snapshot">
             <div>
-                <video ref={videoRef}>
+                <video ref={videoRef} width="320" height="240" >
                 </video>
             </div>
             <div>
-                <button>Take Photo</button>
+                <canvas ref={canvasRef} width="320" height="240" >
+                </canvas>
+            </div>
+            <div>
+                <button onClick={onClickTakePhoto}>Take Photo</button>
             </div>
         </div>
     );
