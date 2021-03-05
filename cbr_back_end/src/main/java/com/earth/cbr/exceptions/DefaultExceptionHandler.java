@@ -57,9 +57,9 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
         return standardExceptionHandling(ex);
     }
 
-    @ExceptionHandler(IdDoesNotExistException.class)
+    @ExceptionHandler(ObjectDoesNotExist.class)
     public ResponseEntity<Object> handleIdDoesNotExistException(
-            IdDoesNotExistException ex,
+            ObjectDoesNotExist ex,
             WebRequest request) {
         return standardExceptionHandling(ex);
     }

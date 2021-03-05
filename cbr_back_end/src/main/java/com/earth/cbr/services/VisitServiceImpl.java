@@ -23,7 +23,7 @@ public class VisitServiceImpl implements VisitService{
     @Override
     public Visit getVisitById(Long id) {
         Optional<Visit> visitOptional = visitRepository.findById(id);
-        Visit visit = visitOptional.get();
+        Visit visit = visitOptional.orElse(null);
         return visit;
     }
 
