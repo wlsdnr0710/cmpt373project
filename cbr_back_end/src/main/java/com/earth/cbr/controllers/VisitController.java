@@ -91,15 +91,9 @@ public class VisitController {
         if (visitJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Visit data");
         }
-<<<<<<< HEAD
-=======
-
         if(visitService.getVisitById(visitJSON.getLong("id")) == null) {
             throw new ObjectDoesNotExist("Visit with that ID does not exist");
         }
-
-        String visitString = visitJSON.toJSONString();
->>>>>>> master
 
         String visitString = visitJSON.toJSONString();
         JSONObject responseJson = new JSONObject();
