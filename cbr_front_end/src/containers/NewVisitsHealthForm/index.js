@@ -170,7 +170,7 @@ const NewVisitsHealthForm = ({
                 </div>
                 <div >
                     <div>
-                        <label>Goal met?:</label>
+                        <label>Goal met? :</label>
                     </div>
                     <DropdownList
                         dropdownName="healthGoalProgress"
