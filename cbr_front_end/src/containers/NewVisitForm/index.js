@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect} from 'react';
+import { useHistory } from "react-router-dom";
 import { getToken } from "../../utils/AuthenticationUtil";
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -38,23 +39,24 @@ const defaultClientZones = {
 };
 
 const NewVisitForm = (props) => {
+    const history = useHistory();
     const [formInputs, setFormInputs] = useState({
+        "consent" : 1,
+        "cbr_worker_name" : "Wanda Chandra", 
         "purpose": "cbr",
         "zone": "1",
         "villageNumber": "0",
-        "latitude": "",
-        "longitude": "",
         "date": "",
         "cbrWorkerName": "",
         "clientId": "",
         "serviceProvided": [],
 
         //Goals
-        "healthGoalProgress": "N/A",
+        "healthGoalProgress": "cancelled",
         "healthOutcome": "",
-        "socialGoalProgress": "N/A",
+        "socialGoalProgress": "cancelled",
         "socialOutcome": "",
-        "educationGoalProgress": "N/A",
+        "educationGoalProgress": "cancelled",
         "educationOutcome": "",
     });
 
@@ -204,18 +206,27 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
-        // ServerConfig.api.url + 
-        axios.post('/api/v1/newVisits', {
+        axios.post(ServerConfig.api.url +  '/api/v1/visit', {
             "data": data
         }, {
             headers: requestHeader,
         })
-            .then(response => {
+        .then(response => {
+            const clientId = props.clientID;
+            const oneSecond = 1;
+            redirectToClientInfoPageAfter(clientId, oneSecond)
+        })
+        .catch(error => {
 
-            })
-            .catch(error => {
+        });
+    };
 
-            });
+    const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("/client-information?id=" + clientId);
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
     };
 
     const formInputChangeHandler = event => {

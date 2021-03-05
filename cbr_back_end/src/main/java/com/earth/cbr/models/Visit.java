@@ -59,7 +59,7 @@ public class Visit {
 
     @Column(
             name = "health_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
     @NotBlank(message = "Health goal progress is mandatory")
     private String healthGoalProgress;
@@ -72,7 +72,7 @@ public class Visit {
 
     @Column(
             name = "social_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
     @NotBlank(message = "Social goal progress is mandatory")
     private String socialGoalProgress;
@@ -85,7 +85,7 @@ public class Visit {
 
     @Column(
             name = "education_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
     @NotBlank(message = "Education goal progress is mandatory")
     private String educationGoalProgress;
