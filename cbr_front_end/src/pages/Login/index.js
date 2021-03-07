@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { isAuthenticated } from "../../utils/AuthenticationUtil";
+import { isAuthenticated, saveUsername } from "../../utils/AuthenticationUtil";
 import { saveToken } from "../../utils/AuthenticationUtil";
 import LoginInputField from "../../components/LoginInputField";
 import Logo from "../../assets/HHALogo.svg";

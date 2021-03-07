@@ -72,11 +72,10 @@ public class VisitController {
         if (visitJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Visit data");
         }
-        String visitString = visitJSON.toJSONString();
 
+        String visitString = visitJSON.toJSONString();
         JSONObject responseJson = new JSONObject();
         Visit visit = JSON.parseObject(visitString, Visit.class);
-
         Visit addedVisit = visitService.addVisit(visit);
 
         // get visit's id to update UI
@@ -92,16 +91,13 @@ public class VisitController {
         if (visitJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Visit data");
         }
-
         if(visitService.getVisitById(visitJSON.getLong("id")) == null) {
             throw new ObjectDoesNotExist("Visit with that ID does not exist");
         }
 
         String visitString = visitJSON.toJSONString();
-
         JSONObject responseJson = new JSONObject();
         Visit visit = JSON.parseObject(visitString, Visit.class);
-
         Visit updatedVisit = visitService.updateVisitById(visit);
 
         // get visit's id to update UI
