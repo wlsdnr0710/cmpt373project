@@ -15,6 +15,14 @@ import java.util.Set;
 @Table(name = "client")
 @EntityListeners(AuditingEntityListener.class)
 public class Client {
+
+    private enum Gender {
+        M,
+        F,
+        m,
+        f
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -45,13 +53,16 @@ public class Client {
     private Integer age;
 
     @Column(
-            name = "gender"
+            name = "gender",
+            columnDefinition = "TEXT"
     )
     @NotNull(message = "Gender cannot be null")
-    private Character gender;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
 
     @Column(
-            name = "photo"
+            name = "photo",
+            columnDefinition = "TEXT"
     )
     private String photo;
 
@@ -60,6 +71,7 @@ public class Client {
             columnDefinition = "INT"
     )
     @NotNull(message = "Zone cannot be null")
+    @PositiveOrZero(message = "Zone ID should be positive or zero")
     private Integer zone;
 
     @Column(
@@ -78,7 +90,8 @@ public class Client {
     private Date signupDate;
 
     @Column(
-            name = "contact_number"
+            name = "contact_number",
+            columnDefinition = "TEXT"
     )
     @Pattern(
             regexp = "\\d{10}",
@@ -146,7 +159,7 @@ public class Client {
                   String lastName,
                   Date birthdate,
                   Integer age,
-                  Character gender,
+                  Gender gender,
                   String photo,
                   Integer zone,
                   Integer villageNumber,
@@ -221,11 +234,11 @@ public class Client {
         this.age = age;
     }
 
-    public Character getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(Character gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 
