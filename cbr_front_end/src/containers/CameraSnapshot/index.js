@@ -2,13 +2,12 @@ import React, { useEffect, useRef, useState } from "react";
 import CameraSVG from "../../assets/svg/camera.svg";
 import "./style.css";
 
-const CameraSnapshot = props => {
+const CameraSnapshot = ({ storeImage }) => {
     const videoRef = useRef(null);
     const canvasRef = useRef(null);
     const [stream, setStream] = useState(null);
     const [isPhotoTaken, setIsPhotoTaken] = useState(false);
     const [isCameraSnapshotEnabled, setIsCameraSnapshotEnabled] = useState(false);
-    const [facingMode, setFacingMode] = useState("user");
 
     useEffect(() => {
         if (!doesSupportMediaDevice() || !isCameraSnapshotEnabled) {
@@ -42,7 +41,7 @@ const CameraSnapshot = props => {
     const requestToOpenCamera = () => {
         const videoConstraint = {
             facingMode: {
-                ideal: "user" // Or environment
+                ideal: "user"
             },
         };
 
@@ -109,6 +108,9 @@ const CameraSnapshot = props => {
         setIsPhotoTaken(true);
         const context = canvasRef.current.getContext('2d');
         context.drawImage(videoRef.current, 0, 0, 320, 240);
+        if (storeImage) {
+            storeImage(canvasRef.current.toDataURL());
+        }
     };
 
     const onClickDisableCamera = () => {
