@@ -8,6 +8,13 @@ import javax.validation.constraints.*;
 @Entity(name = "Worker")
 @Table(name = "worker")
 public class Worker {
+
+    private enum Role{
+        admin,
+        clinician,
+        worker
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -59,16 +66,15 @@ public class Worker {
 
     @Column(
             name = "role",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
-    @NotBlank(message = "Role is mandatory")
-    private String role;
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @Column(
             name = "zone",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Zone cannot be null")
     @PositiveOrZero(message = "Zone should be positive or zero")
     private Integer zone;
 
@@ -81,7 +87,7 @@ public class Worker {
     }
 
     public Worker(String firstName, String lastName, String username, String password, String phone, String email,
-                  String role, Integer zone, Zone zoneName) {
+                  Role role, Integer zone, Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
@@ -149,11 +155,11 @@ public class Worker {
         this.email = email;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

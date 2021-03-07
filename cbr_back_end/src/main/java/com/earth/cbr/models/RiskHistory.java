@@ -81,6 +81,7 @@ public class RiskHistory {
     private String socialRiskDescription;
 
     public RiskHistory() {
+
     }
 
     public RiskHistory(Long id,

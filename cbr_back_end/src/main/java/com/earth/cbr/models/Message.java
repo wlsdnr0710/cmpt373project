@@ -34,7 +34,7 @@ public class Message {
     )
     private Integer priority;
     
-    public Message(){
+    public Message() {
         
     }
 

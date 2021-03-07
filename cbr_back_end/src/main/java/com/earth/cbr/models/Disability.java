@@ -23,6 +23,7 @@ public class Disability {
     private Set<Client> clients;
 
     public Disability() {
+
     }
 
     public Disability(Long id, String type, Set<Client> clients) {
