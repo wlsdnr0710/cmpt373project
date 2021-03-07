@@ -22,6 +22,14 @@ cd cbr_front_end
 npm start
 ```
 
+## How to authenticate users at front-end
+
+Please read this [documentation for authentication](documentations/authentication.md).
+
+## How to export CSV data
+
+Please read this [export_csv.md](documentations/export_csv.md).
+
 ## How to use React Router
 
 If you want to add a new page to front-end code, please follow these steps to use React Router.

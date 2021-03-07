@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+import { getToken, doAuthentication } from "../../utils/AuthenticationUtil";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
 import BackgroundCard from "../../components/BackgroundCard";
@@ -13,12 +14,18 @@ import "./styles.css";
 
 const ClientInfo = props => {
   const history = useHistory();
+  doAuthentication(history);
 
   const parameterString = props.location.search;
   const clientId = qs.parse(parameterString).id;
 
   const getClientDataByGetRequest = useCallback(() => {  
-    axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId)
+    const requestHeader = {
+      token: getToken()
+    };
+    axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {
+      headers: requestHeader,
+    })
       .then(response => {
         var JSONData = response.data;
         setFormInputs(prevFormInputs => {

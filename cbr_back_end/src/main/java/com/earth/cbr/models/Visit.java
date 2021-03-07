@@ -6,9 +6,18 @@ import javax.validation.constraints.*;
 import java.util.Date;
 import java.util.Set;
 
+
+
 @Entity(name = "Visit")
 @Table(name = "visit")
 public class Visit {
+    public enum goalProgress {
+        cancelled,
+        ongoing,
+        concluded,
+        omit;
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -59,7 +68,7 @@ public class Visit {
 
     @Column(
             name = "health_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
     @NotBlank(message = "Health goal progress is mandatory")
     private String healthGoalProgress;
@@ -69,6 +78,32 @@ public class Visit {
             columnDefinition = "TEXT"
     )
     private String healthOutcome;
+
+    @Column(
+            name = "social_goal_progress",
+            columnDefinition = "ENUM"
+    )
+    @NotBlank(message = "Social goal progress is mandatory")
+    private String socialGoalProgress;
+
+    @Column(
+            name = "social_outcome",
+            columnDefinition = "TEXT"
+    )
+    private String socialOutcome;
+
+    @Column(
+            name = "education_goal_progress",
+            columnDefinition = "ENUM"
+    )
+    @NotBlank(message = "Education goal progress is mandatory")
+    private String educationGoalProgress;
+
+    @Column(
+            name = "education_outcome",
+            columnDefinition = "TEXT"
+    )
+    private String educationOutcome;
 
     @Column(
             name = "client_id",
@@ -89,7 +124,8 @@ public class Visit {
     }
 
     public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, Integer zone, Integer villageNumber,
-                 String healthGoalProgress, String healthOutcome, Long clientId, Zone zoneName, Set<ServiceProvided> serviceProvided) {
+                 String healthGoalProgress, String healthOutcome, String socialGoalProgress, String socialOutcome,
+                 String educationGoalProgress, String educationOutcome, Long clientId, Zone zoneName, Set<ServiceProvided> serviceProvided) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -98,6 +134,10 @@ public class Visit {
         this.villageNumber = villageNumber;
         this.healthGoalProgress = healthGoalProgress;
         this.healthOutcome = healthOutcome;
+        this.socialGoalProgress = socialGoalProgress;
+        this.socialOutcome = socialOutcome;
+        this.educationGoalProgress = educationGoalProgress;
+        this.educationOutcome = educationOutcome;
         this.clientId = clientId;
         this.zoneName = zoneName;
         this.serviceProvided = serviceProvided;
@@ -173,6 +213,38 @@ public class Visit {
 
     public void setHealthOutcome(String healthOutcome) {
         this.healthOutcome = healthOutcome;
+    }
+
+    public String getSocialGoalProgress() {
+        return socialGoalProgress;
+    }
+
+    public void setSocialGoalProgress(String socialGoalProgress) {
+        this.socialGoalProgress = socialGoalProgress;
+    }
+
+    public String getSocialOutcome() {
+        return socialOutcome;
+    }
+
+    public void setSocialOutcome(String socialOutcome) {
+        this.socialOutcome = socialOutcome;
+    }
+
+    public String getEducationGoalProgress() {
+        return educationGoalProgress;
+    }
+
+    public void setEducationGoalProgress(String educationGoalProgress) {
+        this.educationGoalProgress = educationGoalProgress;
+    }
+
+    public String getEducationOutcome() {
+        return educationOutcome;
+    }
+
+    public void setEducationOutcome(String educationOutcome) {
+        this.educationOutcome = educationOutcome;
     }
 
     public Long getClientId() {

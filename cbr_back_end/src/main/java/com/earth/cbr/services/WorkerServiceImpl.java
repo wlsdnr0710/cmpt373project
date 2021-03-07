@@ -23,14 +23,14 @@ public class WorkerServiceImpl implements WorkerService {
     @Override
     public Worker getWorkerByUsername(String username) {
         Optional<Worker> workerOptional = workerRepository.findByUsername(username);
-        Worker worker = workerOptional.get();
+        Worker worker = workerOptional.orElse(null);
         return worker;
     }
 
     @Override
     public Worker getWorkerById(Long id) {
         Optional<Worker> workerOptional = workerRepository.findById(id);
-        Worker worker = workerOptional.get();
+        Worker worker = workerOptional.orElse(null);
         return worker;
     }
 
