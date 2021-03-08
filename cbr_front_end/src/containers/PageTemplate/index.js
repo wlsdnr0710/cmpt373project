@@ -47,14 +47,12 @@ const PageTemplate = ({ children }) => {
         <NavigationBarEntry
           label="Dashboard"
           destination="/dashboard"
-          query="#"
           iconSource={dashboardIcon}
           iconAlt="Dashboard"
         />
         <NavigationBarEntry
           label="New Client"
           destination="/new-client"
-          query="#"
           iconSource={newClientIcon}
           iconAlt="New Client"
         />
@@ -68,7 +66,6 @@ const PageTemplate = ({ children }) => {
         <NavigationBarEntry
           label="New Referral"
           destination="#"
-          query="#"
           iconSource={newReferralIcon}
           iconAlt="New Referral"
         />
@@ -91,7 +88,6 @@ const PageTemplate = ({ children }) => {
           <NavigationBarEntry
             label="Sync"
             destination="#"
-            query="#"
             iconSource={cloudSyncIcon}
             iconAlt="Sync"
           />
