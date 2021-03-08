@@ -1,10 +1,19 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "Service")
 @Table(name = "service")
 public class Service {
+
+    private enum Type {
+        health,
+        social,
+        education
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -13,19 +22,22 @@ public class Service {
         name = "name",
         columnDefinition = "TEXT" 
     )
+    @NotBlank(message = "Name is mandatory")
     private String name;
    
     @Column(
         name = "type",
-        columnDefinition = "TEXT"
+        columnDefinition = "ENUM"
     )
-    private String type;
+    @NotNull(message = "Type cannot be null")
+    @Enumerated(EnumType.STRING)
+    private Type type;
     
     public Service(){
         
     }
 
-    public Service(String name, String type) {
+    public Service(String name, Type type) {
         this.name = name;
         this.type = type;
     }
@@ -46,11 +58,11 @@ public class Service {
         this.name = name;
     }
 
-    public String getType(){
+    public Type getType(){
         return type;
     }
 
-    public void setType(String type){
+    public void setType(Type type){
         this.type = type;
     }
 }

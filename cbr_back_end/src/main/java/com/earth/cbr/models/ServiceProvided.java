@@ -3,10 +3,20 @@ package com.earth.cbr.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 @Entity(name = "Service_Provided")
 @Table(name = "service_provided")
 public class ServiceProvided {
+
+    private enum Type {
+        health,
+        social,
+        education
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,24 +25,31 @@ public class ServiceProvided {
         name = "visit_id",
         columnDefinition = "INT"
     )
+    @NotNull(message = "Visit ID cannot be null")
+    @PositiveOrZero(message = "Visit ID should be positive or zero")
     private Integer visitId;
 
     @Column(
         name = "description",
         columnDefinition = "TEXT" 
     )
+    @NotBlank(message = "Description is mandatory")
     private String description;
 
     @Column(
         name = "type",
-        columnDefinition = "TEXT"
+        columnDefinition = "ENUM"
     )
-    private String type;
+    @NotNull(message = "Type cannot be null")
+    @Enumerated(EnumType.STRING)
+    private Type type;
 
     @Column(
             name = "service_id",
             columnDefinition = "INT"
     )
+    @NotNull(message = "Service ID cannot be null")
+    @PositiveOrZero(message = "Service ID should be positive or zero")
     private Integer serviceId;
 
     @JsonIgnore
@@ -40,7 +57,7 @@ public class ServiceProvided {
     @JoinColumn(name = "visit_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Visit visit;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private Service service;
     
@@ -48,7 +65,7 @@ public class ServiceProvided {
         
     }
 
-    public ServiceProvided(Integer visitId, String description, Integer serviceId, String type, Visit visit, Service service) {
+    public ServiceProvided(Integer visitId, String description, Integer serviceId, Type type, Visit visit, Service service) {
         this.visitId = visitId;
         this.description = description;
         this.type = type;
@@ -81,11 +98,11 @@ public class ServiceProvided {
         this.description = description;
     }
 
-    public String getType(){
+    public Type getType(){
         return type;
     }
 
-    public void setType(String type){
+    public void setType(Type type){
         this.type = type;
     }
 
