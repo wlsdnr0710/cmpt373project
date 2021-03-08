@@ -62,7 +62,7 @@ public class Visit {
             columnDefinition = "INT"
     )
     @NotNull(message = "Village number cannot be null")
-    @PositiveOrZero(message = "Zone should be positive or zero")
+    @PositiveOrZero(message = "Village Number should be positive or zero")
     private Integer villageNumber;
 
     @Column(
@@ -111,11 +111,11 @@ public class Visit {
             name = "client_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Village number cannot be null")
-    @PositiveOrZero(message = "Zone should be positive or zero")
+    @NotNull(message = "Client ID cannot be null")
+    @PositiveOrZero(message = "Client ID should be positive or zero")
     private Long clientId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
 

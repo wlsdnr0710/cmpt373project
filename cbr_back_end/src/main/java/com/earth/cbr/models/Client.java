@@ -146,7 +146,7 @@ public class Client {
     @OneToMany(mappedBy = "client")
     private Set<RiskHistory> riskHistories;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
 

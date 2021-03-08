@@ -1,6 +1,8 @@
 package com.earth.cbr.models;
 
 import com.earth.cbr.models.authentication.UniqueUsername;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -79,7 +81,7 @@ public class Worker {
     @PositiveOrZero(message = "Zone should be positive or zero")
     private Integer zone;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
 

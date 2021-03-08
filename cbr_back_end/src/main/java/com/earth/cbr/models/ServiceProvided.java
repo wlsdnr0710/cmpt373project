@@ -25,8 +25,8 @@ public class ServiceProvided {
         name = "visit_id",
         columnDefinition = "INT"
     )
-    @NotNull(message = "VisitId cannot be null")
-    @PositiveOrZero(message = "VisitId should be positive or zero")
+    @NotNull(message = "Visit ID cannot be null")
+    @PositiveOrZero(message = "Visit ID should be positive or zero")
     private Integer visitId;
 
     @Column(
@@ -48,8 +48,8 @@ public class ServiceProvided {
             name = "service_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "ServiceId cannot be null")
-    @PositiveOrZero(message = "ServiceId should be positive or zero")
+    @NotNull(message = "Service ID cannot be null")
+    @PositiveOrZero(message = "Service ID should be positive or zero")
     private Integer serviceId;
 
     @JsonIgnore
@@ -57,7 +57,7 @@ public class ServiceProvided {
     @JoinColumn(name = "visit_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Visit visit;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private Service service;
     
