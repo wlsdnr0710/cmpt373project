@@ -19,8 +19,6 @@ public class Client {
     private enum Gender {
         M,
         F,
-        m,
-        f
     }
 
     @Id
@@ -54,7 +52,7 @@ public class Client {
 
     @Column(
             name = "gender",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
     @NotNull(message = "Gender cannot be null")
     @Enumerated(EnumType.STRING)
@@ -153,6 +151,7 @@ public class Client {
     private Zone zoneName;
 
     public Client() {
+
     }
 
     public Client(String firstName,

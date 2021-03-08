@@ -68,6 +68,7 @@ public class Worker {
             name = "role",
             columnDefinition = "ENUM"
     )
+    @NotNull(message = "Role cannot be null")
     @Enumerated(EnumType.STRING)
     private Role role;
 

@@ -3,6 +3,7 @@ package com.earth.cbr.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Set;
 
 @Entity(name = "Disability")
@@ -16,6 +17,7 @@ public class Disability {
             name = "type",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Type is mandatory")
     private String type;
 
     @JsonIgnore

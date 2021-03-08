@@ -1,6 +1,7 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity(name = "Service")
@@ -21,6 +22,7 @@ public class Service {
         name = "name",
         columnDefinition = "TEXT" 
     )
+    @NotBlank(message = "Name is mandatory")
     private String name;
    
     @Column(

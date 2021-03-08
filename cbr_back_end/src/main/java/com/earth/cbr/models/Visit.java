@@ -67,9 +67,9 @@ public class Visit {
 
     @Column(
             name = "health_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
-    @NotNull(message = "Health goal progress is mandatory")
+    @NotNull(message = "Health goal progress cannot be null")
     @Enumerated(EnumType.STRING)
     private Progress healthGoalProgress;
 
@@ -81,9 +81,9 @@ public class Visit {
 
     @Column(
             name = "social_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
-    @NotNull(message = "Social goal progress is mandatory")
+    @NotNull(message = "Social goal progress cannot be null")
     @Enumerated(EnumType.STRING)
     private Progress socialGoalProgress;
 
@@ -95,9 +95,9 @@ public class Visit {
 
     @Column(
             name = "education_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
-    @NotNull(message = "Education goal progress is mandatory")
+    @NotNull(message = "Education goal progress cannot be null")
     @Enumerated(EnumType.STRING)
     private Progress educationGoalProgress;
 
@@ -112,6 +112,7 @@ public class Visit {
             columnDefinition = "INT"
     )
     @NotNull(message = "Village number cannot be null")
+    @PositiveOrZero(message = "Zone should be positive or zero")
     private Long clientId;
 
     @OneToOne(cascade = CascadeType.ALL)
