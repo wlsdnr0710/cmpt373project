@@ -62,7 +62,7 @@ const ClientInfo = props => {
     getClientObject()
   );
 
-  const onClickGetNewVisitPage = props => {
+  const onClickGetNewVisitPage = () => {
     history.push({
       pathname: "/new-visit",
       state: { clientID: formInputs["id"] }

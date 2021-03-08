@@ -9,20 +9,14 @@ export const parseEpochToDateString = epoch => {
     return new Date(epoch).toDateString();
 };
 
-//TODO: compile helper functions into this file
+//TODO: move helper functions into this file
 
-export const getClientInformationFromApi = (clientId) => {
+export const getClientInformationFromServer = (clientId) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId);
 };
 
-const getClientObjectFromResponse = (responseData) => {
-    //Loop over object and update object
-    const client = getClientObject();
-
-    Object.keys(client).forEach(function(key){
-        client[key] = responseData.data[key];
-    });
-    return client; 
+export const updateClientInformationToServer = (clientId, clientInformation) => {
+    return axios.put(ServerConfig.api.url + '/api/v1/client' + clientId, clientInformation);
 }
 
 export const getClientObject = () => {
@@ -66,8 +60,8 @@ export const getRiskObject = () => {
 
 export const getDisabilityObject = () => {
     return {
-        id: 1,
-        type: "Amputee"
+        id: "N/A",
+        type: "N/A"
     }
 }
 
@@ -84,7 +78,7 @@ export const getClientZonesObject = () => {
         "Palorinya Zone 3": "9",
       };
 }
-//TODO: get latest clientObject by id? instead of array position 
+//TODO: get latest clientObject by id instead of array position 
 export const getLatestRiskUpdate = (clientObject) => {
     const riskHistoryListLength = clientObject.riskHistories.length;
     if(riskHistoryListLength < 1){
@@ -94,4 +88,3 @@ export const getLatestRiskUpdate = (clientObject) => {
       return clientObject.riskHistories[lastRiskUpdateIndex];
     }
   }
-  
