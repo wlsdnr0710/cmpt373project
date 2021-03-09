@@ -9,9 +9,17 @@
 }
 
 .alert-board .messages {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .alert-board .add {
     margin-top: 1rem;
+}
+
+.alert-board .submit {
+    margin-top: 1rem;
+}
+
+.alert-board .sort-dropdown {
+    margin-top: -0.5rem;
 }
