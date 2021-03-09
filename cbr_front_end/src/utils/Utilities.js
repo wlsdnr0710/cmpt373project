@@ -82,6 +82,14 @@ export const getClientZonesObject = () => {
         "Palorinya Zone 3": "9",
       };
 }
+
+export const getGendersObject = () =>{
+    return {
+        F: "F",
+        M: "M",
+      };
+}
+
 //TODO: get latest clientObject by id instead of array position 
 export const getLatestRiskUpdate = (clientObject) => {
     const riskHistoryListLength = clientObject.riskHistories.length;

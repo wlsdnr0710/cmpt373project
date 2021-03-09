@@ -16,6 +16,7 @@ import {
   getLatestRiskUpdate,
   updateClientInformationToServer,
   getClientZonesObject,
+  getGendersObject
 } from "../../utils/Utilities";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./style.css";
@@ -23,10 +24,7 @@ import "./style.css";
 //TODO: Grab dropdown options from database table
 const defaultClientZones = getClientZonesObject();
 
-const genders = {
-  F: "F",
-  M: "M",
-};
+const genders = getGendersObject();
 
 const EditClientForm = (props) => {
   const clientId = props.clientID;

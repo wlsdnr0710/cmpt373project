@@ -3,13 +3,16 @@ import defaultPhoto from "../../assets/avatar.png";
 import "./style.css";
 
 const ClientPhoto = ({ photoSource }) => {
-  //check if photo source is valid
-  if(/(png|jpg)$/i.test(photoSource)){
-      return<img className = "client-information-image" src={photoSource} alt="client"/>
+  if(isPhotoSourceValid()){
+    return<img className = "client-information-image" src={photoSource} alt="client"/>
   } else {
     return <img className = "client-information-image" src={defaultPhoto} alt="client"/>
   }
 };
+
+const isPhotoSourceValid = photoSource => {
+  return /(png|jpg)$/i.test(photoSource);
+}
 
 const ClientInformation = ({clientObject: client}) => {
   return (
