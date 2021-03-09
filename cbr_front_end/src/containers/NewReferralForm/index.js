@@ -1,5 +1,10 @@
 import React, { useState } from "react";
+import Alert from 'react-bootstrap/Alert';
+import CameraSanpshot from "../../containers/CameraSnapshot";
+import CheckBox from "../../components/CheckBox";
+import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
+import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
 import TextAreaInputField from "../../components/TextAreaInputField";
 import "./style.css";
@@ -8,8 +13,15 @@ const NewReferralForm = props => {
     const [formInputs, setFormInputs] = useState({
         "requiredServices": [],
         "requiredServiceOtherDescription": "",
+        "hipInInches": "",
+        "userType": "basic",
+        "doTheyHaveExistingWheelChair": false,
+        "canExistingWheelChairRepaired": false,
+
     });
     const [showOtherDescription, setShowOtherDescription] = useState(false);
+    const [showWheelChairQuestions, setShowWheelChairQuestions] = useState(false);
+    const [showExistingWheelChairQuestions, setShowExistingWheelChairQuestions] = useState(false);
 
     const requiredServicesKeyValues = {
         "physiotherapy": "1",
@@ -29,16 +41,22 @@ const NewReferralForm = props => {
             }
             updateFormInputByNameValue("requiredServices", checkBoxesValues);
 
-            if (isRequiredServiceOtherChecked(checkBoxesValues)) {
+            if (isRequiredServiceCheckedByName(checkBoxesValues, "other")) {
                 setShowOtherDescription(true);
             } else {
                 setShowOtherDescription(false);
             }
+
+            if (isRequiredServiceCheckedByName(checkBoxesValues, "wheelchair")) {
+                setShowWheelChairQuestions(true)
+            } else {
+                setShowWheelChairQuestions(false)
+            }
         };
     };
 
-    const isRequiredServiceOtherChecked = checkBoxesValues => {
-        return checkBoxesValues.indexOf(requiredServicesKeyValues["other"]) !== -1;
+    const isRequiredServiceCheckedByName = (checkBoxesValues, name) => {
+        return checkBoxesValues.indexOf(requiredServicesKeyValues[name]) !== -1;
     };
 
     const updateFormInputByNameValue = (name, value) => {
@@ -63,7 +81,7 @@ const NewReferralForm = props => {
 
         return (
             <div>
-                <div>Please describe:</div>
+                <div>Please describe Other:</div>
                 <TextAreaInputField 
                     name={"requiredServiceOtherDescription"} 
                     value={formInputs["requiredServiceOtherDescription"]} 
@@ -71,6 +89,98 @@ const NewReferralForm = props => {
                     rows="4" 
                     isDisabled={false}
                 />
+            </div>
+        );
+    };
+
+    const defaultUserType = {
+        "Basic": "basic",
+        "Intermediate": "intermediate",
+    };
+
+    const onCheckHaveExistingWheelChair = event => {
+        formInputChangeHandler(event);
+        const checkBox = event.target;
+        setShowExistingWheelChairQuestions(checkBox.checked);
+    };
+
+    const showWheelChairQuestionsInputFields = () => {
+        if (!showWheelChairQuestions) {
+            return null;
+        }
+
+        return (
+            <div>
+                <hr />
+                <h2>
+                    Wheel Chair
+                </h2>
+
+                <div className="input-field-container">
+                    <CameraSanpshot storeImage={() => {}} />
+                </div>
+
+                <div className="input-field-container">
+                    <div>
+                        Is the user a basic or intermediate user?
+                    </div>
+                    <DropdownList
+                        dropdownName="userType"
+                        value={formInputs["userType"]}
+                        dropdownListItemsKeyValue={defaultUserType}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
+
+                <div className="input-field-container">
+                    <div>
+                        What is the client's hip width in inches?
+                    </div>
+                    <NumberInputField
+                        name="hipInInches"
+                        value={formInputs["hipInInches"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
+
+                <div className="input-field-container">
+                    <CheckBox
+                        name="doTheyHaveExistingWheelChair"
+                        value={formInputs["doTheyHaveExistingWheelChair"]}
+                        actionHandler={onCheckHaveExistingWheelChair}
+                        displayText={"Do they have an existing wheelchair?"}
+                        isDisabled={false}
+                    />
+                </div>
+                {showExistingWheelChairQuestionsInputFields()}
+                <hr />
+            </div>
+        );
+    };
+
+    const showExistingWheelChairQuestionsInputFields = () => {
+        if (!showExistingWheelChairQuestions) {
+            return null;
+        }
+
+        return (
+            <div className="input-field-container">
+                <div>
+                    <CheckBox
+                        name="canExistingWheelChairRepaired"
+                        value={formInputs["canExistingWheelChairRepaired"]}
+                        actionHandler={formInputChangeHandler}
+                        displayText={"Can the existing wheelchair be repaired?"}
+                        isDisabled={false}
+                    />
+                </div>
+                <div>
+                    <Alert variant="warning">
+                        Please bring the wheelchair to the centre.
+                    </Alert >
+                </div>
             </div>
         );
     };
@@ -89,12 +199,18 @@ const NewReferralForm = props => {
             />
             
             <div className="form-body">
-                <RequiredServiceCheckBoxes 
-                    values={formInputs["requiredServices"]}
-                    getOnChangeHandlers={getRequiredServicesCheckBoxesOnChangeHandler}
-                    isDisabled={false}
-                />
+                <div className="input-field-container">
+                    <h2>
+                        Required Services
+                    </h2>
+                    <RequiredServiceCheckBoxes 
+                        values={formInputs["requiredServices"]}
+                        getOnChangeHandlers={getRequiredServicesCheckBoxesOnChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
                 {showOtherDescriptionTextarea()}
+                {showWheelChairQuestionsInputFields()}
             </div>
         </div>
     );

@@ -6,3 +6,7 @@
 .new-referral-form .form-body {
     margin: 1rem 1rem;
 }
+
+.new-referral-form .input-field-container {
+    margin: 1rem 0 1rem 0;
+}

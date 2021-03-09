@@ -25,7 +25,7 @@ const RequiredServiceCheckBoxes = ({ values, getOnChangeHandlers, isDisabled }) 
                 name="wheelchair"
                 value={values["wheelchair"]}
                 actionHandler={getOnChangeHandlers("wheelchair")}
-                displayText={"Wheelchair"}
+                displayText={"Wheel Chair"}
                 displayTextOnRight
                 isDisabled={isDisabled}
             />
