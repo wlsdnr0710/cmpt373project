@@ -27,6 +27,14 @@ public class MessageController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/sortBy/{sortBy}")
+    public ResponseEntity<JSONObject> getAllMessagesSorted(@PathVariable String sortBy) {
+        List<Message> messages = messageService.getAllMessagesSorted(sortBy);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data",messages);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<JSONObject> getMessageById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(messageService.getMessageById(id) == null) {
