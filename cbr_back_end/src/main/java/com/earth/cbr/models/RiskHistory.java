@@ -5,6 +5,7 @@ import org.hibernate.validator.constraints.Range;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity(name = "Risk_History")
@@ -30,10 +31,12 @@ public class RiskHistory {
             name = "education_goal",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Education Goal is mandatory")
     private String educationGoal;
 
     @Column(
-            name = "education_risk"
+            name = "education_risk",
+            columnDefinition = "INT"
     )
     @Range(min=1, max=4)
     private Integer educationRisk;
@@ -42,16 +45,19 @@ public class RiskHistory {
             name = "education_risk_description",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Education Risk Description is mandatory")
     private String educationRiskDescription;
 
     @Column(
             name = "health_goal",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Health Goal is mandatory")
     private String healthGoal;
 
     @Column(
-            name = "health_risk"
+            name = "health_risk",
+            columnDefinition = "INT"
     )
     @Range(min=1, max=4)
     private Integer healthRisk;
@@ -60,16 +66,19 @@ public class RiskHistory {
             name = "health_risk_description",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Health Risk Description is mandatory")
     private String healthRiskDescription;
 
     @Column(
             name = "social_goal",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Social Goal is mandatory")
     private String socialGoal;
 
     @Column(
-            name = "social_risk"
+            name = "social_risk",
+            columnDefinition = "INT"
     )
     @Range(min=1, max=4)
     private Integer socialRisk;
@@ -78,9 +87,11 @@ public class RiskHistory {
             name = "social_risk_description",
             columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Social Risk Description is mandatory")
     private String socialRiskDescription;
 
     public RiskHistory() {
+
     }
 
     public RiskHistory(Long id,

@@ -1,4 +1,5 @@
 import React from "react";
+import {parseEpochToDateString} from "../../utils/Utilities"
 import "./style.css";
 
 const RiskHeader = (includeHeader) => {
@@ -11,28 +12,36 @@ const RiskHeader = (includeHeader) => {
 
 const RiskDateInformation = (includeDateInformation, date) => {
   if (includeDateInformation) {
-    return <div>Created: {date} <hr /></div>;
+    return <div>Created: {parseEpochToDateString(date)} <hr /></div>;
   } else {
     return;
   }
 };
 
 const RiskInformation = ({ riskObject, includeHeader, includeDateInformation }) => {
-  //TODO: Refactor health, education, social and dates to be in a risk object
   return (
     <div className="risk-information-card">
       {RiskHeader(includeHeader)}
       <div className="risk-entry">
-        {RiskDateInformation(includeDateInformation, riskObject.date)}
+        {RiskDateInformation(includeDateInformation, riskObject.createdDate)}
       </div>
       <div className="risk-entry">
-        <strong>Health </strong>: {riskObject.health}
+        <strong>Health </strong>: {riskObject.healthRisk}
+        <div className="risk-description">
+          {riskObject.healthRiskDescription}
+        </div>
       </div>
       <div className="risk-entry">
-        <strong>Education </strong>: {riskObject.education}
+        <strong>Education </strong>: {riskObject.educationRisk}
+        <div className="risk-description">
+          {riskObject.educationRiskDescription}
+        </div>
       </div>
       <div className="risk-entry">
-        <strong>Social </strong>: {riskObject.social}
+        <strong>Social </strong>: {riskObject.socialRisk}
+        <div className="risk-description">
+          {riskObject.socialRiskDescription}
+        </div>
       </div>
     </div>
   );
