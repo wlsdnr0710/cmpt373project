@@ -11,16 +11,16 @@ export const parseEpochToDateString = epoch => {
 
 //TODO: move helper functions into this file
 
-export const getClientInformationFromServer = (clientId) => {
-    return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId);
+export const getClientInformationFromServer = (clientId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
 };
 
-export const updateClientInformationToServer = (clientId, clientInformation) => {
-    return axios.put(ServerConfig.api.url + '/api/v1/client/' + clientId, {"data" : clientInformation});
+export const updateClientInformationToServer = (clientInformation, requestHeader) => {
+    return axios.put(ServerConfig.api.url + '/api/v1/client/', {"data" : clientInformation}, {headers: requestHeader});
 }
 
-export const deleteClientFromServer = (clientId) => {
-    return axios.delete(ServerConfig.api.url + '/api/v1/client/')
+export const deleteClientFromServer = (clientId, requestHeader) => {
+    return axios.delete(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader})
 }
 
 export const getClientObject = () => {

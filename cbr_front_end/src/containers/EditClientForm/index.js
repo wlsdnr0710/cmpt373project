@@ -8,7 +8,8 @@ import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import RiskInformation from "../../components/RiskInformation";
-import {getClientInformationFromServer, getClientObject, getLatestRiskUpdate, updateClientInformationToServer} from "../../utils/Utilities";
+import { getToken } from "../../utils/AuthenticationUtil";
+import {deleteClientFromServer, getClientInformationFromServer, getClientObject, getLatestRiskUpdate, updateClientInformationToServer} from "../../utils/Utilities";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./style.css";
 
@@ -35,6 +36,7 @@ const genders = {
 const EditClientForm = (props) => {
   const clientId = props.clientID;
   const history = useHistory();
+
   // const parameterString = props.location.search;
   // const clientId = qs.parse(parameterString).id;
 
@@ -48,7 +50,10 @@ const EditClientForm = (props) => {
   }
 
   const getClientInformation = useCallback(() => {
-    getClientInformationFromServer(clientId)
+    const requestHeader = {
+      token: getToken()
+    };
+    getClientInformationFromServer(clientId, requestHeader)
       .then((response) => {
         setClientInformation(response.data.data);
         setOriginalClientInformation(response.data.data);
@@ -71,7 +76,10 @@ const EditClientForm = (props) => {
 
 
   const saveChangesAndPushClientInformationPage = () => {
-    updateClientInformationToServer(clientId, clientInformation)
+    const requestHeader = {
+      token: getToken()
+    };
+    updateClientInformationToServer(clientInformation, requestHeader)
     .then((response) => {
       //TODO: Inform the client information page that the save was a success
     })
@@ -90,7 +98,17 @@ const EditClientForm = (props) => {
   };
 
   const deleteClient = () => {
-    
+    const requestHeader = {
+      token: getToken()
+    };
+    deleteClientFromServer(clientId, requestHeader)
+    .then((response) =>{
+     //TODO:Inform the view client page that the deletetion was a success 
+    })
+    .catch((error) => {
+      console.log("ERROR: Delete request failed. " + error);
+    })
+    history.push("view-client?query=clients");
   }
 
 
