@@ -1,13 +1,15 @@
 import React from "react";
+import { doAuthentication } from "../../utils/AuthenticationUtil";
 import BackgroundCard from "../../components/BackgroundCard";
 import EditClientForm from "../../containers/EditClientForm";
 import "./style.css";
 
-const EditClient = (props) => {
+const EditClient = ({ history, location }) => {
+  doAuthentication(history);
   return (
     <div>
       <BackgroundCard heading="Edit Client">
-        <EditClientForm clientID={props.location.state.clientID}/>
+        <EditClientForm clientID={location.state.clientID}/>
       </BackgroundCard>
     </div>
   );

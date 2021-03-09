@@ -5,25 +5,15 @@ import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsSocialForm = ({
-    referralToSocialOrgName,
     referralToSocialOrgValue,
-    referralToSocialOrgNameDescName,
-    referralToSocialOrgNameDescValue,
-    socialAdviceName,
+    referralToSocialOrgDescValue,
     socialAdviceValue,
-    socialAdviceDescName,
     socialAdviceDescValue,
-    socialAdvocacyName,
     socialAdvocacyValue,
-    socialAdvocacyDescName,
     socialAdvocacyDescValue,
-    socialEncouragementName,
     socialEncouragementValue,
-    socialEncouragementDescName,
     socialEncouragementDescValue,
-    socialGoalConclusionTextName,
     socialGoalConclusionTextValue,
-    socialGoalMetName,
     socialGoalMetValue,
     isSocialGoalConcluded,
     actionHandler,
@@ -36,15 +26,15 @@ const NewVisitsSocialForm = ({
                 <label>For Social: What was provided?</label>
                 <div>
                     <CheckBox
-                        name={referralToSocialOrgName}
+                        name="referralToSocialOrg"
                         value={referralToSocialOrgValue}
                         actionHandler={actionHandler}
                         displayText={"Referral to Social Organization"}
                     />
                     <div hidden={!referralToSocialOrgValue}>
                         <TextAreaInputField
-                            name={referralToSocialOrgNameDescName}
-                            value={referralToSocialOrgNameDescValue}
+                            name="referralToSocialOrgDesc"
+                            value={referralToSocialOrgDescValue}
                             onChange={onChange}
                             rows="4"
                             isDisabled={false}
@@ -53,14 +43,14 @@ const NewVisitsSocialForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={socialAdviceName}
+                        name="socialAdvice"
                         value={socialAdviceValue}
                         actionHandler={actionHandler}
                         displayText={"Social Advice"}
                     />
                     <div hidden={!socialAdviceValue}>
                         <TextAreaInputField
-                            name={socialAdviceDescName}
+                            name="socialAdviceDesc"
                             value={socialAdviceDescValue}
                             onChange={onChange}
                             rows="4"
@@ -70,14 +60,14 @@ const NewVisitsSocialForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={socialAdvocacyName}
+                        name="socialAdvocacy"
                         value={socialAdvocacyValue}
                         actionHandler={actionHandler}
                         displayText={"Social Advocacy"}
                     />
                     <div hidden={!socialAdvocacyValue}>
                         <TextAreaInputField
-                            name={socialAdvocacyDescName}
+                            name="socialAdvocacyDesc"
                             value={socialAdvocacyDescValue}
                             onChange={onChange}
                             rows="4"
@@ -87,14 +77,14 @@ const NewVisitsSocialForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={socialEncouragementName}
+                        name="socialEncouragement"
                         value={socialEncouragementValue}
                         actionHandler={actionHandler}
                         displayText={"Social Encouragement"}
                     />
                     <div hidden={!socialEncouragementValue}>
                         <TextAreaInputField
-                            name={socialEncouragementDescName}
+                            name="socialEncouragementDesc"
                             value={socialEncouragementDescValue}
                             onChange={onChange}
                             rows="4"
@@ -104,10 +94,10 @@ const NewVisitsSocialForm = ({
                 </div>
                 <div >
                     <div>
-                        <label>Goal met?:</label>
+                        <label>Goal met? :</label>
                     </div>
                     <DropdownList
-                        dropdownName={socialGoalMetName}
+                        dropdownName="socialGoalProgress"
                         value={socialGoalMetValue}
                         dropdownListItemsKeyValue={goalInputs}
                         onChange={onChange}
@@ -120,7 +110,7 @@ const NewVisitsSocialForm = ({
                     </div>
                     <div >
                         <TextAreaInputField
-                            name={socialGoalConclusionTextName}
+                            name="socialOutcome"
                             value={socialGoalConclusionTextValue}
                             onChange={onChange}
                             rows="4"
