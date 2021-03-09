@@ -9,25 +9,20 @@ import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import RiskInformation from "../../components/RiskInformation";
 import { getToken } from "../../utils/AuthenticationUtil";
-import {deleteClientFromServer, getClientInformationFromServer, getClientObject, getLatestRiskUpdate, updateClientInformationToServer} from "../../utils/Utilities";
+import {
+  deleteClientFromServer,
+  getClientInformationFromServer,
+  getClientObject,
+  getLatestRiskUpdate,
+  updateClientInformationToServer,
+  getClientZonesObject,
+} from "../../utils/Utilities";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./style.css";
 
 //TODO: Grab dropdown options from database table
-const defaultClientZones = {
-  "BidiBidi Zone 1": "1",
-  "BidiBidi Zone 2": "2",
-  "BidiBidi Zone 3": "3",
-  "BidiBidi Zone 4": "4",
-  "BidiBidi Zone 5": "5",
-  "Palorinya Basecamp": "6",
-  "Palorinya Zone 1": "7",
-  "Palorinya Zone 2": "8",
-  "Palorinya Zone 3": "9",
-};
+const defaultClientZones = getClientZonesObject();
 
-
-//TODO: Database is giving back F/M not Female / Male, making it not select correct data if not in same format 
 const genders = {
   F: "F",
   M: "M",
@@ -37,21 +32,18 @@ const EditClientForm = (props) => {
   const clientId = props.clientID;
   const history = useHistory();
 
-  // const parameterString = props.location.search;
-  // const clientId = qs.parse(parameterString).id;
-
-  //TODO: Revert back to these values when clicking discard changes
-
   const [clientInformation, setClientInformation] = useState(getClientObject());
-  const [originalClientInformation , setOriginalClientInformation] = useState(getClientObject());
+  const [originalClientInformation, setOriginalClientInformation] = useState(
+    getClientObject()
+  );
 
   const discardChanges = () => {
     setClientInformation(originalClientInformation);
-  }
+  };
 
   const getClientInformation = useCallback(() => {
     const requestHeader = {
-      token: getToken()
+      token: getToken(),
     };
     getClientInformationFromServer(clientId, requestHeader)
       .then((response) => {
@@ -74,20 +66,19 @@ const EditClientForm = (props) => {
     updateClientInformation(name, value);
   };
 
-
   const saveChangesAndPushClientInformationPage = () => {
     const requestHeader = {
-      token: getToken()
+      token: getToken(),
     };
     updateClientInformationToServer(clientInformation, requestHeader)
-    .then((response) => {
-      //TODO: Inform the client information page that the save was a success
-    })
-    .catch((error) => {
-      console.log("ERROR: Put request failed." + error);
-    });
+      .then((response) => {
+        //TODO: Inform the client information page that the save was a success
+      })
+      .catch((error) => {
+        console.log("ERROR: Put request failed." + error);
+      });
     history.push("/client-information?id=" + clientInformation["id"]);
-  }
+  };
 
   const updateClientInformation = (name, value) => {
     setClientInformation((prevFormInputs) => {
@@ -97,20 +88,19 @@ const EditClientForm = (props) => {
     });
   };
 
-  const deleteClient = () => {
+  const deleteClientAndPushAllClientPage = () => {
     const requestHeader = {
-      token: getToken()
+      token: getToken(),
     };
     deleteClientFromServer(clientId, requestHeader)
-    .then((response) =>{
-     //TODO:Inform the view client page that the deletetion was a success 
-    })
-    .catch((error) => {
-      console.log("ERROR: Delete request failed. " + error);
-    })
+      .then((response) => {
+        //TODO:Inform the view client page that the deletetion was a success
+      })
+      .catch((error) => {
+        console.log("ERROR: Delete request failed. " + error);
+      });
     history.push("view-client?query=clients");
-  }
-
+  };
 
   const [showImageUploader, setImageUploader] = useState(false);
 
@@ -180,8 +170,8 @@ const EditClientForm = (props) => {
       <div className="input-field">
         <DateInputField
           name="birthdate"
-          //TODO: Refactor substring on birthdate information, reduce coupling 
-          value={clientInformation.birthdate.substring(0,10)}
+          //TODO: Refactor substring on birthdate information, reduce coupling
+          value={clientInformation.birthdate.substring(0, 10)}
           label="Birth Date:"
           onChange={handleChange}
         />
@@ -228,8 +218,8 @@ const EditClientForm = (props) => {
       </div>
       <hr />
       <div>
-        <DisabilityInformation 
-          disabilityList ={clientInformation.disabilities}
+        <DisabilityInformation
+          disabilityList={clientInformation.disabilities}
         />
         <input
           className="btn btn-secondary update-disability-button"
@@ -239,12 +229,12 @@ const EditClientForm = (props) => {
       </div>
       <hr />
       <div className="action-buttons">
-        {/* TODO: Implement functions for buttons & restructure css layout for mobile*/}
+        {/* TODO: restructure css layout for mobile*/}
         <input
           className="btn btn-secondary"
           type="button"
           value="Delete Client"
-          onClick={deleteClient}
+          onClick={deleteClientAndPushAllClientPage}
         />
         <input
           className="btn btn-secondary"

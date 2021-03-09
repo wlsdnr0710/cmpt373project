@@ -17,7 +17,6 @@ const ClientInformation = ({clientObject: client}) => {
       <div className="client-information-card">
         <div className="client-information-image-container">
           {ClientPhoto(client.photo)}
-            {/* <ClientPhoto photoSource={client.photo}/> */}
           <h1 className ="name">{client.name}</h1>
         </div>
         <div className="client-info-body">

@@ -25,24 +25,24 @@ const RiskInformation = ({ riskObject, includeHeader, includeDateInformation }) 
       <div className="risk-entry">
         {RiskDateInformation(includeDateInformation, riskObject.createdDate)}
       </div>
-      <figure className="risk-entry">
+      <div className="risk-entry">
         <strong>Health </strong>: {riskObject.healthRisk}
-        <figcaption className="risk-description">
+        <div className="risk-description">
           {riskObject.healthRiskDescription}
-        </figcaption>
-      </figure>
-      <figure className="risk-entry">
+        </div>
+      </div>
+      <div className="risk-entry">
         <strong>Education </strong>: {riskObject.educationRisk}
-        <figcaption className="risk-description">
+        <div className="risk-description">
           {riskObject.educationRiskDescription}
-        </figcaption>
-      </figure>
-      <figure className="risk-entry">
+        </div>
+      </div>
+      <div className="risk-entry">
         <strong>Social </strong>: {riskObject.socialRisk}
-        <figcaption className="risk-description">
+        <div className="risk-description">
           {riskObject.socialRiskDescription}
-        </figcaption>
-      </figure>
+        </div>
+      </div>
     </div>
   );
 };
