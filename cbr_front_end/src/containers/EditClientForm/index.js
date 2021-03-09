@@ -9,9 +9,7 @@ import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import RiskInformation from "../../components/RiskInformation";
 import {getClientInformationFromServer, getClientObject, getLatestRiskUpdate, updateClientInformationToServer} from "../../utils/Utilities";
-import ServerConfig from "../../config/ServerConfig"
 import DisabilityInformation from "../../components/DisabilityInformation";
-import axios from "axios";
 import "./style.css";
 
 //TODO: Grab dropdown options from database table
@@ -72,13 +70,13 @@ const EditClientForm = (props) => {
   };
 
 
-  const saveChanges = () => {
-    axios.put(ServerConfig.api.url + '/api/v1/client' + clientId, clientInformation)
+  const saveChangesAndPushClientInformationPage = () => {
+    updateClientInformationToServer(clientId, clientInformation)
     .then((response) => {
-      console.log("success");
+      //TODO: Inform the client information page that the save was a success
     })
     .catch((error) => {
-      console.log("error");
+      console.log("ERROR: Put request failed." + error);
     });
     history.push("/client-information?id=" + clientInformation["id"]);
   }
@@ -90,6 +88,10 @@ const EditClientForm = (props) => {
       return newFormInputs;
     });
   };
+
+  const deleteClient = () => {
+    
+  }
 
 
   const [showImageUploader, setImageUploader] = useState(false);
@@ -193,7 +195,7 @@ const EditClientForm = (props) => {
         />
       </div>
       <hr />
-      {/*TODO: Add edit information for risk and disability sections */}
+      {/*TODO: Add API calls for update risk and update disability buttons */}
       <div>
         <h1>Risk</h1>
         <RiskInformation
@@ -211,6 +213,11 @@ const EditClientForm = (props) => {
         <DisabilityInformation 
           disabilityList ={clientInformation.disabilities}
         />
+        <input
+          className="btn btn-secondary update-disability-button"
+          type="button"
+          value="Update Disability"
+        />
       </div>
       <hr />
       <div className="action-buttons">
@@ -219,7 +226,7 @@ const EditClientForm = (props) => {
           className="btn btn-secondary"
           type="button"
           value="Delete Client"
-          // onClick={}
+          onClick={deleteClient}
         />
         <input
           className="btn btn-secondary"
@@ -231,7 +238,7 @@ const EditClientForm = (props) => {
           className="btn btn-secondary"
           type="submit"
           value="Save Changes"
-          onClick={saveChanges}
+          onClick={saveChangesAndPushClientInformationPage}
         />
       </div>
     </form>

@@ -120,3 +120,10 @@ public class ClientController {
         return ResponseEntity.ok().body(null);
     }
 }
+//    @DeleteMapping(value = "/{id}")
+//    //Use path variable since axios (frontend API call) doesn't accept body for delete mappings
+//    public ResponseEntity<JSONObject> deleteClient(@PathVariable Long id) {
+//        clientService.deleteClientById(id);
+//        return ResponseEntity.ok().body(null);
+//    }
+//}

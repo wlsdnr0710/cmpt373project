@@ -16,7 +16,11 @@ export const getClientInformationFromServer = (clientId) => {
 };
 
 export const updateClientInformationToServer = (clientId, clientInformation) => {
-    return axios.put(ServerConfig.api.url + '/api/v1/client' + clientId, clientInformation);
+    return axios.put(ServerConfig.api.url + '/api/v1/client/' + clientId, {"data" : clientInformation});
+}
+
+export const deleteClientFromServer = (clientId) => {
+    return axios.delete(ServerConfig.api.url + '/api/v1/client/')
 }
 
 export const getClientObject = () => {

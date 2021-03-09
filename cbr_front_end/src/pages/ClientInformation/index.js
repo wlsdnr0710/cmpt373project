@@ -26,7 +26,6 @@ const ClientInfo = props => {
           const newFormInputs = {...prevFormInputs};
 
           // Keep using default image if no client's image is uploaded
-          console.log(data.photo)
           if (data.photo) {
             newFormInputs["photo"] = data.photo;
           } else {
