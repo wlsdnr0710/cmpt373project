@@ -14,20 +14,40 @@ const NewReferralForm = props => {
         "requiredServices": [],
         "requiredServiceOtherDescription": "",
         "hipInInches": "",
-        "userType": "basic",
+        "userType": "1",
         "doTheyHaveExistingWheelChair": false,
         "canExistingWheelChairRepaired": false,
+        "physiotherapyCondition": "1",
+        "physiotherapyConditionOtherDesc": "",
 
     });
     const [showOtherDescription, setShowOtherDescription] = useState(false);
     const [showWheelChairQuestions, setShowWheelChairQuestions] = useState(false);
     const [showExistingWheelChairQuestions, setShowExistingWheelChairQuestions] = useState(false);
+    const [showPhysiotherapyQuestions, setShowPhysiotherapyQuestions] = useState(false);
 
     const requiredServicesKeyValues = {
         "physiotherapy": "1",
         "orthotic": "2",
         "wheelchair": "3",
         "other": "4",
+    };
+
+    const defaultUserTypes = {
+        "Basic": "1",
+        "Intermediate": "2",
+    };
+
+    const defaultPhysiotherapyConditions = {
+        "Amputee": "1",
+        "Polio": "2",
+        "Spinal Cord Injury": "3",
+        "Cerebral Palsy": "4",
+        "Spina Bifida": "5",
+        "Hydrocephalus": "6",
+        "Visual Impairment": "7",
+        "Hearing Impairment": "8",
+        "Other": "9",
     };
 
     const getRequiredServicesCheckBoxesOnChangeHandler = name => {
@@ -52,6 +72,13 @@ const NewReferralForm = props => {
             } else {
                 setShowWheelChairQuestions(false)
             }
+
+            if (isRequiredServiceCheckedByName(checkBoxesValues, "physiotherapy")) {
+                setShowPhysiotherapyQuestions(true)
+            } else {
+                setShowPhysiotherapyQuestions(false)
+            }
+
         };
     };
 
@@ -74,7 +101,7 @@ const NewReferralForm = props => {
         }
     };
 
-    const showOtherDescriptionTextarea = () => {
+    const showDescripeOtherRequiredServiceTextArea = () => {
         if (!showOtherDescription) {
             return null;
         }
@@ -93,15 +120,78 @@ const NewReferralForm = props => {
         );
     };
 
-    const defaultUserType = {
-        "Basic": "basic",
-        "Intermediate": "intermediate",
-    };
-
     const onCheckHaveExistingWheelChair = event => {
         formInputChangeHandler(event);
         const checkBox = event.target;
         setShowExistingWheelChairQuestions(checkBox.checked);
+    };
+
+    const showCameraSnapshot = () => {
+        if (!isPhotoRequired()) {
+            return null;
+        }
+
+        return (
+            <div className="input-field-container">
+                <div>
+                    Photo is required.
+                </div>
+                <CameraSanpshot storeImage={() => {}} />
+            </div>
+        );
+    };
+
+    const isPhotoRequired = () => {
+        return showWheelChairQuestions || showPhysiotherapyQuestions;
+    };
+
+    const showPhysiotherapyQuestionsInputFIelds = () => {
+        if (!showPhysiotherapyQuestions) {
+            return null;
+        }
+
+        return (
+            <div>
+                <hr />
+                <h2>
+                    Physiotherapy
+                </h2>
+
+                <div className="input-field-container">
+                    <div>
+                        What condition does the client have?
+                    </div>
+                    <DropdownList
+                        dropdownName="physiotherapyCondition"
+                        value={formInputs["physiotherapyCondition"]}
+                        dropdownListItemsKeyValue={defaultPhysiotherapyConditions}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
+                {showDescribeOtherPhysiotherapyTextArea()}
+                <hr />
+            </div>
+        );
+    };
+
+    const showDescribeOtherPhysiotherapyTextArea = () => {
+        if (formInputs["physiotherapyCondition"] === defaultPhysiotherapyConditions["Other"]) {
+            return (
+                <div>
+                    <div>Please describe Other:</div>
+                    <TextAreaInputField 
+                        name={"physiotherapyConditionOtherDesc"} 
+                        value={formInputs["physiotherapyConditionOtherDesc"]} 
+                        onChange={formInputChangeHandler} 
+                        rows="4" 
+                        isDisabled={false}
+                    />
+                </div>
+            );
+        } else {
+            return null;
+        }
     };
 
     const showWheelChairQuestionsInputFields = () => {
@@ -117,17 +207,13 @@ const NewReferralForm = props => {
                 </h2>
 
                 <div className="input-field-container">
-                    <CameraSanpshot storeImage={() => {}} />
-                </div>
-
-                <div className="input-field-container">
                     <div>
                         Is the user a basic or intermediate user?
                     </div>
                     <DropdownList
                         dropdownName="userType"
                         value={formInputs["userType"]}
-                        dropdownListItemsKeyValue={defaultUserType}
+                        dropdownListItemsKeyValue={defaultUserTypes}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
@@ -209,7 +295,9 @@ const NewReferralForm = props => {
                         isDisabled={false}
                     />
                 </div>
-                {showOtherDescriptionTextarea()}
+                {showDescripeOtherRequiredServiceTextArea()}
+                {showCameraSnapshot()}
+                {showPhysiotherapyQuestionsInputFIelds()}
                 {showWheelChairQuestionsInputFields()}
             </div>
         </div>
