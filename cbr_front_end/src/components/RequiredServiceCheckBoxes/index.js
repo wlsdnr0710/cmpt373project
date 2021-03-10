@@ -14,6 +14,14 @@ const RequiredServiceCheckBoxes = ({ values, getOnChangeHandlers, isDisabled }) 
                 isDisabled={isDisabled}
             />
             <CheckBox
+                name="prosthetic"
+                value={values["prosthetic"]}
+                actionHandler={getOnChangeHandlers("prosthetic")}
+                displayText={"Prosthetic"}
+                displayTextOnRight
+                isDisabled={isDisabled}
+            />
+            <CheckBox
                 name="orthotic"
                 value={values["orthotic"]}
                 actionHandler={getOnChangeHandlers("orthotic")}

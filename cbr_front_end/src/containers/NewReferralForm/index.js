@@ -17,6 +17,8 @@ const NewReferralForm = props => {
         "userType": "1",
         "doTheyHaveExistingWheelChair": false,
         "canExistingWheelChairRepaired": false,
+        "prostheticCondition" : "1",
+        "orthoticCondition": "1",
         "physiotherapyCondition": "1",
         "physiotherapyConditionOtherDesc": "",
 
@@ -25,17 +27,30 @@ const NewReferralForm = props => {
     const [showWheelChairQuestions, setShowWheelChairQuestions] = useState(false);
     const [showExistingWheelChairQuestions, setShowExistingWheelChairQuestions] = useState(false);
     const [showPhysiotherapyQuestions, setShowPhysiotherapyQuestions] = useState(false);
+    const [showOrthoticQuestions, setShowOrthoticQuestions] = useState(false);
+    const [showProstheticQuestions, setShowProstheticQuestions] = useState(false);
 
     const requiredServicesKeyValues = {
         "physiotherapy": "1",
-        "orthotic": "2",
-        "wheelchair": "3",
-        "other": "4",
+        "prosthetic": "2",
+        "orthotic": "3",
+        "wheelchair": "4",
+        "other": "5",
     };
 
     const defaultUserTypes = {
         "Basic": "1",
         "Intermediate": "2",
+    };
+
+    const defaultOrthoticConditions = {
+        "Above elbow": "1",
+        "Below elbow": "2",
+    };
+
+    const defaultProstheticConditions = {
+        "Above knee": "1",
+        "Below Knee": "2",
     };
 
     const defaultPhysiotherapyConditions = {
@@ -61,16 +76,16 @@ const NewReferralForm = props => {
             }
             updateFormInputByNameValue("requiredServices", checkBoxesValues);
 
-            if (isRequiredServiceCheckedByName(checkBoxesValues, "other")) {
-                setShowOtherDescription(true);
+            if (isRequiredServiceCheckedByName(checkBoxesValues, "prosthetic")) {
+                setShowProstheticQuestions(true);
             } else {
-                setShowOtherDescription(false);
+                setShowProstheticQuestions(false);
             }
 
-            if (isRequiredServiceCheckedByName(checkBoxesValues, "wheelchair")) {
-                setShowWheelChairQuestions(true)
+            if (isRequiredServiceCheckedByName(checkBoxesValues, "orthotic")) {
+                setShowOrthoticQuestions(true)
             } else {
-                setShowWheelChairQuestions(false)
+                setShowOrthoticQuestions(false)
             }
 
             if (isRequiredServiceCheckedByName(checkBoxesValues, "physiotherapy")) {
@@ -79,6 +94,17 @@ const NewReferralForm = props => {
                 setShowPhysiotherapyQuestions(false)
             }
 
+            if (isRequiredServiceCheckedByName(checkBoxesValues, "wheelchair")) {
+                setShowWheelChairQuestions(true)
+            } else {
+                setShowWheelChairQuestions(false)
+            }
+
+            if (isRequiredServiceCheckedByName(checkBoxesValues, "other")) {
+                setShowOtherDescription(true);
+            } else {
+                setShowOtherDescription(false);
+            }
         };
     };
 
@@ -145,7 +171,66 @@ const NewReferralForm = props => {
         return showWheelChairQuestions || showPhysiotherapyQuestions;
     };
 
-    const showPhysiotherapyQuestionsInputFIelds = () => {
+    const showProstheticQuestionsInputFields = () => {
+        if (!showProstheticQuestions) {
+            return null;
+        }
+
+        return (
+            <div>
+                <hr />
+                <h2>
+                    Prosthetic
+                </h2>
+
+                <div className="input-field-container">
+                    <div>
+                        Is injury below or above knee?
+                    </div>
+                    <DropdownList
+                        dropdownName="prostheticConditions"
+                        value={formInputs["prostheticConditions"]}
+                        dropdownListItemsKeyValue={defaultProstheticConditions}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
+                <hr />
+            </div>
+        );
+    };
+
+    const showOrthoticQuestionsInputFields = () => {
+        if (!showOrthoticQuestions) {
+            return null;
+        }
+
+        return (
+            <div>
+                <hr />
+                <h2>
+                    Orthotic
+                </h2>
+
+                <div className="input-field-container">
+                    <div>
+                        Is injury below or above elbow?
+                    </div>
+                    <DropdownList
+                        dropdownName="orthoticCondition"
+                        value={formInputs["orthoticCondition"]}
+                        dropdownListItemsKeyValue={defaultOrthoticConditions}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
+                <hr />
+            </div>
+        );
+    };
+
+
+    const showPhysiotherapyQuestionsInputFields = () => {
         if (!showPhysiotherapyQuestions) {
             return null;
         }
@@ -297,7 +382,9 @@ const NewReferralForm = props => {
                 </div>
                 {showDescripeOtherRequiredServiceTextArea()}
                 {showCameraSnapshot()}
-                {showPhysiotherapyQuestionsInputFIelds()}
+                {showProstheticQuestionsInputFields()}
+                {showOrthoticQuestionsInputFields()}
+                {showPhysiotherapyQuestionsInputFields()}
                 {showWheelChairQuestionsInputFields()}
             </div>
         </div>
