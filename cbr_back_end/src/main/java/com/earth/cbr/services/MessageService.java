@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface MessageService {
     List<Message> getAllMessages();
-    List<Message> getAllMessagesSorted(String sortBy);
+    List<Message> getAllMessagesSortedByDate();
     Message getMessageById(Long id);
     Message addMessage(@Valid Message message);
     Message updateMessageById(@Valid Message message);

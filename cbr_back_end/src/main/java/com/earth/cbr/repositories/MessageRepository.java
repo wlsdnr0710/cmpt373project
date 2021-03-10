@@ -9,5 +9,4 @@ import java.util.List;
 @Repository
 public interface MessageRepository extends JpaRepository<Message, Long> {
     public List<Message> findAllByOrderByDateDesc();
-    public List<Message> findAllByOrderByPriorityDesc();
 }

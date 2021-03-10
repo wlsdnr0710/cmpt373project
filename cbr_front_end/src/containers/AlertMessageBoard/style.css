@@ -9,7 +9,8 @@
 }
 
 .alert-board .messages {
-    margin-top: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .alert-board .add {
@@ -17,9 +18,16 @@
 }
 
 .alert-board .submit {
-    margin-top: 1rem;
+    margin-top: 1.2rem;
 }
 
-.alert-board .sort-dropdown {
-    margin-top: -0.5rem;
+.alert-board .priority-title {
+    margin-top: 0.5rem;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+.alert-board .message-title {
+    margin-bottom: 0.2rem;
+    font-weight: 600;
 }

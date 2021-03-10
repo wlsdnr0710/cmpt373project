@@ -11,25 +11,20 @@ import './style.css';
 
 const AlertMessageBoard = () => {
     const [alertMessages, setAlertMessages] = useState({});
-    const [newMessage, setNewMessage] = useState("");
+    const [isAddMessageOpen, setIsAddMessageOpen] = useState(false);
 
+    const [formInputs, setFormInputs] = useState({
+        "workerId": 1,
+        "date": "",
+        "message": "",
+        "priority": 1
+    })
+;
     const variants = ["primary", "warning", "danger"];
-
-    const defaultSortBy = "date";
-    const [sortBy, setSortBy] = useState(defaultSortBy);
-    const defaultPriority = 1;
-    const [priority, setPriority] = useState(defaultPriority);
-
-    const getSortByList = () => {
-        return {
-            "Date": defaultSortBy,
-            "Priority": "priority",
-        };
-    };
 
     const getPriorityList = () => {
         return {
-            "Low": defaultPriority,
+            "Low": 1,
             "Medium": 2,
             "High": 3,
         };
@@ -41,19 +36,20 @@ const AlertMessageBoard = () => {
         };
 
         axios.get(
-                ServerConfig.api.url + "/api/v1/message/sortBy/" + sortBy,
+                ServerConfig.api.url + "/api/v1/message/sortByDate",
                 {
                     headers: requestHeader,
                 }
             )
             .then(response => {
+            console.log(response);
             let list = new Array();
             for(var i = 0; i < response.data.data.length; i++) {
                 const eachPriority = variants[response.data.data[i].priority-1]
                 list[i] = {
                     "variant": eachPriority,
                     "message": response.data.data[i].message,
-                    "date": parseEpochToDateString(response.data.data[i].date),
+                    "date": formatDateString(response.data.data[i].date),
                 };
             }
             setAlertMessages(list);
@@ -65,27 +61,40 @@ const AlertMessageBoard = () => {
             token: getToken()
         };
 
-        const data = { "workerId": 1, "message": newMessage, "priority": priority, "date": "2021-03-13"
-        }
-
         axios.post(ServerConfig.api.url + '/api/v1/message', {
-            "data": data
+            "data": formInputs
         }, {
             headers: requestHeader,
         })
         .catch(error => {
-                       console.log(error.response.data);
-                    })
+           console.log(error.response.data);
+        })
+
+        closeAddMessageScreen();
     }
 
-
-    const parseISODateString = ISODateString => {
-        const epoch = parseDateStringToEpoch(ISODateString);
-        return parseEpochToDateString(epoch);
+    const formatDateString = date => {
+        const epoch = parseDateStringToEpoch(date);
+        const dateString = parseEpochToDateString(epoch);
+        return dateString;
     };
+
+    const closeAddMessageScreen = () => {
+        setIsAddMessageOpen(false);
+    }
+
+    const openAddMessageScreen = () => {
+        setIsAddMessageOpen(true);
+    }
+
+    const initEpochDateTime = () => {
+        let newDate = new Date();
+        updateFormInputByNameValue("date", newDate);
+    }
 
     useEffect(() => {
         getAllAlertMessages();
+        initEpochDateTime();
     }, []);
 
     const createMessageComponents = () => {
@@ -104,64 +113,62 @@ const AlertMessageBoard = () => {
         }
     };
 
-    const onChangeSortByHandler = event => {
-        const sortByDropdown = event.target;
-        const sortByValue = sortByDropdown.value;
-        setSortBy(sortByValue);
+    const updateFormInputByNameValue = (name, value) => {
+        setFormInputs(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
+        });
     };
 
     const onChangePriorityHandler = event => {
         const priorityDropdown = event.target;
         const priorityValue = priorityDropdown.value;
-        setPriority(priorityValue);
+        updateFormInputByNameValue("priority", priorityValue);
     };
 
     const messageFormInputChangeHandler = event => {
         const input = event.target;
         const value = input.value;
-        setNewMessage(value);
+        updateFormInputByNameValue("message", value);
     }
 
     return (
         <div className="alert-board">
-            <div className="alert-board-title">Alert Messages</div> 
+            <div className="alert-board-title">Alert Messages
+                &nbsp;
+                <Button onClick={getAllAlertMessages} variant="primary">Refresh</Button>
+            </div>
             <div className="messages">
                 {createMessageComponents()}
             </div>
-            <span> Sort By: </span>
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            &nbsp;
-            <Button onClick={getAllAlertMessages} variant="primary">Refresh</Button>
-            &nbsp;
-            <Button variant="primary">Add</Button>
-            <div className="sort-dropdown">
-                <DropdownList
-                    dropdownName="sort-by"
-                    dropdownListItemsKeyValue={getSortByList()}
-                    value={sortBy}
-                    onChange={onChangeSortByHandler}
+            <Button onClick={openAddMessageScreen} variant="primary">Add</Button>
+            { isAddMessageOpen &&
+                <div className="add">
+                <hr />
+                <div className="message-title">
+                    Message
+                </div>
+                <TextAreaInputField
+                    name="messageText"
+                    value={formInputs["message"]}
+                    onChange={messageFormInputChangeHandler}
+                    disabled={false}
                 />
-            </div>
-            <div className="add">
-            <TextAreaInputField
-                name="message"
-                value={newMessage}
-                onChange={messageFormInputChangeHandler}
-                disabled={false}
-            />
-            <span>Priority</span>
-            <DropdownList
-                dropdownName="priority"
-                dropdownListItemsKeyValue={getPriorityList()}
-                value={priority}
-                onChange={onChangePriorityHandler}
-            />
-            <div className="submit">
-                <Button onClick={addNewAlertMessage} variant="primary">Submit</Button>
-            </div>
-            </div>
+                <div className="priority-title">
+                    Priority
+                </div>
+                <DropdownList
+                    dropdownName="priority"
+                    dropdownListItemsKeyValue={getPriorityList()}
+                    value={formInputs["priority"]}
+                    onChange={onChangePriorityHandler}
+                />
+                <div className="submit">
+                    <Button onClick={addNewAlertMessage} variant="primary">Submit</Button>
+                </div>
+                </div>
+            }
         </div>
     );
 };
