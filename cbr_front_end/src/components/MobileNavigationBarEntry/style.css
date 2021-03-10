@@ -1,0 +1,11 @@
+.mobile-navigation-entry {
+  background-color: #333;
+  display: inline-block;
+  flex-direction: row;
+  overflow-x:auto;
+  width: 20%;
+}
+
+.mobile-navigation-entry:hover {
+  background-color: #ddd;
+}
