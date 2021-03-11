@@ -59,19 +59,19 @@ public class ServiceDescription {
 
     @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Service service;
+    private ServiceOption serviceOption;
 
     public ServiceDescription(){
 
     }
 
-    public ServiceDescription(Integer visitId, String description, Integer serviceOptionId, Type type, Visit visit, Service service) {
+    public ServiceDescription(Integer visitId, String description, Integer serviceOptionId, Type type, Visit visit, ServiceOption serviceOption) {
         this.visitId = visitId;
         this.description = description;
         this.type = type;
         this.serviceOptionId = serviceOptionId;
         this.visit = visit;
-        this.service = service;
+        this.serviceOption = serviceOption;
     }
 
     public Long getId(){
@@ -110,8 +110,8 @@ public class ServiceDescription {
         return serviceOptionId;
     }
 
-    public void setServiceOptionId(Integer serviceeOptionId) {
-        this.serviceOptionId = serviceeOptionId;
+    public void setServiceOptionId(Integer serviceOptionId) {
+        this.serviceOptionId = serviceOptionId;
     }
 
     public Visit getVisit() {
@@ -122,11 +122,9 @@ public class ServiceDescription {
         this.visit = visit;
     }
 
-    public Service getService() {
-        return service;
-    }
+    public ServiceOption getServiceOption() { return serviceOption; }
 
-    public void setService(Service service) {
-        this.service = service;
+    public void setServiceOption(ServiceOption serviceOption) {
+        this.serviceOption = serviceOption;
     }
 }
