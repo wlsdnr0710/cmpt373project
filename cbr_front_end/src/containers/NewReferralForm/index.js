@@ -7,6 +7,7 @@ import Card from 'react-bootstrap/Card';
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
+import { getDefaultPhysiotherapyConditions, getRequiredServicesKeyValues } from "../../utils/Utilities";
 import { getToken } from "../../utils/AuthenticationUtil";
 import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
@@ -20,19 +21,18 @@ const NewReferralForm = props => {
     const [formInputs, setFormInputs] = useState({
         "requiredServices": [],
         "requiredServiceOtherDescription": "",
-        "hipInInches": "",
+        "hipWidthInInches": "",
         "userType": "1",
-        "doTheyHaveExistingWheelChair": false,
-        "canExistingWheelChairRepaired": false,
+        "doTheyHaveExistingWheelchair": false,
+        "canExistingWheelchairRepaired": false,
         "prostheticCondition" : "1",
         "orthoticCondition": "1",
         "physiotherapyCondition": "1",
         "physiotherapyConditionOtherDesc": "",
-
     });
     const [showOtherDescription, setShowOtherDescription] = useState(false);
-    const [showWheelChairQuestions, setShowWheelChairQuestions] = useState(false);
-    const [showExistingWheelChairQuestions, setShowExistingWheelChairQuestions] = useState(false);
+    const [showWheelchairQuestions, setShowWheelchairQuestions] = useState(false);
+    const [showExistingWheelchairQuestions, setShowExistingWheelchairQuestions] = useState(false);
     const [showPhysiotherapyQuestions, setShowPhysiotherapyQuestions] = useState(false);
     const [showOrthoticQuestions, setShowOrthoticQuestions] = useState(false);
     const [showProstheticQuestions, setShowProstheticQuestions] = useState(false);
@@ -41,13 +41,8 @@ const NewReferralForm = props => {
     const [searchClientId, setSearchClientId] = useState("");
     const [client, setClient] = useState(null);
 
-    const requiredServicesKeyValues = {
-        "physiotherapy": "1",
-        "prosthetic": "2",
-        "orthotic": "3",
-        "wheelchair": "4",
-        "other": "5",
-    };
+    const requiredServicesKeyValues = getRequiredServicesKeyValues();
+    const defaultPhysiotherapyConditions = getDefaultPhysiotherapyConditions();
 
     const defaultUserTypes = {
         "Basic": "1",
@@ -62,18 +57,6 @@ const NewReferralForm = props => {
     const defaultProstheticConditions = {
         "Above knee": "1",
         "Below Knee": "2",
-    };
-
-    const defaultPhysiotherapyConditions = {
-        "Amputee": "1",
-        "Polio": "2",
-        "Spinal Cord Injury": "3",
-        "Cerebral Palsy": "4",
-        "Spina Bifida": "5",
-        "Hydrocephalus": "6",
-        "Visual Impairment": "7",
-        "Hearing Impairment": "8",
-        "Other": "9",
     };
 
     const getRequiredServicesCheckBoxesOnChangeHandler = name => {
@@ -110,9 +93,9 @@ const NewReferralForm = props => {
         }
 
         if (isRequiredServiceCheckedByName(checkBoxesValues, "wheelchair")) {
-            setShowWheelChairQuestions(true)
+            setShowWheelchairQuestions(true)
         } else {
-            setShowWheelChairQuestions(false)
+            setShowWheelchairQuestions(false)
         }
 
         if (isRequiredServiceCheckedByName(checkBoxesValues, "other")) {
@@ -141,7 +124,7 @@ const NewReferralForm = props => {
         }
     };
 
-    const showDescripeOtherRequiredServiceTextArea = () => {
+    const showDescribeOtherRequiredServiceTextArea = () => {
         if (!showOtherDescription) {
             return null;
         }
@@ -160,10 +143,10 @@ const NewReferralForm = props => {
         );
     };
 
-    const onCheckHaveExistingWheelChair = event => {
+    const onCheckHaveExistingWheelchair = event => {
         formInputChangeHandler(event);
         const checkBox = event.target;
-        setShowExistingWheelChairQuestions(checkBox.checked);
+        setShowExistingWheelchairQuestions(checkBox.checked);
     };
 
     const showCameraSnapshot = () => {
@@ -182,7 +165,7 @@ const NewReferralForm = props => {
     };
 
     const isPhotoRequired = () => {
-        return showWheelChairQuestions || showPhysiotherapyQuestions;
+        return showWheelchairQuestions || showPhysiotherapyQuestions;
     };
 
     const showProstheticQuestionsInputFields = () => {
@@ -198,7 +181,7 @@ const NewReferralForm = props => {
 
                 <div className="input-field-container">
                     <div>
-                        Is injury below or above knee?
+                        Is the injury below or above the elbow?
                     </div>
                     <DropdownList
                         dropdownName="prostheticConditions"
@@ -226,7 +209,7 @@ const NewReferralForm = props => {
 
                 <div className="input-field-container">
                     <div>
-                        Is injury below or above elbow?
+                        Is the injury below or above the elbow?
                     </div>
                     <DropdownList
                         dropdownName="orthoticCondition"
@@ -240,7 +223,6 @@ const NewReferralForm = props => {
             </div>
         );
     };
-
 
     const showPhysiotherapyQuestionsInputFields = () => {
         if (!showPhysiotherapyQuestions) {
@@ -290,15 +272,15 @@ const NewReferralForm = props => {
         }
     };
 
-    const showWheelChairQuestionsInputFields = () => {
-        if (!showWheelChairQuestions) {
+    const showWheelchairQuestionsInputFields = () => {
+        if (!showWheelchairQuestions) {
             return null;
         }
 
         return (
             <div>
                 <h2>
-                    Wheel Chair
+                    Wheelchair
                 </h2>
 
                 <div className="input-field-container">
@@ -319,8 +301,8 @@ const NewReferralForm = props => {
                         What is the client's hip width in inches?
                     </div>
                     <NumberInputField
-                        name="hipInInches"
-                        value={formInputs["hipInInches"]}
+                        name="hipWidthInInches"
+                        value={formInputs["hipWidthInInches"]}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
@@ -328,21 +310,21 @@ const NewReferralForm = props => {
 
                 <div className="input-field-container">
                     <CheckBox
-                        name="doTheyHaveExistingWheelChair"
-                        value={formInputs["doTheyHaveExistingWheelChair"]}
-                        actionHandler={onCheckHaveExistingWheelChair}
+                        name="doTheyHaveExistingWheelchair"
+                        value={formInputs["doTheyHaveExistingWheelchair"]}
+                        actionHandler={onCheckHaveExistingWheelchair}
                         displayText={"Do they have an existing wheelchair?"}
                         isDisabled={false}
                     />
                 </div>
-                {showExistingWheelChairQuestionsInputFields()}
+                {showExistingWheelchairQuestionsInputFields()}
                 <hr />
             </div>
         );
     };
 
-    const showExistingWheelChairQuestionsInputFields = () => {
-        if (!showExistingWheelChairQuestions) {
+    const showExistingWheelchairQuestionsInputFields = () => {
+        if (!showExistingWheelchairQuestions) {
             return null;
         }
 
@@ -350,8 +332,8 @@ const NewReferralForm = props => {
             <div className="input-field-container">
                 <div>
                     <CheckBox
-                        name="canExistingWheelChairRepaired"
-                        value={formInputs["canExistingWheelChairRepaired"]}
+                        name="canExistingWheelchairRepaired"
+                        value={formInputs["canExistingWheelchairRepaired"]}
                         actionHandler={formInputChangeHandler}
                         displayText={"Can the existing wheelchair be repaired?"}
                         isDisabled={false}
@@ -373,7 +355,7 @@ const NewReferralForm = props => {
         updateFormInputByNameValue(name, value);
     };
 
-    const showClientIDSearchArea = () => {
+    const showClientIdSearchArea = () => {
         return (
             <div>
                 <div className="section search">
@@ -488,7 +470,7 @@ const NewReferralForm = props => {
             <FormHeader
                 headerText="New Referral"
             />
-            {showClientIDSearchArea()}
+            {showClientIdSearchArea()}
             <div className="form-body">
                 <div className="input-field-container">
                     <h2>
@@ -502,12 +484,12 @@ const NewReferralForm = props => {
                     <hr />
                 </div>
 
-                {showDescripeOtherRequiredServiceTextArea()}
+                {showDescribeOtherRequiredServiceTextArea()}
                 {showCameraSnapshot()}
                 {showProstheticQuestionsInputFields()}
                 {showOrthoticQuestionsInputFields()}
                 {showPhysiotherapyQuestionsInputFields()}
-                {showWheelChairQuestionsInputFields()}
+                {showWheelchairQuestionsInputFields()}
 
                 <div>
                     <Button variant="primary" onClick={()=>{}}>Submit</Button>

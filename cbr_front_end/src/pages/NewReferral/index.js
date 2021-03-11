@@ -2,7 +2,6 @@ import React from "react";
 import NewReferralForm from "../../containers/NewReferralForm";
 import "./style.css";
 
-
 const NewReferral = props => {
 
     return (
