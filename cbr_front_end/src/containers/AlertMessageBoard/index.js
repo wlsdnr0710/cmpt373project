@@ -166,7 +166,7 @@ const AlertMessageBoard = () => {
     const createMessageComponents = () => {
         const alertMessageComponents = [];
         if (!alertMessages) {
-            return (<AlertMessage message={"There is no alert now"} />);
+            return (<AlertMessage message={"There are no messages"} />);
         }
         else {
             for (const index in alertMessages) {
