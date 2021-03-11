@@ -3,6 +3,7 @@ import { getToken } from "../../utils/AuthenticationUtil";
 import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import AlertMessage from '../../components/AlertMessage';
+import Alert from 'react-bootstrap/Alert';
 import ServerConfig from "../../config/ServerConfig";
 import TextAreaInputField from "../../components/TextAreaInputField";
 import DropdownList from "../../components/DropdownList";
@@ -12,6 +13,9 @@ import './style.css';
 const AlertMessageBoard = () => {
     const [alertMessages, setAlertMessages] = useState({});
     const [isAddMessageOpen, setIsAddMessageOpen] = useState(false);
+    const [isMessageEmpty, setIsMessageEmpty] = useState(true);
+    const [errorMessages, setErrorMessages] = useState([]);
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
     const [formInputs, setFormInputs] = useState({
         "workerId": 1,
@@ -20,7 +24,7 @@ const AlertMessageBoard = () => {
         "priority": 1
     })
 ;
-    const variants = ["primary", "warning", "danger"];
+    const variantList = ["primary", "warning", "danger"];
 
     const getPriorityList = () => {
         return {
@@ -34,44 +38,108 @@ const AlertMessageBoard = () => {
         const requestHeader = {
             token: getToken()
         };
-
         axios.get(
-                ServerConfig.api.url + "/api/v1/message/sortByDate",
-                {
-                    headers: requestHeader,
-                }
-            )
-            .then(response => {
-            console.log(response);
-            let list = new Array();
-            for(var i = 0; i < response.data.data.length; i++) {
-                const eachPriority = variants[response.data.data[i].priority-1]
-                list[i] = {
-                    "variant": eachPriority,
-                    "message": response.data.data[i].message,
-                    "date": formatDateString(response.data.data[i].date),
-                };
+            ServerConfig.api.url + "/api/v1/message/sortByDate",
+            {
+                headers: requestHeader,
             }
-            setAlertMessages(list);
-            });
+        )
+        .then(response => {
+            setAlertMessages(response.data.data);
+        });
     };
 
     const addNewAlertMessage = () => {
+        clearErrorMessages();
         const requestHeader = {
             token: getToken()
         };
 
-        axios.post(ServerConfig.api.url + '/api/v1/message', {
-            "data": formInputs
-        }, {
-            headers: requestHeader,
-        })
+        axios.post(ServerConfig.api.url + '/api/v1/message',
+            {
+                "data": formInputs
+            },
+            {
+                headers: requestHeader,
+            }
+        )
         .catch(error => {
-           console.log(error.response.data);
+            updateErrorMessages(error);
         })
-
-        closeAddMessageScreen();
+        .then(() => {
+            onAddMessageSuccess();
+        })
     }
+
+    const onAddMessageSuccess = () => {
+        if (!isMessageEmpty) {
+            setIsSubmitSuccess(true);
+            closeAddMessageScreen();
+            setTimeout(() => {
+                setIsSubmitSuccess(false);
+                window.scrollTo(0, 0);
+            }, 2000);
+        }
+    }
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const showSuccessMessage = () => {
+        if (isSubmitSuccess) {
+            return (
+                <div className="success">
+                    <Alert variant="success">
+                        Message added successfully!
+                    </Alert>
+                </div>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const clearErrorMessages = () => {
+        setErrorMessages([]);
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const updateErrorMessages = error => {
+        setErrorMessages(prevErrorMessages => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
+    };
 
     const formatDateString = date => {
         const epoch = parseDateStringToEpoch(date);
@@ -80,7 +148,11 @@ const AlertMessageBoard = () => {
     };
 
     const closeAddMessageScreen = () => {
+        updateFormInputByNameValue("message", "");
+        updateFormInputByNameValue("priority", 1);
+        clearErrorMessages();
         setIsAddMessageOpen(false);
+        setIsMessageEmpty(true);
     }
 
     const openAddMessageScreen = () => {
@@ -105,8 +177,8 @@ const AlertMessageBoard = () => {
         else {
             for (const index in alertMessages) {
                 const message = alertMessages[index].message;
-                const variant = alertMessages[index].variant;
-                const date = alertMessages[index].date;
+                const variant = variantList[alertMessages[index].priority - 1];
+                const date = formatDateString(alertMessages[index].date);
                 alertMessageComponents.push(<AlertMessage message={message} variant={variant} date={date} key={index}/>)
             }
             return alertMessageComponents;
@@ -131,19 +203,16 @@ const AlertMessageBoard = () => {
         const input = event.target;
         const value = input.value;
         updateFormInputByNameValue("message", value);
+        if (value === "") {
+            setIsMessageEmpty(true);
+        } else {
+            setIsMessageEmpty(false);
+        }
     }
 
-    return (
-        <div className="alert-board">
-            <div className="alert-board-title">Alert Messages
-                &nbsp;
-                <Button onClick={getAllAlertMessages} variant="primary">Refresh</Button>
-            </div>
-            <div className="messages">
-                {createMessageComponents()}
-            </div>
-            <Button onClick={openAddMessageScreen} variant="primary">Add</Button>
-            { isAddMessageOpen &&
+    const showAddMessageForm = () => {
+        if (isAddMessageOpen) {
+            return (
                 <div className="add">
                 <hr />
                 <div className="message-title">
@@ -165,10 +234,31 @@ const AlertMessageBoard = () => {
                     onChange={onChangePriorityHandler}
                 />
                 <div className="submit">
+                    <Button onClick={closeAddMessageScreen} variant="primary">Cancel</Button>
+                    &nbsp;
+                    &nbsp;
                     <Button onClick={addNewAlertMessage} variant="primary">Submit</Button>
                 </div>
                 </div>
-            }
+            );
+        } else {
+            return null;
+        }
+    }
+
+    return (
+        <div className="alert-board">
+            <div className="alert-board-title">Alert Messages
+                &nbsp;
+                <Button onClick={getAllAlertMessages} variant="primary">Refresh</Button>
+            </div>
+            <div className="messages">
+                {createMessageComponents()}
+            </div>
+            <Button onClick={openAddMessageScreen} variant="primary">Add</Button>
+            {showAddMessageForm()}
+            {showErrorMessages()}
+            {showSuccessMessage()}
         </div>
     );
 };
