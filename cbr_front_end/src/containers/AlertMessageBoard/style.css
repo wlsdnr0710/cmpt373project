@@ -6,6 +6,7 @@
 
 .alert-board .alert-board-title {
     font-size: 2rem;
+    margin-left: 1rem;
 }
 
 .alert-board .messages {
@@ -35,4 +36,12 @@
 
 .alert-board .success {
     margin-top: 1rem;
+}
+
+.alert-board .refresh {
+    margin-left: 1rem;
+}
+
+.alert-board .cancel {
+    margin-right: 1rem;
 }

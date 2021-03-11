@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getToken } from "../../utils/AuthenticationUtil";
-import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
+import { parseEpochToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import AlertMessage from '../../components/AlertMessage';
 import Alert from 'react-bootstrap/Alert';
@@ -22,11 +22,11 @@ const AlertMessageBoard = () => {
         "date": "",
         "message": "",
         "priority": 1
-    })
+    });
 ;
     const variantList = ["primary", "warning", "danger"];
 
-    const getPriorityList = () => {
+    const getPriorityMapping = () => {
         return {
             "Low": 1,
             "Medium": 2,
@@ -69,7 +69,7 @@ const AlertMessageBoard = () => {
         .then(() => {
             onAddMessageSuccess();
         })
-    }
+    };
 
     const onAddMessageSuccess = () => {
         if (!isMessageEmpty) {
@@ -80,7 +80,7 @@ const AlertMessageBoard = () => {
                 window.scrollTo(0, 0);
             }, 2000);
         }
-    }
+    };
 
     const showErrorMessages = () => {
         if (hasErrorMessages()) {
@@ -141,28 +141,22 @@ const AlertMessageBoard = () => {
         });
     };
 
-    const formatDateString = date => {
-        const epoch = parseDateStringToEpoch(date);
-        const dateString = parseEpochToDateString(epoch);
-        return dateString;
-    };
-
     const closeAddMessageScreen = () => {
         updateFormInputByNameValue("message", "");
         updateFormInputByNameValue("priority", 1);
         clearErrorMessages();
         setIsAddMessageOpen(false);
         setIsMessageEmpty(true);
-    }
+    };
 
     const openAddMessageScreen = () => {
         setIsAddMessageOpen(true);
-    }
+    };
 
     const initEpochDateTime = () => {
         let newDate = new Date();
         updateFormInputByNameValue("date", newDate);
-    }
+    };
 
     useEffect(() => {
         getAllAlertMessages();
@@ -172,14 +166,20 @@ const AlertMessageBoard = () => {
     const createMessageComponents = () => {
         const alertMessageComponents = [];
         if (!alertMessages) {
-            return (<AlertMessage message={"There is no alert now"} />)
+            return (<AlertMessage message={"There is no alert now"} />);
         }
         else {
             for (const index in alertMessages) {
                 const message = alertMessages[index].message;
                 const variant = variantList[alertMessages[index].priority - 1];
-                const date = formatDateString(alertMessages[index].date);
-                alertMessageComponents.push(<AlertMessage message={message} variant={variant} date={date} key={index}/>)
+                const date = parseEpochToDateString(alertMessages[index].date);
+                alertMessageComponents.push(<AlertMessage
+                                                message={message}
+                                                variant={variant}
+                                                date={date}
+                                                key={index}
+                                            />
+                                            );
             }
             return alertMessageComponents;
         }
@@ -208,7 +208,7 @@ const AlertMessageBoard = () => {
         } else {
             setIsMessageEmpty(false);
         }
-    }
+    };
 
     const showAddMessageForm = () => {
         if (isAddMessageOpen) {
@@ -229,33 +229,47 @@ const AlertMessageBoard = () => {
                 </div>
                 <DropdownList
                     dropdownName="priority"
-                    dropdownListItemsKeyValue={getPriorityList()}
+                    dropdownListItemsKeyValue={getPriorityMapping()}
                     value={formInputs["priority"]}
                     onChange={onChangePriorityHandler}
                 />
                 <div className="submit">
-                    <Button onClick={closeAddMessageScreen} variant="primary">Cancel</Button>
-                    &nbsp;
-                    &nbsp;
-                    <Button onClick={addNewAlertMessage} variant="primary">Submit</Button>
+                    <Button
+                        className="cancel"
+                        onClick={closeAddMessageScreen}
+                        variant="primary">
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={addNewAlertMessage}
+                        variant="primary">
+                        Submit
+                    </Button>
                 </div>
                 </div>
             );
         } else {
             return null;
         }
-    }
+    };
 
     return (
         <div className="alert-board">
             <div className="alert-board-title">Alert Messages
-                &nbsp;
-                <Button onClick={getAllAlertMessages} variant="primary">Refresh</Button>
+                <Button
+                    className="refresh"
+                    onClick={getAllAlertMessages}
+                    variant="primary">Refresh
+                </Button>
             </div>
             <div className="messages">
                 {createMessageComponents()}
             </div>
-            <Button onClick={openAddMessageScreen} variant="primary">Add</Button>
+            <Button
+                onClick={openAddMessageScreen}
+                variant="primary">
+                Add
+            </Button>
             {showAddMessageForm()}
             {showErrorMessages()}
             {showSuccessMessage()}
