@@ -10,3 +10,20 @@
 .new-referral-form .input-field-container {
     margin: 1rem 0 1rem 0;
 }
+
+.new-referral-form .section.search {
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+}
+
+.new-referral-form .search-text-input {
+    margin-bottom: 0.5rem;
+}
+
+.new-referral-form .client-info-attribute {
+    margin-bottom: 0.5rem;
+}
+
+.new-referral-form .attribute-key {
+    font-weight: 600;
+}
