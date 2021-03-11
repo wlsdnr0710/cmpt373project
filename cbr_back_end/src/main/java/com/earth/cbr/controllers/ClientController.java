@@ -28,6 +28,14 @@ public class ClientController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping
+    public ResponseEntity<JSONObject> getAllClientsSort5() {
+        List<Client> clients = clientService.getTop5ByOrderByRiskSumDesc();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}")
     public ResponseEntity<JSONObject> getClientsByPage(@PathVariable int pageNumber, @PathVariable int pageSize) {
         Page<Client> clients = clientService.getClientsByPage(pageNumber, pageSize);

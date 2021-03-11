@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
     Page<Client> findByFirstNameContaining(Pageable pageable, String firstName);
@@ -13,4 +15,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
     Page<Client> findAllByCbrWorkerId(Pageable pageable, Long cbrWorkerId);
     Page<Client> findAllByZone(Pageable pageable, Integer zone);
     Page<Client> findByVillageNumber(Pageable pageable, Integer villageNumber);
+    List<Client> findTop5ByOrderByIdDesc();
 }
