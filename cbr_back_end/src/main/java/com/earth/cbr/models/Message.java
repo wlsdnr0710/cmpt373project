@@ -1,6 +1,12 @@
 package com.earth.cbr.models;
 
+import org.hibernate.validator.constraints.Range;
+import org.springframework.data.annotation.CreatedDate;
+
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import java.sql.Date;
 
 @Entity(name = "Message")
@@ -14,27 +20,32 @@ public class Message {
         name = "worker_id",
         columnDefinition = "LONG" 
     )
+    @NotNull(message = "Worker ID cannot be null")
+    @PositiveOrZero(message = "Worker ID should be positive or zero")
     private Long workerId;
 
     @Column(
         name = "date",
         columnDefinition = "DATE"
     )
+    @CreatedDate
     private Date date;
 
     @Column(
         name = "message",
         columnDefinition = "TEXT"
     )
+    @NotBlank(message = "Message is mandatory")
     private String message;
 
     @Column(
         name = "priority",
         columnDefinition = "INT"
     )
+    @Range(min=1, max=3)
     private Integer priority;
     
-    public Message(){
+    public Message() {
         
     }
 
