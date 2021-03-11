@@ -3,7 +3,7 @@
   display: inline-block;
   flex-direction: row;
   overflow-x:auto;
-  width: 20%;
+  width: 33.3%;
 }
 
 .mobile-navigation-entry:hover {
