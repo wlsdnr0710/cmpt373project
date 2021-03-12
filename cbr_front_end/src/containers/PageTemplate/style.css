@@ -15,6 +15,7 @@
   margin: -40px 0;
   height: auto;
   width: 300px;
+  cursor: pointer;
 }
 
 .top-navigation {
@@ -39,7 +40,6 @@
 @media only screen and (max-width: 1200px) {
   /* TODO: After changing logo, change this part as well */
   .top-navigation .logo {
-    margin-left: -80/3px;
     margin-top: -28px;
     height: auto;
     width: 200px;

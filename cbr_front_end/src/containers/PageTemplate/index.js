@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import logo from "../../assets/HHALogo.svg";
 import "./style.css";
 import MobileNavigationBar from "../../containers/MobileNavigationBar";
@@ -8,13 +8,11 @@ import DesktopNavigationBar from "../DesktopNavigationBar";
 
 //TODO: Find way to import all assets at once 
 const PageTemplate = ({ children }) => {
+  let history = useHistory();
   const getTopBar = () => {
     return (
       <div className="top-navigation">
-        {/* TODO: Not sure if I can use link here. Since every other part uses history. Replace with history if possible. */}
-        <Link to="/home">
-          <img className="logo" src={logo} alt="Hope Health Action Logo" />
-        </Link>
+        <img className="logo" src={logo} alt="Hope Health Action Logo" onClick={()=>{history.push("/home")}}/>
         <div className="style-bar"></div>
       </div>
     );

@@ -2,7 +2,7 @@
   background-color: #333;
   display: inline-block;
   flex-direction: row;
-  width: 33.3333%;
+  width: calc(100% / 3);
   height: 100%;
 }
 
