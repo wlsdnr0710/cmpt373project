@@ -37,7 +37,7 @@ const DesktopNavigationBar = () => {
         />
         <NavigationBarEntry
           label="New Referral"
-          destination="#"
+          destination="/new-referal"
           query="#"
           iconSource={newReferralIcon}
           iconAlt="New Referral"
