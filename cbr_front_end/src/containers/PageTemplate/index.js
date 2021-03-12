@@ -65,7 +65,8 @@ const PageTemplate = ({ children }) => {
         />
         <NavigationBarEntry
           label="New Referral"
-          destination="#"
+          destination="/new-referral"
+          query=""
           iconSource={newReferralIcon}
           iconAlt="New Referral"
         />

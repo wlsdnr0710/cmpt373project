@@ -59,7 +59,7 @@ const ExportToCsv = ({ filename, headers, headersMapping, jsonArray }) => {
             <a 
                 ref={linkRef} 
                 download={filename ? filename + ".csv" : "export.csv"} 
-                href="" 
+                href="/" 
                 style={{visibility: "hidden"}}
             >
             </a>
