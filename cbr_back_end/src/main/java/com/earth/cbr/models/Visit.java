@@ -9,6 +9,13 @@ import java.util.Set;
 @Entity(name = "Visit")
 @Table(name = "visit")
 public class Visit {
+
+    private enum Progress {
+        cancelled,
+        ongoing,
+        concluded
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -55,14 +62,16 @@ public class Visit {
             columnDefinition = "INT"
     )
     @NotNull(message = "Village number cannot be null")
+    @PositiveOrZero(message = "Village Number should be positive or zero")
     private Integer villageNumber;
 
     @Column(
             name = "health_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
-    @NotBlank(message = "Health goal progress is mandatory")
-    private String healthGoalProgress;
+    @NotNull(message = "Health goal progress cannot be null")
+    @Enumerated(EnumType.STRING)
+    private Progress healthGoalProgress;
 
     @Column(
             name = "health_outcome",
@@ -72,10 +81,11 @@ public class Visit {
 
     @Column(
             name = "social_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
-    @NotBlank(message = "Social goal progress is mandatory")
-    private String socialGoalProgress;
+    @NotNull(message = "Social goal progress cannot be null")
+    @Enumerated(EnumType.STRING)
+    private Progress socialGoalProgress;
 
     @Column(
             name = "social_outcome",
@@ -85,10 +95,11 @@ public class Visit {
 
     @Column(
             name = "education_goal_progress",
-            columnDefinition = "TEXT"
+            columnDefinition = "ENUM"
     )
-    @NotBlank(message = "Education goal progress is mandatory")
-    private String educationGoalProgress;
+    @NotNull(message = "Education goal progress cannot be null")
+    @Enumerated(EnumType.STRING)
+    private Progress educationGoalProgress;
 
     @Column(
             name = "education_outcome",
@@ -100,10 +111,11 @@ public class Visit {
             name = "client_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Village number cannot be null")
+    @NotNull(message = "Client ID cannot be null")
+    @PositiveOrZero(message = "Client ID should be positive or zero")
     private Long clientId;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
 
@@ -115,8 +127,9 @@ public class Visit {
     }
 
     public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, Integer zone, Integer villageNumber,
-                 String healthGoalProgress, String healthOutcome, String socialGoalProgress, String socialOutcome,
-                 String educationGoalProgress, String educationOutcome, Long clientId, Zone zoneName, Set<ServiceProvided> serviceProvided) {
+                 Progress healthGoalProgress, String healthOutcome, Progress socialGoalProgress, String socialOutcome,
+                 Progress educationGoalProgress, String educationOutcome, Long clientId, Zone zoneName,
+                 Set<ServiceProvided> serviceProvided) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -190,11 +203,11 @@ public class Visit {
         this.villageNumber = villageNumber;
     }
 
-    public String getHealthGoalProgress() {
+    public Progress getHealthGoalProgress() {
         return healthGoalProgress;
     }
 
-    public void setHealthGoalProgress(String healthGoalProgress) {
+    public void setHealthGoalProgress(Progress healthGoalProgress) {
         this.healthGoalProgress = healthGoalProgress;
     }
 
@@ -206,11 +219,11 @@ public class Visit {
         this.healthOutcome = healthOutcome;
     }
 
-    public String getSocialGoalProgress() {
+    public Progress getSocialGoalProgress() {
         return socialGoalProgress;
     }
 
-    public void setSocialGoalProgress(String socialGoalProgress) {
+    public void setSocialGoalProgress(Progress socialGoalProgress) {
         this.socialGoalProgress = socialGoalProgress;
     }
 
@@ -222,11 +235,11 @@ public class Visit {
         this.socialOutcome = socialOutcome;
     }
 
-    public String getEducationGoalProgress() {
+    public Progress getEducationGoalProgress() {
         return educationGoalProgress;
     }
 
-    public void setEducationGoalProgress(String educationGoalProgress) {
+    public void setEducationGoalProgress(Progress educationGoalProgress) {
         this.educationGoalProgress = educationGoalProgress;
     }
 

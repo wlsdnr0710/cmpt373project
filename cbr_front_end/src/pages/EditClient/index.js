@@ -4,12 +4,12 @@ import BackgroundCard from "../../components/BackgroundCard";
 import EditClientForm from "../../containers/EditClientForm";
 import "./style.css";
 
-const EditClient = ({ history }) => {
+const EditClient = ({ history, location }) => {
   doAuthentication(history);
   return (
     <div>
       <BackgroundCard heading="Edit Client">
-        <EditClientForm />
+        <EditClientForm clientID={location.state.clientID}/>
       </BackgroundCard>
     </div>
   );

@@ -12,15 +12,15 @@
     flex-wrap: wrap;
 }
 
-.client-information .name{
+.client-information-card .name{
     margin: 0 1vw 1vh 1vw;
 }
 
-.client-information .details {
+.client-information-card .details {
     margin: 1vh 1vw;
 }
 
-.client-information .client-information-image-container {
+.client-information-card .client-information-image-container {
     display: flex;
     align-items: center;
     flex-direction: column;

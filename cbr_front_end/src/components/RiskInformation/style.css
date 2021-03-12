@@ -8,6 +8,10 @@
     margin: 1vh 1vw;
 }
 
+.risk-information-card .risk-description{
+    padding-left: 1rem;
+}
+
 .risk-information-card hr {
     margin: 0 0.5vw 0.5vh;
     width: 50%;

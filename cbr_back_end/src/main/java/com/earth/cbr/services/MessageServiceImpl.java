@@ -21,6 +21,11 @@ public class MessageServiceImpl implements MessageService{
 	}
 
 	@Override
+	public List<Message> getAllMessagesSortedByDate() {
+		return messageRepository.findAllByOrderByDateDesc();
+	}
+
+	@Override
 	public Message getMessageById(Long id) {
 		Optional<Message> messageOptional = messageRepository.findById(id);
         Message message = messageOptional.orElse(null);

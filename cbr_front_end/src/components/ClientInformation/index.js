@@ -1,12 +1,25 @@
 import React from "react";
+import defaultPhoto from "../../assets/avatar.png";
 import "./style.css";
+
+const ClientPhoto = ({ photoSource }) => {
+  if(isPhotoSourceValid()){
+    return<img className = "client-information-image" src={photoSource} alt="client"/>
+  } else {
+    return <img className = "client-information-image" src={defaultPhoto} alt="client"/>
+  }
+};
+
+const isPhotoSourceValid = photoSource => {
+  return /(png|jpg)$/i.test(photoSource);
+}
 
 const ClientInformation = ({clientObject: client}) => {
   return (
     <div>
       <div className="client-information-card">
         <div className="client-information-image-container">
-          <img className = "client-information-image" src={client.image} alt="client" />
+          {ClientPhoto(client.photo)}
           <h1 className ="name">{client.name}</h1>
         </div>
         <div className="client-info-body">

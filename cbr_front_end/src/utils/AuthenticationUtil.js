@@ -33,13 +33,13 @@ const isTokenExpired = token => {
 
 export const getWorkerIdFromToken = token => {
     const decodedToken = jwt_decode(token);
-    const { id } = parseInt(decodedToken.aud);
+    const id = parseInt(decodedToken.aud[0]);
     return id;
 };
 
 export const getWorkerUsernameFromToken = token => {
     const decodedToken = jwt_decode(token);
-    const { username } = decodedToken.aud;
+    const username = decodedToken.aud[1];
     return username;
 };
 

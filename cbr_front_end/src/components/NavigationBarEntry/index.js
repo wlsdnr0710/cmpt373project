@@ -9,13 +9,16 @@ const displayIcon = (iconSource, iconAlt) => {
   }
 };
 
+//TODO: change if condition for destination in the future to reduce dependency
 const NavigationBarEntry = ({ label, destination, iconSource, iconAlt, query }) => {
   let history = useHistory();
   const OnClickNavigationHandler = () => {
-    if (query !== "#") {
-      history.push(destination + "?query=" + query);
-    } else if (destination !== "#") {
-      history.push(destination)
+    if (destination !== "#") {
+      if (query) {
+        history.push(destination + "?query=" + query);
+      } else {
+        history.push(destination)
+      }
     }
   }
 

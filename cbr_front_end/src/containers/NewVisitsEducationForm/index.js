@@ -5,25 +5,15 @@ import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsEducationForm = ({
-    referralToEducationOrgName,
     referralToEducationOrgValue,
-    referralToEducationOrgNameDescName,
-    referralToEducationOrgNameDescValue,
-    educationAdviceName,
+    referralToEducationOrgDescValue,
     educationAdviceValue,
-    educationAdviceDescName,
     educationAdviceDescValue,
-    educationAdvocacyName,
     educationAdvocacyValue,
-    educationAdvocacyDescName,
     educationAdvocacyDescValue,
-    educationEncouragementName,
     educationEncouragementValue,
-    educationEncouragementDescName,
     educationEncouragementDescValue,
-    educationGoalConclusionTextName,
     educationGoalConclusionTextValue,
-    educationGoalMetName,
     educationGoalMetValue,
     isEducationGoalConcluded,
     actionHandler,
@@ -37,7 +27,7 @@ const NewVisitsEducationForm = ({
                 <label>For Education: What was provided?</label>
                 <div>
                     <CheckBox
-                        name={referralToEducationOrgName}
+                        name="referralToEducationOrg"
                         value={referralToEducationOrgValue}
                         actionHandler={actionHandler}
                         displayText={"Referral to Education Organization"}
@@ -45,8 +35,8 @@ const NewVisitsEducationForm = ({
 
                     <div hidden={!referralToEducationOrgValue}>
                         <TextAreaInputField
-                            name={referralToEducationOrgNameDescName}
-                            value={referralToEducationOrgNameDescValue}
+                            name="referralToEducationOrgDesc"
+                            value={referralToEducationOrgDescValue}
                             onChange={onChange}
                             rows="4"
                             isDisabled={false}
@@ -55,14 +45,14 @@ const NewVisitsEducationForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={educationAdviceName}
+                        name="educationAdvice"
                         value={educationAdviceValue}
                         actionHandler={actionHandler}
                         displayText={"Education Advice"}
                     />
                     <div hidden={!educationAdviceValue}>
                         <TextAreaInputField
-                            name={educationAdviceDescName}
+                            name="educationAdviceDesc"
                             value={educationAdviceDescValue}
                             onChange={onChange}
                             rows="4"
@@ -72,14 +62,14 @@ const NewVisitsEducationForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={educationAdvocacyName}
+                        name="educationAdvocacy"
                         value={educationAdvocacyValue}
                         actionHandler={actionHandler}
                         displayText={"Education Advocacy"}
                     />
                     <div hidden={!educationAdvocacyValue}>
                         <TextAreaInputField
-                            name={educationAdvocacyDescName}
+                            name="educationAdvocacyDesc"
                             value={educationAdvocacyDescValue}
                             onChange={onChange}
                             rows="4"
@@ -89,14 +79,14 @@ const NewVisitsEducationForm = ({
                 </div>
                 <div>
                     <CheckBox
-                        name={educationEncouragementName}
+                        name="educationEncouragement"
                         value={educationEncouragementValue}
                         actionHandler={actionHandler}
                         displayText={"Education Encouragement"}
                     />
                     <div hidden={!educationEncouragementValue}>
                         <TextAreaInputField
-                            name={educationEncouragementDescName}
+                            name="educationEncouragementDesc"
                             value={educationEncouragementDescValue}
                             onChange={onChange}
                             rows="4"
@@ -106,10 +96,10 @@ const NewVisitsEducationForm = ({
                 </div>
                 <div >
                     <div>
-                        <label>Goal met?:</label>
+                        <label>Goal met? :</label>
                     </div>
                     <DropdownList
-                        dropdownName={educationGoalMetName}
+                        dropdownName="educationGoalProgress"
                         value={educationGoalMetValue}
                         dropdownListItemsKeyValue={goalInputs}
                         onChange={onChange}
@@ -122,7 +112,7 @@ const NewVisitsEducationForm = ({
                     </div>
                     <div >
                         <TextAreaInputField
-                            name={educationGoalConclusionTextName}
+                            name="educationOutcome"
                             value={educationGoalConclusionTextValue}
                             onChange={onChange}
                             rows="4"
