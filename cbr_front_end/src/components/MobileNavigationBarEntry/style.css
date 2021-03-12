@@ -2,10 +2,24 @@
   background-color: #333;
   display: inline-block;
   flex-direction: row;
-  overflow-x:auto;
-  width: 33.3%;
+  width: 33.3333%;
+  height: 100%;
 }
 
 .mobile-navigation-entry:hover {
   background-color: #ddd;
+}
+
+.mobile-navigation-entry .icon {
+  width: 20%;
+  margin-left: 40%;
+}
+
+.mobile-navigation-entry .text {
+  color: #ddd;
+  text-align: center;
+}
+
+.mobile-navigation-entry:hover .text {
+  color: #000;
 }

@@ -21,6 +21,7 @@ const MobileNavigationBarEntry = ({ label, destination, iconSource, iconAlt, que
     return (
         <div className="mobile-navigation-entry" onClick={OnClickNavigationHandler}>
             {displayIcon(iconSource, iconAlt)}
+            <div className="text">{label}</div>
         </div>
     );
 };
