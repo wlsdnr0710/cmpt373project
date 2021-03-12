@@ -17,7 +17,7 @@ const MobileNavigationBar = () => {
           iconAlt="Dashboard"
         />
         <MobileNavigationBarEntry
-          label="Home Icon"
+          label="Home"
           destination="/home"
           query="#"
           iconSource={homeIcon}
