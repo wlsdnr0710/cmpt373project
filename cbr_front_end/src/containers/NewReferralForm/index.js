@@ -7,7 +7,11 @@ import Card from 'react-bootstrap/Card';
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
-import { getDefaultPhysiotherapyConditions, getRequiredServicesKeyValues } from "../../utils/Utilities";
+import { 
+    getClientInformationFromServer, 
+    getDefaultPhysiotherapyConditions, 
+    getRequiredServicesKeyValues 
+} from "../../utils/Utilities";
 import { getToken } from "../../utils/AuthenticationUtil";
 import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
@@ -25,7 +29,7 @@ const NewReferralForm = props => {
         "userType": "1",
         "doTheyHaveExistingWheelchair": false,
         "canExistingWheelchairRepaired": false,
-        "prostheticCondition" : "1",
+        "prostheticCondition": "1",
         "orthoticCondition": "1",
         "physiotherapyCondition": "1",
         "physiotherapyConditionOtherDesc": "",
@@ -446,12 +450,7 @@ const NewReferralForm = props => {
         setIsLoadingSearchResult(true);
         setSearchErrorMessage(null);
         setClient(null);
-        axios.get(
-                ServerConfig.api.url + "/api/v1/client/" + searchClientId, 
-                {
-                    headers: requestHeader,
-                }
-            )
+        getClientInformationFromServer(searchClientId, requestHeader)
             .then(response => {
                 const receivedClient = response.data.data;
                 setClient(receivedClient);
