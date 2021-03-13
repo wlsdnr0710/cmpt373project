@@ -2,7 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.ObjectDoesNotExist;
+import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.ServiceOption;
 import com.earth.cbr.services.ServiceOptionService;
@@ -28,9 +28,9 @@ public class ServiceOptionController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getServiceOptionById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> getServiceOptionById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(serviceOptionService.getServiceOptionById(id) == null) {
-            throw new ObjectDoesNotExist("ServiceOption with that ID does not exist");
+            throw new ObjectDoesNotExistException("ServiceOption with that ID does not exist");
         }
 
         ServiceOption serviceOption = serviceOptionService.getServiceOptionById(id);
@@ -62,7 +62,7 @@ public class ServiceOptionController {
 
     @PutMapping
     public ResponseEntity<JSONObject> updateServiceOptionById(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
+            throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
         JSONObject serviceOptionJSON = payload.getJSONObject("data");
 
         if (serviceOptionJSON == null) {
@@ -70,7 +70,7 @@ public class ServiceOptionController {
         }
 
         if(serviceOptionService.getServiceOptionById(serviceOptionJSON.getLong("id")) == null) {
-            throw new ObjectDoesNotExist("ServiceOption with that ID does not exist");
+            throw new ObjectDoesNotExistException("ServiceOption with that ID does not exist");
         }
 
         String serviceOptionString = serviceOptionJSON.toJSONString();
@@ -87,9 +87,9 @@ public class ServiceOptionController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteServiceOptionById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> deleteServiceOptionById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(serviceOptionService.getServiceOptionById(id) == null) {
-            throw new ObjectDoesNotExist("ServiceOption with that ID does not exist");
+            throw new ObjectDoesNotExistException("ServiceOption with that ID does not exist");
         }
 
         serviceOptionService.deleteServiceOptionById(id);
