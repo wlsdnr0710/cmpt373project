@@ -99,4 +99,30 @@ export const getLatestRiskUpdate = (clientObject) => {
       const lastRiskUpdateIndex = riskHistoryListLength - 1;
       return clientObject.riskHistories[lastRiskUpdateIndex];
     }
-  }
+}
+
+export const getRequiredServicesKeyValues = () => {
+    const requiredServicesKeyValues = {
+        "physiotherapy": "1",
+        "prosthetic": "2",
+        "orthotic": "3",
+        "wheelchair": "4",
+        "other": "5",
+    };
+    return requiredServicesKeyValues;
+};
+
+export const getDefaultPhysiotherapyConditions = () => {
+    const defaultPhysiotherapyConditions = {
+        "Amputee": "1",
+        "Polio": "2",
+        "Spinal Cord Injury": "3",
+        "Cerebral Palsy": "4",
+        "Spina Bifida": "5",
+        "Hydrocephalus": "6",
+        "Visual Impairment": "7",
+        "Hearing Impairment": "8",
+        "Other": "9",
+    };
+    return defaultPhysiotherapyConditions;
+};
