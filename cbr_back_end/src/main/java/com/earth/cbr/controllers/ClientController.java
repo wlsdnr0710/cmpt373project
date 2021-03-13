@@ -28,7 +28,7 @@ public class ClientController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @GetMapping
+    @GetMapping(value = "/top5")
     public ResponseEntity<JSONObject> getAllClientsSort5() {
         List<Client> clients = clientService.getTop5ByOrderByRiskSumDesc();
         JSONObject responseJson = new JSONObject();
