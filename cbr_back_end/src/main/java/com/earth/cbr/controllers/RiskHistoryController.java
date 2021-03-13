@@ -14,7 +14,7 @@ import java.util.List;
 
 @CrossOrigin
 @RestController
-@RequestMapping(value = "/api/v1/riskhistory")
+@RequestMapping(value = "/api/v1/riskHistory")
 public class RiskHistoryController {
     @Autowired
     private RiskHistoryService riskHistoryService;
@@ -23,7 +23,7 @@ public class RiskHistoryController {
     public ResponseEntity<JSONObject> getAllRiskHistories() {
         List<RiskHistory> riskHistories = riskHistoryService.getAllRiskHistories();
         JSONObject responseJson = new JSONObject();
-        responseJson.put("data",riskHistories);
+        responseJson.put("data", riskHistories);
         return ResponseEntity.ok().body(responseJson);
     }
 
@@ -52,7 +52,6 @@ public class RiskHistoryController {
         JSONObject responseJson = new JSONObject();
         RiskHistory riskHistory = JSON.parseObject(riskHistoryString, RiskHistory.class);
         
-
         RiskHistory addedRiskHistory = riskHistoryService.addRiskHistory(riskHistory);
 
         // Need to tell front-end the new risk history's id
