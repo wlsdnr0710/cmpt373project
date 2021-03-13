@@ -11,5 +11,4 @@ public interface RiskHistoryService {
     RiskHistory addRiskHistory(@Valid RiskHistory riskHistory);
     RiskHistory updateRiskHistoryById(@Valid RiskHistory riskHistory);
     void deleteRiskHistoryById(Long id);
-    
 }
