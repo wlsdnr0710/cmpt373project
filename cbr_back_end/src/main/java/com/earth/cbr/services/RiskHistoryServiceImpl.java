@@ -29,10 +29,10 @@ public class RiskHistoryServiceImpl implements RiskHistoryService{
 
 	@Override
 	public RiskHistory addRiskHistory(@Valid RiskHistory riskHistory) {
-        return riskHistoryRepository.save(riskHistory);
+    	return riskHistoryRepository.save(riskHistory);
 	}
 
-    @Override
+	@Override
 	public RiskHistory updateRiskHistoryById(@Valid RiskHistory riskHistory) {
         return riskHistoryRepository.save(riskHistory);
 	}
