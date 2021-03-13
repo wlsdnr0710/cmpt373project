@@ -22,6 +22,10 @@ cd cbr_front_end
 npm start
 ```
 
+## Deployment
+
+Please read this [documentation for deployment](documentations/deployment/deployment.md).
+
 ## How to authenticate users at front-end
 
 Please read this [documentation for authentication](documentations/authentication.md).
