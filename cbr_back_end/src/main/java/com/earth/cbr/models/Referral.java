@@ -10,10 +10,22 @@ public class Referral {
     private Long id;
 
     @Column (
+            name = "client_id",
+            columnDefinition = "INT"
+    )
+    private Long clientId;
+
+    @Column (
             name = "wheelchair_photo",
             columnDefinition = "BOOLEAN"
     )
     private String wheelchairPhoto;
+
+    @Column (
+            name = "hip_width_in_inches",
+            columnDefinition = "DECIMAL(4,2)"
+    )
+    private float hipWidthInInches;
 
     @Column (
             name = "is_intermediate_user",
@@ -45,17 +57,51 @@ public class Referral {
     )
     private Boolean isBelowElbow;
 
+    @Column (
+            name = "refer_to",
+            columnDefinition = "TEXT"
+    )
+    private String referTo;
+
+    @Column (
+            name = "is_resolved",
+            columnDefinition = "BOOLEAN"
+    )
+    private Boolean isResolved;
+
+    @Column (
+            name = "outcome",
+            columnDefinition = "TEXT"
+    )
+    private String outcome;
+
     public Referral() {
     }
 
-    public Referral(Long id, String wheelchairPhoto, Boolean isIntermediateUser, Boolean hasExistingWheelchair, Boolean doesRequireRepairs, Boolean isBelowKnee, Boolean isBelowElbow) {
+    public Referral(Long id,
+                    Long clientId,
+                    String wheelchairPhoto,
+                    float hipWidthInInches,
+                    Boolean isIntermediateUser,
+                    Boolean hasExistingWheelchair,
+                    Boolean doesRequireRepairs,
+                    Boolean isBelowKnee,
+                    Boolean isBelowElbow,
+                    String referTo,
+                    Boolean isResolved,
+                    String outcome) {
         this.id = id;
+        this.clientId = clientId;
         this.wheelchairPhoto = wheelchairPhoto;
+        this.hipWidthInInches = hipWidthInInches;
         this.isIntermediateUser = isIntermediateUser;
         this.hasExistingWheelchair = hasExistingWheelchair;
         this.doesRequireRepairs = doesRequireRepairs;
         this.isBelowKnee = isBelowKnee;
         this.isBelowElbow = isBelowElbow;
+        this.referTo = referTo;
+        this.isResolved = isResolved;
+        this.outcome = outcome;
     }
 
     public Long getId() {
@@ -66,12 +112,28 @@ public class Referral {
         this.id = id;
     }
 
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
     public String getWheelchairPhoto() {
         return wheelchairPhoto;
     }
 
     public void setWheelchairPhoto(String wheelchairPhoto) {
         this.wheelchairPhoto = wheelchairPhoto;
+    }
+
+    public float getHipWidthInInches() {
+        return hipWidthInInches;
+    }
+
+    public void setHipWidthInInches(float hipWidthInInches) {
+        this.hipWidthInInches = hipWidthInInches;
     }
 
     public Boolean getIntermediateUser() {
@@ -112,5 +174,29 @@ public class Referral {
 
     public void setBelowElbow(Boolean belowElbow) {
         isBelowElbow = belowElbow;
+    }
+
+    public String getReferTo() {
+        return referTo;
+    }
+
+    public void setReferTo(String referTo) {
+        this.referTo = referTo;
+    }
+
+    public Boolean getResolved() {
+        return isResolved;
+    }
+
+    public void setResolved(Boolean resolved) {
+        isResolved = resolved;
+    }
+
+    public String getOutcome() {
+        return outcome;
+    }
+
+    public void setOutcome(String outcome) {
+        this.outcome = outcome;
     }
 }
