@@ -2,6 +2,7 @@ package com.earth.cbr.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.Set;
 
 @Entity(name = "Physiotherapy")
 @Table(name = "physiotherapy")
@@ -23,6 +24,9 @@ public class Physiotherapy {
     )
     @NotBlank(message = "Description is mandatory")
     private String description;
+
+    @OneToMany(mappedBy = "physiotherapy")
+    private Set<Referral> referrals;
 
     public Physiotherapy() {
 
