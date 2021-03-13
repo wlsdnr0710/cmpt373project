@@ -75,6 +75,10 @@ public class Referral {
     )
     private String outcome;
 
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "required_services_id", referencedColumnName = "id")
+    private RequiredServices requiredServices;
+
     public Referral() {
     }
 
