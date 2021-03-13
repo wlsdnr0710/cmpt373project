@@ -15,7 +15,7 @@ public class RiskHistoryServiceImpl implements RiskHistoryService{
     @Autowired
     private RiskHistoryRepository riskHistoryRepository;
 
-	@Override
+    @Override
     public List<RiskHistory> getAllRiskHistories() {
         return riskHistoryRepository.findAll();
     }
@@ -30,12 +30,12 @@ public class RiskHistoryServiceImpl implements RiskHistoryService{
     @Override
     public RiskHistory addRiskHistory(@Valid RiskHistory riskHistory) {
         return riskHistoryRepository.save(riskHistory);
-	}
+    }
 
     @Override
     public RiskHistory updateRiskHistoryById(@Valid RiskHistory riskHistory) {
         return riskHistoryRepository.save(riskHistory);
-	}
+    }
 
     @Override
     public void deleteRiskHistoryById(Long id) {
