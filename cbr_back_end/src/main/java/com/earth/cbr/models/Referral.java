@@ -16,10 +16,10 @@ public class Referral {
     private Long clientId;
 
     @Column (
-            name = "wheelchair_photo",
+            name = "photo",
             columnDefinition = "BOOLEAN"
     )
-    private String wheelchairPhoto;
+    private String photo;
 
     @Column (
             name = "hip_width_in_inches",
@@ -88,7 +88,7 @@ public class Referral {
 
     public Referral(Long id,
                     Long clientId,
-                    String wheelchairPhoto,
+                    String photo,
                     float hipWidthInInches,
                     Boolean isIntermediateUser,
                     Boolean hasExistingWheelchair,
@@ -97,10 +97,12 @@ public class Referral {
                     Boolean isBelowElbow,
                     String referTo,
                     Boolean isResolved,
-                    String outcome) {
+                    String outcome,
+                    RequiredServices requiredServices,
+                    Physiotherapy physiotherapy) {
         this.id = id;
         this.clientId = clientId;
-        this.wheelchairPhoto = wheelchairPhoto;
+        this.photo = photo;
         this.hipWidthInInches = hipWidthInInches;
         this.isIntermediateUser = isIntermediateUser;
         this.hasExistingWheelchair = hasExistingWheelchair;
@@ -110,6 +112,8 @@ public class Referral {
         this.referTo = referTo;
         this.isResolved = isResolved;
         this.outcome = outcome;
+        this.requiredServices = requiredServices;
+        this.physiotherapy = physiotherapy;
     }
 
     public Long getId() {
@@ -128,12 +132,12 @@ public class Referral {
         this.clientId = clientId;
     }
 
-    public String getWheelchairPhoto() {
-        return wheelchairPhoto;
+    public String getPhoto() {
+        return photo;
     }
 
-    public void setWheelchairPhoto(String wheelchairPhoto) {
-        this.wheelchairPhoto = wheelchairPhoto;
+    public void setPhoto(String photo) {
+        this.photo = photo;
     }
 
     public float getHipWidthInInches() {
@@ -206,5 +210,21 @@ public class Referral {
 
     public void setOutcome(String outcome) {
         this.outcome = outcome;
+    }
+
+    public RequiredServices getRequiredServices() {
+        return requiredServices;
+    }
+
+    public void setRequiredServices(RequiredServices requiredServices) {
+        this.requiredServices = requiredServices;
+    }
+
+    public Physiotherapy getPhysiotherapy() {
+        return physiotherapy;
+    }
+
+    public void setPhysiotherapy(Physiotherapy physiotherapy) {
+        this.physiotherapy = physiotherapy;
     }
 }
