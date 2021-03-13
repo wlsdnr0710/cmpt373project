@@ -1,6 +1,6 @@
 import React from "react";
 import "./style.css";
-import * as helper from "../HelperFunctions";
+import { getLabelTag } from "../../utils/Utilities";
 
 const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange ,isDisabled ,label}) => {
   const getDropdownListOptions = () => {
@@ -24,7 +24,7 @@ const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange 
 
   return (
     <div>
-      {helper.getLabelTag(label)}
+      {getLabelTag(label)}
       <select
         className="dropdown-list"
         name={dropdownName}
