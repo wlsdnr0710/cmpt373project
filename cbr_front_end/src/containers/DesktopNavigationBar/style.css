@@ -2,6 +2,7 @@
   padding-top: 3vh;
   margin: 0 3vw 0 5vw;
   height: fit-content;
+  cursor: pointer;
 }
 
 .desktop-navigation-bar .sync {
@@ -12,4 +13,20 @@
   .desktop-navigation-bar {
     display: none;
   }
+}
+
+.desktop-navigation-bar .navigation-entry{
+  padding: 0.5rem 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+}
+
+.desktop-navigation-bar .navigation-entry .text {
+  text-decoration: none;
+  color: black;
+}
+
+.desktop-navigation-bar .navigation-entry .icon {
+  margin: auto 1vw auto 0;
 }

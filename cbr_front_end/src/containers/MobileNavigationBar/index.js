@@ -1,5 +1,5 @@
 import React from "react";
-import MobileNavigationBarEntry from "../../components/MobileNavigationBarEntry";
+import NavigationBarEntry from "../../components/NavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/layers_alt.svg";
 import homeIcon from "../../assets/svg/navigation_icons/home.svg";
@@ -9,21 +9,21 @@ const MobileNavigationBar = () => {
   const getNavigationItems = () => {
     return (
       <div className="mobile-navigation-bar">
-        <MobileNavigationBarEntry
+        <NavigationBarEntry
           label="Dashboard"
           destination="/dashboard"
           query="#"
           iconSource={dashboardIcon}
           iconAlt="Dashboard"
         />
-        <MobileNavigationBarEntry
+        <NavigationBarEntry
           label="Home"
           destination="/home"
           query="#"
           iconSource={homeIcon}
           iconAlt="Home"
         />
-        <MobileNavigationBarEntry
+        <NavigationBarEntry
           label="All Clients"
           destination="/view-client"
           query="clients"

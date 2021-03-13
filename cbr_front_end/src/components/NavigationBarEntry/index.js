@@ -23,9 +23,9 @@ const NavigationBarEntry = ({ label, destination, iconSource, iconAlt, query }) 
   }
 
   return (
-    <div className="navigation-entry">
+    <div className="navigation-entry" onClick={OnClickNavigationHandler}>
       {displayIcon(iconSource, iconAlt)}
-      <div className="text" onClick={OnClickNavigationHandler} >{label}</div>
+      <div className="text">{label}</div>
     </div>
   );
 };
