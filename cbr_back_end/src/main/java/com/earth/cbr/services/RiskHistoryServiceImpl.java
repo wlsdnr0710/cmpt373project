@@ -21,11 +21,6 @@ public class RiskHistoryServiceImpl implements RiskHistoryService{
 	}
 
 	@Override
-	public List<RiskHistory> getAllRiskHistoriesSortedByDate() {
-		return riskHistoryRepository.findAllByOrderByDateDesc();
-	}
-
-	@Override
 	public RiskHistory getRiskHistoryById(Long id) {
 		Optional<RiskHistory> riskHistoryOptional = riskHistoryRepository.findById(id);
         RiskHistory riskHistory = riskHistoryOptional.orElse(null);

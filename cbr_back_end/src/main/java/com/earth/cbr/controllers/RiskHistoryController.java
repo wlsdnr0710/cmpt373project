@@ -27,14 +27,6 @@ public class RiskHistoryController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @GetMapping(value = "/sortByDate")
-    public ResponseEntity<JSONObject> getAllRiskHistoriesSorted() {
-        List<RiskHistory> riskHistories = riskHistoryService.getAllRiskHistoriesSortedByDate();
-        JSONObject responseJson = new JSONObject();
-        responseJson.put("data",riskHistories);
-        return ResponseEntity.ok().body(responseJson);
-    }
-
     @GetMapping(value = "/{id}")
     public ResponseEntity<JSONObject> getRiskHistoryById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(riskHistoryService.getRiskHistoryById(id) == null) {
@@ -59,6 +51,7 @@ public class RiskHistoryController {
 
         JSONObject responseJson = new JSONObject();
         RiskHistory riskHistory = JSON.parseObject(riskHistoryString, RiskHistory.class);
+        
 
         RiskHistory addedRiskHistory = riskHistoryService.addRiskHistory(riskHistory);
 

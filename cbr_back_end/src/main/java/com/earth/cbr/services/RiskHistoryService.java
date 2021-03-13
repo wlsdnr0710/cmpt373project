@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface RiskHistoryService {
     List<RiskHistory> getAllRiskHistories();
-    List<RiskHistory> getAllRiskHistoriesSortedByDate();
     RiskHistory getRiskHistoryById(Long id);
     RiskHistory addRiskHistory(@Valid RiskHistory riskHistory);
     RiskHistory updateRiskHistoryById(@Valid RiskHistory riskHistory);
