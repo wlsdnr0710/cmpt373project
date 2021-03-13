@@ -12,8 +12,8 @@ import java.util.Optional;
 @Service
 public class RiskHistoryServiceImpl implements RiskHistoryService{
 
-    @Autowired
-    private RiskHistoryRepository riskHistoryRepository;
+	@Autowired
+	private RiskHistoryRepository riskHistoryRepository;
 
 	@Override
 	public List<RiskHistory> getAllRiskHistories() {
@@ -23,18 +23,18 @@ public class RiskHistoryServiceImpl implements RiskHistoryService{
 	@Override
 	public RiskHistory getRiskHistoryById(Long id) {
 		Optional<RiskHistory> riskHistoryOptional = riskHistoryRepository.findById(id);
-        RiskHistory riskHistory = riskHistoryOptional.orElse(null);
+		RiskHistory riskHistory = riskHistoryOptional.orElse(null);
 		return riskHistory;
 	}
 
 	@Override
 	public RiskHistory addRiskHistory(@Valid RiskHistory riskHistory) {
-    	return riskHistoryRepository.save(riskHistory);
+		return riskHistoryRepository.save(riskHistory);
 	}
 
 	@Override
 	public RiskHistory updateRiskHistoryById(@Valid RiskHistory riskHistory) {
-        return riskHistoryRepository.save(riskHistory);
+		return riskHistoryRepository.save(riskHistory);
 	}
 
 	@Override
