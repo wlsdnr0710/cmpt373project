@@ -6,8 +6,42 @@
 
 .alert-board .alert-board-title {
     font-size: 2rem;
+    margin-left: 1rem;
 }
 
 .alert-board .messages {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.alert-board .add {
     margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.alert-board .submit {
+    margin-top: 1.2rem;
+}
+
+.alert-board .priority-title {
+    margin-top: 0.5rem;
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+.alert-board .message-title {
+    margin-bottom: 0.2rem;
+    font-weight: 600;
+}
+
+.alert-board .success {
+    margin-top: 1rem;
+}
+
+.alert-board .refresh {
+    margin-left: 1rem;
+}
+
+.alert-board .cancel {
+    margin-right: 1rem;
 }

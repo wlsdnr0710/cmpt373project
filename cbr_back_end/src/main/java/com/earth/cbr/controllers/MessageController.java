@@ -27,6 +27,14 @@ public class MessageController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/sortByDate")
+    public ResponseEntity<JSONObject> getAllMessagesSorted() {
+        List<Message> messages = messageService.getAllMessagesSortedByDate();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data",messages);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<JSONObject> getMessageById(@PathVariable Long id) throws ObjectDoesNotExist {
         if(messageService.getMessageById(id) == null) {

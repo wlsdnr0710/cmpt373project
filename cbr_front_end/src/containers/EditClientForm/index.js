@@ -1,51 +1,61 @@
-import React, { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { useHistory } from "react-router-dom";
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
+import avatar from "../../assets/avatar.png";
 import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
-import RiskInformation from "../../components/RiskInformation"
-import defaultClientImage from "../../assets/avatar.png";
+import RiskInformation from "../../components/RiskInformation";
+import { getToken } from "../../utils/AuthenticationUtil";
+import {
+  deleteClientFromServer,
+  getClientInformationFromServer,
+  getClientObject,
+  getLatestRiskUpdate,
+  updateClientInformationToServer,
+  getClientZonesObject,
+  getGendersObject
+} from "../../utils/Utilities";
+import DisabilityInformation from "../../components/DisabilityInformation";
 import "./style.css";
 
 //TODO: Grab dropdown options from database table
-const defaultClientZones = {
-  "BidiBidi Zone 1": "bidizone1",
-  "BidiBidi Zone 2": "bidizone2",
-  "BidiBidi Zone 3": "bidizone3",
-  "BidiBidi Zone 4": "bidizone4",
-  "BidiBidi Zone 5": "bidizone5",
-  "Palorinya Basecamp": "palBasecamp",
-  "Palorinya Zone 1": "palzone1",
-  "Palorinya Zone 2": "palzone2",
-  "Palorinya Zone 3": "palzone3",
-};
+const defaultClientZones = getClientZonesObject();
 
-const genders = {
-  Female: "female",
-  Male: "male",
-};
+const genders = getGendersObject();
 
-const riskObject = {
-  date:"Thu, Sep 29 1988",
-  health: "1",
-  education: "1",
-  social: "1",
-};
+const EditClientForm = (props) => {
+  const clientId = props.clientID;
+  const history = useHistory();
 
-const EditClientForm = () => {
-  //TODO: Revert back to these values when clicking discard changes
-  const [clientInformation, setClientInformation] = useState({
-    firstName: "adrian",
-    lastName: "wong",
-    clientZone: "bidizone4",
-    villageNumber: "4",
-    birthdate: "2018-07-13",
-    gender: "male",
-    contactNumber: "6044526517",
-    caregiverNumber: "1",
-  });
+  const [clientInformation, setClientInformation] = useState(getClientObject());
+  const [originalClientInformation, setOriginalClientInformation] = useState(
+    getClientObject()
+  );
+
+  const discardChanges = () => {
+    setClientInformation(originalClientInformation);
+  };
+
+  const getClientInformation = useCallback(() => {
+    const requestHeader = {
+      token: getToken(),
+    };
+    getClientInformationFromServer(clientId, requestHeader)
+      .then((response) => {
+        setClientInformation(response.data.data);
+        setOriginalClientInformation(response.data.data);
+      })
+      .catch((error) => {
+        console.log("ERROR: Get request failed. " + error);
+      });
+  }, [clientId]);
+
+  useEffect(() => {
+    getClientInformation();
+  }, [getClientInformation]);
 
   const handleChange = (event) => {
     const input = event.target;
@@ -54,12 +64,40 @@ const EditClientForm = () => {
     updateClientInformation(name, value);
   };
 
+  const saveChangesAndPushClientInformationPage = () => {
+    const requestHeader = {
+      token: getToken(),
+    };
+    updateClientInformationToServer(clientInformation, requestHeader)
+      .then((response) => {
+        //TODO: Inform the client information page that the save was a success
+      })
+      .catch((error) => {
+        console.log("ERROR: Put request failed." + error);
+      });
+    history.push("/client-information?id=" + clientInformation["id"]);
+  };
+
   const updateClientInformation = (name, value) => {
     setClientInformation((prevFormInputs) => {
       const newFormInputs = { ...prevFormInputs };
       newFormInputs[name] = value;
       return newFormInputs;
     });
+  };
+
+  const deleteClientAndPushAllClientPage = () => {
+    const requestHeader = {
+      token: getToken(),
+    };
+    deleteClientFromServer(clientId, requestHeader)
+      .then((response) => {
+        //TODO:Inform the view client page that the deletetion was a success
+      })
+      .catch((error) => {
+        console.log("ERROR: Delete request failed. " + error);
+      });
+    history.push("view-client?query=clients");
   };
 
   const [showImageUploader, setImageUploader] = useState(false);
@@ -82,14 +120,12 @@ const EditClientForm = () => {
     }
   };
 
-  //TODO: Implement function to send updated form information
-
   return (
     <form className="edit-client-form">
       <div>
         <div className="client-image" onClick={toggleImageUpload}>
           {/*TODO: Grab client image from database */}
-          <img src={defaultClientImage} alt="client"></img>
+          <img src={avatar} alt="client"></img>
           <div className="upload-banner">Upload Photo</div>
         </div>
         {getImageUploadOnState(showImageUploader)}
@@ -98,8 +134,8 @@ const EditClientForm = () => {
       <div className="input-field">
         <DropdownList
           dropdownListItemsKeyValue={defaultClientZones}
-          dropdownName="clientZone"
-          value={clientInformation.clientZone}
+          dropdownName="zone"
+          value={clientInformation.zone}
           label="Location: "
           onChange={handleChange}
         />
@@ -132,7 +168,8 @@ const EditClientForm = () => {
       <div className="input-field">
         <DateInputField
           name="birthdate"
-          value={clientInformation.birthdate}
+          //TODO: Refactor substring on birthdate information, reduce coupling
+          value={clientInformation.birthdate.substring(0, 10)}
           label="Birth Date:"
           onChange={handleChange}
         />
@@ -158,31 +195,57 @@ const EditClientForm = () => {
       <div className="input-field">
         <PhoneInputField
           name="caregiverNumber"
-          value={clientInformation.caregiverNumber}
+          value={clientInformation.caregiverContact}
           label="Caregiver Number: "
           onChange={handleChange}
         />
       </div>
       <hr />
-      {/*TODO: Add edit information for risk and disability sections */}
+      {/*TODO: Add API calls for update risk and update disability buttons */}
       <div>
         <h1>Risk</h1>
-        <RiskInformation 
-          riskObject = {riskObject}
-          includeDateInformation = {true}
+        <RiskInformation
+          riskObject={getLatestRiskUpdate(clientInformation)}
+          includeDateInformation={true}
         />
-        <input className = "btn btn-secondary update-risk-button" type="button" value="Update Risk" />
+        <input
+          className="btn btn-secondary update-risk-button"
+          type="button"
+          value="Update Risk"
+        />
       </div>
       <hr />
       <div>
-        <h1>Disability and Ailment(s)</h1>
+        <DisabilityInformation
+          disabilityList={clientInformation.disabilities}
+        />
+        <input
+          className="btn btn-secondary update-disability-button"
+          type="button"
+          value="Update Disability"
+        />
       </div>
       <hr />
-      <div className = "action-buttons">
-      {/* TODO: Implement functions for buttons & restructure css layout for mobile*/}
-        <input className = "btn btn-secondary" type="button" value="Delete Client" />
-        <input className = "btn btn-secondary" type="button" value="Discard Changes" />
-        <input className = "btn btn-secondary" type="submit" value="Save Changes" />
+      <div className="action-buttons">
+        {/* TODO: restructure css layout for mobile*/}
+        <input
+          className="btn btn-secondary"
+          type="button"
+          value="Delete Client"
+          onClick={deleteClientAndPushAllClientPage}
+        />
+        <input
+          className="btn btn-secondary"
+          type="button"
+          value="Discard Changes"
+          onClick={discardChanges}
+        />
+        <input
+          className="btn btn-secondary"
+          type="submit"
+          value="Save Changes"
+          onClick={saveChangesAndPushClientInformationPage}
+        />
       </div>
     </form>
   );

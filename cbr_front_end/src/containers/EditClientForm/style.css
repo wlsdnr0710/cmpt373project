@@ -42,6 +42,10 @@
     margin: 1vh 0;
 } 
 
+.edit-client-form .update-disability-button {
+    margin: 1vh 0;
+} 
+
 .edit-client-form .action-buttons{
     text-align: center;
     position: relative;
