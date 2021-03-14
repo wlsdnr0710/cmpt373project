@@ -1,5 +1,4 @@
 import React from "react";
-import { useState, useEffect } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -12,27 +11,29 @@ const ViewVisits = (props) => {
         const serviceComponents = [];
         const serviceDescription = props.visit.serviceDescription;
         if (serviceDescription.length === 0) {
-            return null;
+            return (
+                <div>
+                    No services
+                </div>
+            );
         }
         else {
             for (const index in serviceDescription) {
-
-                    serviceComponents.push(<div className="body" key={index}>
-                                               <div className="entry">
-                                                  <strong>Type: </strong>
-                                                  {serviceDescription[index].serviceOption.type}
-                                              </div>
-                                               <div className="entry">
-                                                   <strong>Service: </strong>
-                                                   {serviceDescription[index].serviceOption.name}
-                                               </div>
-                                                <div className="entry">
-                                                    <strong>Description: </strong>
-                                                    {serviceDescription[index].description}
-                                                </div>
+                serviceComponents.push(<div className="body" key={index}>
+                                           <div className="entry">
+                                              <strong>Type: </strong>
+                                              {serviceDescription[index].serviceOption.type}
+                                          </div>
+                                           <div className="entry">
+                                               <strong>Service: </strong>
+                                               {serviceDescription[index].serviceOption.name}
+                                           </div>
+                                            <div className="entry">
+                                                <strong>Description: </strong>
+                                                {serviceDescription[index].description}
                                             </div>
-                    );
-
+                                        </div>
+                );
             }
             return serviceComponents;
         }
@@ -41,7 +42,7 @@ const ViewVisits = (props) => {
     const overview = () => {
         return (
             <div className="overview">
-                <h2>Overview</h2>
+                <h3>Overview</h3>
                 <div className="body">
                     <div className="entry">
                         <strong>Purpose: </strong>
@@ -67,7 +68,7 @@ const ViewVisits = (props) => {
     const goals = () => {
         return (
             <div className="goals">
-                <h2>Goals</h2>
+                <h3>Goals</h3>
                 <div className="body">
                     <div className="entry">
                         <strong>Health Goal Progress: </strong>
@@ -98,30 +99,11 @@ const ViewVisits = (props) => {
             );
     };
 
-    const getServiceDetails = (details) => {
-        if (props.visit.serviceDescription.length !== 0) {
-            return (
-            <div>
-                {createServiceComponents()}
-            </div>
-            );
-        } else {
-            return (
-            <div>
-                No services
-            </div>
-            );
-        }
-    };
-
     const services = () => {
         return (
             <div>
-                <h2>Services Provided</h2>
-
-                <div>
-                    {getServiceDetails()}
-                </div>
+                <h3>Services Provided</h3>
+                {createServiceComponents()}
             </div>
         );
     }
@@ -131,7 +113,7 @@ const ViewVisits = (props) => {
             <Card>
                 <Card.Header>
                     <Accordion.Toggle as={Button} variant="link" eventKey={props.visit.id}>
-                    {parseEpochToDateString(props.visit.date)}
+                        {parseEpochToDateString(props.visit.date)}
                     </Accordion.Toggle>
                 </Card.Header>
             <Accordion.Collapse eventKey={props.visit.id}>
