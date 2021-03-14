@@ -12,7 +12,6 @@ const emptyRiskUpdate = () => {
 
 
 const getPastRiskUpdateList = (riskHistories) => {
-  console.log(riskHistories);
   const riskHistoriesListIsEmpty = riskHistories.length < 1;
   if (riskHistoriesListIsEmpty) {
     return emptyRiskUpdate();
@@ -24,9 +23,10 @@ const getPastRiskUpdateList = (riskHistories) => {
 };
 
 const RiskInformation = ({ riskHistories }) => {
+  const sortedRiskHistories = riskHistories.sort((updateA, updateB) => updateA.id - updateB.id);
   return (
     <div>
-      {getPastRiskUpdateList(riskHistories)}
+      {getPastRiskUpdateList(sortedRiskHistories)}
     </div>
   );
 };
