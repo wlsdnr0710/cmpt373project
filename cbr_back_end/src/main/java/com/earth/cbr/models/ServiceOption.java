@@ -4,9 +4,9 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
-@Entity(name = "Service")
-@Table(name = "service")
-public class Service {
+@Entity(name = "ServiceOption")
+@Table(name = "service_option")
+public class ServiceOption {
 
     private enum Type {
         health,
@@ -19,25 +19,25 @@ public class Service {
     private Long id;
 
     @Column(
-        name = "name",
-        columnDefinition = "TEXT" 
+            name = "name",
+            columnDefinition = "TEXT"
     )
     @NotBlank(message = "Name is mandatory")
     private String name;
-   
+
     @Column(
-        name = "type",
-        columnDefinition = "ENUM"
+            name = "type",
+            columnDefinition = "ENUM"
     )
     @NotNull(message = "Type cannot be null")
     @Enumerated(EnumType.STRING)
     private Type type;
-    
-    public Service(){
-        
+
+    public ServiceOption(){
+
     }
 
-    public Service(String name, Type type) {
+    public ServiceOption(String name, Type type) {
         this.name = name;
         this.type = type;
     }

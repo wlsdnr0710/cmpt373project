@@ -2,12 +2,14 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.ObjectDoesNotExist;
+import com.earth.cbr.exceptions.ColumnNotFoundException;
+import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,44 +40,77 @@ public class ClientController {
 
     @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}")
     public ResponseEntity<JSONObject> getClientsByPage(@PathVariable int pageNumber, @PathVariable int pageSize) {
-        Page<Client> clients = clientService.getClientsByPage(pageNumber, pageSize);
+        Page<Client> clients = clientService.getClientsByPage(pageNumber - 1 , pageSize);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);
     }
 
     @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/sortBy/{sortBy}/ascending/{sortOrder}")
-    public ResponseEntity<JSONObject> getClientsByPageSorted(@PathVariable int pageNumber, @PathVariable int pageSize,
-                                                             @PathVariable String sortBy, @PathVariable boolean sortOrder) {
-        Page<Client> clients = clientService.getClientsByPageSorted(pageNumber, pageSize, sortBy, sortOrder);
+    public ResponseEntity<JSONObject> getClientsByPageSorted(@PathVariable int pageNumber,
+                                                             @PathVariable int pageSize,
+                                                             @PathVariable String sortBy,
+                                                             @PathVariable boolean sortOrder) throws ColumnNotFoundException {
+        Page<Client> clients = null;
+
+        try {
+            clients = clientService.getClientsByPageSorted(pageNumber - 1, pageSize, sortBy, sortOrder);
+        } catch (PropertyReferenceException e){
+            throw new ColumnNotFoundException("Cannot sort based on this column");
+        }
+
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/filterBy/{filterBy}/filter/{filter}")
-    public ResponseEntity<JSONObject> getClientsByPageFiltered(@PathVariable int pageNumber, @PathVariable int pageSize,
-                                                               @PathVariable String filterBy, @PathVariable String filter) {
-        Page<Client> clients = clientService.getClientsByPageFiltered(pageNumber, pageSize, filterBy, filter);
+    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/filterBy/{filterBy}/searchBy/{searchBy}")
+    public ResponseEntity<JSONObject> getClientsByPageFiltered(@PathVariable int pageNumber,
+                                                               @PathVariable int pageSize,
+                                                               @PathVariable String filterBy,
+                                                               @PathVariable String searchBy) throws ColumnNotFoundException {
+        Page<Client> clients = null;
+
+        try {
+            clients = clientService.getClientsByPageFiltered(pageNumber - 1, pageSize, filterBy, searchBy);
+        } catch (PropertyReferenceException e) {
+            throw new ColumnNotFoundException("Cannot search based on this column");
+        }
+
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/filterBy/{filterBy}/filter/{filter}/sortBy/{sortBy}/ascending/{sortOrder}")
-    public ResponseEntity<JSONObject> getClientsByPageFilteredAndSorted(@PathVariable int pageNumber, @PathVariable int pageSize,
-                                                                        @PathVariable String filterBy, @PathVariable String filter,
-                                                                        @PathVariable String sortBy, @PathVariable boolean sortOrder) {
-        Page<Client> clients = clientService.getClientsByPageFilteredAndSorted(pageNumber, pageSize, filterBy, filter, sortBy, sortOrder);
+    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/filterBy/{filterBy}/searchBy/{searchBy}/sortBy/{sortBy}/ascending/{sortOrder}")
+    public ResponseEntity<JSONObject> getClientsByPageFilteredAndSorted(@PathVariable int pageNumber,
+                                                                        @PathVariable int pageSize,
+                                                                        @PathVariable String filterBy,
+                                                                        @PathVariable String searchBy,
+                                                                        @PathVariable String sortBy,
+                                                                        @PathVariable boolean sortOrder) throws ColumnNotFoundException {
+        Page<Client> clients = null;
+
+        try {
+            clients = clientService.getClientsByPageFilteredAndSorted(pageNumber - 1,
+                                                                        pageSize,
+                                                                        filterBy,
+                                                                        searchBy,
+                                                                        sortBy,
+                                                                        sortOrder);
+        } catch (PropertyReferenceException e) {
+            throw new ColumnNotFoundException("Cannot search/sort based on this column");
+        }
+
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getClientById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> getClientById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(clientService.getClientById(id) == null) {
-            throw new ObjectDoesNotExist("Client with that ID does not exist");
+            throw new ObjectDoesNotExistException("Client with that ID does not exist");
         }
 
         Client client = clientService.getClientById(id);
@@ -107,7 +142,7 @@ public class ClientController {
 
     @PutMapping
     public ResponseEntity<JSONObject> updateClientById(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
+            throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
         JSONObject clientJSON = payload.getJSONObject("data");
 
         if (clientJSON == null) {
@@ -115,7 +150,7 @@ public class ClientController {
         }
 
         if(clientService.getClientById(clientJSON.getLong("id")) == null) {
-            throw new ObjectDoesNotExist("Client with that ID does not exist");
+            throw new ObjectDoesNotExistException("Client with that ID does not exist");
         }
 
         String clientString = clientJSON.toJSONString();
@@ -131,9 +166,9 @@ public class ClientController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteClientById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> deleteClientById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(clientService.getClientById(id) == null) {
-            throw new ObjectDoesNotExist("Client with that ID does not exist");
+            throw new ObjectDoesNotExistException("Client with that ID does not exist");
         }
 
         clientService.deleteClientById(id);

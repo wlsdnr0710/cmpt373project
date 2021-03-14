@@ -11,6 +11,13 @@ public interface ClientService {
     Client getClientById(Long id);
     Page<Client> getClientsByPage(Integer pageNumber, Integer pageSize);
     Page<Client> getClientsByPageSorted(Integer pageNumber, Integer pageSize, String sortBy, Boolean ascending);
+    Page<Client> getClientsByPageFiltered(Integer pageNumber, Integer pageSize, String filterBy, String searchBy);
+    Page<Client> getClientsByPageFilteredAndSorted(Integer pageNumber,
+                                                   Integer pageSize,
+                                                   String filterBy,
+                                                   String searchBy,
+                                                   String sortBy,
+                                                   Boolean ascending);
     Page<Client> getClientsByPageFiltered(Integer pageNumber, Integer pageSize, String filterBy, String filter);
     Page<Client> getClientsByPageFilteredAndSorted(Integer pageNumber, Integer pageSize, String filterBy, String filter,
                                                    String sortBy, Boolean ascending);

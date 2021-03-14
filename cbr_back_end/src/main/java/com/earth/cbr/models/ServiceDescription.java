@@ -7,9 +7,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
 
-@Entity(name = "Service_Provided")
-@Table(name = "service_provided")
-public class ServiceProvided {
+@Entity(name = "Service_Description")
+@Table(name = "service_description")
+public class ServiceDescription {
 
     private enum Type {
         health,
@@ -22,35 +22,35 @@ public class ServiceProvided {
     private Long id;
 
     @Column(
-        name = "visit_id",
-        columnDefinition = "INT"
+            name = "visit_id",
+            columnDefinition = "INT"
     )
     @NotNull(message = "Visit ID cannot be null")
     @PositiveOrZero(message = "Visit ID should be positive or zero")
     private Integer visitId;
 
     @Column(
-        name = "description",
-        columnDefinition = "TEXT" 
+            name = "description",
+            columnDefinition = "TEXT"
     )
     @NotBlank(message = "Description is mandatory")
     private String description;
 
     @Column(
-        name = "type",
-        columnDefinition = "ENUM"
+            name = "type",
+            columnDefinition = "ENUM"
     )
     @NotNull(message = "Type cannot be null")
     @Enumerated(EnumType.STRING)
     private Type type;
 
     @Column(
-            name = "service_id",
+            name = "service_option_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Service ID cannot be null")
-    @PositiveOrZero(message = "Service ID should be positive or zero")
-    private Integer serviceId;
+    @NotNull(message = "Service Option ID cannot be null")
+    @PositiveOrZero(message = "Service Option ID should be positive or zero")
+    private Integer serviceOptionId;
 
     @JsonIgnore
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -59,19 +59,24 @@ public class ServiceProvided {
 
     @OneToOne
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
-    private Service service;
-    
-    public ServiceProvided(){
-        
+    private ServiceOption serviceOption;
+
+    public ServiceDescription(){
+
     }
 
-    public ServiceProvided(Integer visitId, String description, Integer serviceId, Type type, Visit visit, Service service) {
+    public ServiceDescription(Integer visitId,
+                              String description,
+                              Integer serviceOptionId,
+                              Type type,
+                              Visit visit,
+                              ServiceOption serviceOption) {
         this.visitId = visitId;
         this.description = description;
         this.type = type;
-        this.serviceId = serviceId;
+        this.serviceOptionId = serviceOptionId;
         this.visit = visit;
-        this.service = service;
+        this.serviceOption = serviceOption;
     }
 
     public Long getId(){
@@ -106,12 +111,12 @@ public class ServiceProvided {
         this.type = type;
     }
 
-    public Integer getServiceId() {
-        return serviceId;
+    public Integer getServiceOptionId() {
+        return serviceOptionId;
     }
 
-    public void setServiceId(Integer serviceId) {
-        this.serviceId = serviceId;
+    public void setServiceOptionId(Integer serviceOptionId) {
+        this.serviceOptionId = serviceOptionId;
     }
 
     public Visit getVisit() {
@@ -122,11 +127,9 @@ public class ServiceProvided {
         this.visit = visit;
     }
 
-    public Service getService() {
-        return service;
-    }
+    public ServiceOption getServiceOption() { return serviceOption; }
 
-    public void setService(Service service) {
-        this.service = service;
+    public void setServiceOption(ServiceOption serviceOption) {
+        this.serviceOption = serviceOption;
     }
 }

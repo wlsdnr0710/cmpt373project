@@ -120,16 +120,27 @@ public class Visit {
     private Zone zoneName;
 
     @OneToMany(mappedBy = "visit")
-    private Set<ServiceProvided> serviceProvided;
+    private Set<ServiceDescription> serviceDescription;
 
     public Visit() {
 
     }
 
-    public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, Integer zone, Integer villageNumber,
-                 Progress healthGoalProgress, String healthOutcome, Progress socialGoalProgress, String socialOutcome,
-                 Progress educationGoalProgress, String educationOutcome, Long clientId, Zone zoneName,
-                 Set<ServiceProvided> serviceProvided) {
+    public Visit(Integer consent,
+                 Date date,
+                 String cbrWorkerName,
+                 String purpose,
+                 Integer zone,
+                 Integer villageNumber,
+                 Progress healthGoalProgress,
+                 String healthOutcome,
+                 Progress socialGoalProgress,
+                 String socialOutcome,
+                 Progress educationGoalProgress,
+                 String educationOutcome,
+                 Long clientId,
+                 Zone zoneName,
+                 Set<ServiceDescription> serviceDescription) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
@@ -144,7 +155,7 @@ public class Visit {
         this.educationOutcome = educationOutcome;
         this.clientId = clientId;
         this.zoneName = zoneName;
-        this.serviceProvided = serviceProvided;
+        this.serviceDescription = serviceDescription;
     }
 
     public Long getId() {
@@ -271,11 +282,11 @@ public class Visit {
         this.villageNumber = villageNumber;
     }
 
-    public Set<ServiceProvided> getServiceProvided() {
-        return serviceProvided;
+    public Set<ServiceDescription> getServiceDescription() {
+        return serviceDescription;
     }
 
-    public void setServiceProvided(Set<ServiceProvided> serviceProvided) {
-        this.serviceProvided = serviceProvided;
+    public void setServiceDescription(Set<ServiceDescription> serviceDescription) {
+        this.serviceDescription = serviceDescription;
     }
 }

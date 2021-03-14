@@ -29,7 +29,7 @@ export const getClientCsvHeaders = () => {
         "Village Number": "villageNumber",
         "Signup Date": "signupDate",
         "Contact Number": "contactNumber",
-        "CBR Worker Id": "cbrWorkerId",
+        "CBR Worker ID": "cbrWorkerId",
         "Caregiver Contact": "caregiverContact",
         "Required Services": "requiredServices",
         "Individual Goals": "individualGoals",
