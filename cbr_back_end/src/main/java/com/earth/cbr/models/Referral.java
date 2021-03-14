@@ -1,5 +1,7 @@
 package com.earth.cbr.models;
 
+import com.earth.cbr.models.validation.UniqueRequiredServicesID;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
@@ -82,6 +84,7 @@ public class Referral {
     @OneToOne(optional = false)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
     @NotNull(message = "Required Services cannot be null")
+    @UniqueRequiredServicesID(message = "Another referral is already linked to this service")
     private RequiredServices requiredServices;
 
     @ManyToOne
