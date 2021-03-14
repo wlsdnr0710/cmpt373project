@@ -1,6 +1,8 @@
 package com.earth.cbr.models;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 
 @Entity(name = "Referral")
 @Table(name = "referral")
@@ -25,6 +27,7 @@ public class Referral {
             name = "hip_width_in_inches",
             columnDefinition = "DECIMAL(4,2)"
     )
+    @Positive(message = "Hip width must be positive")
     private float hipWidthInInches;
 
     @Column (
@@ -67,6 +70,7 @@ public class Referral {
             name = "is_resolved",
             columnDefinition = "BOOLEAN"
     )
+    @NotNull(message = "Resolution status cannot be null")
     private Boolean isResolved;
 
     @Column (
@@ -77,6 +81,7 @@ public class Referral {
 
     @OneToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
+    @NotNull(message = "Required Services cannot be null")
     private RequiredServices requiredServices;
 
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST)

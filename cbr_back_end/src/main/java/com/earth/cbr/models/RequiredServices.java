@@ -3,6 +3,7 @@ package com.earth.cbr.models;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity(name = "Required_Services")
 @Table(name = "required_services")
@@ -15,30 +16,35 @@ public class RequiredServices {
             name = "is_physiotherapy",
             columnDefinition = "BOOLEAN"
     )
+    @NotNull(message = "Must indicate whether physiotherapy is required")
     private Boolean isPhysiotherapy;
 
     @Column (
             name = "is_orthotic",
             columnDefinition = "BOOLEAN"
     )
+    @NotNull(message = "Must indicate whether orthotic support is required")
     private Boolean isOrthotic;
 
     @Column (
             name = "is_prosthetic",
             columnDefinition = "BOOLEAN"
     )
+    @NotNull(message = "Must indicate whether prosthetic support is required")
     private Boolean isProsthetic;
 
     @Column (
             name = "is_wheelchair",
             columnDefinition = "BOOLEAN"
     )
+    @NotNull(message = "Must indicate whether wheelchair support is required")
     private Boolean isWheelchair;
 
     @Column (
             name = "is_other",
             columnDefinition = "BOOLEAN"
     )
+    @NotNull(message = "Must indicate whether other services are required")
     private Boolean isOther;
 
     @Column (

@@ -24,7 +24,6 @@ public class Physiotherapy {
             name = "description",
             columnDefinition = "TEXT"
     )
-    @NotBlank(message = "Description is mandatory")
     private String description;
 
     @JsonIgnore
