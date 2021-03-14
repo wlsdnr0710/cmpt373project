@@ -9,7 +9,7 @@ import DisabilityInformation from "../../components/DisabilityInformation";
 import axios from 'axios';
 import qs from "query-string";
 import ServerConfig from '../../config/ServerConfig';
-import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getLatestRiskUpdate} from "../../utils/Utilities";
+import { parseDateStringToEpoch, parseEpochToDateString, getClientObject} from "../../utils/Utilities";
 import "./styles.css";
 
 const ClientInfo = props => {
@@ -95,13 +95,11 @@ const ClientInfo = props => {
             clientObject={formInputs}
           />
           <hr className="client-information-hr" />
-          <div>
-            <h1>Risk Levels</h1>
-            <RiskInformation
-              className="client-risk-information"
-              riskHistories={formInputs.riskHistories}
-            />
-          </div>
+          <h1>Risk Levels</h1>
+          <RiskInformation
+            className="client-risk-information"
+            riskHistories={formInputs.riskHistories}
+          />
           <hr className="client-information-hr" />
           <h1>Disability and Ailment(s)</h1>
           <DisabilityInformation
