@@ -7,6 +7,10 @@ import "./style.css";
 
 const PriorityClient = (props) => {
     const risks = ["Low", "Medium", "High", "Critical"];
+    const variants = ["success", "info", "warning", "danger"];
+    const healthRisk = props.client.riskHistories[0].healthRisk - 1;
+    const socialRisk = props.client.riskHistories[0].socialRisk - 1;
+    const educationRisk = props.client.riskHistories[0].educationRisk - 1;
     const history = useHistory();
 
     const onClickCardHandler = event => {
@@ -23,9 +27,10 @@ const PriorityClient = (props) => {
                 <Card.Body>
                     <div className="client-name">{props.client.firstName} {props.client.lastName}</div>
                     <div>
-                        <Badge variant="danger">{risks[props.client.riskHistories.riskSum]}</Badge>
+                        <Badge className="health-risk-badge" variant={variants[healthRisk]}>{risks[healthRisk]} Health Risk</Badge>
+                        <Badge variant={variants[socialRisk]}>{risks[socialRisk]} Social Risk</Badge>
+                        <Badge variant={variants[educationRisk]}>{risks[educationRisk]} Education Risk</Badge>
                     </div>
-   
                     <div className="attribute">
                         <div className="attribute-title">Zone</div>
                         <div className="attribute-value">{props.client.zoneName.name}</div>
