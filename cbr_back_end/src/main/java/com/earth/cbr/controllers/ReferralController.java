@@ -3,6 +3,7 @@ package com.earth.cbr.controllers;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
+import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.models.Referral;
 import com.earth.cbr.services.ReferralService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,11 @@ public class ReferralController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getReferralById(@PathVariable Long id) {
+    public ResponseEntity<JSONObject> getReferralById(@PathVariable Long id)
+            throws ObjectDoesNotExistException {
+        if (referralService.getReferralById(id) == null) {
+            throw new ObjectDoesNotExistException("Referral with that ID does not exist");
+        }
         Referral referral = referralService.getReferralById(id);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", referral);
@@ -55,14 +60,19 @@ public class ReferralController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> updateReferralById(@PathVariable Long id, @RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException {
+    @PutMapping
+    public ResponseEntity<JSONObject> updateReferralById(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
         JSONObject referralJSON = payload.getJSONObject("data");
 
         if (referralJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Referral data");
         }
+
+        if(referralService.getReferralById(referralJSON.getLong("id")) == null) {
+            throw new ObjectDoesNotExistException("Referral with that ID does not exist");
+        }
+
         String referralString = referralJSON.toJSONString();
 
         JSONObject responseJson = new JSONObject();
@@ -75,11 +85,14 @@ public class ReferralController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @DeleteMapping
-    public ResponseEntity<JSONObject> deleteReferral(@RequestBody JSONObject payload) {
-        Integer referralIdInt = (Integer) payload.get("id");
-        Long referralId = Long.valueOf(referralIdInt);
-        referralService.deleteReferralById(referralId);
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> deleteReferral(@PathVariable Long id)
+            throws ObjectDoesNotExistException {
+        if(referralService.getReferralById(id) == null) {
+            throw new ObjectDoesNotExistException("Referral with that ID does not exist");
+        }
+
+        referralService.deleteReferralById(id);
         return ResponseEntity.ok().body(null);
     }
 }
