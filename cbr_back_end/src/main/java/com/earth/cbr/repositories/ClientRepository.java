@@ -8,9 +8,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Long> {
-    Page<Client> findByFirstNameContaining(Pageable pageable, String firstName);
-    Page<Client> findByLastNameContaining(Pageable pageable, String lastName);
+    Page<Client> findAllByFirstNameContaining(Pageable pageable, String firstName);
+    Page<Client> findAllByLastNameContaining(Pageable pageable, String lastName);
     Page<Client> findAllByCbrWorkerId(Pageable pageable, Long cbrWorkerId);
     Page<Client> findAllByZone(Pageable pageable, Integer zone);
-    Page<Client> findByVillageNumber(Pageable pageable, Integer villageNumber);
+    Page<Client> findAllByVillageNumber(Pageable pageable, Integer villageNumber);
 }

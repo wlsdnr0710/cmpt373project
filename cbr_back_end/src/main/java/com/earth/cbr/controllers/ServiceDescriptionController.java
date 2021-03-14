@@ -2,7 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.ObjectDoesNotExist;
+import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.ServiceDescription;
 import com.earth.cbr.services.ServiceDescriptionService;
@@ -28,9 +28,9 @@ public class ServiceDescriptionController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getServiceDescriptionById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> getServiceDescriptionById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(serviceDescriptionService.getServiceDescriptionById(id) == null) {
-            throw new ObjectDoesNotExist("ServiceDescription with that ID does not exist");
+            throw new ObjectDoesNotExistException("ServiceDescription with that ID does not exist");
         }
 
         ServiceDescription serviceDescription = serviceDescriptionService.getServiceDescriptionById(id);
@@ -62,7 +62,7 @@ public class ServiceDescriptionController {
 
     @PutMapping
     public ResponseEntity<JSONObject> updateServiceDescriptionById(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
+            throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
         JSONObject serviceDescriptionJSON = payload.getJSONObject("data");
 
         if (serviceDescriptionJSON == null) {
@@ -70,7 +70,7 @@ public class ServiceDescriptionController {
         }
 
         if(serviceDescriptionService.getServiceDescriptionById(serviceDescriptionJSON.getLong("id")) == null) {
-            throw new ObjectDoesNotExist("ServiceDescription with that ID does not exist");
+            throw new ObjectDoesNotExistException("ServiceDescription with that ID does not exist");
         }
 
         String serviceDescriptionString = serviceDescriptionJSON.toJSONString();
@@ -87,9 +87,9 @@ public class ServiceDescriptionController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteServiceDescriptionById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> deleteServiceDescriptionById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(serviceDescriptionService.getServiceDescriptionById(id) == null) {
-            throw new ObjectDoesNotExist("ServiceDescription with that ID does not exist");
+            throw new ObjectDoesNotExistException("ServiceDescription with that ID does not exist");
         }
 
         serviceDescriptionService.deleteServiceDescriptionById(id);
