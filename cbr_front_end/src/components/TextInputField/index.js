@@ -1,10 +1,10 @@
 import React from "react";
-import * as helper from "../HelperFunctions";
+import { getLabelTag } from "../../utils/Utilities";
 
 const TextInputField = ({ name, value, onChange, isDisabled, label }) => {
   return (
     <div>
-      {helper.getLabelTag(label)}
+      {getLabelTag(label)}
       <input
         type="text"
         name={name}
