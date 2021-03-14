@@ -34,6 +34,10 @@ export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
 };
 
+export const getVisitsInformationFromServer = (clientId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId, {headers: requestHeader});
+};
+
 export const updateClientInformationToServer = (clientInformation, requestHeader) => {
     return axios.put(ServerConfig.api.url + '/api/v1/client/', {"data" : clientInformation}, {headers: requestHeader});
 }
