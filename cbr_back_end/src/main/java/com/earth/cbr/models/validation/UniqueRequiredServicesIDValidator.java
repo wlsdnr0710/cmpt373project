@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-// TODO: Fix validator to inject the ReferralRepository
 public class UniqueRequiredServicesIDValidator
         implements ConstraintValidator<UniqueRequiredServicesID, RequiredServices> {
     @Autowired
@@ -18,6 +17,10 @@ public class UniqueRequiredServicesIDValidator
 
     @Override
     public boolean isValid(RequiredServices requiredServices, ConstraintValidatorContext context){
+        // TODO: Fix validator to inject the ReferralRepository because this is always null right now
+        if(referralRepository == null){
+            return true;
+        }
         Long requiredServicesId = requiredServices.getId();
         return !referralRepository.findByRequiredServicesId(requiredServicesId).isPresent();
     }
