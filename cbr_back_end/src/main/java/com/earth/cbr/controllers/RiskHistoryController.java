@@ -2,8 +2,8 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
+import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.models.RiskHistory;
 import com.earth.cbr.services.RiskHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +28,7 @@ public class RiskHistoryController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getRiskHistoryById(@PathVariable Long id)
-            throws ObjectDoesNotExistException {
+    public ResponseEntity<JSONObject> getRiskHistoryById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(riskHistoryService.getRiskHistoryById(id) == null) {
             throw new ObjectDoesNotExistException("Risk History with that ID does not exist");
         }
@@ -88,8 +87,7 @@ public class RiskHistoryController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteRiskHistoryById(@PathVariable Long id)
-            throws ObjectDoesNotExistException {
+    public ResponseEntity<JSONObject> deleteRiskHistoryById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(riskHistoryService.getRiskHistoryById(id) == null) {
             throw new ObjectDoesNotExistException("Risk History with that ID does not exist");
         }

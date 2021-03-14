@@ -1,29 +1,20 @@
 import React from "react";
-import {parseEpochToDateString} from "../../utils/Utilities"
-import "./style.css";
+import { parseEpochToDateString } from "../../utils/Utilities";
+import "./style.css"
 
-const RiskHeader = (includeHeader) => {
-  if (includeHeader) {
-    return <h1>Risk Levels</h1>;
-  } else {
-    return;
-  }
-};
-
-const RiskDateInformation = (includeDateInformation, date) => {
-  if (includeDateInformation) {
-    return <div>Created: {parseEpochToDateString(date)} <hr /></div>;
-  } else {
-    return;
-  }
-};
-
-const RiskInformation = ({ riskObject, includeHeader, includeDateInformation }) => {
+const RiskDateInformation = (date) => {
   return (
-    <div className="risk-information-card">
-      {RiskHeader(includeHeader)}
+    <div>
+      Created: {parseEpochToDateString(date)} <hr />
+    </div>
+  );
+};
+
+const RiskUpdateEntry = ({ riskObject }) => {
+  return (
+    <div className="risk-update-card">
       <div className="risk-entry">
-        {RiskDateInformation(includeDateInformation, riskObject.createdDate)}
+        {RiskDateInformation(riskObject.createdDate)}
       </div>
       <div className="risk-entry">
         <strong>Health </strong>: {riskObject.healthRisk}
@@ -47,4 +38,4 @@ const RiskInformation = ({ riskObject, includeHeader, includeDateInformation }) 
   );
 };
 
-export default RiskInformation;
+export default RiskUpdateEntry;

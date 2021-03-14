@@ -30,6 +30,14 @@ public class ClientController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/top5")
+    public ResponseEntity<JSONObject> getTop5ClientsWithHighestRisk() {
+        List<Client> clients = clientService.getTop5ClientsWithHighestRisk();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", clients);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}")
     public ResponseEntity<JSONObject> getClientsByPage(@PathVariable int pageNumber, @PathVariable int pageSize) {
         Page<Client> clients = clientService.getClientsByPage(pageNumber - 1 , pageSize);

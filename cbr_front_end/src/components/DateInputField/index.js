@@ -1,10 +1,10 @@
 import React from "react";
-import * as helper from "../HelperFunctions";
+import { getLabelTag } from "../../utils/Utilities";
 
 const DateInputField = ({ name, value, onChange, isDisabled, label }) => {
   return (
     <div>
-      {helper.getLabelTag(label)}  
+      {getLabelTag(label)}  
       <input
         type="date"
         name={name}
