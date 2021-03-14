@@ -109,24 +109,26 @@ const ViewVisits = (props) => {
     }
 
     return (
-        <Accordion>
-            <Card>
-                <Card.Header>
-                    <Accordion.Toggle as={Button} variant="link" eventKey={props.visit.id}>
-                        {parseEpochToDateString(props.visit.date)}
-                    </Accordion.Toggle>
-                </Card.Header>
-            <Accordion.Collapse eventKey={props.visit.id}>
-                <Card.Body>
-                    {overview()}
-                    <hr />
-                    {goals()}
-                    <hr />
-                    {services()}
-                </Card.Body>
-            </Accordion.Collapse>
-            </Card>
-        </Accordion>
+        <div className="view-visit">
+            <Accordion>
+                <Card>
+                    <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey={props.visit.id}>
+                            {parseEpochToDateString(props.visit.date)}
+                        </Accordion.Toggle>
+                    </Card.Header>
+                <Accordion.Collapse eventKey={props.visit.id}>
+                    <Card.Body>
+                        {overview()}
+                        <hr />
+                        {goals()}
+                        <hr />
+                        {services()}
+                    </Card.Body>
+                </Accordion.Collapse>
+                </Card>
+            </Accordion>
+        </div>
     );
 }
 

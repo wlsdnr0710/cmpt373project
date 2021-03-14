@@ -1,11 +1,11 @@
-.body {
+.view-visit .body {
     background-color: #E9E9E6;
     border-radius: 5px;
     padding: 0.5rem;
     margin-bottom: 1rem;
 }
 
-.entry{
+.view-visit .entry {
     margin: 1vh 1vw;
 }
 

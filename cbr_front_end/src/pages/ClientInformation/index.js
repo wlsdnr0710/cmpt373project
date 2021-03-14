@@ -11,7 +11,7 @@ import DisabilityInformation from "../../components/DisabilityInformation";
 import axios from 'axios';
 import qs from "query-string";
 import ServerConfig from '../../config/ServerConfig';
-import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getLatestRiskUpdate} from "../../utils/Utilities";
+import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getLatestRiskUpdate, getVisitsInformationFromServer} from "../../utils/Utilities";
 import "./styles.css";
 
 const ClientInfo = props => {
@@ -62,18 +62,12 @@ const ClientInfo = props => {
       });
   }, [clientId]);
 
-  const getVisits = () => {
+  const getVisitsDataByGetRequest = () => {
     const requestHeader = {
       token: getToken()
     };
-    axios.get(
-      ServerConfig.api.url + "/api/v1/visit/clientId/" + clientId,
-        {
-          headers: requestHeader,
-        }
-      )
+    getVisitsInformationFromServer(clientId, requestHeader)
     .then(response => {
-      console.log(response.data.data);
       setVisits(response.data.data);
     });
   };
@@ -116,7 +110,7 @@ const ClientInfo = props => {
 
   useEffect(() => {
     getClientDataByGetRequest();
-    getVisits();
+    getVisitsDataByGetRequest();
   }, [getClientDataByGetRequest]);
 
   return (
@@ -151,7 +145,7 @@ const ClientInfo = props => {
         </main>
       </BackgroundCard>
     </div >
-    <div className="visit-tab">
+    <div className="view-all-visits-details">
         <BackgroundCard heading="Visits">
            {createVisitListComponents()}
            <div className="client-information-hr mt-3">
