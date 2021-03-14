@@ -2,12 +2,14 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.exceptions.ColumnNotFoundException;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,19 +42,33 @@ public class ClientController {
     public ResponseEntity<JSONObject> getClientsByPageSorted(@PathVariable int pageNumber,
                                                              @PathVariable int pageSize,
                                                              @PathVariable String sortBy,
-                                                             @PathVariable boolean sortOrder) {
-        Page<Client> clients = clientService.getClientsByPageSorted(pageNumber - 1, pageSize, sortBy, sortOrder);
+                                                             @PathVariable boolean sortOrder) throws ColumnNotFoundException {
+        Page<Client> clients = null;
+
+        try {
+            clients = clientService.getClientsByPageSorted(pageNumber - 1, pageSize, sortBy, sortOrder);
+        } catch (PropertyReferenceException e){
+            throw new ColumnNotFoundException("Cannot sort based on this column");
+        }
+
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/filterBy/{filterBy}/filter/{filter}")
+    @GetMapping(value = "/pageNumber/{pageNumber}/pageSize/{pageSize}/filterBy/{filterBy}/searchBy/{searchBy}")
     public ResponseEntity<JSONObject> getClientsByPageFiltered(@PathVariable int pageNumber,
                                                                @PathVariable int pageSize,
                                                                @PathVariable String filterBy,
-                                                               @PathVariable String filter) {
-        Page<Client> clients = clientService.getClientsByPageFiltered(pageNumber - 1, pageSize, filterBy, filter);
+                                                               @PathVariable String searchBy) throws ColumnNotFoundException {
+        Page<Client> clients = null;
+
+        try {
+            clients = clientService.getClientsByPageFiltered(pageNumber - 1, pageSize, filterBy, searchBy);
+        } catch (PropertyReferenceException e) {
+            throw new ColumnNotFoundException("Cannot search based on this column");
+        }
+
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);
@@ -62,15 +78,22 @@ public class ClientController {
     public ResponseEntity<JSONObject> getClientsByPageFilteredAndSorted(@PathVariable int pageNumber,
                                                                         @PathVariable int pageSize,
                                                                         @PathVariable String filterBy,
-                                                                        @PathVariable String filter,
+                                                                        @PathVariable String searchBy,
                                                                         @PathVariable String sortBy,
-                                                                        @PathVariable boolean sortOrder) {
-        Page<Client> clients = clientService.getClientsByPageFilteredAndSorted(pageNumber - 1,
-                                                                                pageSize,
-                                                                                filterBy,
-                                                                                filter,
-                                                                                sortBy,
-                                                                                sortOrder);
+                                                                        @PathVariable boolean sortOrder) throws ColumnNotFoundException {
+        Page<Client> clients = null;
+
+        try {
+            clients = clientService.getClientsByPageFilteredAndSorted(pageNumber - 1,
+                                                                        pageSize,
+                                                                        filterBy,
+                                                                        searchBy,
+                                                                        sortBy,
+                                                                        sortOrder);
+        } catch (PropertyReferenceException e) {
+            throw new ColumnNotFoundException("Cannot search/sort based on this column");
+        }
+
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
         return ResponseEntity.ok().body(responseJson);

@@ -6,7 +6,6 @@
 package com.earth.cbr.exceptions;
 
 import com.alibaba.fastjson.JSONObject;
-import org.hibernate.PropertyAccessException;
 import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,8 +59,15 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(ObjectDoesNotExistException.class)
-    public ResponseEntity<Object> handleIdDoesNotExistException(
+    public ResponseEntity<Object> handleObjectDoesNotExistException(
             ObjectDoesNotExistException ex,
+            WebRequest request) {
+        return standardExceptionHandling(ex);
+    }
+
+    @ExceptionHandler(ColumnNotFoundException.class)
+    public ResponseEntity<Object> handleColumnNotFoundException(
+            ColumnNotFoundException ex,
             WebRequest request) {
         return standardExceptionHandling(ex);
     }
@@ -69,6 +75,13 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<Object> handleNumberFormatException(
             NumberFormatException ex,
+            WebRequest request) {
+        return standardExceptionHandling(ex);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<Object> handlePropertyReferenceException(
+            PropertyReferenceException ex,
             WebRequest request) {
         return standardExceptionHandling(ex);
     }
