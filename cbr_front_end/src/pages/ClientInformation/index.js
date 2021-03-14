@@ -3,6 +3,8 @@ import { useHistory } from "react-router-dom";
 import { getToken, doAuthentication } from "../../utils/AuthenticationUtil";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
+import ViewVisits from "../../components/ViewVisits";
+import Accordion from 'react-bootstrap/Accordion';
 import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../components/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
@@ -13,6 +15,7 @@ import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getLat
 import "./styles.css";
 
 const ClientInfo = props => {
+  const[visits, setVisits] = useState([]);
   const history = useHistory();
   doAuthentication(history);
 
@@ -59,6 +62,35 @@ const ClientInfo = props => {
       });
   }, [clientId]);
 
+  const getVisits = () => {
+    const requestHeader = {
+      token: getToken()
+    };
+    axios.get(
+      ServerConfig.api.url + "/api/v1/visit/clientId/" + clientId,
+        {
+          headers: requestHeader,
+        }
+      )
+    .then(response => {
+      console.log(response.data.data);
+      setVisits(response.data.data);
+    });
+  };
+
+  const createVisitListComponents = () => {
+    const visitComponents = [];
+    if(visits === undefined || visits.length === 0) {
+      return (<p>There are no visits.</p>);
+    }
+    else {
+      for (const index in visits) {
+        visitComponents.push(<ViewVisits visit={visits[index]} key={index}/>);
+      }
+        return visitComponents;
+    }
+  };
+
   const parseISODateString = ISODateString => {
     const epoch = parseDateStringToEpoch(ISODateString);
     return parseEpochToDateString(epoch);
@@ -84,9 +116,11 @@ const ClientInfo = props => {
 
   useEffect(() => {
     getClientDataByGetRequest();
+    getVisits();
   }, [getClientDataByGetRequest]);
 
   return (
+  <div>
     < div >
       <BackgroundCard>
         <main className>
@@ -122,6 +156,12 @@ const ClientInfo = props => {
         </main>
       </BackgroundCard>
     </div >
+    <div className="visit-tab">
+        <BackgroundCard heading="Visits">
+           {createVisitListComponents()}
+       </BackgroundCard>
+    </div>
+    </div>
   );
 };
 
