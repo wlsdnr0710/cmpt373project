@@ -26,6 +26,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public List<Client> getTop5ClientsWithHighestRisk() {
+        return clientRepository.findTop5ClientsWithHighestRisk();
+    }
+
+    @Override
     public Page<Client> getClientsByPage(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return clientRepository.findAll(pageable);
