@@ -79,12 +79,12 @@ public class Referral {
     )
     private String outcome;
 
-    @OneToOne(optional = false, cascade = CascadeType.PERSIST)
+    @OneToOne(optional = false)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
     @NotNull(message = "Required Services cannot be null")
     private RequiredServices requiredServices;
 
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JoinColumn(name = "physiotherapy_id", referencedColumnName = "id")
     private Physiotherapy physiotherapy;
 

@@ -27,7 +27,7 @@ public class PhysiotherapyServiceImpl implements PhysiotherapyService {
     @Override
     public Physiotherapy getPhysiotherapyById(Long id) {
         Optional<Physiotherapy> physiotherapyOptional = physiotherapyRepository.findById(id);
-        Physiotherapy physiotherapy = physiotherapyOptional.get();
+        Physiotherapy physiotherapy = physiotherapyOptional.orElse(null);
         return physiotherapy;
     }
 

@@ -27,7 +27,7 @@ public class ReferralServiceImpl implements ReferralService {
     @Override
     public Referral getReferralById(Long id) {
         Optional<Referral> referralOptional = referralRepository.findById(id);
-        Referral referral = referralOptional.get();
+        Referral referral = referralOptional.orElse(null);
         return referral;
     }
 
