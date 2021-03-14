@@ -1,5 +1,7 @@
 package com.earth.cbr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
@@ -25,6 +27,7 @@ public class Physiotherapy {
     @NotBlank(message = "Description is mandatory")
     private String description;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "physiotherapy")
     private Set<Referral> referrals;
 

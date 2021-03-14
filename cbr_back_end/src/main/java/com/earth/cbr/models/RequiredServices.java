@@ -1,5 +1,7 @@
 package com.earth.cbr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity(name = "Required_Services")
@@ -45,6 +47,7 @@ public class RequiredServices {
     )
     private String otherDescription;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "requiredServices")
     private Referral referral;
 

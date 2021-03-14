@@ -75,11 +75,11 @@ public class Referral {
     )
     private String outcome;
 
-    @OneToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @OneToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
     private RequiredServices requiredServices;
 
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "physiotherapy_id", referencedColumnName = "id")
     private Physiotherapy physiotherapy;
 
