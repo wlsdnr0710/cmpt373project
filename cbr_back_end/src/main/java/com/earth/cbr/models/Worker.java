@@ -89,8 +89,15 @@ public class Worker {
 
     }
 
-    public Worker(String firstName, String lastName, String username, String password, String phone, String email,
-                  Role role, Integer zone, Zone zoneName) {
+    public Worker(String firstName,
+                  String lastName,
+                  String username,
+                  String password,
+                  String phone,
+                  String email,
+                  Role role,
+                  Integer zone,
+                  Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

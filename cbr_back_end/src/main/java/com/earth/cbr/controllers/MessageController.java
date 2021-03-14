@@ -2,7 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.ObjectDoesNotExist;
+import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Message;
 import com.earth.cbr.services.MessageService;
@@ -36,9 +36,9 @@ public class MessageController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getMessageById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> getMessageById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(messageService.getMessageById(id) == null) {
-            throw new ObjectDoesNotExist("Message with that ID does not exist");
+            throw new ObjectDoesNotExistException("Message with that ID does not exist");
         }
 
         Message message = messageService.getMessageById(id);
@@ -70,7 +70,7 @@ public class MessageController {
 
     @PutMapping
     public ResponseEntity<JSONObject> updateMessageById(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
+            throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
         JSONObject messageJSON = payload.getJSONObject("data");
 
         if (messageJSON == null) {
@@ -78,7 +78,7 @@ public class MessageController {
         }
 
         if(messageService.getMessageById(messageJSON.getLong("id")) == null) {
-            throw new ObjectDoesNotExist("Message with that ID does not exist");
+            throw new ObjectDoesNotExistException("Message with that ID does not exist");
         }
 
         String messageString = messageJSON.toJSONString();
@@ -95,9 +95,9 @@ public class MessageController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteMessageById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> deleteMessageById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(messageService.getMessageById(id) == null) {
-            throw new ObjectDoesNotExist("Message with that ID does not exist");
+            throw new ObjectDoesNotExistException("Message with that ID does not exist");
         }
 
         messageService.deleteMessageById(id);

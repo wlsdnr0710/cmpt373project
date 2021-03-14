@@ -65,7 +65,12 @@ public class ServiceDescription {
 
     }
 
-    public ServiceDescription(Integer visitId, String description, Integer serviceOptionId, Type type, Visit visit, ServiceOption serviceOption) {
+    public ServiceDescription(Integer visitId,
+                              String description,
+                              Integer serviceOptionId,
+                              Type type,
+                              Visit visit,
+                              ServiceOption serviceOption) {
         this.visitId = visitId;
         this.description = description;
         this.type = type;
