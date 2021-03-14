@@ -1,0 +1,19 @@
+.risk-update-card{
+    background-color: #fff;
+    border-radius: 5px;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+}
+
+.risk-update-card .risk-entry{
+    margin: 1vh 1vw;
+}
+
+.risk-update-card .risk-description{
+    padding-left: 1rem;
+}
+
+.risk-update-card hr {
+    margin: 0 0.5vw 0.5vh;
+    width: 50%;
+}

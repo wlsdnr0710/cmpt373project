@@ -48,7 +48,7 @@ const disabilityTypeCheckBoxes = ({ values, getOnChangeHandlers, isDisabled }) =
                 name="Hydrocephalus"
                 value={values["Hydrocephalus"]}
                 actionHandler={getOnChangeHandlers("Hydrocephalus")}
-                displayText={"SHydrocephalus"}
+                displayText={"Hydrocephalus"}
                 displayTextOnRight
                 isDisabled={isDisabled}
             />
