@@ -126,9 +126,20 @@ public class Visit {
 
     }
 
-    public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, Integer zone, Integer villageNumber,
-                 Progress healthGoalProgress, String healthOutcome, Progress socialGoalProgress, String socialOutcome,
-                 Progress educationGoalProgress, String educationOutcome, Long clientId, Zone zoneName,
+    public Visit(Integer consent,
+                 Date date,
+                 String cbrWorkerName,
+                 String purpose,
+                 Integer zone,
+                 Integer villageNumber,
+                 Progress healthGoalProgress,
+                 String healthOutcome,
+                 Progress socialGoalProgress,
+                 String socialOutcome,
+                 Progress educationGoalProgress,
+                 String educationOutcome,
+                 Long clientId,
+                 Zone zoneName,
                  Set<ServiceDescription> serviceDescription) {
         this.consent = consent;
         this.date = date;
