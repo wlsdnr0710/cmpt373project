@@ -50,7 +50,7 @@ public class ServiceDescription {
     private Visit visit;
 
     @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "service_option_id", referencedColumnName = "id", insertable = false, updatable = false)
     private ServiceOption serviceOption;
 
     public ServiceDescription(){

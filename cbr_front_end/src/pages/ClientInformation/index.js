@@ -147,11 +147,6 @@ const ClientInfo = props => {
                 Edit
               </button>
             </div>
-            <div className="client-information-hr mt-3">
-              <button type="button" className="btn btn-primary" onClick={onClickGetNewVisitPage}>
-                Add Visit
-              </button>
-            </div>
           </div>
         </main>
       </BackgroundCard>
@@ -159,6 +154,11 @@ const ClientInfo = props => {
     <div className="visit-tab">
         <BackgroundCard heading="Visits">
            {createVisitListComponents()}
+           <div className="client-information-hr mt-3">
+             <button type="button" className="btn btn-primary" onClick={onClickGetNewVisitPage}>
+               Add Visit
+             </button>
+           </div>
        </BackgroundCard>
     </div>
     </div>
