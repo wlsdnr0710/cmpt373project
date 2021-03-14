@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+import axios from 'axios';
+import ServerConfig from '../../config/ServerConfig';
+import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
 import "./style.css";
 import PriorityClient from '../../components/PriorityClient';
 
@@ -6,40 +9,18 @@ const PriorityClientList = () => {
     const [priorityClients, setPriorityClients] = useState([]);
 
     const getPriorityClients = () => {
-        // TODO: Replace with API call for priorty patients. 
-        //      Add sorting function / Filter button if necessary. (I think we need filterin functionality by patient's zone and risk category.)
-        setPriorityClients([
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.get(
+            ServerConfig.api.url + "/api/v1/client/top5",
             {
-                "Name": "Patrick Taban",
-                "Risk": "Critical Health Risk",
-                "Zone": "Bidibidi Zone 1",
-                "Date": "01/10/2020",
-            }, 
-            {
-                "Name": "Isaac Woolyan",
-                "Risk": "High Education Risk / High Social Risk",
-                "Zone": "Bidibidi Zone 2",
-                "Date": "01/10/2021",
-            },
-            {
-                "Name": "Agnes Kenyi",
-                "Risk": "Critical Health Risk / High Social Risk",
-                "Zone": "Bidibidi Zone 3",
-                "Date": "12/12/2020",
-            },
-            {
-                "Name": "Jane Doe",
-                "Risk": "Medium Health Risk",
-                "Zone": "Bidibidi Zone 1",
-                "Date": "11/23/2020",
-            },
-            {
-                "Name": "John Smith",
-                "Risk": "Medium Education Risk",
-                "Zone": "Bidibidi Zone 3",
-                "Date": "10/16/2020",
-            },
-        ]);
+                headers: requestHeader,
+            }
+        )
+        .then(response => {
+            setPriorityClients(response.data.data);
+        });
     };
 
     useEffect(()=> {
@@ -49,7 +30,7 @@ const PriorityClientList = () => {
     const createPriorityClientListComponents = () => {
         const priorityClientsClientComponents = [];
         if(priorityClients === undefined || priorityClients.length === 0) {
-            return (<p>Currently there isn't any priority client.</p>);
+            return (<p>Currently there are no priority clients.</p>);
         }
         else {
             for (const index in priorityClients) {
@@ -61,7 +42,7 @@ const PriorityClientList = () => {
 
     return (
         <div className='priority-client-list'>
-            <div className="priority-client-title">Priority Clients</div> 
+            <div className="priority-client-title">Priority Clients</div>
             {createPriorityClientListComponents()}
         </div>
     );

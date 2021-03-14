@@ -9,7 +9,26 @@ export const parseEpochToDateString = epoch => {
     return new Date(epoch).toDateString();
 };
 
-//TODO: move helper functions into this file
+const containsValidLabel = label => {
+    if (label !== undefined) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+  
+  export const getLabelTag = label => {
+    if (containsValidLabel(label)) {
+      return (
+        <div>
+          <label>{label}</label>
+        </div>
+      );
+    } else {
+      return;
+    }
+  }
+  
 
 export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});

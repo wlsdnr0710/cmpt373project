@@ -6,12 +6,12 @@ import ClientInformation from "../../components/ClientInformation";
 import ViewVisits from "../../components/ViewVisits";
 import Accordion from 'react-bootstrap/Accordion';
 import BackgroundCard from "../../components/BackgroundCard";
-import RiskInformation from "../../components/RiskInformation";
+import RiskInformation from "../../containers/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import axios from 'axios';
 import qs from "query-string";
 import ServerConfig from '../../config/ServerConfig';
-import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getLatestRiskUpdate, getVisitsInformationFromServer} from "../../utils/Utilities";
+import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getVisitsInformationFromServer} from "../../utils/Utilities";
 import "./styles.css";
 
 const ClientInfo = props => {
@@ -123,15 +123,13 @@ const ClientInfo = props => {
             clientObject={formInputs}
           />
           <hr className="client-information-hr" />
-          <div>
-            <h1>Risk Levels</h1>
-            <RiskInformation
-              className="client-risk-information"
-              riskObject={getLatestRiskUpdate(formInputs)}
-              includeDateInformation={true}
-            />
-          </div>
+          <h1>Risk Levels</h1>
+          <RiskInformation
+            className="client-risk-information"
+            riskHistories={formInputs.riskHistories}
+          />
           <hr className="client-information-hr" />
+          <h1>Disability and Ailment(s)</h1>
           <DisabilityInformation
             disabilityList={formInputs.disabilities}
           />

@@ -6,7 +6,6 @@ import MobileNavigationBar from "../../containers/MobileNavigationBar";
 import DesktopNavigationBar from "../DesktopNavigationBar";
 
 
-//TODO: Find way to import all assets at once 
 const PageTemplate = ({ children }) => {
   let history = useHistory();
   const getTopBar = () => {
