@@ -4,7 +4,7 @@ import { getToken, doAuthentication } from "../../utils/AuthenticationUtil";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
 import BackgroundCard from "../../components/BackgroundCard";
-import RiskInformation from "../../components/RiskInformation";
+import RiskInformation from "../../containers/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import axios from 'axios';
 import qs from "query-string";
@@ -99,11 +99,11 @@ const ClientInfo = props => {
             <h1>Risk Levels</h1>
             <RiskInformation
               className="client-risk-information"
-              riskObject={getLatestRiskUpdate(formInputs)}
-              includeDateInformation={true}
+              riskHistories={formInputs.riskHistories}
             />
           </div>
           <hr className="client-information-hr" />
+          <h1>Disability and Ailment(s)</h1>
           <DisabilityInformation
             disabilityList={formInputs.disabilities}
           />

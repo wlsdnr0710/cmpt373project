@@ -7,7 +7,7 @@ import avatar from "../../assets/avatar.png";
 import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
-import RiskInformation from "../../components/RiskInformation";
+import RiskInformation from "../RiskInformation";
 import { getToken } from "../../utils/AuthenticationUtil";
 import {
   deleteClientFromServer,
@@ -64,18 +64,19 @@ const EditClientForm = (props) => {
     updateClientInformation(name, value);
   };
 
-  const saveChangesAndPushClientInformationPage = () => {
+  const saveChangesAndPushClientInformationPage = event => {
+    event.preventDefault();
     const requestHeader = {
       token: getToken(),
     };
     updateClientInformationToServer(clientInformation, requestHeader)
       .then((response) => {
         //TODO: Inform the client information page that the save was a success
+        history.push("/client-information?id=" + clientInformation["id"]);
       })
       .catch((error) => {
         console.log("ERROR: Put request failed." + error);
       });
-    history.push("/client-information?id=" + clientInformation["id"]);
   };
 
   const updateClientInformation = (name, value) => {
@@ -93,11 +94,11 @@ const EditClientForm = (props) => {
     deleteClientFromServer(clientId, requestHeader)
       .then((response) => {
         //TODO:Inform the view client page that the deletetion was a success
+        history.push("view-client?query=clients");
       })
       .catch((error) => {
         console.log("ERROR: Delete request failed. " + error);
       });
-    history.push("view-client?query=clients");
   };
 
   const [showImageUploader, setImageUploader] = useState(false);
@@ -116,7 +117,7 @@ const EditClientForm = (props) => {
         />
       );
     } else {
-      return;
+      return null;
     }
   };
 
@@ -205,8 +206,7 @@ const EditClientForm = (props) => {
       <div>
         <h1>Risk</h1>
         <RiskInformation
-          riskObject={getLatestRiskUpdate(clientInformation)}
-          includeDateInformation={true}
+          riskHistories={clientInformation.riskHistories}
         />
         <input
           className="btn btn-secondary update-risk-button"
@@ -216,6 +216,7 @@ const EditClientForm = (props) => {
       </div>
       <hr />
       <div>
+        <h1>Disability and Ailment(s)</h1>
         <DisabilityInformation
           disabilityList={clientInformation.disabilities}
         />
