@@ -31,7 +31,7 @@ public class ClientController {
     }
 
     @GetMapping(value = "/top5")
-    public ResponseEntity<JSONObject> getAllClientsSort5() {
+    public ResponseEntity<JSONObject> getTop5ClientsWithHighestRisk() {
         List<Client> clients = clientService.getTop5ClientsWithHighestRisk();
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);

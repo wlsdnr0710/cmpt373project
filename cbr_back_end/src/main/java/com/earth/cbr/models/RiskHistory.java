@@ -90,9 +90,6 @@ public class RiskHistory {
     @NotBlank(message = "Social Risk Description is mandatory")
     private String socialRiskDescription;
 
-    @Transient
-    private Integer riskSum;
-
     public RiskHistory() {
 
     }
@@ -108,8 +105,7 @@ public class RiskHistory {
                        String healthRiskDescription,
                        String socialGoal,
                        Integer socialRisk,
-                       String socialRiskDescription,
-                       Integer riskSum) {
+                       String socialRiskDescription) {
         this.id = id;
         this.client = client;
         this.createdDate = createdDate;
@@ -122,7 +118,6 @@ public class RiskHistory {
         this.socialGoal = socialGoal;
         this.socialRisk = socialRisk;
         this.socialRiskDescription = socialRiskDescription;
-        this.riskSum = riskSum;
     }
 
     public Long getId() {
@@ -219,13 +214,5 @@ public class RiskHistory {
 
     public void setSocialRiskDescription(String socialRiskDescription) {
         this.socialRiskDescription = socialRiskDescription;
-    }
-
-    public Integer getRiskSum() {
-        return healthRisk + socialRisk + educationRisk;
-    }
-
-    public void setRiskSum(Integer riskSum) {
-        this.riskSum = riskSum;
     }
 }
