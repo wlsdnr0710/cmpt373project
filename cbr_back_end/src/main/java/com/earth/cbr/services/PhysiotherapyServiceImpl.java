@@ -20,7 +20,7 @@ public class PhysiotherapyServiceImpl implements PhysiotherapyService {
     private PhysiotherapyRepository physiotherapyRepository;
 
     @Override
-    public List<Physiotherapy> getAllPhysiotherapys() {
+    public List<Physiotherapy> getAllPhysiotherapy() {
         return physiotherapyRepository.findAll();
     }
 

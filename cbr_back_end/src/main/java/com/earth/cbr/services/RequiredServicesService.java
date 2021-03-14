@@ -1,6 +1,7 @@
 package com.earth.cbr.services;
 
 import com.earth.cbr.models.RequiredServices;
+import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.List;
