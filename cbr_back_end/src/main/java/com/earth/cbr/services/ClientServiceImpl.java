@@ -26,8 +26,8 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<Client> getTop5ByOrderByRiskSumDesc() {
-        return clientRepository.findTop5ByOrderByIdDesc();
+    public List<Client> getTop5ClientsWithHighestRisk() {
+        return clientRepository.findTop5ClientsWithHighestRisk();
     }
 
     @Override

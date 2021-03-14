@@ -18,10 +18,7 @@ public interface ClientService {
                                                    String searchBy,
                                                    String sortBy,
                                                    Boolean ascending);
-    Page<Client> getClientsByPageFiltered(Integer pageNumber, Integer pageSize, String filterBy, String filter);
-    Page<Client> getClientsByPageFilteredAndSorted(Integer pageNumber, Integer pageSize, String filterBy, String filter,
-                                                   String sortBy, Boolean ascending);
-    List<Client> getTop5ByOrderByRiskSumDesc();
+    List<Client> getTop5ClientsWithHighestRisk();
     Client updateClientById(@Valid Client client);
     Client addClient(@Valid Client client);
     void deleteClientById(Long id);
