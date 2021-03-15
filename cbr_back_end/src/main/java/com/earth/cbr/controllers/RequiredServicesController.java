@@ -86,7 +86,7 @@ public class RequiredServicesController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteRequiredServices(@PathVariable Long id)
+    public ResponseEntity<JSONObject> deleteRequiredServicesById(@PathVariable Long id)
             throws ObjectDoesNotExistException {
         if(requiredServicesService.getRequiredServicesById(id) == null) {
             throw new ObjectDoesNotExistException("RequiredServices with that ID does not exist");

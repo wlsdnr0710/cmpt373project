@@ -86,7 +86,7 @@ public class PhysiotherapyController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deletePhysiotherapy(@PathVariable Long id)
+    public ResponseEntity<JSONObject> deletePhysiotherapyById(@PathVariable Long id)
             throws ObjectDoesNotExistException {
         if(physiotherapyService.getPhysiotherapyById(id) == null) {
             throw new ObjectDoesNotExistException("Physiotherapy with that ID does not exist");

@@ -21,7 +21,7 @@ public class Referral {
 
     @Column (
             name = "photo",
-            columnDefinition = "BOOLEAN"
+            columnDefinition = "TEXT"
     )
     private String photo;
 

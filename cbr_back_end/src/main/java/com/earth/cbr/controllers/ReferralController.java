@@ -86,7 +86,7 @@ public class ReferralController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteReferral(@PathVariable Long id)
+    public ResponseEntity<JSONObject> deleteReferralById(@PathVariable Long id)
             throws ObjectDoesNotExistException {
         if(referralService.getReferralById(id) == null) {
             throw new ObjectDoesNotExistException("Referral with that ID does not exist");
