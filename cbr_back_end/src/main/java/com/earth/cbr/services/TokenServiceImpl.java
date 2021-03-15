@@ -20,7 +20,7 @@ public class TokenServiceImpl implements TokenService {
     private Algorithm algorithm = Algorithm.HMAC256(tokenSecret);
     private JWTVerifier jwtVerifier = JWT.require(algorithm).build();
 
-    private long TOKEN_VALID_DAYS = 7;
+    private long TOKEN_VALID_DAYS = 1;
 
     @Autowired
     private WorkerService workerService;
