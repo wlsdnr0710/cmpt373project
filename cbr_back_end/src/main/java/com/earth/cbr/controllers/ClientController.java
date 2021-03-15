@@ -132,6 +132,9 @@ public class ClientController {
         JSONObject responseJson = new JSONObject();
         Client client = JSON.parseObject(clientString, Client.class);
 
+        client.setContactNumber(formatPhoneNumber(client.getContactNumber()));
+        client.setCaregiverContact(formatPhoneNumber(client.getCaregiverContact()));
+
         Client addedClient = clientService.addClient(client);
 
         // Need to tell front-end the new client's id
@@ -158,6 +161,9 @@ public class ClientController {
         JSONObject responseJson = new JSONObject();
         Client client = JSON.parseObject(clientString, Client.class);
 
+        client.setContactNumber(formatPhoneNumber(client.getContactNumber()));
+        client.setCaregiverContact(formatPhoneNumber(client.getCaregiverContact()));
+
         Client updatedClient = clientService.updateClientById(client);
 
         // get client's id to update UI
@@ -173,5 +179,15 @@ public class ClientController {
 
         clientService.deleteClientById(id);
         return ResponseEntity.ok().body(null);
+    }
+
+    private String formatPhoneNumber(String oldNumber) {
+        String newNumber = "";
+        for(Integer i = 0; i < oldNumber.length(); i++) {
+            if(Character.isDigit(oldNumber.charAt(i))) {
+                newNumber += oldNumber.charAt(i);
+            }
+        }
+        return newNumber;
     }
 }
