@@ -23,7 +23,7 @@ const defaultPurpose = {
 
 const defaultGoalInputs = {
     "Cancelled": "cancelled",
-    "Ongoin": "ongoing",
+    "Ongoing": "ongoing",
     "Concluded": "concluded",
 };
 
