@@ -429,7 +429,7 @@ const NewVisitForm = (props) => {
         setCurrDay(newDate.getDate());
         setCurrMonth(newDate.getMonth() + 1);
         setCurrYear(newDate.getFullYear());
-        updateFormInputByNameValue("date", Math.floor(newDate / 1000));
+        updateFormInputByNameValue("date", Math.floor(newDate.getTime()));
     }
 
     const initGeolocation = () => {
