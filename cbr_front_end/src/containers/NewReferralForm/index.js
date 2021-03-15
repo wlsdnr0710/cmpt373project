@@ -60,7 +60,7 @@ const NewReferralForm = props => {
 
     const defaultProstheticConditions = {
         "Above knee": "1",
-        "Below Knee": "2",
+        "Below knee": "2",
     };
 
     const getRequiredServicesCheckBoxesOnChangeHandler = name => {
@@ -185,7 +185,7 @@ const NewReferralForm = props => {
 
                 <div className="input-field-container">
                     <div>
-                        Is the injury below or above the elbow?
+                        Is the injury below or above the knee?
                     </div>
                     <DropdownList
                         dropdownName="prostheticConditions"
