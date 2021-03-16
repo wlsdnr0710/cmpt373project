@@ -77,35 +77,21 @@ const NewReferralForm = props => {
         };
     };
 
+    const requiredServiceMapNameToSetter = {
+        "prosthetic": setShowProstheticQuestions,
+        "orthotic": setShowOrthoticQuestions,
+        "physiotherapy": setShowPhysiotherapyQuestions,
+        "wheelchair": setShowWheelchairQuestions,
+        "other": setShowOtherDescription,
+    };
     const showSubQuestionsFor = (checkBoxesValues) => {
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "prosthetic")) {
-            setShowProstheticQuestions(true);
-        } else {
-            setShowProstheticQuestions(false);
-        }
-
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "orthotic")) {
-            setShowOrthoticQuestions(true)
-        } else {
-            setShowOrthoticQuestions(false)
-        }
-
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "physiotherapy")) {
-            setShowPhysiotherapyQuestions(true)
-        } else {
-            setShowPhysiotherapyQuestions(false)
-        }
-
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "wheelchair")) {
-            setShowWheelchairQuestions(true)
-        } else {
-            setShowWheelchairQuestions(false)
-        }
-
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "other")) {
-            setShowOtherDescription(true);
-        } else {
-            setShowOtherDescription(false);
+        for (const name in requiredServiceMapNameToSetter) {
+            const setter = requiredServiceMapNameToSetter[name];
+            if (isRequiredServiceCheckedByName(checkBoxesValues, name)) {
+                setter(true);
+            } else {
+                setter(false);
+            }
         }
     };
 
