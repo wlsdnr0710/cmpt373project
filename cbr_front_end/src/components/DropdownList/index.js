@@ -8,11 +8,18 @@ const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange 
     let listChildId = 0;
 
     for (const itemName in dropdownListItemsKeyValue) {
-      const itemValue = dropdownListItemsKeyValue[itemName];
+      let itemValue = "";
+      let name = itemName;
+      if (dropdownListItemsKeyValue[itemName].name !== null) {
+        itemValue = dropdownListItemsKeyValue[itemName].name;
+        name = itemValue;
+      } else {
+        itemValue = dropdownListItemsKeyValue[itemName];
+      }
 
       itemsInOptionTag.push(
         <option value={itemValue} key={listChildId}>
-          {itemName}
+          {name}
         </option>
       );
 

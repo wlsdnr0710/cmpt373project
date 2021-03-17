@@ -20,7 +20,7 @@ const PageTemplate = ({ children }) => {
   const [isCurrentPageLogin, setIsCurrentPageLogin] = useState(false);
   const location = useLocation();
   const hideNavInLoginPage = useCallback(() => {
-    const currentPageIsLogin = location.pathname.indexOf("login") !== -1;
+    const currentPageIsLogin = location.pathname.indexOf("login") !== -1 || location.pathname.indexOf("create-account") !== -1;
     setIsCurrentPageLogin(currentPageIsLogin);
   }, [location]);
 

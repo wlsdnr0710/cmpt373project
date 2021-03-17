@@ -1,12 +1,13 @@
 import React from 'react';
-import { doAuthentication } from "../../utils/AuthenticationUtil";
+import CreateAccountForm from "../../containers/CreateAccountForm";
+import ServerConfig from "../../config/ServerConfig";
 import "./style.css";
 
 const CreateAccount = () => {
 
     return (
-        <div>
-            <p>Create Account</p>
+        <div className="create-account">
+            <CreateAccountForm />
         </div>
     );
 };
