@@ -76,6 +76,9 @@ export default class Login extends Component {
                     {this.state.errorMessage &&
                         <h3 className="error"> {this.state.errorMessage} </h3>}
                 </form>
+                <div>
+                    Sign Up
+                </div>
             </div >
         )
     }
