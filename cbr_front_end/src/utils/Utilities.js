@@ -149,3 +149,10 @@ export const getDefaultPhysiotherapyConditions = () => {
     };
     return defaultPhysiotherapyConditions;
 };
+
+export const getDefaultNewSurveyObject = () => {
+  const defaultNewSurvey = {
+    "name": "",
+  };
+  return defaultNewSurvey;
+};
