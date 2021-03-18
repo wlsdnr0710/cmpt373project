@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import NewSurveyQuestion from "../NewSurveyQuestion";
 import TextInputField from "../../components/TextInputField";
@@ -45,8 +46,15 @@ const NewSurveyForm = () => {
                 {showSurveyQuestionInputFields()}
             </div>
 
-            <div>
-                <button onClick={onClickMoreQuestion}>More Question</button>
+            <div className="more-questions-button-container">
+                <Button
+                    variant="primary"
+                    size="sm"
+                    disabled={false}
+                    onClick={onClickMoreQuestion}
+                >
+                    More Questions
+                </Button>
             </div>
         </div>
     );

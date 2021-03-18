@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from 'react-bootstrap/Button';
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import TextInputField from "../../components/TextInputField";
@@ -15,8 +16,8 @@ const NewSurveyQuestion = () => {
         const numOptionsArray = [];
         for (let i = 0; i < numOptions; i++) {
             numOptionsArray.push(
-                <div key={i}>
-                    <div className="label-container">
+                <div key={i} className="input-field-container">
+                    <div className="label">
                         <label>Option {i + 1}:</label>
                     </div>
                     <TextInputField
@@ -43,13 +44,20 @@ const NewSurveyQuestion = () => {
                     />
                 </div>
                 <div>
-                    <button>Delete</button>
+                    <Button
+                        variant="danger"
+                        size="sm"
+                        disabled={false}
+                        onClick={() => { }}
+                    >
+                        Delete
+                    </Button>
                 </div>
             </div>
         );
     };
 
-    const onClickMoreOption = event => {
+    const onClickMoreOptions = event => {
         event.preventDefault();
         setNumOptions(oldNum => oldNum + 1);
     };
@@ -62,31 +70,42 @@ const NewSurveyQuestion = () => {
 
     return (
         <div className="new-survey-question">
-            <div className="">
-                <label>Question:</label>
+            <div className="input-field-container">
+                <div className="label">
+                    <label>Question:</label>
+                </div>
+                <TextInputField
+                    name="question"
+                    value={formInputs["question"]}
+                    onChange={() => { }}
+                    isDisabled={false}
+                />
             </div>
-            <TextInputField
-                name="question"
-                value={formInputs["question"]}
-                onChange={() => { }}
-                isDisabled={false}
-            />
 
-            <div className="">
-                <label>Question type:</label>
+            <div className="input-field-container">
+                <div className="label">
+                    <label>Question type:</label>
+                </div>
+                <DropdownList
+                    dropdownName="question_type"
+                    value={formInputs["question_type"]}
+                    dropdownListItemsKeyValue={defaultSurveyQuestionTypes}
+                    onChange={() => { }}
+                    isDisabled={false}
+                />
             </div>
-            <DropdownList
-                dropdownName="question_type"
-                value={formInputs["question_type"]}
-                dropdownListItemsKeyValue={defaultSurveyQuestionTypes}
-                onChange={() => { }}
-                isDisabled={false}
-            />
 
             {getOptionInputFields()}
 
             <div>
-                <button onClick={onClickMoreOption}>More Option</button>
+                <Button
+                    variant="info"
+                    size="sm"
+                    disabled={false}
+                    onClick={onClickMoreOptions}
+                >
+                    More Options
+                </Button>
             </div>
 
             <hr />
