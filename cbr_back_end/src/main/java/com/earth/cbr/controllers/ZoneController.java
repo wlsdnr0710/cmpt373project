@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Zone;
+import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class ZoneController {
     @Autowired
     private ZoneService zoneService;
 
+    @PassToken
     @GetMapping
     public ResponseEntity<JSONObject> getAllZones() {
         List<Zone> zones = zoneService.getAllZones();
