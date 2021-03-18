@@ -28,6 +28,14 @@
     background-color: whitesmoke;
 }
 
+.create-account-button {
+    margin:50px 0 0;
+    width: 170px;
+    height: 40px;
+    font-size: 20px;
+    background-color: whitesmoke;
+}
+
 .photo {
     height: 200px;
     width: 400px;

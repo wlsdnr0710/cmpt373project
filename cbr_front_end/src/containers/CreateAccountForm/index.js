@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getToken } from "../../utils/AuthenticationUtil";
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
-import ServerConfig from "../../config/ServerConfig";
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
 import BackgroundCard from "../../components/BackgroundCard";
 import Button from 'react-bootstrap/Button';
+import { addWorkerToServer, getZonesFromServer} from "../../utils/Utilities";
 import './style.css';
 
 const CreateAccountForm = () => {
@@ -36,44 +35,26 @@ const CreateAccountForm = () => {
 
     const [zoneList, setZoneList] = useState({});
 
-    const getAllZones = () => {
-        const requestHeader = {
-            token: getToken()
-        };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/zone",
-            {
-                headers: requestHeader,
-            }
-        )
+    const getZones = () => {
+        getZonesFromServer()
         .then(response => {
             setZoneList(response.data.data);
         });
     };
 
-    const onSubmit = () => {
+    const addNewWorker = () => {
         clearErrorMessages();
-        const requestHeader = {
-            token: getToken()
-        };
         getZoneId();
-        axios.post(ServerConfig.api.url + '/api/v1/worker',
-            {
-                "data": formInputs
-            },
-            {
-                headers: requestHeader,
-            }
-        )
+        addWorkerToServer(formInputs)
         .then(response => {
-            onSuccess();
+            onSubmitSuccess();
         })
         .catch(error => {
             updateErrorMessages(error);
         })
     };
 
-    const onSuccess = () => {
+    const onSubmitSuccess = () => {
         setIsSubmitSuccess(true);
         setTimeout(() => {
             history.push("/login");
@@ -163,7 +144,7 @@ const CreateAccountForm = () => {
     };
 
     useEffect(() => {
-        getAllZones();
+        getZones();
     }, []);
 
     return (
@@ -171,86 +152,86 @@ const CreateAccountForm = () => {
             <BackgroundCard>
                 <h1>Create Account</h1>
                 <hr />
-                <div className="form-input">
                 <strong>First Name:</strong>
-                <TextInputField
-                    name="firstName"
-                    value={formInputs["firstName"]}
-                    onChange={formInputChangeHandler}
-                    isDisabled={false}
-                />
-                </div>
                 <div className="form-input">
+                    <TextInputField
+                        name="firstName"
+                        value={formInputs["firstName"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
                 <strong>Last Name:</strong>
-                <TextInputField
-                    name="lastName"
-                    value={formInputs["lastName"]}
-                    onChange={formInputChangeHandler}
-                    isDisabled={false}
-                />
-                </div>
                 <div className="form-input">
+                    <TextInputField
+                        name="lastName"
+                        value={formInputs["lastName"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
                 <strong>Zone:</strong>
-                <DropdownList
-                    dropdownName="zone"
-                    value={formInputs["zone"]}
-                    dropdownListItemsKeyValue={zoneList}
-                    onChange={formInputChangeHandler}
-                    isDisabled={false}
-                />
-                </div>
                 <div className="form-input">
+                    <DropdownList
+                        dropdownName="zone"
+                        value={formInputs["zone"]}
+                        dropdownListItemsKeyValue={zoneList}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
                 <strong>Role:</strong>
-                <DropdownList
-                    dropdownName="role"
-                    value={formInputs["role"]}
-                    dropdownListItemsKeyValue={getRoleMapping()}
-                    onChange={formInputChangeHandler}
-                    isDisabled={false}
-                />
-                </div>
                 <div className="form-input">
+                    <DropdownList
+                        dropdownName="role"
+                        value={formInputs["role"]}
+                        dropdownListItemsKeyValue={getRoleMapping()}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
                 <strong>Username:</strong>
-                <TextInputField
-                    name="username"
-                    value={formInputs["username"]}
-                    onChange={formInputChangeHandler}
-                    isDisabled={false}
-                />
-                </div>
                 <div className="form-input">
+                    <TextInputField
+                        name="username"
+                        value={formInputs["username"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
                 <strong>Password:</strong>
-                <TextInputField
-                    name="password"
-                    value={formInputs["password"]}
-                    onChange={formInputChangeHandler}
-                    isDisabled={false}
-                />
-                </div>
                 <div className="form-input">
+                    <input
+                        type="password"
+                        name="password"
+                        value={formInputs["password"]}
+                        onChange={formInputChangeHandler}
+                    />
+                </div>
                 <strong>Email:</strong>
-                <TextInputField
-                    name="email"
-                    value={formInputs["email"]}
-                    onChange={formInputChangeHandler}
-                    isDisabled={false}
-                />
-                </div>
                 <div className="form-input">
+                    <TextInputField
+                        name="email"
+                        value={formInputs["email"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
+                </div>
                 <strong>Phone Number:</strong>
-                <TextInputField
-                    name="phone"
-                    value={formInputs["phone"]}
-                    onChange={formInputChangeHandler}
-                    isDisabled={false}
-                />
+                <div className="form-input">
+                    <TextInputField
+                        name="phone"
+                        value={formInputs["phone"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={false}
+                    />
                 </div>
                 <div className="form-input">
-                <Button
-                    onClick={onSubmit}
-                    variant="primary">
-                    Create
-                </Button>
+                    <Button
+                        onClick={addNewWorker}
+                        variant="primary">
+                        Submit
+                    </Button>
                 </div>
                 {showErrorMessages()}
                 {showSuccessMessage()}

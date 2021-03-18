@@ -11,24 +11,23 @@ export const parseEpochToDateString = epoch => {
 
 const containsValidLabel = label => {
     if (label !== undefined) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+}
   
-  export const getLabelTag = label => {
+export const getLabelTag = label => {
     if (containsValidLabel(label)) {
-      return (
-        <div>
-          <label>{label}</label>
-        </div>
-      );
+        return (
+            <div>
+                <label>{label}</label>
+            </div>
+        );
     } else {
-      return;
+        return;
     }
-  }
-  
+}
 
 export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
@@ -36,6 +35,14 @@ export const getClientInformationFromServer = (clientId, requestHeader) => {
 
 export const getVisitsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId, {headers: requestHeader});
+};
+
+export const addWorkerToServer = (workerInformation) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/worker/', {"data" : workerInformation});
+};
+
+export const getZonesFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/zone/');
 };
 
 export const updateClientInformationToServer = (clientInformation, requestHeader) => {
