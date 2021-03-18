@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getToken } from "../../utils/AuthenticationUtil";
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import ServerConfig from "../../config/ServerConfig";
@@ -10,6 +11,9 @@ import Button from 'react-bootstrap/Button';
 import './style.css';
 
 const CreateAccountForm = () => {
+    const history = useHistory();
+    const [errorMessages, setErrorMessages] = useState([]);
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
 
     const getRoleMapping = () => {
         return {
@@ -22,8 +26,8 @@ const CreateAccountForm = () => {
     const [formInputs, setFormInputs] = useState({
         "firstName": "",
         "lastName": "",
-        "zone": 0,
-        "role": "",
+        "zone": 1,
+        "role": "Worker",
         "email": "",
         "phone": "",
         "username": "",
@@ -32,7 +36,7 @@ const CreateAccountForm = () => {
 
     const [zoneList, setZoneList] = useState({});
 
-    const getAllAlertMessages = () => {
+    const getAllZones = () => {
         const requestHeader = {
             token: getToken()
         };
@@ -48,11 +52,11 @@ const CreateAccountForm = () => {
     };
 
     const onSubmit = () => {
+        clearErrorMessages();
         const requestHeader = {
             token: getToken()
         };
-        getZoneId(formInputs["zone"]);
-        console.log(formInputs);
+        getZoneId();
         axios.post(ServerConfig.api.url + '/api/v1/worker',
             {
                 "data": formInputs
@@ -61,14 +65,79 @@ const CreateAccountForm = () => {
                 headers: requestHeader,
             }
         )
+        .then(response => {
+            onSuccess();
+        })
         .catch(error => {
-            console.log(error);
+            updateErrorMessages(error);
         })
     };
 
-    useEffect(() => {
-        getAllAlertMessages();
-    }, []);
+    const onSuccess = () => {
+        setIsSubmitSuccess(true);
+        setTimeout(() => {
+            history.push("/login");
+        }, 2000);
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const showSuccessMessage = () => {
+        if (isSubmitSuccess) {
+            return (
+                <div className="success">
+                    <Alert variant="success">
+                        Account created successfully! Redirecting to the login page.
+                    </Alert>
+                </div>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const clearErrorMessages = () => {
+        setErrorMessages([]);
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const updateErrorMessages = error => {
+        setErrorMessages(prevErrorMessages => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
+    };
 
     const updateFormInputByNameValue = (name, value) => {
         setFormInputs(prevFormInputs => {
@@ -78,9 +147,9 @@ const CreateAccountForm = () => {
         });
     };
 
-    const getZoneId = (zoneName) => {
+    const getZoneId = () => {
         for (const index in zoneList) {
-            if (zoneList[index].name === zoneName) {
+            if (zoneList[index].name === formInputs["zone"]) {
                 updateFormInputByNameValue("zone", zoneList[index].id);
             }
         }
@@ -92,6 +161,10 @@ const CreateAccountForm = () => {
         const value = input.value;
         updateFormInputByNameValue(name, value);
     };
+
+    useEffect(() => {
+        getAllZones();
+    }, []);
 
     return (
         <div className="create-account-form">
@@ -179,6 +252,8 @@ const CreateAccountForm = () => {
                     Create
                 </Button>
                 </div>
+                {showErrorMessages()}
+                {showSuccessMessage()}
             </BackgroundCard>
         </div>
     )

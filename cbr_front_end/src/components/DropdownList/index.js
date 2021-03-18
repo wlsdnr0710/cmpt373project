@@ -3,47 +3,47 @@ import "./style.css";
 import { getLabelTag } from "../../utils/Utilities";
 
 const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange ,isDisabled ,label}) => {
-  const getDropdownListOptions = () => {
-    const itemsInOptionTag = [];
-    let listChildId = 0;
+    const getDropdownListOptions = () => {
+	    const itemsInOptionTag = [];
+	    let listChildId = 0;
 
-    for (const itemName in dropdownListItemsKeyValue) {
-      let itemValue = "";
-      let name = itemName;
+	    for (const itemName in dropdownListItemsKeyValue) {
+	        let itemValue = "";
+	        let name = itemName;
 
-      if (dropdownListItemsKeyValue[itemName].name !== undefined) {
-        itemValue = dropdownListItemsKeyValue[itemName].id;
-        name = dropdownListItemsKeyValue[itemName].name;
-      } else {
-        itemValue = dropdownListItemsKeyValue[itemName];
-      }
+	        if (dropdownListItemsKeyValue[itemName].name !== undefined) {
+		        itemValue = dropdownListItemsKeyValue[itemName].id;
+		        name = dropdownListItemsKeyValue[itemName].name;
+            } else {
+		        itemValue = dropdownListItemsKeyValue[itemName];
+	        }
 
-      itemsInOptionTag.push(
-        <option value={itemValue} key={listChildId}>
-          {name}
-        </option>
-      );
+	        itemsInOptionTag.push(
+            <option value={itemValue} key={listChildId}>
+		        {name}
+		    </option>
+            );
 
-      listChildId++;
-    }
+	        listChildId++;
+        };
 
-    return itemsInOptionTag;
-  };
+        return itemsInOptionTag;
+    };
 
-  return (
-    <div>
-      {getLabelTag(label)}
-      <select
-        className="dropdown-list"
-        name={dropdownName}
-        value={value}
-        onChange={onChange}
-        disabled={isDisabled}
-      >
-        {getDropdownListOptions()}
-      </select>
-    </div>
-  );
+    return (
+        <div>
+            {getLabelTag(label)}
+            <select
+                className="dropdown-list"
+                name={dropdownName}
+                value={value}
+                onChange={onChange}
+                disabled={isDisabled}
+            >
+            {getDropdownListOptions()}
+            </select>
+        </div>
+    );
 };
 
 export default DropdownList;
