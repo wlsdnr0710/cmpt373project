@@ -17,6 +17,17 @@ const CreateAccountForm = () => {
         "Clinician": "3",
     };
 
+    const [formInputs, setFormInputs] = useState({
+        "firstName": "",
+        "lastName": "",
+        "zone": 0,
+        "role": "",
+        "email": "",
+        "phoneNumber": "",
+        "username": "",
+        "password": ""
+    });
+
     const [zoneList, setZoneList] = useState({});
 
     const getAllAlertMessages = () => {
@@ -30,9 +41,7 @@ const CreateAccountForm = () => {
             }
         )
         .then(response => {
-            console.log(response.data.data);
             setZoneList(response.data.data);
-            console.log(zoneList);
         });
     };
 
@@ -40,59 +49,109 @@ const CreateAccountForm = () => {
         getAllAlertMessages();
     }, []);
 
+    const updateFormInputByNameValue = (name, value) => {
+        setFormInputs(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
+        });
+    };
+
+    const formInputChangeHandler = event => {
+        const input = event.target;
+        const name = input.name;
+        const value = input.value;
+        updateFormInputByNameValue(name, value);
+    };
+
     return (
-        <div>
+        <div className="create-account-form">
             <BackgroundCard>
                 <h1>Create Account</h1>
                 <hr />
+                <div className="form-input">
                 <strong>First Name:</strong>
                 <TextInputField
                     name="firstName"
-                    value=""
-                    //onChange={formInputChangeHandler}
-                    //isDisabled={isFormInputDisabled}
+                    value={formInputs["firstName"]}
+                    onChange={formInputChangeHandler}
+                    isDisabled={false}
                 />
+                </div>
+                <div className="form-input">
                 <strong>Last Name:</strong>
                 <TextInputField
                     name="lastName"
-                    value=""
-                    //onChange={formInputChangeHandler}
-                    //isDisabled={isFormInputDisabled}
+                    value={formInputs["lastName"]}
+                    onChange={formInputChangeHandler}
+                    isDisabled={false}
                 />
+                </div>
+                <div className="form-input">
                 <strong>Zone:</strong>
                 <DropdownList
                     dropdownName="zone"
-                    value=""
+                    value={formInputs["zone"]}
                     dropdownListItemsKeyValue={zoneList}
-                    //onChange={formInputChangeHandler}
-                    //isDisabled={isFormInputDisabled}
+                    onChange={formInputChangeHandler}
+                    isDisabled={false}
                 />
+                </div>
+                <div className="form-input">
                 <strong>Role:</strong>
                 <DropdownList
                     dropdownName="role"
-                    value=""
+                    value={formInputs["role"]}
                     dropdownListItemsKeyValue={roleList}
-                    //onChange={formInputChangeHandler}
-                    //isDisabled={isFormInputDisabled}
+                    onChange={formInputChangeHandler}
+                    isDisabled={false}
                 />
+                </div>
+                <div className="form-input">
                 <strong>Username:</strong>
                 <TextInputField
                     name="username"
-                    value=""
-                    //onChange={formInputChangeHandler}
-                    //isDisabled={isFormInputDisabled}
+                    value={formInputs["username"]}
+                    onChange={formInputChangeHandler}
+                    isDisabled={false}
                 />
+                </div>
+                <div className="form-input">
                 <strong>Password:</strong>
                 <TextInputField
                     name="password"
-                    value=""
-                    //onChange={formInputChangeHandler}
-                    //isDisabled={isFormInputDisabled}
+                    value={formInputs["password"]}
+                    onChange={formInputChangeHandler}
+                    isDisabled={false}
                 />
+                </div>
+                <div className="form-input">
+                <strong>Email:</strong>
+                <TextInputField
+                    name="email"
+                    value={formInputs["email"]}
+                    onChange={formInputChangeHandler}
+                    isDisabled={false}
+                />
+                </div>
+                <div className="form-input">
+                <strong>Phone Number:</strong>
+                <TextInputField
+                    name="phoneNumber"
+                    value={formInputs["phoneNumber"]}
+                    onChange={formInputChangeHandler}
+                    isDisabled={false}
+                />
+                </div>
+                <div className="form-input">
+                <Button
+                    variant="primary">
+                    Create
+                </Button>
+                </div>
             </BackgroundCard>
         </div>
     )
-
 };
 
 export default CreateAccountForm;
