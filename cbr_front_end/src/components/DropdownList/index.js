@@ -10,9 +10,10 @@ const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange 
     for (const itemName in dropdownListItemsKeyValue) {
       let itemValue = "";
       let name = itemName;
-      if (dropdownListItemsKeyValue[itemName].name !== null) {
-        itemValue = dropdownListItemsKeyValue[itemName].name;
-        name = itemValue;
+
+      if (dropdownListItemsKeyValue[itemName].name !== undefined) {
+        itemValue = dropdownListItemsKeyValue[itemName].id;
+        name = dropdownListItemsKeyValue[itemName].name;
       } else {
         itemValue = dropdownListItemsKeyValue[itemName];
       }

@@ -11,10 +11,12 @@ import './style.css';
 
 const CreateAccountForm = () => {
 
-    const roleList = {
-        "Worker": "1",
-        "Admin": "2",
-        "Clinician": "3",
+    const getRoleMapping = () => {
+        return {
+            "Worker": "Worker",
+            "Admin": "Admin",
+            "Clinician": "Clinician",
+        };
     };
 
     const [formInputs, setFormInputs] = useState({
@@ -23,7 +25,7 @@ const CreateAccountForm = () => {
         "zone": 0,
         "role": "",
         "email": "",
-        "phoneNumber": "",
+        "phone": "",
         "username": "",
         "password": ""
     });
@@ -45,6 +47,25 @@ const CreateAccountForm = () => {
         });
     };
 
+    const onSubmit = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getZoneId(formInputs["zone"]);
+        console.log(formInputs);
+        axios.post(ServerConfig.api.url + '/api/v1/worker',
+            {
+                "data": formInputs
+            },
+            {
+                headers: requestHeader,
+            }
+        )
+        .catch(error => {
+            console.log(error);
+        })
+    };
+
     useEffect(() => {
         getAllAlertMessages();
     }, []);
@@ -55,6 +76,14 @@ const CreateAccountForm = () => {
             newFormInputs[name] = value;
             return newFormInputs;
         });
+    };
+
+    const getZoneId = (zoneName) => {
+        for (const index in zoneList) {
+            if (zoneList[index].name === zoneName) {
+                updateFormInputByNameValue("zone", zoneList[index].id);
+            }
+        }
     };
 
     const formInputChangeHandler = event => {
@@ -102,7 +131,7 @@ const CreateAccountForm = () => {
                 <DropdownList
                     dropdownName="role"
                     value={formInputs["role"]}
-                    dropdownListItemsKeyValue={roleList}
+                    dropdownListItemsKeyValue={getRoleMapping()}
                     onChange={formInputChangeHandler}
                     isDisabled={false}
                 />
@@ -137,14 +166,15 @@ const CreateAccountForm = () => {
                 <div className="form-input">
                 <strong>Phone Number:</strong>
                 <TextInputField
-                    name="phoneNumber"
-                    value={formInputs["phoneNumber"]}
+                    name="phone"
+                    value={formInputs["phone"]}
                     onChange={formInputChangeHandler}
                     isDisabled={false}
                 />
                 </div>
                 <div className="form-input">
                 <Button
+                    onClick={onSubmit}
                     variant="primary">
                     Create
                 </Button>
