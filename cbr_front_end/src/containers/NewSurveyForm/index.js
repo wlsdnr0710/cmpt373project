@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import NewSurveyQuestion from "../NewSurveyQuestion";
 import TextInputField from "../../components/TextInputField";
-import { getDefaultNewSurveyObject } from "../../utils/Utilities";
+import { getDefaultNewSurveyObject, updateFormInputByNameAndSetter } from "../../utils/Utilities";
 import "./style.css";
 
 const NewSurveyForm = () => {
@@ -37,7 +37,7 @@ const NewSurveyForm = () => {
                 <TextInputField
                     name="name"
                     value={formInputs["name"]}
-                    onChange={() => { }}
+                    onChange={updateFormInputByNameAndSetter("name", setFormInputs)}
                     isDisabled={false}
                 />
             </div>

@@ -3,13 +3,11 @@ import Button from 'react-bootstrap/Button';
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import TextInputField from "../../components/TextInputField";
+import { getDefaultSurveyQuestionObject, updateFormInputByNameAndSetter } from "../../utils/Utilities";
 import "./style.css";
 
 const NewSurveyQuestion = () => {
-    const [formInputs, setFormInputs] = useState({
-        "question": "",
-        "question_type": "multipleChoices"
-    });
+    const [formInputs, setFormInputs] = useState(getDefaultSurveyQuestionObject());
     const [numOptions, setNumOptions] = useState(1);
 
     const getOptionInputFields = () => {
@@ -21,15 +19,28 @@ const NewSurveyQuestion = () => {
                         <label>Option {i + 1}:</label>
                     </div>
                     <TextInputField
-                        name="question"
-                        value={formInputs["question"]}
-                        onChange={() => { }}
+                        name="options"
+                        value={formInputs["options"][i]}
+                        onChange={getUpdateOptionsHandler(i)}
                         isDisabled={false}
                     />
                 </div>
             );
         }
         return numOptionsArray;
+    };
+
+    const getUpdateOptionsHandler = key => {
+        return event => {
+            const option = event.target;
+            const value = option.value;
+            setFormInputs(oldFormInputs => {
+                const options = oldFormInputs["options"];
+                options[key] = value;
+                oldFormInputs["options"] = options;
+                return {...oldFormInputs};
+            });
+        };
     };
 
     const showActionFooter = () => {
@@ -77,7 +88,7 @@ const NewSurveyQuestion = () => {
                 <TextInputField
                     name="question"
                     value={formInputs["question"]}
-                    onChange={() => { }}
+                    onChange={updateFormInputByNameAndSetter("question", setFormInputs)}
                     isDisabled={false}
                 />
             </div>
@@ -90,7 +101,7 @@ const NewSurveyQuestion = () => {
                     dropdownName="question_type"
                     value={formInputs["question_type"]}
                     dropdownListItemsKeyValue={defaultSurveyQuestionTypes}
-                    onChange={() => { }}
+                    onChange={updateFormInputByNameAndSetter("question_type", setFormInputs)}
                     isDisabled={false}
                 />
             </div>

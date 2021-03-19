@@ -156,3 +156,23 @@ export const getDefaultNewSurveyObject = () => {
   };
   return defaultNewSurvey;
 };
+
+export const getDefaultSurveyQuestionObject = () => {
+  const defaultSurveyQuestion = {
+    "question": "",
+    "question_type": "multipleChoices",
+    "options": [""],
+  };
+  return defaultSurveyQuestion;
+};
+
+export const updateFormInputByNameAndSetter = (name, setter) => {
+  return event => {
+    const value = event.target.value;
+    setter(prevFormInputs => {
+      const newFormInputs = { ...prevFormInputs };
+      newFormInputs[name] = value;
+      return newFormInputs;
+    });
+  }
+};
