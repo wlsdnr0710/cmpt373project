@@ -7,6 +7,7 @@ import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.services.ClientService;
+import com.earth.cbr.utilities.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.mapping.PropertyReferenceException;
@@ -132,8 +133,8 @@ public class ClientController {
         JSONObject responseJson = new JSONObject();
         Client client = JSON.parseObject(clientString, Client.class);
 
-        client.setContactNumber(formatPhoneNumber(client.getContactNumber()));
-        client.setCaregiverContact(formatPhoneNumber(client.getCaregiverContact()));
+        client.setContactNumber(Utility.formatPhoneNumber(client.getContactNumber()));
+        client.setCaregiverContact(Utility.formatPhoneNumber(client.getCaregiverContact()));
 
         Client addedClient = clientService.addClient(client);
 
@@ -161,8 +162,8 @@ public class ClientController {
         JSONObject responseJson = new JSONObject();
         Client client = JSON.parseObject(clientString, Client.class);
 
-        client.setContactNumber(formatPhoneNumber(client.getContactNumber()));
-        client.setCaregiverContact(formatPhoneNumber(client.getCaregiverContact()));
+        client.setContactNumber(Utility.formatPhoneNumber(client.getContactNumber()));
+        client.setCaregiverContact(Utility.formatPhoneNumber(client.getCaregiverContact()));
 
         Client updatedClient = clientService.updateClientById(client);
 
@@ -179,15 +180,5 @@ public class ClientController {
 
         clientService.deleteClientById(id);
         return ResponseEntity.ok().body(null);
-    }
-
-    private String formatPhoneNumber(String oldNumber) {
-        String newNumber = "";
-        for(Integer i = 0; i < oldNumber.length(); i++) {
-            if(Character.isDigit(oldNumber.charAt(i))) {
-                newNumber += oldNumber.charAt(i);
-            }
-        }
-        return newNumber;
     }
 }

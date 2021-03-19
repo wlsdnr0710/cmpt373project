@@ -7,6 +7,7 @@ import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.WorkerService;
+import com.earth.cbr.utilities.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +67,7 @@ public class WorkerController {
         JSONObject responseJson = new JSONObject();
         Worker worker = JSON.parseObject(workerString, Worker.class);
 
-        worker.setPhone(formatPhoneNumber(worker.getPhone()));
+        worker.setPhone(Utility.formatPhoneNumber(worker.getPhone()));
 
         Worker addedWorker = workerService.addWorker(worker);
 
@@ -93,7 +94,7 @@ public class WorkerController {
         JSONObject responseJson = new JSONObject();
         Worker worker = JSON.parseObject(workerString, Worker.class);
 
-        worker.setPhone(formatPhoneNumber(worker.getPhone()));
+        worker.setPhone(Utility.formatPhoneNumber(worker.getPhone()));
 
         Worker updatedWorker = workerService.updateWorkerById(worker);
 
@@ -110,15 +111,5 @@ public class WorkerController {
 
         workerService.deleteWorkerById(id);
         return ResponseEntity.ok().body(null);
-    }
-
-    private String formatPhoneNumber(String oldNumber) {
-        String newNumber = "";
-        for(Integer i = 0; i < oldNumber.length(); i++) {
-            if(Character.isDigit(oldNumber.charAt(i))) {
-                newNumber += oldNumber.charAt(i);
-            }
-        }
-        return newNumber;
     }
 }

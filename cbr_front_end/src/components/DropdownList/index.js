@@ -11,20 +11,20 @@ const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange 
 	        let itemValue = "";
 	        let name = itemName;
 
-	        if (dropdownListItemsKeyValue[itemName].name !== undefined) {
-		        itemValue = dropdownListItemsKeyValue[itemName].id;
-		        name = dropdownListItemsKeyValue[itemName].name;
+            if (dropdownListItemsKeyValue[itemName].name !== undefined) {
+                itemValue = dropdownListItemsKeyValue[itemName].id;
+                name = dropdownListItemsKeyValue[itemName].name;
             } else {
-		        itemValue = dropdownListItemsKeyValue[itemName];
-	        }
+                itemValue = dropdownListItemsKeyValue[itemName];
+            }
 
-	        itemsInOptionTag.push(
+            itemsInOptionTag.push(
             <option value={itemValue} key={listChildId}>
-		        {name}
-		    </option>
+                {name}
+            </option>
             );
 
-	        listChildId++;
+            listChildId++;
         };
 
         return itemsInOptionTag;
