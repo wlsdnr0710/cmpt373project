@@ -3,25 +3,108 @@ import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import NewSurveyQuestion from "../NewSurveyQuestion";
 import TextInputField from "../../components/TextInputField";
-import { getDefaultNewSurveyObject, updateFormInputByNameAndSetter } from "../../utils/Utilities";
+import {
+    getDefaultNewSurveyObject,
+    getDefaultSurveyQuestionObject,
+    updateFormInputByNameAndSetter,
+} from "../../utils/Utilities";
 import "./style.css";
 
 const NewSurveyForm = () => {
     const [formInputs, setFormInputs] = useState(getDefaultNewSurveyObject());
-    const [numQuestions, setNumQuestions] = useState(1);
 
     const showSurveyQuestionInputFields = () => {
         const surveyQuestionsArray = [];
+        const numQuestions = formInputs["questions"].length;
         for (let i = 0; i < numQuestions; i++) {
+            const numOptions = formInputs["questions"][i]["options"].length;
             surveyQuestionsArray.push(
-                <NewSurveyQuestion key={i} />
+                <NewSurveyQuestion
+                    key={i}
+                    updateQuestionHandler={getUpdateQuestionHandler(i)}
+                    getUpdateOptionsHandler={getUpdateOptionsHandler(i)}
+                    values={formInputs["questions"][i]}
+                    numOptions={numOptions}
+                    onClickMoreOption={getOnClickMoreOption(i)}
+                    onDeleteHandler={getOnDeleteQuestionHandler(i)}
+                />
             );
         }
         return surveyQuestionsArray;
     };
 
-    const onClickMoreQuestion = () => {
-        setNumQuestions(oldNum => oldNum + 1);
+    const getUpdateQuestionHandler = questionKey => {
+        return event => {
+            const question = event.target;
+            const value = question.value;
+            setFormInputs(oldFormInputs => {
+                const question = oldFormInputs["questions"][questionKey];
+                question["question"] = value;
+                oldFormInputs["questions"][questionKey] = question;
+                return { ...oldFormInputs };
+            });
+        };
+    };
+
+    const getUpdateOptionsHandler = questionKey => {
+        return optionKey => {
+            return event => {
+                const option = event.target;
+                const value = option.value;
+                setFormInputs(oldFormInputs => {
+                    const question = oldFormInputs["questions"][questionKey]
+                    const options = question["options"];
+                    options[optionKey] = value;
+                    oldFormInputs["questions"][questionKey]["options"] = options;
+                    return { ...oldFormInputs };
+                });
+            };
+        }
+    };
+
+    const getOnDeleteQuestionHandler = questionKey => {
+        return event => {
+            if (formInputs["questions"].length === 1) {
+                return;
+            }
+            setFormInputs(oldFormInputs => {
+                const newFormInputs = {...oldFormInputs};
+                const newQuestions = [...newFormInputs["questions"]];
+                newQuestions.splice(questionKey, 1);
+                newFormInputs["questions"] = newQuestions;
+                return newFormInputs;
+            });
+        };
+    };
+
+    const getOnClickMoreOption = questionKey => {
+        return event => {
+            event.preventDefault();
+            setFormInputs(oldFormInputs => {
+                // Important: Must deep copy the updating children objects/arrays
+                // to avoid side effects.
+                const newFormInputs = {...oldFormInputs};
+                const newQuestionArray = [...newFormInputs["questions"]];
+                const newQuestion = {...newFormInputs["questions"][questionKey]};
+                const newOptions = [...newQuestion["options"]];
+                newOptions.push("");
+                newQuestion["options"] = newOptions;
+                newQuestionArray[questionKey] = newQuestion;
+                newFormInputs["questions"] = newQuestionArray;
+                return newFormInputs;
+            });
+        };
+    };
+
+    const onClickMoreQuestion = event => {
+        event.preventDefault();
+        setFormInputs(oldFormInputs => {
+            const newQuestions = [...oldFormInputs["questions"]];
+            const newFormInputs = { ...oldFormInputs };
+            newQuestions.push(getDefaultSurveyQuestionObject());
+            newFormInputs["questions"] = newQuestions;
+            return newFormInputs;
+        });
     };
 
     return (
@@ -42,7 +125,7 @@ const NewSurveyForm = () => {
                 />
             </div>
 
-            <div>
+            <div className="survey-question-input-fields">
                 {showSurveyQuestionInputFields()}
             </div>
 

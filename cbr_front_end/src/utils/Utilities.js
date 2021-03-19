@@ -153,6 +153,7 @@ export const getDefaultPhysiotherapyConditions = () => {
 export const getDefaultNewSurveyObject = () => {
   const defaultNewSurvey = {
     "name": "",
+    "questions": [getDefaultSurveyQuestionObject()],
   };
   return defaultNewSurvey;
 };

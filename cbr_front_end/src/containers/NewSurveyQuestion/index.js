@@ -1,15 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from 'react-bootstrap/Button';
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import TextInputField from "../../components/TextInputField";
-import { getDefaultSurveyQuestionObject, updateFormInputByNameAndSetter } from "../../utils/Utilities";
 import "./style.css";
 
-const NewSurveyQuestion = () => {
-    const [formInputs, setFormInputs] = useState(getDefaultSurveyQuestionObject());
-    const [numOptions, setNumOptions] = useState(1);
-
+const NewSurveyQuestion = (
+    {
+        getUpdateOptionsHandler,
+        updateQuestionHandler,
+        values,
+        numOptions,
+        onClickMoreOption,
+        onDeleteHandler,
+    }) => {
     const getOptionInputFields = () => {
         const numOptionsArray = [];
         for (let i = 0; i < numOptions; i++) {
@@ -20,7 +24,7 @@ const NewSurveyQuestion = () => {
                     </div>
                     <TextInputField
                         name="options"
-                        value={formInputs["options"][i]}
+                        value={values["options"][i]}
                         onChange={getUpdateOptionsHandler(i)}
                         isDisabled={false}
                     />
@@ -30,26 +34,13 @@ const NewSurveyQuestion = () => {
         return numOptionsArray;
     };
 
-    const getUpdateOptionsHandler = key => {
-        return event => {
-            const option = event.target;
-            const value = option.value;
-            setFormInputs(oldFormInputs => {
-                const options = oldFormInputs["options"];
-                options[key] = value;
-                oldFormInputs["options"] = options;
-                return {...oldFormInputs};
-            });
-        };
-    };
-
     const showActionFooter = () => {
         return (
             <div>
                 <div>
                     <CheckBox
                         name="isQuestionRequired"
-                        value={formInputs["isQuestionRequired"]}
+                        value={values["isQuestionRequired"]}
                         actionHandler={() => { }}
                         displayText={"Required?"}
                     />
@@ -59,18 +50,13 @@ const NewSurveyQuestion = () => {
                         variant="danger"
                         size="sm"
                         disabled={false}
-                        onClick={() => { }}
+                        onClick={onDeleteHandler}
                     >
                         Delete
                     </Button>
                 </div>
             </div>
         );
-    };
-
-    const onClickMoreOptions = event => {
-        event.preventDefault();
-        setNumOptions(oldNum => oldNum + 1);
     };
 
     const defaultSurveyQuestionTypes = {
@@ -87,8 +73,8 @@ const NewSurveyQuestion = () => {
                 </div>
                 <TextInputField
                     name="question"
-                    value={formInputs["question"]}
-                    onChange={updateFormInputByNameAndSetter("question", setFormInputs)}
+                    value={values["question"]}
+                    onChange={updateQuestionHandler}
                     isDisabled={false}
                 />
             </div>
@@ -99,21 +85,21 @@ const NewSurveyQuestion = () => {
                 </div>
                 <DropdownList
                     dropdownName="question_type"
-                    value={formInputs["question_type"]}
+                    value={values["question_type"]}
                     dropdownListItemsKeyValue={defaultSurveyQuestionTypes}
-                    onChange={updateFormInputByNameAndSetter("question_type", setFormInputs)}
+                    onChange={() => { }}
                     isDisabled={false}
                 />
             </div>
 
             {getOptionInputFields()}
 
-            <div>
+            <div className="more-option-button-container">
                 <Button
                     variant="info"
                     size="sm"
                     disabled={false}
-                    onClick={onClickMoreOptions}
+                    onClick={onClickMoreOption}
                 >
                     More Options
                 </Button>
