@@ -158,7 +158,6 @@ const CreateAccountForm = () => {
                         name="firstName"
                         value={formInputs["firstName"]}
                         onChange={formInputChangeHandler}
-                        isDisabled={false}
                     />
                 </div>
                 <strong>Last Name:</strong>
@@ -167,7 +166,6 @@ const CreateAccountForm = () => {
                         name="lastName"
                         value={formInputs["lastName"]}
                         onChange={formInputChangeHandler}
-                        isDisabled={false}
                     />
                 </div>
                 <strong>Zone:</strong>
@@ -177,7 +175,6 @@ const CreateAccountForm = () => {
                         value={formInputs["zone"]}
                         dropdownListItemsKeyValue={zoneList}
                         onChange={formInputChangeHandler}
-                        isDisabled={false}
                     />
                 </div>
                 <strong>Role:</strong>
@@ -187,7 +184,6 @@ const CreateAccountForm = () => {
                         value={formInputs["role"]}
                         dropdownListItemsKeyValue={getRoleMapping()}
                         onChange={formInputChangeHandler}
-                        isDisabled={false}
                     />
                 </div>
                 <strong>Username:</strong>
@@ -196,7 +192,6 @@ const CreateAccountForm = () => {
                         name="username"
                         value={formInputs["username"]}
                         onChange={formInputChangeHandler}
-                        isDisabled={false}
                     />
                 </div>
                 <strong>Password:</strong>
@@ -214,7 +209,6 @@ const CreateAccountForm = () => {
                         name="email"
                         value={formInputs["email"]}
                         onChange={formInputChangeHandler}
-                        isDisabled={false}
                     />
                 </div>
                 <strong>Phone Number:</strong>
@@ -223,7 +217,6 @@ const CreateAccountForm = () => {
                         name="phone"
                         value={formInputs["phone"]}
                         onChange={formInputChangeHandler}
-                        isDisabled={false}
                     />
                 </div>
                 <div className="form-input">

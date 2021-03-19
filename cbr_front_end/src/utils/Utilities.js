@@ -38,11 +38,11 @@ export const getVisitsInformationFromServer = (clientId, requestHeader) => {
 };
 
 export const addWorkerToServer = (workerInformation) => {
-    return axios.post(ServerConfig.api.url + '/api/v1/worker/', {"data" : workerInformation});
+    return axios.post(ServerConfig.api.url + '/api/v1/worker', {"data" : workerInformation});
 };
 
 export const getZonesFromServer = (requestHeader) => {
-    return axios.get(ServerConfig.api.url + '/api/v1/zone/');
+    return axios.get(ServerConfig.api.url + '/api/v1/zone');
 };
 
 export const updateClientInformationToServer = (clientInformation, requestHeader) => {
