@@ -5,7 +5,9 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Worker;
+import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.WorkerService;
+import com.earth.cbr.utilities.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,6 +53,7 @@ public class WorkerController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @PassToken
     @PostMapping
     public ResponseEntity<JSONObject> addWorker(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException {
@@ -63,6 +66,8 @@ public class WorkerController {
 
         JSONObject responseJson = new JSONObject();
         Worker worker = JSON.parseObject(workerString, Worker.class);
+
+        worker.setPhone(Utility.formatPhoneNumber(worker.getPhone()));
 
         Worker addedWorker = workerService.addWorker(worker);
 
@@ -88,6 +93,8 @@ public class WorkerController {
         
         JSONObject responseJson = new JSONObject();
         Worker worker = JSON.parseObject(workerString, Worker.class);
+
+        worker.setPhone(Utility.formatPhoneNumber(worker.getPhone()));
 
         Worker updatedWorker = workerService.updateWorkerById(worker);
 

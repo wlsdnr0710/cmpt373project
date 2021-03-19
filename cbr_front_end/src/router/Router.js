@@ -7,8 +7,9 @@ import NewClient from "../pages/NewClient";
 import NewVisit from "../pages/NewVisit";
 import ClientInformation from "../pages/ClientInformation";
 import EditClient from "../pages/EditClient";
-import  HomePage from "../pages/HomePage";
+import HomePage from "../pages/HomePage";
 import NewReferral from "../pages/NewReferral";
+import CreateAccount from "../pages/CreateAccount";
 
 const Router = () => {
     return (
@@ -23,6 +24,7 @@ const Router = () => {
                 <Route path="/edit-client" exact component={EditClient} />
                 <Route path="/home" exact component={HomePage} />    
                 <Route path="/new-referral" exact component={NewReferral} />
+                <Route path="/create-account" exact component={CreateAccount} />
 
                 {/* We can redirect the user to dashboard even after login is implemented because if the user
                 is not authenticated, the user will be further redirected to login page. */}
