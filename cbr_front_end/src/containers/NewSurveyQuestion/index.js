@@ -62,9 +62,9 @@ const NewSurveyQuestion = (
     };
 
     const defaultSurveyQuestionTypes = {
-        "Multiple Choices": "multipleChoices",
-        "Checkboxes": "checkBoxes",
-        "Drop-down": "dropdown",
+        "Multiple Choice": "multipleChoice",
+        "Yes or No": "yesOrNo",
+        "Dropdown": "dropdown",
     };
 
     return (

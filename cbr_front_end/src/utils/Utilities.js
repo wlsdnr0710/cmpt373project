@@ -168,7 +168,7 @@ export const getDefaultNewSurveyObject = () => {
 export const getDefaultSurveyQuestionObject = () => {
   const defaultSurveyQuestion = {
     "question": "",
-    "question_type": "multipleChoices",
+    "question_type": "multipleChoice",
     "isRequired": false,
     "options": [""],
   };
@@ -184,4 +184,12 @@ export const updateFormInputByNameAndSetter = (name, setter) => {
       return newFormInputs;
     });
   }
+};
+
+export const postNewSurveyQuestions = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/new_survey', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
 };

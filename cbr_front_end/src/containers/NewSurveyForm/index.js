@@ -8,6 +8,7 @@ import TextInputField from "../../components/TextInputField";
 import {
     getDefaultNewSurveyObject,
     getDefaultSurveyQuestionObject,
+    postNewSurveyQuestions,
     updateFormInputByNameAndSetter,
 } from "../../utils/Utilities";
 import { getToken } from "../../utils/AuthenticationUtil";
@@ -147,11 +148,7 @@ const NewSurveyForm = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.post(ServerConfig.api.url + '/api/v1/new_survey', {
-            "data": formInputs
-        }, {
-            headers: requestHeader,
-        })
+        postNewSurveyQuestions(formInputs, requestHeader)
             .then(response => {
 
             })
