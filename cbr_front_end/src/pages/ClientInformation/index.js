@@ -4,6 +4,7 @@ import { getToken, doAuthentication } from "../../utils/AuthenticationUtil";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
 import ViewVisits from "../../components/ViewVisits";
+import ViewReferrals from "../../components/ViewReferrals";
 import Accordion from 'react-bootstrap/Accordion';
 import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../containers/RiskInformation";
@@ -11,11 +12,12 @@ import DisabilityInformation from "../../components/DisabilityInformation";
 import axios from 'axios';
 import qs from "query-string";
 import ServerConfig from '../../config/ServerConfig';
-import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getVisitsInformationFromServer} from "../../utils/Utilities";
+import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getVisitsInformationFromServer, getReferralsInformationFromServer} from "../../utils/Utilities";
 import "./styles.css";
 
 const ClientInfo = props => {
     const[visits, setVisits] = useState([]);
+    const[referrals, setReferrals] = useState([]);
     const history = useHistory();
     doAuthentication(history);
 
@@ -72,6 +74,17 @@ const ClientInfo = props => {
         });
     };
 
+    const getReferralsDataByGetRequest = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getReferralsInformationFromServer(clientId, requestHeader)
+        .then(response => {
+            console.log(response.data.data);
+            setReferrals(response.data.data);
+        });
+    };
+
     const createVisitListComponents = () => {
         const visitComponents = [];
         if(visits === undefined || visits.length === 0) {
@@ -82,6 +95,18 @@ const ClientInfo = props => {
                 visitComponents.push(<ViewVisits visit={visits[index]} key={index}/>);
             }
             return visitComponents;
+        }
+    };
+
+    const createReferralListComponents = () => {
+    console.log(referrals);
+        const referralComponents = [];
+        if(referrals === undefined || referrals.length === 0) {
+            return (<p>There are no referrals.</p>);
+        }
+        else {
+                referralComponents.push(<ViewReferrals referral={referrals} key={0}/>);
+            return referralComponents;
         }
     };
 
@@ -118,6 +143,7 @@ const ClientInfo = props => {
     useEffect(() => {
         getClientDataByGetRequest();
         getVisitsDataByGetRequest();
+        getReferralsDataByGetRequest();
     }, [getClientDataByGetRequest]);
 
     return (
@@ -162,6 +188,7 @@ const ClientInfo = props => {
             </div>
             <div className="view-all-referrals-details">
                 <BackgroundCard heading="Referrals">
+                    {createReferralListComponents()}
                     <div className="client-information-hr mt-3">
                         <button type="button" className="btn btn-primary" onClick={onClickGetNewReferralPage}>
                             Add Referral
