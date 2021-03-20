@@ -1,13 +1,16 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import NewSurveyQuestion from "../NewSurveyQuestion";
+import ServerConfig from "../../config/ServerConfig";
 import TextInputField from "../../components/TextInputField";
 import {
     getDefaultNewSurveyObject,
     getDefaultSurveyQuestionObject,
     updateFormInputByNameAndSetter,
 } from "../../utils/Utilities";
+import { getToken } from "../../utils/AuthenticationUtil";
 import "./style.css";
 
 const NewSurveyForm = () => {
@@ -25,7 +28,9 @@ const NewSurveyForm = () => {
                     getUpdateOptionsHandler={getUpdateOptionsHandler(i)}
                     values={formInputs["questions"][i]}
                     numOptions={numOptions}
+                    onChangeQuestionType={getOnChangeQuestionTypeHandler(i)}
                     onClickMoreOption={getOnClickMoreOption(i)}
+                    onChangeIsRequired={getOnChangeIsRequired(i)}
                     onDeleteHandler={getOnDeleteQuestionHandler(i)}
                 />
             );
@@ -62,13 +67,43 @@ const NewSurveyForm = () => {
         }
     };
 
+    const getOnChangeQuestionTypeHandler = questionKey => {
+        return event => {
+            const value = event.target.value;
+            setFormInputs(oldFormInputs => {
+                const newFormInputs = { ...oldFormInputs };
+                const newQuestionsArray = [...formInputs["questions"]];
+                const newQuestion = { ...newQuestionsArray[questionKey] };
+                newQuestion["question_type"] = value;
+                newQuestionsArray[questionKey] = newQuestion;
+                newFormInputs["questions"] = newQuestionsArray;
+                return newFormInputs;
+            });
+        };
+    };
+
+    const getOnChangeIsRequired = questionKey => {
+        return event => {
+            const value = event.target.checked;
+            setFormInputs(oldFormInputs => {
+                const newFormInputs = { ...oldFormInputs };
+                const newQuestionsArray = [...formInputs["questions"]];
+                const newQuestion = { ...newQuestionsArray[questionKey] };
+                newQuestion["isRequired"] = value;
+                newQuestionsArray[questionKey] = newQuestion;
+                newFormInputs["questions"] = newQuestionsArray;
+                return newFormInputs;
+            });
+        };
+    };
+
     const getOnDeleteQuestionHandler = questionKey => {
         return event => {
             if (formInputs["questions"].length === 1) {
                 return;
             }
             setFormInputs(oldFormInputs => {
-                const newFormInputs = {...oldFormInputs};
+                const newFormInputs = { ...oldFormInputs };
                 const newQuestions = [...newFormInputs["questions"]];
                 newQuestions.splice(questionKey, 1);
                 newFormInputs["questions"] = newQuestions;
@@ -83,9 +118,9 @@ const NewSurveyForm = () => {
             setFormInputs(oldFormInputs => {
                 // Important: Must deep copy the updating children objects/arrays
                 // to avoid side effects.
-                const newFormInputs = {...oldFormInputs};
+                const newFormInputs = { ...oldFormInputs };
                 const newQuestionArray = [...newFormInputs["questions"]];
-                const newQuestion = {...newFormInputs["questions"][questionKey]};
+                const newQuestion = { ...newFormInputs["questions"][questionKey] };
                 const newOptions = [...newQuestion["options"]];
                 newOptions.push("");
                 newQuestion["options"] = newOptions;
@@ -105,6 +140,24 @@ const NewSurveyForm = () => {
             newFormInputs["questions"] = newQuestions;
             return newFormInputs;
         });
+    };
+
+    const onSubmitHandler = event => {
+        event.preventDefault();
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.post(ServerConfig.api.url + '/api/v1/new_survey', {
+            "data": formInputs
+        }, {
+            headers: requestHeader,
+        })
+            .then(response => {
+
+            })
+            .catch(error => {
+
+            })
     };
 
     return (
@@ -131,12 +184,24 @@ const NewSurveyForm = () => {
 
             <div className="more-questions-button-container">
                 <Button
-                    variant="primary"
+                    variant="info"
                     size="sm"
                     disabled={false}
                     onClick={onClickMoreQuestion}
                 >
                     More Questions
+                </Button>
+            </div>
+
+
+            <div className="submit-button-container">
+                <Button
+                    variant="primary"
+                    size="sm"
+                    disabled={false}
+                    onClick={onSubmitHandler}
+                >
+                    Submit
                 </Button>
             </div>
         </div>

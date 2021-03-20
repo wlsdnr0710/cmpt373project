@@ -11,7 +11,9 @@ const NewSurveyQuestion = (
         updateQuestionHandler,
         values,
         numOptions,
+        onChangeQuestionType,
         onClickMoreOption,
+        onChangeIsRequired,
         onDeleteHandler,
     }) => {
     const getOptionInputFields = () => {
@@ -41,7 +43,7 @@ const NewSurveyQuestion = (
                     <CheckBox
                         name="isQuestionRequired"
                         value={values["isQuestionRequired"]}
-                        actionHandler={() => { }}
+                        actionHandler={onChangeIsRequired}
                         displayText={"Required?"}
                     />
                 </div>
@@ -87,7 +89,7 @@ const NewSurveyQuestion = (
                     dropdownName="question_type"
                     value={values["question_type"]}
                     dropdownListItemsKeyValue={defaultSurveyQuestionTypes}
-                    onChange={() => { }}
+                    onChange={onChangeQuestionType}
                     isDisabled={false}
                 />
             </div>
