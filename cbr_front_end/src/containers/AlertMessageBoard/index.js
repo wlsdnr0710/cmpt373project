@@ -23,7 +23,7 @@ const AlertMessageBoard = () => {
         "message": "",
         "priority": 1
     });
-;
+
     const variantList = ["primary", "warning", "danger"];
 
     const getPriorityMapping = () => {

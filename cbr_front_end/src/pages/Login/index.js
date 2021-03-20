@@ -7,7 +7,6 @@ import Logo from "../../assets/HHALogo.svg";
 import ServerConfig from "../../config/ServerConfig";
 import "./style.css";
 
-
 export default class Login extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +16,7 @@ export default class Login extends Component {
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleCreateAccount = this.handleCreateAccount.bind(this);
     }
 
     componentDidMount() {
@@ -55,6 +55,10 @@ export default class Login extends Component {
         event.preventDefault();
     }
 
+    handleCreateAccount(event) {
+        this.props.history.push("/create-account");
+    }
+
     render() {
         return (
             <div className="center">
@@ -75,6 +79,7 @@ export default class Login extends Component {
                     <button type="submit" className="login-font">Sign In</button>
                     {this.state.errorMessage &&
                         <h3 className="error"> {this.state.errorMessage} </h3>}
+                    <button onClick={this.handleCreateAccount} className="create-account-button">Create Account</button>
                 </form>
             </div >
         )
