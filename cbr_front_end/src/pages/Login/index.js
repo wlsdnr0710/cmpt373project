@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { isAuthenticated, saveUsername } from "../../utils/AuthenticationUtil";
+import { isAuthenticated } from "../../utils/AuthenticationUtil";
 import { saveToken } from "../../utils/AuthenticationUtil";
 import LoginInputField from "../../components/LoginInputField";
+import CheckBox from "../../components/CheckBox"
 import Logo from "../../assets/HHALogo.svg";
 import ServerConfig from "../../config/ServerConfig";
 import "./style.css";
@@ -13,9 +14,11 @@ export default class Login extends Component {
         this.state = {
             username: "",
             password: "",
+            rememberMyPass: false,
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleRememberPassCheckbox = this.handleRememberPassCheckbox.bind(this);
         this.handleCreateAccount = this.handleCreateAccount.bind(this);
     }
 
@@ -33,6 +36,12 @@ export default class Login extends Component {
         this.setState({
             [event.target.name]: event.target.value
         });
+    }
+
+    handleRememberPassCheckbox(event){
+        this.setState(prevState => ({
+            rememberMyPass : !prevState.rememberMyPass
+        }));
     }
 
     handleSubmit(event) {
@@ -76,7 +85,13 @@ export default class Login extends Component {
                         type="password"
                         placeholder="Password"
                     />
-                    <button type="submit" className="login-font">Sign In</button>
+                    <CheckBox
+                            name="rememberMyPass"
+                            value={this.state.rememberMyPass}
+                            actionHandler={this.handleRememberPassCheckbox}
+                            displayText="Remember my password"
+                        />
+                    <button type="submit" className="login-font">Submit</button>
                     {this.state.errorMessage &&
                         <h3 className="error"> {this.state.errorMessage} </h3>}
                     <button onClick={this.handleCreateAccount} className="create-account-button">Create Account</button>
