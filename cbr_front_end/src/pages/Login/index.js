@@ -98,7 +98,7 @@ export default class Login extends Component {
                     <div className="forgot-pass" onClick={this.onClickForgotPassword}>
                         Forgot my password
                     </div>
-                    <button type="submit" className="login-font" >Submit</button>
+                    <button type="submit" className="login-font">Sign In</button>
                     {this.state.errorMessage &&
                         <h3 className="error"> {this.state.errorMessage} </h3>}
                     <button onClick={this.handleCreateAccount} className="create-account-button">Create Account</button>
