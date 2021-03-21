@@ -1,13 +1,22 @@
 package com.earth.cbr.models.survey;
 
 public class SurveyQuestionOption {
-    private String option;
+    private Long id;
+    private String name;
 
-    public String getOption() {
-        return option;
+    public Long getId() {
+        return id;
     }
 
-    public void setOption(String option) {
-        this.option = option;
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

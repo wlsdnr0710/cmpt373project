@@ -1,13 +1,12 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import NewSurveyQuestion from "../NewSurveyQuestion";
-import ServerConfig from "../../config/ServerConfig";
 import TextInputField from "../../components/TextInputField";
 import {
     getDefaultNewSurveyObject,
     getDefaultSurveyQuestionObject,
+    getDefaultSurveyQuestionOptionObject,
     postNewSurveyQuestions,
     updateFormInputByNameAndSetter,
 } from "../../utils/Utilities";
@@ -60,7 +59,7 @@ const NewSurveyForm = () => {
                 setFormInputs(oldFormInputs => {
                     const question = oldFormInputs["questions"][questionKey]
                     const options = question["options"];
-                    options[optionKey] = value;
+                    options[optionKey]["name"] = value;
                     oldFormInputs["questions"][questionKey]["options"] = options;
                     return { ...oldFormInputs };
                 });
@@ -75,7 +74,7 @@ const NewSurveyForm = () => {
                 const newFormInputs = { ...oldFormInputs };
                 const newQuestionsArray = [...formInputs["questions"]];
                 const newQuestion = { ...newQuestionsArray[questionKey] };
-                newQuestion["question_type"] = value;
+                newQuestion["questionType"] = value;
                 newQuestionsArray[questionKey] = newQuestion;
                 newFormInputs["questions"] = newQuestionsArray;
                 return newFormInputs;
@@ -123,7 +122,7 @@ const NewSurveyForm = () => {
                 const newQuestionArray = [...newFormInputs["questions"]];
                 const newQuestion = { ...newFormInputs["questions"][questionKey] };
                 const newOptions = [...newQuestion["options"]];
-                newOptions.push("");
+                newOptions.push(getDefaultSurveyQuestionOptionObject());
                 newQuestion["options"] = newOptions;
                 newQuestionArray[questionKey] = newQuestion;
                 newFormInputs["questions"] = newQuestionArray;

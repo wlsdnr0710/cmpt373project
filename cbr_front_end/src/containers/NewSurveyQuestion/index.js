@@ -26,7 +26,7 @@ const NewSurveyQuestion = (
                     </div>
                     <TextInputField
                         name="options"
-                        value={values["options"][i]}
+                        value={values["options"][i]["name"]}
                         onChange={getUpdateOptionsHandler(i)}
                         isDisabled={false}
                     />
@@ -61,10 +61,11 @@ const NewSurveyQuestion = (
         );
     };
 
+    // Important: The question type values should match the enum class in server
     const defaultSurveyQuestionTypes = {
-        "Multiple Choice": "multipleChoice",
-        "Yes or No": "yesOrNo",
-        "Dropdown": "dropdown",
+        "Multiple Choice": "MULTIPLE_CHOICE",
+        "Yes or No": "YES_OR_NO",
+        "Dropdown": "DROPDOWN",
     };
 
     return (

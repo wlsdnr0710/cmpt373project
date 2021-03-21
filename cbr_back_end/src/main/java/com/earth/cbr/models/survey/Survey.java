@@ -4,7 +4,7 @@ import java.util.Set;
 
 public class Survey {
     private String name;
-    private Set<SurveyQuestions> surveyQuestions;
+    private Set<SurveyQuestions> questions;
 
     public String getName() {
         return name;
@@ -14,11 +14,11 @@ public class Survey {
         this.name = name;
     }
 
-    public Set<SurveyQuestions> getSurveyQuestions() {
-        return surveyQuestions;
+    public Set<SurveyQuestions> getQuestions() {
+        return questions;
     }
 
-    public void setSurveyQuestions(Set<SurveyQuestions> surveyQuestions) {
-        this.surveyQuestions = surveyQuestions;
+    public void setQuestions(Set<SurveyQuestions> questions) {
+        this.questions = questions;
     }
 }
