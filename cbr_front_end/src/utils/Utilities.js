@@ -156,3 +156,40 @@ export const getDefaultPhysiotherapyConditions = () => {
     };
     return defaultPhysiotherapyConditions;
 };
+
+export const getDefaultNewSurveyObject = () => {
+  const defaultNewSurvey = {
+    "name": "",
+    "questions": [getDefaultSurveyQuestionObject()],
+  };
+  return defaultNewSurvey;
+};
+
+export const getDefaultSurveyQuestionObject = () => {
+  const defaultSurveyQuestion = {
+    "question": "",
+    "question_type": "multipleChoice",
+    "isRequired": false,
+    "options": [""],
+  };
+  return defaultSurveyQuestion;
+};
+
+export const updateFormInputByNameAndSetter = (name, setter) => {
+  return event => {
+    const value = event.target.value;
+    setter(prevFormInputs => {
+      const newFormInputs = { ...prevFormInputs };
+      newFormInputs[name] = value;
+      return newFormInputs;
+    });
+  }
+};
+
+export const postNewSurveyQuestions = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/new_survey', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
+};
