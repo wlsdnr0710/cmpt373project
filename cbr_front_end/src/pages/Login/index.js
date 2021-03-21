@@ -68,6 +68,10 @@ export default class Login extends Component {
         this.props.history.push("/create-account");
     }
 
+    onClickForgotPassword = () => {
+        this.props.history.push("/forgot-password");
+    }
+
     render() {
         return (
             <div className="center">
@@ -91,7 +95,10 @@ export default class Login extends Component {
                             actionHandler={this.handleRememberPassCheckbox}
                             displayText="Remember my password"
                         />
-                    <button type="submit" className="login-font">Submit</button>
+                    <div className="forgot-pass" onClick={this.onClickForgotPassword}>
+                        Forgot my password
+                    </div>
+                    <button type="submit" className="login-font" >Submit</button>
                     {this.state.errorMessage &&
                         <h3 className="error"> {this.state.errorMessage} </h3>}
                     <button onClick={this.handleCreateAccount} className="create-account-button">Create Account</button>
