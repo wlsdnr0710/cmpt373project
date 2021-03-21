@@ -1,6 +1,6 @@
 package com.earth.cbr.services;
 
-import com.earth.cbr.models.Survey;
+import com.earth.cbr.models.survey.Survey;
 
 public class SurveyServiceImpl implements SurveyService {
     @Override
