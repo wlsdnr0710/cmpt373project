@@ -128,10 +128,10 @@ export const getGendersObject = () =>{
 export const getLatestRiskUpdate = (clientObject) => {
     const riskHistoryListLength = clientObject.riskHistories.length;
     if(riskHistoryListLength < 1){
-      return getRiskObject();
+        return getRiskObject();
     } else {
-      const lastRiskUpdateIndex = riskHistoryListLength - 1;
-      return clientObject.riskHistories[lastRiskUpdateIndex];
+        const lastRiskUpdateIndex = riskHistoryListLength - 1;
+        return clientObject.riskHistories[lastRiskUpdateIndex];
     }
 }
 
