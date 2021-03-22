@@ -1,6 +1,8 @@
 .green-box-background {
     background: rgb(25, 190, 25); 
     border-radius: 1em;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     padding: 100px;
 }
@@ -16,14 +18,26 @@
     align-items: center;
 }
 
-.submit-button {
+.cred-button {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin:50px 10px 0;
+    margin:50px 0 0;
     width: 170px;
     height: 40px;
     font-size: 20px;
+    font-weight: bold;
+    background-color: whitesmoke;
+}
+
+.back-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin:12px 10px 0;
+    width: 150px;
+    height: 35px;
+    font-size: 18px;
     background-color: whitesmoke;
 }
 
@@ -34,6 +48,17 @@
     margin:50px 200px 100;
 }
 
-.margin-padding{
+.background-margin-padding{
     padding: 100px;
+    height: 283px;
+}
+
+.margin-10px{
+    margin:10px 0 0;
+}
+
+.error-message{
+    font-weight: bold;
+    color: red;
+    font-size: 20px;
 }

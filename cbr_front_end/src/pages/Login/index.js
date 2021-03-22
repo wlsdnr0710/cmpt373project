@@ -69,12 +69,12 @@ export default class Login extends Component {
     }
 
     onClickForgotPassword = () => {
-        this.props.history.push("/forgot-password");
+        this.props.history.push("/OTP-verification");
     }
 
     render() {
         return (
-            <div className="center">
+            <div className="center" >
                 <img src={Logo} alt="" className="photo" />
                 <form onSubmit={this.handleSubmit} className="login-form centerItems">
                     <LoginInputField
@@ -103,6 +103,7 @@ export default class Login extends Component {
                         <h3 className="error"> {this.state.errorMessage} </h3>}
                     <button onClick={this.handleCreateAccount} className="create-account-button">Create Account</button>
                 </form>
+                
             </div >
         )
     }
