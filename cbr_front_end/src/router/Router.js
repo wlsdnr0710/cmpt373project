@@ -12,6 +12,8 @@ import NewReferral from "../pages/NewReferral";
 import NewSurvey from "../pages/NewSurvey";
 import CreateAccount from "../pages/CreateAccount";
 import ForgotPassword from "../pages/ForgotPassword";
+import OTPVerification from "../pages/OTPVerification";
+
 const Router = () => {
     return (
         <div className="Router">
@@ -28,6 +30,7 @@ const Router = () => {
                 <Route path="/new-survey" exact component={NewSurvey} />
                 <Route path="/create-account" exact component={CreateAccount} />
                 <Route path="/forgot-password" exact component={ForgotPassword} />
+                <Route path="/OTP-verification" exact component={OTPVerification}/>
 
                 {/* We can redirect the user to dashboard even after login is implemented because if the user
                 is not authenticated, the user will be further redirected to login page. */}

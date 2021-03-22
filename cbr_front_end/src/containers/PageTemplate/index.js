@@ -22,6 +22,7 @@ const PageTemplate = ({ children }) => {
     const hideNavInLoginPage = useCallback(() => {
         const currentPageNonNav = location.pathname.indexOf("login") !== -1 ||
                                   location.pathname.indexOf("create-account") !== -1 ||
+                                  location.pathname.indexOf("OTP-verification") !== -1 ||
                                   location.pathname.indexOf("forgot-password") !== -1 ;
         setIsCurrentPageNonNav(currentPageNonNav);
     }, [location]);

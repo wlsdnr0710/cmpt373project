@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
+import { useHistory } from "react-router-dom";
 import Logo from "../../assets/HHALogo.svg";
 import NumberInputField from "../../components/NumberInputField"
 import "./style.css";
 
 const ForgotPasswordForm = () => {
+    const history = useHistory();
     const [contactNumber, setContactNumber] = useState()
 
     const contactNumberHandler = event => {
@@ -13,7 +15,7 @@ const ForgotPasswordForm = () => {
     }
 
     const onClickSubmit = () =>{
-        
+        history.push(history.push("/OTP-verification?query=" + contactNumber));
     }
 
     return (
@@ -30,7 +32,7 @@ const ForgotPasswordForm = () => {
                         isDisabled={false}
                     />
                 <div>
-                    <button  className="submit-button">
+                    <button className="submit-button" onClick={onClickSubmit}>
                         Submit
                     </button>
                 </div>
