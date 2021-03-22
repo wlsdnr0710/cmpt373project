@@ -22,6 +22,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String getAuthenticationToken(Credential credential) {
         Worker worker = workerService.getWorkerByUsername(credential.username);
+        //TODO: change params to add valid days
         return tokenService.getTokenForWorker(worker);
     }
 

@@ -21,14 +21,15 @@ const OTPVerifcationForm = () => {
         }
     }
 
-    // We must ensure that the captcha would be hidden after the first captcha invalidation
-    // to prevent invalid uses of the captcha
+    /* Ensure that the captcha would be hidden after the first captcha invalidation
+       to prevent invalid uses of the captcha. */
     const handleClick = () => {
         setHasSubmitted(!hasSubmitted);
         let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha');
         let number = dialingCodeForUganda + contactNumber;
         firebase.auth().signInWithPhoneNumber(number, recaptcha)
             .then (function (result){
+                //TODO: change and add labels/text for style
                 let code = prompt('enter the code', '');
                 if (code == null) return;
                 result.confirm(code).then(function(e){

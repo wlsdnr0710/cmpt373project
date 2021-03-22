@@ -37,4 +37,22 @@ public class AuthenticationController {
 
         return ResponseEntity.ok().body(responseJson);
     }
+
+    @PassToken
+    @PostMapping(value = "/worker-phone")
+    public ResponseEntity<JSONObject> authenticateWorkerByPhone(@RequestBody Credential credential)
+            throws MissingRequiredDataObjectException {
+        JSONObject responseJson = new JSONObject();
+
+        if (!authenticationService.isCredentialValid(credential)) {
+            responseJson.put("message", credentialInvalidMessage);
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseJson);
+        }
+
+        String authenticationToken = authenticationService.getAuthenticationToken(credential);
+        responseJson.put("data", authenticationToken);
+        //change the token to the token taken from the front end
+
+        return ResponseEntity.ok().body(responseJson);
+    }
 }
