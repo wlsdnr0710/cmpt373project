@@ -38,7 +38,7 @@ export const getVisitsInformationFromServer = (clientId, requestHeader) => {
 };
 
 export const getReferralsInformationFromServer = (clientId, requestHeader) => {
-    return axios.get(ServerConfig.api.url + '/api/v1/referral/' + clientId, {headers: requestHeader});
+    return axios.get(ServerConfig.api.url + '/api/v1/referral/clientId/' + clientId, {headers: requestHeader});
 };
 
 export const addWorkerToServer = (workerInformation) => {
