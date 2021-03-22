@@ -15,7 +15,7 @@ const ForgotPasswordForm = () => {
     }
 
     const onClickSubmit = () =>{
-        history.push(history.push("/OTP-verification?query=" + contactNumber));
+        history.push("/OTP-verification?query=" + contactNumber);
     }
 
     return (
