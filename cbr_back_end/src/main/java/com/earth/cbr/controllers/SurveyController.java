@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.models.survey.Survey;
+import com.earth.cbr.models.survey.SurveyQuestion;
+import com.earth.cbr.models.survey.SurveyQuestionOption;
 import com.earth.cbr.services.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +27,22 @@ public class SurveyController {
         List<Survey> surveys = surveyService.getAllSurveys();
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", surveys);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/question")
+    public ResponseEntity<JSONObject> getAllQuestions() {
+        List<SurveyQuestion> questions = surveyService.getAllQuestions();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", questions);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/option")
+    public ResponseEntity<JSONObject> getAllQuestionOptions() {
+        List<SurveyQuestionOption> questionOptions = surveyService.getAllQuestionOptions();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", questionOptions);
         return ResponseEntity.ok().body(responseJson);
     }
 

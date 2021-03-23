@@ -1,6 +1,10 @@
 package com.earth.cbr.services;
 
 import com.earth.cbr.models.survey.Survey;
+import com.earth.cbr.models.survey.SurveyQuestion;
+import com.earth.cbr.models.survey.SurveyQuestionOption;
+import com.earth.cbr.repositories.QuestionOptionRepository;
+import com.earth.cbr.repositories.QuestionRepository;
 import com.earth.cbr.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,9 +18,25 @@ public class SurveyServiceImpl implements SurveyService {
     @Autowired
     private SurveyRepository surveyRepository;
 
+    @Autowired
+    private QuestionRepository questionRepository;
+
+    @Autowired
+    private QuestionOptionRepository questionOptionRepository;
+
     @Override
     public List<Survey> getAllSurveys() {
         return surveyRepository.findAll();
+    }
+
+    @Override
+    public List<SurveyQuestion> getAllQuestions() {
+        return questionRepository.findAll();
+    }
+
+    @Override
+    public List<SurveyQuestionOption> getAllQuestionOptions() {
+        return questionOptionRepository.findAll();
     }
 
     @Override

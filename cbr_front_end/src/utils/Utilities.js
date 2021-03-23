@@ -167,8 +167,8 @@ export const getDefaultNewSurveyObject = () => {
 
 export const getDefaultSurveyQuestionObject = () => {
   const defaultSurveyQuestion = {
-    "question": "",
-    "questionType": "MULTIPLE_CHOICE",
+    "name": "",
+    "type": "MULTIPLE_CHOICE",
     "isRequired": false,
     "options": [getDefaultSurveyQuestionOptionObject()],
   };
