@@ -8,3 +8,13 @@
 .view-referral .entry {
     margin: 1vh 1vw;
 }
+
+.view-referral .client-photo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.view-referral .client-photo img {
+    width: 80%;
+}

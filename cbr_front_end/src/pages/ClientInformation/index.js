@@ -105,7 +105,9 @@ const ClientInfo = props => {
             return (<p>There are no referrals.</p>);
         }
         else {
-                referralComponents.push(<ViewReferrals referral={referrals} key={0}/>);
+            for (const index in referrals) {
+                referralComponents.push(<ViewReferrals referral={referrals[index]} key={index}/>);
+            }
             return referralComponents;
         }
     };
