@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
-import { useHistory } from "react-router-dom";
 import Logo from "../../assets/HHALogo.svg";
-import firebase from "../../config/FirebaseConfig"
-import NumberInputField from "../../components/NumberInputField"
+import LoginInputField from "../../components/LoginInputField";
 import "./style.css";
 
 const ForgotPasswordForm = () => {

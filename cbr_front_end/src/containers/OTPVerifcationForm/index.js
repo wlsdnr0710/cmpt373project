@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import { useHistory } from "react-router-dom";
 import Logo from "../../assets/HHALogo.svg";
 import firebase from "../../config/FirebaseConfig"
+import ServerConfig from "../../config/ServerConfig";
 import NumberInputField from "../../components/NumberInputField"
 import "./style.css";
 
@@ -21,8 +22,11 @@ const OTPVerifcationForm = () => {
         }
     }
 
+    
+
     /* Ensure that the captcha would be hidden after the first captcha invalidation
-       to prevent invalid uses of the captcha. */
+       to prevent invalid uses of the captcha. 
+       */
     const handleClick = () => {
         setHasSubmitted(!hasSubmitted);
         let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha');
@@ -32,16 +36,32 @@ const OTPVerifcationForm = () => {
                 //TODO: change and add labels/text for style
                 let code = prompt('enter the code', '');
                 if (code == null) return;
-                result.confirm(code).then(function(e){
-                    history.push("/forgot-password");
-                }).catch((error)=>{
-                    setErrorMessage(error.code);
-                    setHideCaptcha(!hideCaptcha);
+                
+                // Verify in front-end to reduce load on back-end
+                // Only do final firebase verification in back-end for security purposes
+                result.confirm(code)
+                .then(function(e){
+                    firebase.auth().currentUser.getIdToken(true)
+                    .then(function(idToken){
+                        
+                        //history.push("/forgot-password");
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    });
                 })
-            }).catch(error => {
-                setErrorMessage(error.code);
-                setHideCaptcha(!hideCaptcha);
+                .catch(error=>{
+                    handleErrorCatch(error);
+                })
             })
+            .catch(error => {
+                handleErrorCatch(error);
+            })
+    }
+    
+    const handleErrorCatch = (error) => {
+        setErrorMessage(error.code);
+        setHideCaptcha(!hideCaptcha);
     }
 
     const reloadCaptchaVerifification = () => {
