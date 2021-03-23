@@ -20,7 +20,7 @@ public class SurveyQuestionOption {
     private String name;
 
     @JsonIgnore
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "question_id", referencedColumnName = "id")
     private SurveyQuestion surveyQuestion;
 

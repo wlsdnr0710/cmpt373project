@@ -1,7 +1,5 @@
 package com.earth.cbr.models.survey;
 
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
@@ -20,7 +18,7 @@ public class Survey {
     @NotBlank(message = "Survey name is mandatory")
     private String name;
 
-    @OneToMany(mappedBy = "survey")
+    @OneToMany(mappedBy = "survey", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
     private Set<SurveyQuestion> questions;
 
     public Survey() {

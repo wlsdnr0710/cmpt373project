@@ -15,8 +15,8 @@ public class SurveyQuestion {
     private Long id;
 
     @JsonIgnore
-    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "survey_id", referencedColumnName = "id")
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "survey_id", referencedColumnName = "id", nullable = false)
     private Survey survey;
 
     @Column(
@@ -34,15 +34,14 @@ public class SurveyQuestion {
     @Enumerated(EnumType.STRING)
     private SurveyQuestionType type;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "surveyQuestion")
+    @OneToMany(mappedBy = "surveyQuestion", cascade = CascadeType.ALL)
     private Set<SurveyQuestionOption> options;
 
     @Column(
             name = "is_required",
             columnDefinition = "BOOLEAN"
     )
-    @NotBlank(message = "Is survey question required is mandatory")
+    @NotNull(message = "Is survey question required is mandatory")
     private Boolean isRequired;
 
     public SurveyQuestion() {

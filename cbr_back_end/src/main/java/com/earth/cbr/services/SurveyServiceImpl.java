@@ -9,8 +9,10 @@ import com.earth.cbr.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class SurveyServiceImpl implements SurveyService {
@@ -47,7 +49,27 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public Survey addSurvey(Survey survey) {
+        setQuestionParent(survey);
         Survey savedSurvey = surveyRepository.save(survey);
         return savedSurvey;
+    }
+
+    private void setQuestionParent(Survey survey) {
+        Set<SurveyQuestion> surveyQuestions = survey.getQuestions();
+        Iterator<SurveyQuestion> iterator = surveyQuestions.iterator();
+        while (iterator.hasNext()) {
+            SurveyQuestion surveyQuestion = iterator.next();
+            surveyQuestion.setSurvey(survey);
+            setOptionParent(surveyQuestion);
+        }
+    }
+
+    private void setOptionParent(SurveyQuestion surveyQuestion) {
+        Set<SurveyQuestionOption> surveyQuestionOptions = surveyQuestion.getOptions();
+        Iterator<SurveyQuestionOption> iterator = surveyQuestionOptions.iterator();
+        while (iterator.hasNext()) {
+            SurveyQuestionOption option = iterator.next();
+            option.setSurveyQuestion(surveyQuestion);
+        }
     }
 }

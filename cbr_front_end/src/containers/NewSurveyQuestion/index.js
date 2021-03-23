@@ -63,9 +63,9 @@ const NewSurveyQuestion = (
 
     // Important: The question type values should match the enum class in server
     const defaultSurveyQuestionTypes = {
-        "Multiple Choice": "MULTIPLE_CHOICE",
-        "Yes or No": "YES_OR_NO",
-        "Dropdown": "DROPDOWN",
+        "Multiple Choice": "multiple_choice",
+        "Yes or No": "yes_or_no",
+        "Dropdown": "dropdown",
     };
 
     return (

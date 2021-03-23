@@ -4,5 +4,5 @@ public enum SurveyQuestionType {
     multiple_choice,
     yes_or_no,
     dropdown,
-    WRITTEN,
+    written,
 }
