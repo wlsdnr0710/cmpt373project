@@ -49,14 +49,14 @@ public class Visit {
             columnDefinition = "DECIMAL(8, 6)"
     )
     @Range(min = -90, max = 90)
-    private String latitude;
+    private Double latitude;
 
     @Column(
             name = "longitude",
             columnDefinition = "DECIMAL(9, 6)"
     )
     @Range(min = -180, max = 180)
-    private String longitude;
+    private Double longitude;
 
     @Column(
             name = "purpose",
@@ -145,6 +145,8 @@ public class Visit {
     public Visit(Integer consent,
                  Date date,
                  String cbrWorkerName,
+                 Double latitude,
+                 Double longitude,
                  String purpose,
                  Integer zone,
                  Integer villageNumber,
@@ -160,6 +162,8 @@ public class Visit {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.purpose = purpose;
         this.zone = zone;
         this.villageNumber = villageNumber;
@@ -204,6 +208,22 @@ public class Visit {
 
     public void setCbrWorkerName(String cbrWorkerName) {
         this.cbrWorkerName = cbrWorkerName;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getPurpose() {
