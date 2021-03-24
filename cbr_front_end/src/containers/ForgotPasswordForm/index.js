@@ -167,10 +167,7 @@ const ForgotPasswordForm = () => {
                 </div>
             </BackgroundCard>
         </div>
-        
     );
-
 }
-
 
 export default ForgotPasswordForm;

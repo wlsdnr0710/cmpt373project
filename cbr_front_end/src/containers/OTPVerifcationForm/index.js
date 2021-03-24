@@ -124,9 +124,7 @@ const OTPVerifcationForm = () => {
                 <div className="background-margin-padding"/>
             </div>
         </div>
-        
     );
-
 }
 
 export default OTPVerifcationForm;
