@@ -8,8 +8,6 @@ const OTPVerification = () => {
            <OTPVerificationForm/>
         </div>
     );
-
 }
-
 
 export default OTPVerification;
