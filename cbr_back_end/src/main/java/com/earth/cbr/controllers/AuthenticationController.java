@@ -37,6 +37,7 @@ public class AuthenticationController {
         responseJson.put("data", authenticationToken);
         //change the token to the token taken from the front end
 
+
         return ResponseEntity.ok().body(responseJson);
     }
 

@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { useHistory } from "react-router-dom";
 import Logo from "../../assets/HHALogo.svg";
+import axios from 'axios';
+import { saveToken } from "../../utils/AuthenticationUtil";
 import firebase from "../../config/FirebaseConfig"
 import ServerConfig from "../../config/ServerConfig";
 import NumberInputField from "../../components/NumberInputField"
@@ -22,7 +24,26 @@ const OTPVerifcationForm = () => {
         }
     }
 
-    
+    const redirectToForgotPasswordForm = () => {
+        history.push("/forgot-password");
+    }
+
+    const submitFormByPostRequest = idToken => {
+        axios.post(ServerConfig.api.url + '/api/v1/authentication/worker-phone', 
+            {
+                contactNumber: contactNumber,
+                firebaseVerifyCode: idToken
+            })
+            .then(response => {
+                const token = response.data.data;
+                saveToken(token);
+                redirectToForgotPasswordForm();
+            })
+            .catch(error => {
+                setErrorMessage("Invalid Request from server side");
+                handleErrorCatch(error);
+            })
+    };
 
     /* Ensure that the captcha would be hidden after the first captcha invalidation
        to prevent invalid uses of the captcha. 
@@ -43,8 +64,7 @@ const OTPVerifcationForm = () => {
                 .then(function(e){
                     firebase.auth().currentUser.getIdToken(true)
                     .then(function(idToken){
-                        
-                        //history.push("/forgot-password");
+                        submitFormByPostRequest(idToken);
                     })
                     .catch(function(error){
                         console.log(error);

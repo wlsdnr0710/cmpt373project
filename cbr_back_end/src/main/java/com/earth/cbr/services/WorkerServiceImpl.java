@@ -29,6 +29,7 @@ public class WorkerServiceImpl implements WorkerService {
 
     @Override
     public Worker getWorkerByContactNumber(String contactNumber) {
+        System.out.println(contactNumber);
         Optional<Worker> workerOptional = workerRepository.findByPhone(contactNumber);
         Worker worker = workerOptional.orElse(null);
         return worker;

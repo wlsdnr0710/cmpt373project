@@ -80,12 +80,14 @@ export default class Login extends Component {
                     <LoginInputField
                         value={this.state.username}
                         onChangeValue={this.handleChange}
+                        name="username"
                         type="username"
                         placeholder="Username"
                     />
                     <LoginInputField
                         value={this.state.password}
                         onChangeValue={this.handleChange}
+                        name="password"
                         type="password"
                         placeholder="Password"
                     />
