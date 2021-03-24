@@ -14,7 +14,8 @@ const NewSurveyQuestion = (
         onChangeQuestionType,
         onClickMoreOption,
         onChangeIsRequired,
-        onDeleteHandler,
+        onDeleteQuestionHandler,
+        getOnDeleteOptionHandler,
     }) => {
     const getOptionInputFields = () => {
         const numOptionsArray = [];
@@ -24,12 +25,22 @@ const NewSurveyQuestion = (
                     <div className="label">
                         <label>Option {i + 1}:</label>
                     </div>
-                    <TextInputField
-                        name="options"
-                        value={values["options"][i]["name"]}
-                        onChange={getUpdateOptionsHandler(i)}
-                        isDisabled={false}
-                    />
+                    <div className="option-input-field-container">
+                        <TextInputField
+                            name="options"
+                            value={values["options"][i]["name"]}
+                            onChange={getUpdateOptionsHandler(i)}
+                            isDisabled={false}
+                        />
+                        <Button
+                            variant="danger"
+                            size="sm"
+                            disabled={false}
+                            onClick={getOnDeleteOptionHandler(i)}
+                        >
+                            Delete
+                        </Button>
+                    </div>
                 </div>
             );
         }
@@ -52,9 +63,9 @@ const NewSurveyQuestion = (
                         variant="danger"
                         size="sm"
                         disabled={false}
-                        onClick={onDeleteHandler}
+                        onClick={onDeleteQuestionHandler}
                     >
-                        Delete
+                        Delete Question
                     </Button>
                 </div>
             </div>

@@ -37,7 +37,8 @@ const NewSurveyForm = () => {
                     onChangeQuestionType={getOnChangeQuestionTypeHandler(i)}
                     onClickMoreOption={getOnClickMoreOption(i)}
                     onChangeIsRequired={getOnChangeIsRequired(i)}
-                    onDeleteHandler={getOnDeleteQuestionHandler(i)}
+                    onDeleteQuestionHandler={getOnDeleteQuestionHandler(i)}
+                    getOnDeleteOptionHandler={getOnDeleteOptionHandler(i)}
                 />
             );
         }
@@ -118,6 +119,27 @@ const NewSurveyForm = () => {
         };
     };
 
+    const getOnDeleteOptionHandler = questionKey => {
+        return optionKey => {
+            return event => {
+                if (formInputs["questions"][questionKey]["options"].length === 1) {
+                    return;
+                }
+                setFormInputs(oldFormInputs => {
+                    const newFormInputs = { ...oldFormInputs };
+                    const newQuestionArray = [...newFormInputs["questions"]];
+                    const newQuestion = { ...newFormInputs["questions"][questionKey] };
+                    const newOptions = [...newQuestion["options"]];
+                    newOptions.splice(optionKey, 1);
+                    newQuestion["options"] = newOptions;
+                    newQuestionArray[questionKey] = newQuestion;
+                    newFormInputs["questions"] = newQuestionArray;
+                    return newFormInputs;
+                });
+            };
+        };
+    };
+
     const getOnClickMoreOption = questionKey => {
         return event => {
             event.preventDefault();
@@ -157,6 +179,8 @@ const NewSurveyForm = () => {
         postNewSurveyQuestions(formInputs, requestHeader)
             .then(response => {
                 setStatesWhenSuccess();
+                // TODO: When view survey page is done,
+                // redirect users to the newly created survey page.
             })
             .catch(error => {
                 setStatesWhenFail();
