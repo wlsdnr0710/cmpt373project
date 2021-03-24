@@ -77,6 +77,7 @@ const NewSurveyQuestion = (
         "Multiple Choice": "multiple_choice",
         "Yes or No": "yes_or_no",
         "Dropdown": "dropdown",
+        "Written Answer": "written",
     };
 
     return (

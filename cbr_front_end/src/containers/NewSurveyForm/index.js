@@ -82,11 +82,21 @@ const NewSurveyForm = () => {
                 const newQuestionsArray = [...formInputs["questions"]];
                 const newQuestion = { ...newQuestionsArray[questionKey] };
                 newQuestion["questionType"] = value;
+                AddOrRemoveOptionsByQuestionType(newQuestion);
                 newQuestionsArray[questionKey] = newQuestion;
                 newFormInputs["questions"] = newQuestionsArray;
                 return newFormInputs;
             });
         };
+    };
+
+    const AddOrRemoveOptionsByQuestionType = question => {
+        const questionType = question["questionType"];
+        if (questionType === 'yes_or_no' || questionType === 'written') {
+            question["options"] = [];
+        } else {
+            question["options"] = [getDefaultSurveyQuestionOptionObject()];
+        }
     };
 
     const getOnChangeIsRequired = questionKey => {
