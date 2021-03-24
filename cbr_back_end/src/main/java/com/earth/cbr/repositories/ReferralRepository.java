@@ -11,4 +11,5 @@ import java.util.Optional;
 public interface ReferralRepository extends JpaRepository<Referral, Long> {
     Optional<Referral> findByRequiredServicesId(Long requiredServicesId);
     List<Referral> findAllByClientId(Long clientId);
+    List<Referral> findAllByClientIdOrderByDateDesc(Long clientId);
 }

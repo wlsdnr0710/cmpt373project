@@ -3,22 +3,15 @@ import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import CameraSnapshot from "../../containers/CameraSnapshot";
-import Card from 'react-bootstrap/Card';
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
-import { 
-    getClientInformationFromServer, 
-    getDefaultPhysiotherapyConditions, 
-    getRequiredServicesKeyValues 
-} from "../../utils/Utilities";
+import { getDefaultPhysiotherapyConditions, getRequiredServicesKeyValues } from "../../utils/Utilities";
 import { getToken } from "../../utils/AuthenticationUtil";
 import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
 import ServerConfig from "../../config/ServerConfig";
-import Spinner from 'react-bootstrap/Spinner';
 import TextAreaInputField from "../../components/TextAreaInputField";
-import TextInputField from "../../components/TextInputField";
 import "./style.css";
 
 const NewReferralForm = props => {
@@ -40,7 +33,6 @@ const NewReferralForm = props => {
     const [showPhysiotherapyQuestions, setShowPhysiotherapyQuestions] = useState(false);
     const [showOrthoticQuestions, setShowOrthoticQuestions] = useState(false);
     const [showProstheticQuestions, setShowProstheticQuestions] = useState(false);
-    const [searchErrorMessage, setSearchErrorMessage] = useState(null);
     const clientId = props.clientId;
 
     const requiredServicesKeyValues = getRequiredServicesKeyValues();
@@ -342,20 +334,6 @@ const NewReferralForm = props => {
         const name = input.name;
         const value = input.value;
         updateFormInputByNameValue(name, value);
-    };
-
-    const showSearchErrorMessage = () => {
-        if (!searchErrorMessage) {
-            return null;
-        }
-
-        return (
-            <div>
-                <Alert variant="danger">
-                    {searchErrorMessage}
-                </Alert >
-            </div>
-        );
     };
 
     return (

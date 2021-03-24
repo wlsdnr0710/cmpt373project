@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect, useState } from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -77,13 +76,7 @@ const ViewReferrals = (props) => {
         if (resolved === true) {
             return (
                 <span>
-                    (Resolved)
-                </span>
-            );
-        } else {
-            return (
-                <span>
-                    (Not Resolved)
+                    - (Resolved)
                 </span>
             );
         }
@@ -212,7 +205,7 @@ const ViewReferrals = (props) => {
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="link" eventKey={props.referral.id}>
-                            {props.referral.id} - {formatResolved(props.referral.resolved)}
+                            {parseEpochToDateString(props.referral.date)} {formatResolved(props.referral.resolved)}
                         </Accordion.Toggle>
                     </Card.Header>
                 <Accordion.Collapse eventKey={props.referral.id}>
@@ -222,6 +215,7 @@ const ViewReferrals = (props) => {
                         {createProstheticSection()}
                         {createOrthoticSection()}
                         {createPhysiotherapySection()}
+                        {createOtherSection()}
                     </Card.Body>
                 </Accordion.Collapse>
                 </Card>
