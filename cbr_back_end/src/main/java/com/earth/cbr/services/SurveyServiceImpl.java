@@ -49,12 +49,18 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public Survey addSurvey(Survey survey) {
-        setQuestionParent(survey);
+        setQuestionOptionParent(survey);
         Survey savedSurvey = surveyRepository.save(survey);
         return savedSurvey;
     }
 
-    private void setQuestionParent(Survey survey) {
+    @Override
+    public Survey updateSurveyById(Survey survey) {
+        setQuestionOptionParent(survey);
+        return surveyRepository.save(survey);
+    }
+
+    private void setQuestionOptionParent(Survey survey) {
         Set<SurveyQuestion> surveyQuestions = survey.getQuestions();
         Iterator<SurveyQuestion> iterator = surveyQuestions.iterator();
         while (iterator.hasNext()) {
@@ -71,5 +77,10 @@ public class SurveyServiceImpl implements SurveyService {
             SurveyQuestionOption option = iterator.next();
             option.setSurveyQuestion(surveyQuestion);
         }
+    }
+
+    @Override
+    public void deleteSurveyById(Long id) {
+        surveyRepository.deleteById(id);
     }
 }

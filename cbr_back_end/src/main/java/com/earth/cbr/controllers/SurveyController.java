@@ -50,7 +50,7 @@ public class SurveyController {
     public ResponseEntity<JSONObject> getSurveyById(@PathVariable Long id) throws ObjectDoesNotExistException {
         Survey survey = surveyService.getSurveyById(id);
         if (survey == null) {
-            throw new ObjectDoesNotExistException("Client with that ID does not exist");
+            throw new ObjectDoesNotExistException("Survey with that ID does not exist");
         }
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", survey);
@@ -62,7 +62,7 @@ public class SurveyController {
             throws MissingRequiredDataObjectException  {
         JSONObject surveyJSON = payload.getJSONObject("data");
         if (surveyJSON == null) {
-            throw new MissingRequiredDataObjectException("Missing data object containing Client data");
+            throw new MissingRequiredDataObjectException("Missing data object containing Survey data");
         }
 
         String surveyString = surveyJSON.toJSONString();
@@ -73,5 +73,40 @@ public class SurveyController {
 
         responseJson.put("id", addedSurvey.getId());
         return ResponseEntity.ok().body(responseJson);
+    }
+
+    @PutMapping
+    public ResponseEntity<JSONObject> updateSurveyById(@RequestBody JSONObject payload)
+            throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
+        JSONObject surveyJSON = payload.getJSONObject("data");
+        if (surveyJSON == null) {
+            throw new MissingRequiredDataObjectException("Missing data object containing Survey data");
+        }
+
+        Long surveyId = surveyJSON.getLong("id");
+        if (surveyId == null) {
+            throw new ObjectDoesNotExistException("Survey ID is required.");
+        }
+
+        if (surveyService.getSurveyById(surveyId) == null) {
+            throw new ObjectDoesNotExistException("Survey with that ID does not exist");
+        }
+
+        String surveyString = surveyJSON.toJSONString();
+        Survey willUpdateSurvey = JSON.parseObject(surveyString, Survey.class);
+        Survey updatedSurvey = surveyService.updateSurveyById(willUpdateSurvey);
+
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("id", updatedSurvey.getId());
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<JSONObject> deleteSurveyById(@PathVariable Long id) throws ObjectDoesNotExistException {
+        if(surveyService.getSurveyById(id) == null) {
+            throw new ObjectDoesNotExistException("Survey with that ID does not exist");
+        }
+        surveyService.deleteSurveyById(id);
+        return ResponseEntity.ok().body(null);
     }
 }
