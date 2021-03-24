@@ -46,14 +46,14 @@ public class Visit {
 
     @Column(
             name = "latitude",
-            columnDefinition = "DECIMAL(10, 8)"
+            columnDefinition = "DECIMAL(8, 6)"
     )
     @Range(min = -90, max = 90)
     private String latitude;
 
     @Column(
             name = "longitude",
-            columnDefinition = "DECIMAL(11, 8)"
+            columnDefinition = "DECIMAL(9, 6)"
     )
     @Range(min = -180, max = 180)
     private String longitude;
