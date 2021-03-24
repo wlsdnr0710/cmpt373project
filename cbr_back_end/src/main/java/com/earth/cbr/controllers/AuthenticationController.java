@@ -32,11 +32,10 @@ public class AuthenticationController {
             responseJson.put("message", credentialInvalidMessage);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseJson);
         }
-
+        
         String authenticationToken = authenticationService.getAuthenticationTokenByCredential(credential);
         responseJson.put("data", authenticationToken);
         //change the token to the token taken from the front end
-
 
         return ResponseEntity.ok().body(responseJson);
     }
@@ -54,7 +53,6 @@ public class AuthenticationController {
 
         String authenticationToken = authenticationService.getAuthenticationTokenByPhoneVerify(phoneAuthentication);
         responseJson.put("data", authenticationToken);
-
 
         return ResponseEntity.ok().body(responseJson);
     }
