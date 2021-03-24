@@ -8,7 +8,7 @@ import "./style.css";
 
 const ViewReferrals = (props) => {
 
-    const check = (field) => {
+    const formatTrueFalseFields = (field) => {
         if (field === true) {
             return (
                 <span>
@@ -24,8 +24,8 @@ const ViewReferrals = (props) => {
         }
     };
 
-    const formatProsthetic = (belowKnee) => {
-        if (belowKnee === true) {
+    const formatProsthetic = () => {
+        if (props.referral.belowKnee=== true) {
             return (
                 <span>
                     Below Knee
@@ -40,8 +40,8 @@ const ViewReferrals = (props) => {
         }
     };
 
-    const formatOrthotic = (belowElbow) => {
-        if (belowElbow === true) {
+    const formatOrthotic = () => {
+        if (props.referral.belowElbow === true) {
             return (
                 <span>
                     Below Elbow
@@ -56,8 +56,8 @@ const ViewReferrals = (props) => {
         }
     };
 
-    const formatIntermediateUser = (intermediateUser) => {
-        if (intermediateUser === true) {
+    const formatIntermediateUser = () => {
+        if (props.referral.intermediateUser === true) {
             return (
                 <span>
                     Intermediate
@@ -72,8 +72,8 @@ const ViewReferrals = (props) => {
         }
     };
 
-    const formatResolved = (resolved) => {
-        if (resolved === true) {
+    const formatResolved = () => {
+        if (props.referral.resolved === true) {
             return (
                 <span>
                     - (Resolved)
@@ -82,8 +82,8 @@ const ViewReferrals = (props) => {
         }
     };
 
-    const createOutcomeSection = (outcome) => {
-        if (outcome !== null) {
+    const createOutcomeSection = () => {
+        if (props.referral.outcome !== null) {
             return (
                 <div className="outcome">
                     <h3>Outcome</h3>
@@ -128,7 +128,7 @@ const ViewReferrals = (props) => {
                     <div className="body">
                         <div className="entry">
                             <strong>Location: </strong>
-                            {formatProsthetic(props.referral.belowKnee)}
+                            {formatProsthetic()}
                         </div>
                     </div>
                 </div>
@@ -144,7 +144,7 @@ const ViewReferrals = (props) => {
                     <div className="body">
                         <div className="entry">
                             <strong>Location: </strong>
-                            {formatOrthotic(props.referral.belowElbow)}
+                            {formatOrthotic()}
                         </div>
                     </div>
                 </div>
@@ -179,7 +179,7 @@ const ViewReferrals = (props) => {
                         </div>
                         <div className="entry">
                             <strong>Intermediate User: </strong>
-                            {formatIntermediateUser(props.referral.intermediateUser)}
+                            {formatIntermediateUser()}
                         </div>
                         <div className="entry">
                             <strong>Hip Width: </strong>
@@ -187,11 +187,11 @@ const ViewReferrals = (props) => {
                         </div>
                         <div className="entry">
                             <strong>Has Existing Wheelchair: </strong>
-                            {check(props.referral.hasExistingWheelchair)}
+                            {formatTrueFalseFields(props.referral.hasExistingWheelchair)}
                         </div>
                         <div className="entry">
                             <strong>Does Require Repairs: </strong>
-                            {check(props.referral.doesRequireRepairs)}
+                            {formatTrueFalseFields(props.referral.doesRequireRepairs)}
                         </div>
                     </div>
                 </div>
@@ -205,19 +205,19 @@ const ViewReferrals = (props) => {
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="link" eventKey={props.referral.id}>
-                            {parseEpochToDateString(props.referral.date)} {formatResolved(props.referral.resolved)}
+                            {parseEpochToDateString(props.referral.date)} {formatResolved()}
                         </Accordion.Toggle>
                     </Card.Header>
-                <Accordion.Collapse eventKey={props.referral.id}>
-                    <Card.Body>
-                        {createOutcomeSection(props.referral.outcome)}
-                        {createWheelchairSection()}
-                        {createProstheticSection()}
-                        {createOrthoticSection()}
-                        {createPhysiotherapySection()}
-                        {createOtherSection()}
-                    </Card.Body>
-                </Accordion.Collapse>
+                    <Accordion.Collapse eventKey={props.referral.id}>
+                        <Card.Body>
+                            {createOutcomeSection()}
+                            {createWheelchairSection()}
+                            {createProstheticSection()}
+                            {createOrthoticSection()}
+                            {createPhysiotherapySection()}
+                            {createOtherSection()}
+                        </Card.Body>
+                    </Accordion.Collapse>
                 </Card>
             </Accordion>
         </div>
