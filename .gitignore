@@ -31,6 +31,7 @@
 /cbr_back_end/!.mvn/wrapper/maven-wrapper.jar
 /cbr_back_end/!**/src/main/**/target/
 /cbr_back_end/!**/src/test/**/target/
+/cbr_back_end/src/main/java/com/earth/cbr/config/firebaseServiceAccountKey.json
 
 ### STS ###
 /cbr_back_end/.apt_generated
