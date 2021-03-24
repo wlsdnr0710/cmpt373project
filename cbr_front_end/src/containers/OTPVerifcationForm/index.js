@@ -10,7 +10,8 @@ import "./style.css";
 
 const OTPVerifcationForm = () => {
     const history = useHistory();
-    const dialingCodeForUganda = "+1";
+    // Change when demo - +1
+    const dialingCodeForUganda = "+256";
     const [contactNumber, setContactNumber] = useState("");
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
