@@ -26,15 +26,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String getAuthenticationTokenByCredential(Credential credential) {
         Worker worker = workerService.getWorkerByUsername(credential.username);
-        //TODO: change params to add valid days
-        return tokenService.getTokenForWorker(worker);
+        return tokenService.getTokenForWorker(worker, credential.rememberMyPass);
     }
 
     @Override
     public String getAuthenticationTokenByPhoneVerify(PhoneAuthentication phoneAuthentication){
         Worker worker = workerService.getWorkerByContactNumber(phoneAuthentication.contactNumber);
-        //TODO: change params to add valid days
-        return tokenService.getTokenForWorker(worker);
+        return tokenService.getTokenForWorker(worker, false);
     }
 
     public boolean isPhoneAuthenticationValid(PhoneAuthentication phoneAuthentication){

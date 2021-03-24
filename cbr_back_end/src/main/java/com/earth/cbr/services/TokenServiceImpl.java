@@ -26,7 +26,10 @@ public class TokenServiceImpl implements TokenService {
     private WorkerService workerService;
 
     @Override
-    public String getTokenForWorker(Worker worker) {
+    public String getTokenForWorker(Worker worker, Boolean rememberPass) {
+        if (rememberPass){
+            TOKEN_VALID_DAYS = 30;
+        }
         Long id = worker.getId();
         String username = worker.getUsername();
         Date expiredDate = getExpireDateSinceToday(TOKEN_VALID_DAYS);

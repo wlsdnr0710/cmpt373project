@@ -45,12 +45,13 @@ export default class Login extends Component {
     }
 
     handleSubmit(event) {
-        const { username, password } = this.state;
+        const { username, password, rememberMyPass } = this.state;
         axios.post(
             ServerConfig.api.url + '/api/v1/authentication/worker',
             {
                 username: username,
-                password: password
+                password: password,
+                rememberMyPass: rememberMyPass
             }
         )
             .then(response => {
