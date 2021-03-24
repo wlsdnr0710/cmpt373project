@@ -1,5 +1,7 @@
 package com.earth.cbr.models;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -41,6 +43,20 @@ public class Visit {
     )
     @NotBlank(message = "CBR Worker name is mandatory")
     private String cbrWorkerName;
+
+    @Column(
+            name = "latitude",
+            columnDefinition = "DECIMAL(10, 8)"
+    )
+    @Range(min = -90, max = 90)
+    private String latitude;
+
+    @Column(
+            name = "longitude",
+            columnDefinition = "DECIMAL(11, 8)"
+    )
+    @Range(min = -180, max = 180)
+    private String longitude;
 
     @Column(
             name = "purpose",
