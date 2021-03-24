@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import NewSurveyQuestion from "../NewSurveyQuestion";
+import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import {
     getDefaultNewSurveyObject,
@@ -15,6 +17,10 @@ import "./style.css";
 
 const NewSurveyForm = () => {
     const [formInputs, setFormInputs] = useState(getDefaultNewSurveyObject());
+    const [isFormDisabled, setIsFormDisabled] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [errorMessages, setErrorMessages] = useState([]);
 
     const showSurveyQuestionInputFields = () => {
         const surveyQuestionsArray = [];
@@ -44,7 +50,7 @@ const NewSurveyForm = () => {
             const value = question.value;
             setFormInputs(oldFormInputs => {
                 const question = oldFormInputs["questions"][questionKey];
-                question["question"] = value;
+                question["name"] = value;
                 oldFormInputs["questions"][questionKey] = question;
                 return { ...oldFormInputs };
             });
@@ -144,16 +150,108 @@ const NewSurveyForm = () => {
 
     const onSubmitHandler = event => {
         event.preventDefault();
+        setStatesDuringSubmitting();
         const requestHeader = {
             token: getToken()
         };
         postNewSurveyQuestions(formInputs, requestHeader)
             .then(response => {
-
+                setStatesWhenSuccess();
             })
             .catch(error => {
-
+                setStatesWhenFail();
+                updateErrorMessages(error);
             })
+    };
+
+    const setStatesDuringSubmitting = () => {
+        setIsSuccess(false);
+        setErrorMessages([]);
+        setIsFormDisabled(true);
+        setIsSubmitting(true);
+    };
+
+    const setStatesWhenSuccess = () => {
+        setIsSuccess(true);
+        setIsFormDisabled(false);
+        setIsSubmitting(false);
+    };
+
+    const setStatesWhenFail = () => {
+        setIsFormDisabled(false);
+        setIsSubmitting(false);
+    };
+
+    const updateErrorMessages = error => {
+        setErrorMessages(prevErrorMessages => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
+    };
+
+    const showSuccessMessage = () => {
+        if (!isSuccess) {
+            return null;
+        }
+        return (
+            <Alert variant="success">
+                The survey is successfully submitted!
+            </Alert>
+        );
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const getSubmitButtonText = () => {
+        if (isSubmitting) {
+            return (
+                <div className="spinning-submit-button-text">
+                    <Spinner
+                        className="spinner"
+                        as="div"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    />
+                    Submitting
+                </div>
+            );
+        } else {
+            return "Submit";
+        }
     };
 
     return (
@@ -189,16 +287,19 @@ const NewSurveyForm = () => {
                 </Button>
             </div>
 
-
             <div className="submit-button-container">
                 <Button
                     variant="primary"
                     size="sm"
-                    disabled={false}
+                    disabled={isFormDisabled}
                     onClick={onSubmitHandler}
                 >
-                    Submit
+                    {getSubmitButtonText()}
                 </Button>
+            </div>
+            <div className="feedback-messages">
+                {showSuccessMessage()}
+                {showErrorMessages()}
             </div>
         </div>
     );

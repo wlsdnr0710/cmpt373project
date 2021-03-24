@@ -75,8 +75,8 @@ const NewSurveyQuestion = (
                     <label>Question:</label>
                 </div>
                 <TextInputField
-                    name="question"
-                    value={values["question"]}
+                    name="name"
+                    value={values["name"]}
                     onChange={updateQuestionHandler}
                     isDisabled={false}
                 />
