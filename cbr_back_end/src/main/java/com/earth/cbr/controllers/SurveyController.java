@@ -58,7 +58,7 @@ public class SurveyController {
     }
 
     @PostMapping
-    public ResponseEntity<JSONObject> addSurveys(@RequestBody JSONObject payload)
+    public ResponseEntity<JSONObject> addSurvey(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException  {
         JSONObject surveyJSON = payload.getJSONObject("data");
         if (surveyJSON == null) {

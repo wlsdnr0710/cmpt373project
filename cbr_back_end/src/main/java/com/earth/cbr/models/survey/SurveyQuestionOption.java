@@ -27,11 +27,7 @@ public class SurveyQuestionOption {
     public SurveyQuestionOption() {
     }
 
-    public SurveyQuestionOption(
-            Long id,
-            @NotBlank(message = "Survey question option name is mandatory") String name,
-            SurveyQuestion surveyQuestion
-    ) {
+    public SurveyQuestionOption(Long id, String name, SurveyQuestion surveyQuestion) {
         this.id = id;
         this.name = name;
         this.surveyQuestion = surveyQuestion;

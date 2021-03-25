@@ -24,7 +24,7 @@ public class Survey {
     public Survey() {
     }
 
-    public Survey(Long id, @NotBlank(message = "Survey name is mandatory") String name, Set<SurveyQuestion> questions) {
+    public Survey(Long id, String name, Set<SurveyQuestion> questions) {
         this.id = id;
         this.name = name;
         this.questions = questions;

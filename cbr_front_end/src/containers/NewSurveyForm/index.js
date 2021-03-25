@@ -82,7 +82,7 @@ const NewSurveyForm = () => {
                 const newQuestionsArray = [...formInputs["questions"]];
                 const newQuestion = { ...newQuestionsArray[questionKey] };
                 newQuestion["questionType"] = value;
-                AddOrRemoveOptionsByQuestionType(newQuestion);
+                addOrRemoveOptionsByQuestionType(newQuestion);
                 newQuestionsArray[questionKey] = newQuestion;
                 newFormInputs["questions"] = newQuestionsArray;
                 return newFormInputs;
@@ -90,7 +90,7 @@ const NewSurveyForm = () => {
         };
     };
 
-    const AddOrRemoveOptionsByQuestionType = question => {
+    const addOrRemoveOptionsByQuestionType = question => {
         const questionType = question["questionType"];
         if (questionType === 'yes_or_no' || questionType === 'written') {
             question["options"] = [];
@@ -230,12 +230,13 @@ const NewSurveyForm = () => {
     const showSuccessMessage = () => {
         if (!isSuccess) {
             return null;
+        } else {
+            return (
+                <Alert variant="success">
+                    The survey is successfully submitted!
+                </Alert>
+            );
         }
-        return (
-            <Alert variant="success">
-                The survey is successfully submitted!
-            </Alert>
-        );
     };
 
     const showErrorMessages = () => {

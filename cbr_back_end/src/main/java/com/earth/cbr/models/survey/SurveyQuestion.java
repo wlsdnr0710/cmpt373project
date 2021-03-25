@@ -41,7 +41,7 @@ public class SurveyQuestion {
             name = "is_required",
             columnDefinition = "BOOLEAN"
     )
-    @NotNull(message = "Is survey question required is mandatory")
+    @NotNull(message = "Must indicate whether the survey question is required")
     private Boolean isRequired;
 
     public SurveyQuestion() {
@@ -50,11 +50,10 @@ public class SurveyQuestion {
     public SurveyQuestion(
             Long id,
             Survey survey,
-            @NotBlank(message = "Question name is mandatory") String name,
-            @NotNull(message = "Survey question type cannot be null") SurveyQuestionType type,
+            String name,
+            SurveyQuestionType type,
             Set<SurveyQuestionOption> options,
-            @NotBlank(message = "Is survey question required is mandatory") Boolean isRequired
-    ) {
+            Boolean isRequired) {
         this.id = id;
         this.survey = survey;
         this.name = name;
