@@ -27,6 +27,30 @@ public class ReferralController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/clientId/{clientId}")
+    public ResponseEntity<JSONObject> getAllReferralsByClientId(@PathVariable Long clientId)
+            throws ObjectDoesNotExistException {
+        if (referralService.getReferralById(clientId) == null) {
+            throw new ObjectDoesNotExistException("Client not associated with any referrals");
+        }
+        List<Referral> referrals = referralService.getAllReferralsByClientId(clientId);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", referrals);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/clientId/{clientId}/sortByDate")
+    public ResponseEntity<JSONObject> getAllReferralsByClientIdSortedByDate(@PathVariable Long clientId)
+            throws ObjectDoesNotExistException {
+        if (referralService.getReferralById(clientId) == null) {
+            throw new ObjectDoesNotExistException("Client not associated with any referrals");
+        }
+        List<Referral> referrals = referralService.getAllReferralsByClientIdSortedByDate(clientId);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", referrals);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @GetMapping(value = "/{id}")
     public ResponseEntity<JSONObject> getReferralById(@PathVariable Long id)
             throws ObjectDoesNotExistException {

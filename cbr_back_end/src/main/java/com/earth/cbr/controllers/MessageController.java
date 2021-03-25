@@ -28,7 +28,7 @@ public class MessageController {
     }
 
     @GetMapping(value = "/sortByDate")
-    public ResponseEntity<JSONObject> getAllMessagesSorted() {
+    public ResponseEntity<JSONObject> getAllMessagesSortedByDate() {
         List<Message> messages = messageService.getAllMessagesSortedByDate();
         JSONObject responseJson = new JSONObject();
         responseJson.put("data",messages);

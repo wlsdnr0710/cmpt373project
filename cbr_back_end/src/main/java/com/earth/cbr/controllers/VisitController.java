@@ -40,12 +40,26 @@ public class VisitController {
     }
 
     @GetMapping(value = "/clientId/{clientId}")
-    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId) throws ObjectDoesNotExistException {
+    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId)
+            throws ObjectDoesNotExistException {
         if(visitService.getAllVisitsByClientId(clientId) == null) {
             throw new ObjectDoesNotExistException("Client not associated with any visits");
         }
 
         List<Visit> visits = visitService.getAllVisitsByClientId(clientId);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", visits);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/clientId/{clientId}/sortByDate")
+    public ResponseEntity<JSONObject> getAllVisitsByClientIdSortedByDate(@PathVariable Long clientId)
+            throws ObjectDoesNotExistException {
+        if(visitService.getAllVisitsByClientId(clientId) == null) {
+            throw new ObjectDoesNotExistException("Client not associated with any visits");
+        }
+
+        List<Visit> visits = visitService.getAllVisitsByClientIdSortedByDate(clientId);
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", visits);
         return ResponseEntity.ok().body(responseJson);

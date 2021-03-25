@@ -10,6 +10,7 @@ public interface VisitService {
     Visit getVisitById(Long id);
     List<Visit> getAllVisitsByCbrWorkerName(String cbrWorkerName);
     List<Visit> getAllVisitsByClientId(Long clientId);
+    List<Visit> getAllVisitsByClientIdSortedByDate(Long clientId);
     Visit addVisit(@Valid Visit visit);
     Visit updateVisitById(@Valid Visit visit);
     void deleteVisitById(Long id);

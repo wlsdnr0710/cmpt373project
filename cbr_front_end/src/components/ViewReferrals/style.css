@@ -1,0 +1,21 @@
+.view-referral .body {
+    background-color: #E9E9E6;
+    border-radius: 5px;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.view-referral .entry {
+    margin: 1vh 1vw;
+}
+
+.view-referral .client-photo {
+    max-width: 350px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.view-referral .client-photo img {
+    width: 80%;
+}
