@@ -170,13 +170,13 @@ export const getDefaultNewSurveyObject = () => {
 };
 
 export const getDefaultSurveyQuestionObject = () => {
-  const defaultSurveyQuestion = {
-    "name": "",
-    "type": "multiple_choice",
-    "isRequired": false,
-    "options": [getDefaultSurveyQuestionOptionObject()],
-  };
-  return defaultSurveyQuestion;
+    const defaultSurveyQuestion = {
+        "name": "",
+        "type": "multiple_choice",
+        "isRequired": false,
+        "options": [getDefaultSurveyQuestionOptionObject()],
+    };
+    return defaultSurveyQuestion;
 };
 
 export const getDefaultSurveyQuestionOptionObject = () => {
