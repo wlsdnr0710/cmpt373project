@@ -1,10 +1,12 @@
 package com.earth.cbr.models;
 
 import com.earth.cbr.models.validation.UniqueRequiredServicesID;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.sql.Date;
 
 @Entity(name = "Referral")
 @Table(name = "referral")
@@ -81,6 +83,13 @@ public class Referral {
     )
     private String outcome;
 
+    @Column(
+            name = "date",
+            columnDefinition = "DATE"
+    )
+    @CreatedDate
+    private Date date;
+
     @OneToOne(optional = false)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
     @NotNull(message = "Required Services cannot be null")
@@ -106,6 +115,7 @@ public class Referral {
                     String referTo,
                     Boolean isResolved,
                     String outcome,
+                    Date date,
                     RequiredServices requiredServices,
                     Physiotherapy physiotherapy) {
         this.id = id;
@@ -120,6 +130,7 @@ public class Referral {
         this.referTo = referTo;
         this.isResolved = isResolved;
         this.outcome = outcome;
+        this.date = date;
         this.requiredServices = requiredServices;
         this.physiotherapy = physiotherapy;
     }
@@ -218,6 +229,14 @@ public class Referral {
 
     public void setOutcome(String outcome) {
         this.outcome = outcome;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public RequiredServices getRequiredServices() {
