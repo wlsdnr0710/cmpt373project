@@ -81,7 +81,7 @@ const NewSurveyForm = () => {
                 const newFormInputs = { ...oldFormInputs };
                 const newQuestionsArray = [...formInputs["questions"]];
                 const newQuestion = { ...newQuestionsArray[questionKey] };
-                newQuestion["questionType"] = value;
+                newQuestion["type"] = value;
                 addOrRemoveOptionsByQuestionType(newQuestion);
                 newQuestionsArray[questionKey] = newQuestion;
                 newFormInputs["questions"] = newQuestionsArray;
@@ -91,7 +91,7 @@ const NewSurveyForm = () => {
     };
 
     const addOrRemoveOptionsByQuestionType = question => {
-        const questionType = question["questionType"];
+        const questionType = question["type"];
         if (questionType === 'yes_or_no' || questionType === 'written') {
             question["options"] = [];
         } else {

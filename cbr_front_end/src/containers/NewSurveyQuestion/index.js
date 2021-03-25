@@ -99,8 +99,8 @@ const NewSurveyQuestion = (
                     <label>Question type:</label>
                 </div>
                 <DropdownList
-                    dropdownName="question_type"
-                    value={values["question_type"]}
+                    dropdownName="type"
+                    value={values["type"]}
                     dropdownListItemsKeyValue={defaultSurveyQuestionTypes}
                     onChange={onChangeQuestionType}
                     isDisabled={false}
