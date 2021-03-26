@@ -14,7 +14,8 @@ const NewSurveyQuestion = (
         onChangeQuestionType,
         onClickMoreOption,
         onChangeIsRequired,
-        onDeleteHandler,
+        onDeleteQuestionHandler,
+        getOnDeleteOptionHandler,
     }) => {
     const getOptionInputFields = () => {
         const numOptionsArray = [];
@@ -24,12 +25,22 @@ const NewSurveyQuestion = (
                     <div className="label">
                         <label>Option {i + 1}:</label>
                     </div>
-                    <TextInputField
-                        name="options"
-                        value={values["options"][i]}
-                        onChange={getUpdateOptionsHandler(i)}
-                        isDisabled={false}
-                    />
+                    <div className="option-input-field-container">
+                        <TextInputField
+                            name="options"
+                            value={values["options"][i]["name"]}
+                            onChange={getUpdateOptionsHandler(i)}
+                            isDisabled={false}
+                        />
+                        <Button
+                            variant="danger"
+                            size="sm"
+                            disabled={false}
+                            onClick={getOnDeleteOptionHandler(i)}
+                        >
+                            Delete
+                        </Button>
+                    </div>
                 </div>
             );
         }
@@ -52,19 +63,21 @@ const NewSurveyQuestion = (
                         variant="danger"
                         size="sm"
                         disabled={false}
-                        onClick={onDeleteHandler}
+                        onClick={onDeleteQuestionHandler}
                     >
-                        Delete
+                        Delete Question
                     </Button>
                 </div>
             </div>
         );
     };
 
+    // Important: The question type values should match the enum class in server
     const defaultSurveyQuestionTypes = {
-        "Multiple Choice": "multipleChoice",
-        "Yes or No": "yesOrNo",
+        "Multiple Choice": "multiple_choice",
+        "Yes or No": "yes_or_no",
         "Dropdown": "dropdown",
+        "Written Answer": "written",
     };
 
     return (
@@ -74,8 +87,8 @@ const NewSurveyQuestion = (
                     <label>Question:</label>
                 </div>
                 <TextInputField
-                    name="question"
-                    value={values["question"]}
+                    name="name"
+                    value={values["name"]}
                     onChange={updateQuestionHandler}
                     isDisabled={false}
                 />
@@ -86,8 +99,8 @@ const NewSurveyQuestion = (
                     <label>Question type:</label>
                 </div>
                 <DropdownList
-                    dropdownName="question_type"
-                    value={values["question_type"]}
+                    dropdownName="type"
+                    value={values["type"]}
                     dropdownListItemsKeyValue={defaultSurveyQuestionTypes}
                     onChange={onChangeQuestionType}
                     isDisabled={false}

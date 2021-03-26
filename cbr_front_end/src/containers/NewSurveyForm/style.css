@@ -9,3 +9,7 @@
 .new-survey-form .more-questions-button-container {
     margin-bottom: 1rem;
 }
+
+.new-survey-form .feedback-messages {
+    margin-top: 1rem;
+}
