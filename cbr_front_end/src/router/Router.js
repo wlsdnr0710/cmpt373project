@@ -18,7 +18,7 @@ const Router = () => {
     return (
         <div className="Router">
             <Switch>
-                <Route path="/login" exact component={Login} />
+                <Route path="/user-login" exact component={Login} />
                 <Route path="/dashboard" exact component={Dashboard} />
                 <Route path="/view-client" exact component={ViewClient} />
                 <Route path="/new-client" exact component={NewClient} />

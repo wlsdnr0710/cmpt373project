@@ -26,17 +26,17 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String getAuthenticationTokenByCredential(Credential credential) {
         Worker worker = workerService.getWorkerByUsername(credential.username);
-        return tokenService.getTokenForWorker(worker, credential.rememberMyPass);
+        return tokenService.getTokenForWorkerWithRememberPassword(worker, credential.rememberMyPassword);
     }
 
     @Override
     public String getAuthenticationTokenByPhoneVerify(PhoneAuthentication phoneAuthentication){
         Worker worker = workerService.getWorkerByContactNumber(phoneAuthentication.contactNumber);
-        return tokenService.getTokenForWorker(worker, false);
+        return tokenService.getTokenForWorkerWithRememberPassword(worker, false);
     }
 
     public boolean isPhoneAuthenticationValid(PhoneAuthentication phoneAuthentication){
-        return areFirebaseVerificationValid(phoneAuthentication.firebaseVerifyCode) && isPhoneNumberValid(phoneAuthentication.contactNumber);
+        return isFirebaseVerificationValid(phoneAuthentication.firebaseVerifyCode) && isPhoneNumberValid(phoneAuthentication.contactNumber);
     }
 
     private boolean isPhoneNumberValid (String contactNumber){
@@ -44,7 +44,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         return worker != null;
     }
 
-    private boolean areFirebaseVerificationValid (String firebaseVerifyCode){
+    private boolean isFirebaseVerificationValid(String firebaseVerifyCode){
         try {
             FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseVerifyCode);
             return true;

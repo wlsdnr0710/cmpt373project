@@ -7,7 +7,7 @@
     padding: 100px;
 }
 
-.forgot-pass-font{
+.forgot-pass-font {
     font-size: 20px;
     color: whitesmoke;
 }
@@ -41,24 +41,30 @@
     background-color: whitesmoke;
 }
 
-.text-input{
+.text-input {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin:50px 200px 100;
 }
 
-.background-margin-padding{
+.background-margin-padding{ 
     padding: 100px;
     height: 283px;
 }
 
-.margin-10px{
+.margin-10px {
     margin:10px 0 0;
 }
 
-.error-message{
+.error-message {
     font-weight: bold;
     color: red;
     font-size: 20px;
+}
+
+.horizontal-flex-align {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

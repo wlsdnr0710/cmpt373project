@@ -51,10 +51,8 @@ const NewVisitForm = (props) => {
         "cbrWorkerName": "",
         "clientId": "",
         "serviceProvided": [],
-
-    //  TODO: add GPS in the visits table
-    //  "latitude" : "",
-    //  "longitude" : "",
+        "latitude" : "",
+        "longitude" : "",
 
         //Goals
         "healthGoalProgress": "cancelled",

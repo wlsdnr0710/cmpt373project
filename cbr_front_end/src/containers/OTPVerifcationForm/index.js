@@ -5,13 +5,14 @@ import axios from 'axios';
 import { saveToken } from "../../utils/AuthenticationUtil";
 import firebase from "../../config/FirebaseConfig"
 import ServerConfig from "../../config/ServerConfig";
+import AreaCodeNumberInputField from "../../components/AreaCodeNumberInputField"
 import NumberInputField from "../../components/NumberInputField"
 import "./style.css";
 
 const OTPVerifcationForm = () => {
     const history = useHistory();
-    // Change when demo - +1
-    const dialingCodeForUganda = "+256";
+
+    const [areaCode, setAreaCode] = useState("256")
     const [contactNumber, setContactNumber] = useState("");
     const [hasSubmitted, setHasSubmitted] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
@@ -25,12 +26,20 @@ const OTPVerifcationForm = () => {
         }
     }
 
+    const AreaCodeHandler = event => {
+        if (!hasSubmitted){
+            const input = event.target;
+            const value = input.value;
+            setAreaCode(value);
+        }
+    }
+
     const redirectToForgotPasswordForm = () => {
         history.push("/forgot-password");
     }
 
     const submitFormByPostRequest = idToken => {
-        axios.post(ServerConfig.api.url + '/api/v1/authentication/worker-phone', 
+        axios.post(ServerConfig.api.url + '/api/v1/authentication//workerPhone', 
             {
                 contactNumber: contactNumber,
                 firebaseVerifyCode: idToken
@@ -52,7 +61,7 @@ const OTPVerifcationForm = () => {
     const handleClick = () => {
         setHasSubmitted(!hasSubmitted);
         let recaptcha = new firebase.auth.RecaptchaVerifier('recaptcha');
-        let number = dialingCodeForUganda + contactNumber;
+        let number = "+" + areaCode + contactNumber;
         firebase.auth().signInWithPhoneNumber(number, recaptcha)
             .then (function (result){
                 //TODO: change and add labels/text for style
@@ -71,13 +80,13 @@ const OTPVerifcationForm = () => {
                         console.log(error);
                     });
                 })
-                .catch(error=>{
+                .catch(error => {
                     handleErrorCatch(error);
-                })
+                });
             })
             .catch(error => {
                 handleErrorCatch(error);
-            })
+            });
     }
     
     const handleErrorCatch = (error) => {
@@ -90,22 +99,30 @@ const OTPVerifcationForm = () => {
     }
 
     const backButtonHandler = () => {
-        history.push("/login");
+        history.push("user-login");
     }
 
     return (
-        <div className="body-form ">
+        <div className="body-form">
             <img src={Logo} alt="" className="photo" />
             <div className="green-box-background">
-                <div className="forgot-pass-font " >
+                <div className="forgot-pass-font" >
                     Phone number of account:
                 </div>
+                <div className="horizontal-flex-align">
+                <AreaCodeNumberInputField
+                    name="areaCode"
+                    value={areaCode}
+                    onChange={AreaCodeHandler}
+                    isDisabled={false}
+                />
                 <NumberInputField
                         name="contactNumber"
                         value={contactNumber}
                         onChange={contactNumberHandler}
                         isDisabled={false}
                     />
+                </div>
                 <div className={"margin-10px"} id="recaptcha" hidden={hideCaptcha}></div>
                 <div hidden={!hasSubmitted} className={"margin-10px error-message"}>
                     {errorMessage}

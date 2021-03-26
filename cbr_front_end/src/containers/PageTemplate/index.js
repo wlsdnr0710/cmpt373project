@@ -20,7 +20,7 @@ const PageTemplate = ({ children }) => {
     const [isCurrentPageNonNav, setIsCurrentPageNonNav] = useState(false);
     const location = useLocation();
     const hideNavInLoginPage = useCallback(() => {
-        const currentPageNonNav = location.pathname.indexOf("login") !== -1 ||
+        const currentPageNonNav = location.pathname.indexOf("user-login") !== -1 ||
                                   location.pathname.indexOf("create-account") !== -1 ||
                                   location.pathname.indexOf("OTP-verification") !== -1 ||
                                   location.pathname.indexOf("forgot-password") !== -1 ;

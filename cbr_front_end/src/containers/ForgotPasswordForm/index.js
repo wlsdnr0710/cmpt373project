@@ -98,7 +98,7 @@ const ForgotPasswordForm = () => {
         })
         .then(response => {
             removeToken();
-            history.push("/login");
+            history.push("user-login");
         })
         .catch(error => {
             setErrorMessage("Unable to change password in server");
@@ -117,7 +117,7 @@ const ForgotPasswordForm = () => {
                     <h1>Change Password</h1>
                     <hr />
                     <div>
-                        <strong>Cbr Worker Name : </strong> 
+                        <strong>CBR Worker Name : </strong> 
                         {workerInformation.data.firstName} {workerInformation.data.lastName}
                     </div>
                     <div>

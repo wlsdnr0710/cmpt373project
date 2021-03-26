@@ -80,7 +80,7 @@ public class WorkerController {
     public ResponseEntity<JSONObject> updateWorkerById(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
         JSONObject workerJSON = payload.getJSONObject("data");
-        System.out.println(payload);
+
         if (workerJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Worker data");
         }

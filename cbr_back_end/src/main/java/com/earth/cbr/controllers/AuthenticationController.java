@@ -32,16 +32,15 @@ public class AuthenticationController {
             responseJson.put("message", credentialInvalidMessage);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseJson);
         }
-        
+
         String authenticationToken = authenticationService.getAuthenticationTokenByCredential(credential);
         responseJson.put("data", authenticationToken);
-        //change the token to the token taken from the front end
 
         return ResponseEntity.ok().body(responseJson);
     }
 
     @PassToken
-    @PostMapping(value = "/worker-phone")
+    @PostMapping(value = "/workerPhone")
     public ResponseEntity<JSONObject> authenticateWorkerByPhone(@RequestBody PhoneAuthentication phoneAuthentication)
             throws MissingRequiredDataObjectException, FirebaseAuthException {
         JSONObject responseJson = new JSONObject();
