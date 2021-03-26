@@ -204,3 +204,7 @@ export const postNewSurveyQuestions = (data, requestHeader) => {
         headers: requestHeader,
     });
 };
+
+export const getAllSurveys = requestHeader => {
+    return axios.get(ServerConfig.api.url + '/api/v1/survey', {headers: requestHeader});
+};
