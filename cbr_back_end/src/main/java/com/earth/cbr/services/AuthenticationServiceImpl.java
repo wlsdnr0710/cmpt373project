@@ -2,6 +2,10 @@ package com.earth.cbr.services;
 
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.authentication.Credential;
+import com.earth.cbr.models.authentication.PhoneAuthentication;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,9 +24,33 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String getAuthenticationToken(Credential credential) {
+    public String getAuthenticationTokenByCredential(Credential credential) {
         Worker worker = workerService.getWorkerByUsername(credential.username);
-        return tokenService.getTokenForWorker(worker);
+        return tokenService.getTokenForWorkerWithRememberPassword(worker, credential.rememberMyPassword);
+    }
+
+    @Override
+    public String getAuthenticationTokenByPhoneVerify(PhoneAuthentication phoneAuthentication){
+        Worker worker = workerService.getWorkerByContactNumber(phoneAuthentication.contactNumber);
+        return tokenService.getTokenForWorkerWithRememberPassword(worker, false);
+    }
+
+    public boolean isPhoneAuthenticationValid(PhoneAuthentication phoneAuthentication){
+        return isFirebaseVerificationValid(phoneAuthentication.firebaseVerifyCode) && isPhoneNumberValid(phoneAuthentication.contactNumber);
+    }
+
+    private boolean isPhoneNumberValid (String contactNumber){
+        Worker worker = workerService.getWorkerByContactNumber(contactNumber);
+        return worker != null;
+    }
+
+    private boolean isFirebaseVerificationValid(String firebaseVerifyCode){
+        try {
+            FirebaseToken decodedToken = FirebaseAuth.getInstance().verifyIdToken(firebaseVerifyCode);
+            return true;
+        } catch (FirebaseAuthException e){
+            return false;
+        }
     }
 
     private boolean areUsernamePasswordValid(String username, String password) {

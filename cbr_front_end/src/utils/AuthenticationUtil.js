@@ -14,7 +14,7 @@ export const isAuthenticated = () => {
 
 export const doAuthentication = history => {
     if (!isAuthenticated()) {
-        history.push("/login");
+        history.push("user-login");
         return false;
     }
     return true;

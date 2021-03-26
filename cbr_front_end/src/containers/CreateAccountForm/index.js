@@ -57,7 +57,7 @@ const CreateAccountForm = () => {
     const onSubmitSuccess = () => {
         setIsSubmitSuccess(true);
         setTimeout(() => {
-            history.push("/login");
+            history.push("user-login");
         }, 2000);
     };
 

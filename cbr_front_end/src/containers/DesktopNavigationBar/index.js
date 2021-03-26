@@ -52,7 +52,7 @@ const DesktopNavigationBar = () => {
         <div onClick={() => {removeToken()}}>
           <NavigationBarEntry
             label="Sign out"
-            destination="/login"
+            destination="user-login"
             iconSource={logoutIcon}
             iconAlt="Sign out"
           />
