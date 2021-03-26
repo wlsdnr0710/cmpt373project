@@ -51,7 +51,7 @@ const OTPVerifcationForm = () => {
             })
             .catch(error => {
                 setErrorMessage("Invalid Request from server side");
-                handleErrorCatch(error);
+                setHideCaptcha(!hideCaptcha);
             })
     };
 
