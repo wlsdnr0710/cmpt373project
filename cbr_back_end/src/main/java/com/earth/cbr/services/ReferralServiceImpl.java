@@ -1,13 +1,8 @@
 package com.earth.cbr.services;
 
 import com.earth.cbr.models.Referral;
-import com.earth.cbr.models.Referral;
 import com.earth.cbr.repositories.ReferralRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
@@ -22,6 +17,16 @@ public class ReferralServiceImpl implements ReferralService {
     @Override
     public List<Referral> getAllReferrals() {
         return referralRepository.findAll();
+    }
+
+    @Override
+    public List<Referral> getAllReferralsByClientId(Long clientId) {
+        return referralRepository.findAllByClientId(clientId);
+    }
+
+    @Override
+    public List<Referral> getAllReferralsByClientIdSortedByDate(Long clientId) {
+        return referralRepository.findAllByClientIdOrderByDateDesc(clientId);
     }
 
     @Override

@@ -96,7 +96,7 @@ const ViewVisits = (props) => {
                     </div>
                 </div>
             </div>
-            );
+        );
     };
 
     const services = () => {

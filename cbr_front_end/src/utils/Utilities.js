@@ -34,7 +34,11 @@ export const getClientInformationFromServer = (clientId, requestHeader) => {
 };
 
 export const getVisitsInformationFromServer = (clientId, requestHeader) => {
-    return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId, {headers: requestHeader});
+    return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
+};
+
+export const getReferralsInformationFromServer = (clientId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/referral/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
 
 export const addWorkerToServer = (workerInformation) => {
@@ -124,10 +128,10 @@ export const getGendersObject = () =>{
 export const getLatestRiskUpdate = (clientObject) => {
     const riskHistoryListLength = clientObject.riskHistories.length;
     if(riskHistoryListLength < 1){
-      return getRiskObject();
+        return getRiskObject();
     } else {
-      const lastRiskUpdateIndex = riskHistoryListLength - 1;
-      return clientObject.riskHistories[lastRiskUpdateIndex];
+        const lastRiskUpdateIndex = riskHistoryListLength - 1;
+        return clientObject.riskHistories[lastRiskUpdateIndex];
     }
 }
 
@@ -158,36 +162,43 @@ export const getDefaultPhysiotherapyConditions = () => {
 };
 
 export const getDefaultNewSurveyObject = () => {
-  const defaultNewSurvey = {
-    "name": "",
-    "questions": [getDefaultSurveyQuestionObject()],
-  };
-  return defaultNewSurvey;
+    const defaultNewSurvey = {
+        "name": "",
+        "questions": [getDefaultSurveyQuestionObject()],
+    };
+    return defaultNewSurvey;
 };
 
 export const getDefaultSurveyQuestionObject = () => {
-  const defaultSurveyQuestion = {
-    "question": "",
-    "question_type": "multipleChoice",
-    "isRequired": false,
-    "options": [""],
-  };
-  return defaultSurveyQuestion;
+    const defaultSurveyQuestion = {
+        "name": "",
+        "type": "multiple_choice",
+        "isRequired": false,
+        "options": [getDefaultSurveyQuestionOptionObject()],
+    };
+    return defaultSurveyQuestion;
+};
+
+export const getDefaultSurveyQuestionOptionObject = () => {
+    const surveyQuestionOption = {
+        "name": "",
+    };
+    return surveyQuestionOption;
 };
 
 export const updateFormInputByNameAndSetter = (name, setter) => {
-  return event => {
-    const value = event.target.value;
-    setter(prevFormInputs => {
-      const newFormInputs = { ...prevFormInputs };
-      newFormInputs[name] = value;
-      return newFormInputs;
-    });
-  }
+    return event => {
+        const value = event.target.value;
+        setter(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
+        });
+    }
 };
 
 export const postNewSurveyQuestions = (data, requestHeader) => {
-    return axios.post(ServerConfig.api.url + '/api/v1/new_survey', {
+    return axios.post(ServerConfig.api.url + '/api/v1/survey', {
         "data": data
     }, {
         headers: requestHeader,
