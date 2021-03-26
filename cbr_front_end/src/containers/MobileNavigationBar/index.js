@@ -3,7 +3,7 @@ import NavigationBarEntry from "../../components/NavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/layers_alt.svg";
 import homeIcon from "../../assets/svg/navigation_icons/home.svg";
-import syncIcon from "../../assets/svg/navigation_icons/cloud.svg"
+import syncIcon from "../../assets/svg/navigation_icons/cloud.svg";
 import "./style.css";
 
 const MobileNavigationBar = () => {
