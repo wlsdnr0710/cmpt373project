@@ -31,6 +31,11 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public List<Client> getOutstandingReferralsByDate() {
+        return clientRepository.findOutstandingReferralsByDate();
+    }
+
+    @Override
     public Page<Client> getClientsByPage(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return clientRepository.findAll(pageable);
