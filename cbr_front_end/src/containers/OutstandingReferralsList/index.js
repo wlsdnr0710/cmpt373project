@@ -26,18 +26,18 @@ const OutstandingReferralsList = () => {
     const createOutstandingReferralsListComponents = () => {
         const outstandingReferralsComponents = [];
         if(outstandingReferrals === undefined || outstandingReferrals.length === 0) {
-            return (<p>Currently there are no outstandingReferrals.</p>);
+            return (<p>Currently there are no outstanding referrals.</p>);
         }
         else {
             for (const index in outstandingReferrals) {
-                outstandingReferralsComponents.push(<OutstandingReferral number={index} client={outstandingReferrals[index]} key={index}/>);
+                outstandingReferralsComponents.push(<OutstandingReferral number={index} referral={outstandingReferrals[index]} key={index}/>);
             }
             return outstandingReferralsComponents;
         }
     };
 
     return (
-        <div className='outstanding-referrals-list'>
+        <div className="outstanding-referrals-list">
             <div className="outstanding-referrals-title">Outstanding Referrals</div>
             {createOutstandingReferralsListComponents()}
         </div>

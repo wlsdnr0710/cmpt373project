@@ -28,19 +28,19 @@ const OutstandingReferral = (props) => {
         <div className="outstanding-referral" onClick={onClickCardHandler}>
             <Card style={{ width: "100%", maxWidth: "350px" }}>
                 <Card.Body>
-                    <div className="client-name">{props.client.firstName} {props.client.lastName}</div>
-                    {addReferralType(props.client.referrals[0].requiredServices.wheelchair, "Wheelchair")}
-                    {addReferralType(props.client.referrals[0].requiredServices.physiotherapy, "Physiotherapy")}
-                    {addReferralType(props.client.referrals[0].requiredServices.prosthetic, "Prosthetic")}
-                    {addReferralType(props.client.referrals[0].requiredServices.orthotic, "Orthotic")}
-                    {addReferralType(props.client.referrals[0].requiredServices.other, "Other")}
+                    <div className="client-name">{props.referral.client.firstName} {props.referral.client.lastName}</div>
+                    {addReferralType(props.referral.requiredServices.wheelchair, "Wheelchair")}
+                    {addReferralType(props.referral.requiredServices.physiotherapy, "Physiotherapy")}
+                    {addReferralType(props.referral.requiredServices.prosthetic, "Prosthetic")}
+                    {addReferralType(props.referral.requiredServices.orthotic, "Orthotic")}
+                    {addReferralType(props.referral.requiredServices.other, "Other")}
                     <div className="attribute">
                         <div className="attribute-title">Zone:</div>
-                        <div className="attribute-value">{props.client.zoneName.name}</div>
+                        <div className="attribute-value">{props.referral.client.zoneName.name}</div>
                     </div>
                     <div className="attribute">
                         <div className="attribute-title">Date:</div>
-                        <div className="attribute-value">{props.client.referrals[0].date}</div>
+                        <div className="attribute-value">{props.referral.date}</div>
                     </div>
                 </Card.Body>
             </Card>

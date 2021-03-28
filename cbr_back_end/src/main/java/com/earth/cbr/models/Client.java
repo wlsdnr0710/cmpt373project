@@ -1,5 +1,6 @@
 package com.earth.cbr.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -150,6 +151,7 @@ public class Client {
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private Set<Referral> referrals;
 

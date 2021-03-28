@@ -42,7 +42,7 @@ export const getReferralsInformationFromServer = (clientId, requestHeader) => {
 };
 
 export const getOutstandingReferralsFromServer = (requestHeader) => {
-    return axios.get(ServerConfig.api.url + '/api/v1/client/outstandingReferrals', {headers: requestHeader});
+    return axios.get(ServerConfig.api.url + '/api/v1/referral/outstandingReferrals', {headers: requestHeader});
 };
 
 export const addWorkerToServer = (workerInformation) => {

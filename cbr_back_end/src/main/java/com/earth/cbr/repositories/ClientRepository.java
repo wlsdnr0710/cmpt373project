@@ -20,7 +20,4 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             "risk_history r on r.client_id = c.id WHERE `date` IN (SELECT MAX(`date`) FROM risk_history GROUP BY client_id) " +
             "ORDER BY risk_sum DESC LIMIT 5", nativeQuery = true)
     List<Client> findTop5ClientsWithHighestRisk();
-    @Query(value = "SELECT * FROM `client` c join `referral` r on c.id = r.client_id " +
-            "WHERE is_resolved = 0 ORDER BY `date` ASC", nativeQuery = true)
-    List<Client> findOutstandingReferralsByDate();
 }
