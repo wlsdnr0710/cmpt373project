@@ -10,9 +10,7 @@ const OutstandingReferral = (props) => {
     const addReferralType = (type, outputValue) => {
         if(type === true) {
             return (
-                <div>
-                    <Badge variant="danger">{outputValue}</Badge>
-                </div>
+                <Badge className="badge" variant="danger">{outputValue}</Badge>
             );
         } else {
             return null;
@@ -23,7 +21,7 @@ const OutstandingReferral = (props) => {
         <div className='outstanding-referral'>
             <Card>
                 <Card.Body>
-                    <div className="referral-client-name">{props.client.firstName} {props.client.lastName}</div>
+                    <div className="client-name">{props.client.firstName} {props.client.lastName}</div>
                     {addReferralType(props.client.referrals[0].requiredServices.wheelchair, "Wheelchair")}
                     {addReferralType(props.client.referrals[0].requiredServices.physiotherapy, "Physiotherapy")}
                     {addReferralType(props.client.referrals[0].requiredServices.prosthetic, "Prosthetic")}

@@ -19,7 +19,7 @@ const OutstandingReferralsList = () => {
             }
         )
         .then(response => {
-            console.log(response.data.data[1].referrals.length);
+            console.log(response.data.data);
             setOutstandingReferrals(response.data.data);
         });
     };
