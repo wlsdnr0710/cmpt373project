@@ -32,6 +32,7 @@
 .mobile-navigation-bar .navigation-entry .text {
   color: #ddd;
   text-align: center;
+  font-size: 4vw;
 }
 
 .mobile-navigation-bar .navigation-entry:hover .text {

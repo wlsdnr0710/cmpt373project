@@ -1,9 +1,12 @@
 import React from "react";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
-import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
-import allClientsIcon from "../../assets/svg/navigation_icons/layers_alt.svg";
+// import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
+import dashboardIcon from "../../assets/svg/navigation_icons/id_card.svg";
+// import allClientsIcon from "../../assets/svg/navigation_icons/layers_alt.svg";
+import allClientsIcon from "../../assets/svg/navigation_icons/people.svg";
 import homeIcon from "../../assets/svg/navigation_icons/home.svg";
-import newReferralIcon from "../../assets/svg/navigation_icons/id_card.svg";
+// import newReferralIcon from "../../assets/svg/navigation_icons/id_card.svg";
+import newReferralIcon from "../../assets/svg/navigation_icons/user_pin.svg";
 import "./style.css";
 
 const MobileNavigationBar = () => {

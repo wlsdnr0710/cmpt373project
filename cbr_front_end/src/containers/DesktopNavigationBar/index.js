@@ -1,12 +1,18 @@
 import React from "react";
 import { removeToken } from "../../utils/AuthenticationUtil";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
-import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
+// Changed icons 
+// import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
+import dashboardIcon from "../../assets/svg/navigation_icons/id_card.svg";
 import newClientIcon from "../../assets/svg/navigation_icons/user_plus.svg";
-import newVisitIcon from "../../assets/svg/navigation_icons/user_pin.svg";
-import newReferralIcon from "../../assets/svg/navigation_icons/id_card.svg";
-import allClientsIcon from "../../assets/svg/navigation_icons/layers_alt.svg";
-import cloudSyncIcon from "../../assets/svg/navigation_icons/cloud.svg";
+// import newVisitIcon from "../../assets/svg/navigation_icons/user_pin.svg";
+import newVisitIcon from "../../assets/svg/navigation_icons/visitor.svg";
+// import newReferralIcon from "../../assets/svg/navigation_icons/id_card.svg";
+import newReferralIcon from "../../assets/svg/navigation_icons/user_pin.svg";
+// import allClientsIcon from "../../assets/svg/navigation_icons/layers_alt.svg";
+import allClientsIcon from "../../assets/svg/navigation_icons/people.svg";
+// import cloudSyncIcon from "../../assets/svg/navigation_icons/cloud.svg";
+import cloudSyncIcon from "../../assets/svg/navigation_icons/sync.svg";
 import logoutIcon from "../../assets/svg/navigation_icons/logout.svg";
 import "./style.css";
 
