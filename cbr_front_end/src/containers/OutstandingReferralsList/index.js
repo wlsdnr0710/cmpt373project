@@ -19,6 +19,7 @@ const OutstandingReferralsList = () => {
             }
         )
         .then(response => {
+            console.log(response.data.data[1].referrals.length);
             setOutstandingReferrals(response.data.data);
         });
     };
@@ -34,7 +35,7 @@ const OutstandingReferralsList = () => {
         }
         else {
             for (const index in outstandingReferrals) {
-                outstandingReferralsComponents.push(<outstandingReferrals number={index} client={outstandingReferrals[index]} key={index}/>);
+                outstandingReferralsComponents.push(<OutstandingReferral number={index} client={outstandingReferrals[index]} key={index}/>);
             }
             return outstandingReferralsComponents;
         }

@@ -1,6 +1,7 @@
 package com.earth.cbr.models;
 
 import com.earth.cbr.models.validation.UniqueRequiredServicesID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -32,7 +33,7 @@ public class Referral {
             columnDefinition = "DECIMAL(4,2)"
     )
     @Positive(message = "Hip width must be positive")
-    private float hipWidthInInches;
+    private Float hipWidthInInches;
 
     @Column (
             name = "is_intermediate_user",
@@ -100,13 +101,18 @@ public class Referral {
     @JoinColumn(name = "physiotherapy_id", referencedColumnName = "id")
     private Physiotherapy physiotherapy;
 
+    @JsonIgnore
+    @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Client client;
+
     public Referral() {
     }
 
     public Referral(Long id,
                     Long clientId,
                     String photo,
-                    float hipWidthInInches,
+                    Float hipWidthInInches,
                     Boolean isIntermediateUser,
                     Boolean hasExistingWheelchair,
                     Boolean doesRequireRepairs,
@@ -117,7 +123,8 @@ public class Referral {
                     String outcome,
                     Date date,
                     RequiredServices requiredServices,
-                    Physiotherapy physiotherapy) {
+                    Physiotherapy physiotherapy,
+                    Client client) {
         this.id = id;
         this.clientId = clientId;
         this.photo = photo;
@@ -133,6 +140,7 @@ public class Referral {
         this.date = date;
         this.requiredServices = requiredServices;
         this.physiotherapy = physiotherapy;
+        this.client = client;
     }
 
     public Long getId() {
@@ -159,11 +167,11 @@ public class Referral {
         this.photo = photo;
     }
 
-    public float getHipWidthInInches() {
+    public Float getHipWidthInInches() {
         return hipWidthInInches;
     }
 
-    public void setHipWidthInInches(float hipWidthInInches) {
+    public void setHipWidthInInches(Float hipWidthInInches) {
         this.hipWidthInInches = hipWidthInInches;
     }
 
@@ -253,5 +261,13 @@ public class Referral {
 
     public void setPhysiotherapy(Physiotherapy physiotherapy) {
         this.physiotherapy = physiotherapy;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

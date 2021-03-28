@@ -150,6 +150,9 @@ public class Client {
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
 
+    @OneToMany(mappedBy = "client")
+    private Set<Referral> referrals;
+
     public Client() {
 
     }
@@ -171,7 +174,8 @@ public class Client {
                   String individualGoals,
                   Set<Disability> disabilities,
                   Set<RiskHistory> riskHistories,
-                  Zone zoneName) {
+                  Zone zoneName,
+                  Set<Referral> referrals) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthdate = birthdate;
@@ -189,6 +193,7 @@ public class Client {
         this.disabilities = disabilities;
         this.riskHistories = riskHistories;
         this.zoneName = zoneName;
+        this.referrals = referrals;
     }
 
     public Long getId() {
@@ -343,5 +348,13 @@ public class Client {
 
     public void setZoneName(Zone zoneName) {
         this.zoneName = zoneName;
+    }
+
+    public Set<Referral> getReferrals() {
+        return referrals;
+    }
+
+    public void setReferrals(Set<Referral> referrals) {
+        this.referrals = referrals;
     }
 }
