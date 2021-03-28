@@ -208,3 +208,13 @@ export const postNewSurveyQuestions = (data, requestHeader) => {
 export const getAllSurveys = requestHeader => {
     return axios.get(ServerConfig.api.url + '/api/v1/survey', {headers: requestHeader});
 };
+
+export const getDefaultSurveyQuestionTypes = () => {
+    const defaultSurveyQuestionTypes = {
+        "Multiple Choice": "multiple_choice",
+        "Yes or No": "yes_or_no",
+        "Dropdown": "dropdown",
+        "Written Answer": "written",
+    };
+    return defaultSurveyQuestionTypes;
+};

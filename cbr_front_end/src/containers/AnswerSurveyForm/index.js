@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import DropdownList from "../../components/DropdownList";
 import { getToken } from "../../utils/AuthenticationUtil";
 import { getAllSurveys } from "../../utils/Utilities";
+import Survey from "../../containers/Survey";
 import "./style.css";
 
 const AnswerSurveyForm = () => {
     const [surveys, setSurveys] = useState([]);
-    const [selectedSurvey, setSelectedSurvey] = useState("");
+    const [selectedSurveyId, setSelectedSurveyId] = useState("");
 
     useEffect(() => {
         const getSurveyList = () => {
@@ -25,7 +26,7 @@ const AnswerSurveyForm = () => {
             const keys = Object.keys(surveys);
             const firstSurveyKey = keys[0];
             const firstSurveyId = surveys[firstSurveyKey]["id"];
-            setSelectedSurvey(firstSurveyId);
+            setSelectedSurveyId(firstSurveyId);
         };
 
         getSurveyList();
@@ -45,7 +46,18 @@ const AnswerSurveyForm = () => {
     const onChangeSurveyDropdown = event => {
         const dropdown = event.target;
         const value = dropdown.value;
-        setSelectedSurvey(value);
+        setSelectedSurveyId(value);
+    };
+
+    const getSurveyByIdFromState = id => {
+        let targetSurvey = null;
+        for (const key in surveys) {
+            const survey = surveys[key];
+            if (survey["id"] === id) {
+                targetSurvey = survey;
+            }
+        }
+        return targetSurvey;
     };
 
     return (
@@ -57,8 +69,13 @@ const AnswerSurveyForm = () => {
                 <DropdownList
                     dropdownName="selected-survey"
                     dropdownListItemsKeyValue={getSurveyIdsNamesForDropdownList()}
-                    value={selectedSurvey}
+                    value={selectedSurveyId}
                     onChange={onChangeSurveyDropdown}
+                />
+            </div>
+            <div className="display-survey">
+                <Survey 
+                    survey={getSurveyByIdFromState(parseInt(selectedSurveyId))}
                 />
             </div>
         </div>
