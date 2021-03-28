@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getToken } from "../../utils/AuthenticationUtil";
+import { getToken, getRole } from "../../utils/AuthenticationUtil";
 import { parseEpochToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import AlertMessage from '../../components/AlertMessage';
@@ -45,6 +45,7 @@ const AlertMessageBoard = () => {
             }
         )
         .then(response => {
+            console.log(getRole());
             setAlertMessages(response.data.data);
         });
     };

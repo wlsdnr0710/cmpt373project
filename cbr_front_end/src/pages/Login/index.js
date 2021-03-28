@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { isAuthenticated } from "../../utils/AuthenticationUtil";
-import { saveToken } from "../../utils/AuthenticationUtil";
+import { getToken, saveToken, saveRole } from "../../utils/AuthenticationUtil";
 import LoginInputField from "../../components/LoginInputField";
 import CheckBox from "../../components/CheckBox"
 import Logo from "../../assets/HHALogo.svg";
@@ -57,6 +57,7 @@ export default class Login extends Component {
             .then(response => {
                 const token = response.data.data;
                 saveToken(token);
+                this.getRole(username);
                 this.redirectToDashboard();
             })
             .catch(error => {
@@ -64,6 +65,21 @@ export default class Login extends Component {
             });
         event.preventDefault();
     }
+
+    getRole = (username) => {
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.get(
+            ServerConfig.api.url + "/api/v1/worker/username/" + username,
+            {
+                headers: requestHeader,
+            }
+        )
+        .then(response => {
+            saveRole(response.data.data.role);
+        });
+    };
 
     handleCreateAccount(event) {
         this.props.history.push("/create-account");

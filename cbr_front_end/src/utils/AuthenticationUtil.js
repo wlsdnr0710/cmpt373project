@@ -51,6 +51,14 @@ export const getToken = () => {
     return window.localStorage.getItem("token");
 };
 
+export const saveRole = role => {
+    window.localStorage.setItem("role", role);
+};
+
+export const getRole = () => {
+    return window.localStorage.getItem("role");
+};
+
 export const removeToken = () => {
     window.localStorage.removeItem("token");
 };
