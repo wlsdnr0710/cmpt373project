@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
-import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
+import { getToken } from "../../utils/AuthenticationUtil";
+import { getOutstandingReferralsFromServer } from "../../utils/Utilities";
 import OutstandingReferral from "../../components/OutstandingReferral";
 import "./style.css";
 
@@ -12,14 +13,8 @@ const OutstandingReferralsList = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/client/outstandingReferrals",
-            {
-                headers: requestHeader,
-            }
-        )
+        getOutstandingReferralsFromServer(requestHeader)
         .then(response => {
-            console.log(response.data.data);
             setOutstandingReferrals(response.data.data);
         });
     };
