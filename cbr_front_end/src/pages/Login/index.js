@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { isAuthenticated } from "../../utils/AuthenticationUtil";
-import { getToken, saveToken, saveRole } from "../../utils/AuthenticationUtil";
+import { isAuthenticated, getToken, saveToken, saveRole } from "../../utils/AuthenticationUtil";
+import { getWorkerInformationFromServer } from "../../utils/Utilities";
 import LoginInputField from "../../components/LoginInputField";
 import CheckBox from "../../components/CheckBox"
 import Logo from "../../assets/HHALogo.svg";
@@ -57,8 +57,7 @@ export default class Login extends Component {
             .then(response => {
                 const token = response.data.data;
                 saveToken(token);
-                this.getRole(username);
-                this.redirectToDashboard();
+                this.getWorkerRole(username);
             })
             .catch(error => {
                 this.setState({ errorMessage: error.response.data.message });
@@ -66,18 +65,14 @@ export default class Login extends Component {
         event.preventDefault();
     }
 
-    getRole = (username) => {
+    getWorkerRole = (username) => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/worker/username/" + username,
-            {
-                headers: requestHeader,
-            }
-        )
+        getWorkerInformationFromServer(username, requestHeader)
         .then(response => {
             saveRole(response.data.data.role);
+            this.redirectToDashboard();
         });
     };
 

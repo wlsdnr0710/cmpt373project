@@ -20,6 +20,15 @@ export const doAuthentication = history => {
     return true;
 };
 
+export const checkForAdmin = history => {
+    const role = window.localStorage.getItem("role");
+    if (role !== "admin") {
+        history.push("dashboard");
+        return false;
+    }
+    return true;
+};
+
 const isTokenExpired = token => {
     const decodedToken = jwt_decode(token);
     const expiredTime = decodedToken.exp;

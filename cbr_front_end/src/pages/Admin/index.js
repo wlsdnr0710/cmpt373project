@@ -1,5 +1,5 @@
 import React from 'react';
-import { doAuthentication } from "../../utils/AuthenticationUtil";
+import { doAuthentication, checkForAdmin } from "../../utils/AuthenticationUtil";
 import FormHeader from "../../components/FormHeader";
 import Statistics from "../../containers/Statistics";
 import WorkerList from "../../containers/WorkerList";
@@ -8,6 +8,7 @@ import "./style.css";
 
 const Admin = ({ history }) => {
     doAuthentication(history);
+    checkForAdmin(history);
     return (
         <div className="admin">
             <FormHeader

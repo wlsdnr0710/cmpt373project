@@ -45,7 +45,6 @@ const AlertMessageBoard = () => {
             }
         )
         .then(response => {
-            console.log(getRole());
             setAlertMessages(response.data.data);
         });
     };
