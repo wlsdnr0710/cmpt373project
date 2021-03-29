@@ -40,7 +40,7 @@ public class ReferralController {
     }
 
     @GetMapping(value = "/clientId/{clientId}/sortByDate")
-    public ResponseEntity<JSONObject> getAllReferralsByIsResolvedFalseSortedByDate(@PathVariable Long clientId)
+    public ResponseEntity<JSONObject> getAllReferralsByClientIdSortedByDate(@PathVariable Long clientId)
             throws ObjectDoesNotExistException {
         if (referralService.getReferralById(clientId) == null) {
             throw new ObjectDoesNotExistException("Client not associated with any referrals");
