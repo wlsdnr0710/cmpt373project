@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import { getToken } from "../../utils/AuthenticationUtil";
@@ -8,7 +7,9 @@ const WorkerList = () => {
 
     return (
         <div className="worker-list">
-            <h1>Worker List</h1>
+            <div className="worker-list-title">
+                Worker List
+            </div>
         </div>
     );
 };

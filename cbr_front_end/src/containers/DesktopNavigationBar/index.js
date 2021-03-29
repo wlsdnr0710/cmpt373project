@@ -8,6 +8,7 @@ import newReferralIcon from "../../assets/svg/navigation_icons/id_card.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/layers_alt.svg";
 import cloudSyncIcon from "../../assets/svg/navigation_icons/cloud.svg";
 import logoutIcon from "../../assets/svg/navigation_icons/logout.svg";
+import adminIcon from "../../assets/svg/navigation_icons/settings.svg";
 import "./style.css";
 
 const DesktopNavigationBar = () => {
@@ -19,7 +20,7 @@ const DesktopNavigationBar = () => {
                     label="Admin"
                     destination="/admin"
                     query="#"
-                    iconSource={dashboardIcon}
+                    iconSource={adminIcon}
                     iconAlt="Admin"
                 />
             );
@@ -60,21 +61,21 @@ const DesktopNavigationBar = () => {
                     iconSource={newReferralIcon}
                     iconAlt="New Referral"
                 />
-                    <NavigationBarEntry
+                <NavigationBarEntry
                     label="All Clients"
                     destination="/view-client"
                     query="clients"
                     iconSource={allClientsIcon}
                     iconAlt="All Clients"
                 />
-                    <div onClick={() => {removeToken()}}>
+                <div onClick={() => {removeToken()}}>
                     <NavigationBarEntry
-                    label="Sign out"
-                    destination="user-login"
-                    iconSource={logoutIcon}
-                    iconAlt="Sign out"
-                />
-            </div>
+                        label="Sign out"
+                        destination="user-login"
+                        iconSource={logoutIcon}
+                        iconAlt="Sign out"
+                    />
+                </div>
                 <div className="sync">
                     <NavigationBarEntry
                         label="Sync"
