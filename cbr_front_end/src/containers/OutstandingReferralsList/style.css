@@ -1,0 +1,9 @@
+.outstanding-referrals-list {
+    border: 0.1rem;
+    margin: auto;
+    padding: 1rem;
+}
+
+.outstanding-referrals-list .outstanding-referrals-title {
+    font-size: 2rem;
+}

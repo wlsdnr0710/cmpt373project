@@ -3,6 +3,7 @@ import { doAuthentication } from "../../utils/AuthenticationUtil";
 import FormHeader from "../../components/FormHeader";
 import AlertMessageBoard from "../../containers/AlertMessageBoard";
 import PriorityClientList from "../../containers/PriorityClientList";
+import OutstandingReferralsList from "../../containers/OutstandingReferralsList";
 
 const DashBoard = ({ history }) => {
     doAuthentication(history);
@@ -16,6 +17,10 @@ const DashBoard = ({ history }) => {
             <hr />
 
             <PriorityClientList />
+
+            <hr />
+
+            <OutstandingReferralsList />
         </div>
     );
 };

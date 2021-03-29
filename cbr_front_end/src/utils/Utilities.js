@@ -41,6 +41,10 @@ export const getReferralsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/referral/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
 
+export const getOutstandingReferralsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/referral/outstandingReferrals', {headers: requestHeader});
+};
+
 export const getWorkerInformationFromServer = (username, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/worker/username/' + username, {headers: requestHeader});
 };
@@ -49,7 +53,7 @@ export const addWorkerToServer = (workerInformation) => {
     return axios.post(ServerConfig.api.url + '/api/v1/worker', {"data" : workerInformation});
 };
 
-export const getZonesFromServer = (requestHeader) => {
+export const getZonesFromServer = () => {
     return axios.get(ServerConfig.api.url + '/api/v1/zone');
 };
 

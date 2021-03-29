@@ -30,6 +30,11 @@ public class ReferralServiceImpl implements ReferralService {
     }
 
     @Override
+    public List<Referral> getAllOutstandingReferralsSortedByDate() {
+        return referralRepository.findAllByIsResolvedFalseOrderByDateAsc();
+    }
+
+    @Override
     public Referral getReferralById(Long id) {
         Optional<Referral> referralOptional = referralRepository.findById(id);
         Referral referral = referralOptional.orElse(null);
