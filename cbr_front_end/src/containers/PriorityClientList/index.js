@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
-import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
+import { getToken } from "../../utils/AuthenticationUtil";
 import "./style.css";
 import PriorityClient from '../../components/PriorityClient';
 
