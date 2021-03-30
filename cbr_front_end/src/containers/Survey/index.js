@@ -3,8 +3,8 @@ import { getDefaultSurveyQuestionTypes } from "../../utils/Utilities";
 import YesOrNoQuestion from "../../components/YesOrNoQuestion";
 import "./style.css";
 
-const Survey = ({ survey }) => {
-    if (survey === null) {
+const Survey = ({ survey, values, setter }) => {
+    if (survey === null || values === undefined) {
         return null;
     }
 
@@ -22,10 +22,45 @@ const Survey = ({ survey }) => {
         return questionComponents;
     };
 
+    const getQuestionOnChangeHandler = question => {
+        const id = question["id"];
+        if (question["type"] === surveyQuestionType["Yes or No"]) {
+            return event => {
+                const value = event.target.checked; 
+                setter(prevState => {
+                    const newState = { ...prevState };
+                    const newQuestion = { ...newState[id] };
+                    newQuestion["value"] = value;
+                    newState[id] = newQuestion;
+                    return newState;
+                });
+            };
+        } else {
+            return event => {
+                const value = event.target.value;
+                setter(prevState => {
+                    const newState = { ...prevState };
+                    const newQuestion = { ...newState[id] };
+                    newQuestion["value"] = value;
+                    newState[id] = newQuestion;
+                    return newState;
+                });
+            };
+        }
+
+    };
+
     const parseAndGetSurveyQuestion = question => {
         switch (question["type"]) {
             case surveyQuestionType["Yes or No"]:
-                return <YesOrNoQuestion question={question} />
+                return (
+                    <YesOrNoQuestion
+                        key={question["id"]}
+                        question={question}
+                        value={values[question["id"]]["value"]}
+                        onChangeHandler={getQuestionOnChangeHandler(question)}
+                    />
+                );
         }
     };
 
