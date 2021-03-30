@@ -29,7 +29,7 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String getTokenForWorkerWithRememberPassword(Worker worker, Boolean rememberPass) {
         long token_valid_days = DEFAULT_TOKEN_VALID_DAYS;
-        if (rememberPass){
+        if (rememberPass) {
             token_valid_days = REMEMBER_PASSWORD_TOKEN_VALID_DAYS;
         }
         Long id = worker.getId();
@@ -63,6 +63,25 @@ public class TokenServiceImpl implements TokenService {
             return username;
         } catch (JWTVerificationException e) {
             return null;
+        }
+    }
+
+    @Override
+    public Boolean doesWorkerHaveAdminRole(String token) {
+        Long id = getWorkerIdFromToken(token);
+        if (id == null) {
+            return false;
+        }
+
+        Worker worker = workerService.getWorkerById(id);
+        if (worker == null) {
+            return false;
+        }
+
+        if (worker.getRole() == Worker.Role.admin) {
+            return true;
+        } else {
+            return false;
         }
     }
 

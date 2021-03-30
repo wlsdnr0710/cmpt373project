@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Worker;
+import com.earth.cbr.models.authentication.Admin;
 import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.WorkerService;
 import com.earth.cbr.utilities.Utility;
@@ -21,6 +22,7 @@ public class WorkerController {
     @Autowired
     private WorkerService workerService;
 
+    @Admin
     @GetMapping
     public ResponseEntity<JSONObject> getAllWorkers() {
         List<Worker> workers = workerService.getAllWorkers();
