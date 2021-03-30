@@ -1,12 +1,13 @@
 import jwt_decode from "jwt-decode";
 
 export const isAuthenticated = () => {
-    const token = window.localStorage.getItem("token");
+    const token = getToken();
     if (!token) {
         return false;
     }
     if (isTokenExpired(token)) {
-        window.localStorage.removeItem("token");
+        removeToken();
+        removeRole();
         return false;
     }
     return true;
@@ -21,8 +22,7 @@ export const doAuthentication = history => {
 };
 
 export const checkForAdmin = history => {
-    const role = window.localStorage.getItem("role");
-    if (role !== "admin") {
+    if (getRole() !== "admin") {
         history.push("dashboard");
         return false;
     }
@@ -65,9 +65,13 @@ export const removeToken = () => {
 };
 
 export const saveRole = role => {
-    window.localStorage.setItem("role", role);
+    window.sessionStorage.setItem("role", role);
 };
 
 export const getRole = () => {
-    return window.localStorage.getItem("role");
+    return window.sessionStorage.getItem("role");
+};
+
+export const removeRole = () => {
+    window.sessionStorage.removeItem("role");
 };

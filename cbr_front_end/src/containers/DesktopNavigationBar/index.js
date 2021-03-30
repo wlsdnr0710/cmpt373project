@@ -1,5 +1,16 @@
 import React from "react";
-import { getRole, removeToken } from "../../utils/AuthenticationUtil";
+import {
+    getToken,
+    getRole,
+    saveRole,
+    removeToken,
+    removeRole,
+    getWorkerUsernameFromToken,
+    isAuthenticated
+} from "../../utils/AuthenticationUtil";
+import { useEffect, useState } from 'react';
+import { useLocation, useHistory } from "react-router-dom";
+import { getWorkerInformationFromServer } from "../../utils/Utilities";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/notification.svg";
 import newClientIcon from "../../assets/svg/navigation_icons/user_plus.svg";
@@ -12,9 +23,29 @@ import adminIcon from "../../assets/svg/navigation_icons/settings.svg";
 import "./style.css";
 
 const DesktopNavigationBar = () => {
+    const [isAdminRole, setAdminRole] = useState(false);
+
+    const setRoleIfRoleIsNull = () => {
+        if (getRole() === null && isAuthenticated()) {
+            const requestHeader = {
+                token: getToken()
+            };
+            getWorkerInformationFromServer(getWorkerUsernameFromToken(getToken()), requestHeader)
+            .then(response => {
+                const role = response.data.data.role;
+                saveRole(role);
+                if (role === "admin") {
+                    setAdminRole(true);
+                }
+            })
+            .catch(error => {
+
+            });
+        }
+    };
 
     const getAdminNavigationItem = () => {
-        if(getRole() === "admin") {
+        if(getRole() === "admin" || isAdminRole === true) {
             return (
                 <NavigationBarEntry
                     label="Admin"
@@ -29,7 +60,17 @@ const DesktopNavigationBar = () => {
         }
     };
 
-    const getNavigationItems = () => {
+    const onSignOut = () => {
+        removeToken();
+        removeRole();
+        setAdminRole(false);
+    };
+
+    useEffect(() => {
+        setRoleIfRoleIsNull();
+    }, []);
+
+    const getDefaultNavigationItems = () => {
         return (
             <div className="desktop-navigation-bar">
                 {getAdminNavigationItem()}
@@ -68,7 +109,7 @@ const DesktopNavigationBar = () => {
                     iconSource={allClientsIcon}
                     iconAlt="All Clients"
                 />
-                <div onClick={() => {removeToken()}}>
+                <div onClick={onSignOut}>
                     <NavigationBarEntry
                         label="Sign out"
                         destination="user-login"
@@ -91,7 +132,7 @@ const DesktopNavigationBar = () => {
 
     return (
         <div className="desktop-navigation-bar">
-            {getNavigationItems()}
+            {getDefaultNavigationItems()}
         </div>
     );
 };

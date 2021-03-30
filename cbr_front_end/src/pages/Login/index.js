@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { isAuthenticated, getToken, saveToken, saveRole } from "../../utils/AuthenticationUtil";
+import { isAuthenticated, saveToken } from "../../utils/AuthenticationUtil";
 import { getWorkerInformationFromServer } from "../../utils/Utilities";
 import LoginInputField from "../../components/LoginInputField";
 import CheckBox from "../../components/CheckBox"
@@ -57,24 +57,13 @@ export default class Login extends Component {
             .then(response => {
                 const token = response.data.data;
                 saveToken(token);
-                this.getWorkerRole(username);
+                this.redirectToDashboard();
             })
             .catch(error => {
                 this.setState({ errorMessage: error.response.data.message });
             });
         event.preventDefault();
     }
-
-    getWorkerRole = (username) => {
-        const requestHeader = {
-            token: getToken()
-        };
-        getWorkerInformationFromServer(username, requestHeader)
-        .then(response => {
-            saveRole(response.data.data.role);
-            this.redirectToDashboard();
-        });
-    };
 
     handleCreateAccount(event) {
         this.props.history.push("/create-account");
