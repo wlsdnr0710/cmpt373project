@@ -22,6 +22,7 @@
 
 .mobile-navigation-bar .navigation-entry:hover {
   background-color: #ddd;
+  opacity: 1.0;
 }
 
 .mobile-navigation-bar .navigation-entry .icon {

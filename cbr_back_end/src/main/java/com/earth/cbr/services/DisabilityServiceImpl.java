@@ -19,4 +19,26 @@ public class DisabilityServiceImpl implements DisabilityService {
     public List<Disability> getAllDisabilities() {
         return disabilityRepository.findAll();
     }
+
+    @Override
+    public Disability getDisabilityById(Long id) {
+        Optional<Disability> disabilityOptional = disabilityRepository.findById(id);
+        Disability disability = disabilityOptional.orElse(null);
+        return disability;
+    }
+
+    @Override
+    public Disability addDisability(@Valid Disability disability) {
+        return disabilityRepository.save(disability);
+    }
+
+    @Override
+    public Disability updateDisabilityById(@Valid Disability disability) {
+        return disabilityRepository.save(disability);
+    }
+
+    @Override
+    public void deleteDisabilityById(Long id) {
+        disabilityRepository.deleteById(id);
+    }
 }

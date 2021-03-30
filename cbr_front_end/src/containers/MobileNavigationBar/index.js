@@ -3,7 +3,7 @@ import NavigationBarEntry from "../../components/NavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/id_card.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/people.svg";
 import homeIcon from "../../assets/svg/navigation_icons/home.svg";
-import newReferralIcon from "../../assets/svg/navigation_icons/user_pin.svg";
+import syncIcon from "../../assets/svg/navigation_icons/cloud.svg";
 import "./style.css";
 
 const MobileNavigationBar = () => {
@@ -32,11 +32,11 @@ const MobileNavigationBar = () => {
           iconAlt="All Clients"
         />
         <NavigationBarEntry
-          label="New Referral"
-          destination="/new-referral"
+          label="Sync"
+          destination="#"
           query="#"
-          iconSource={newReferralIcon}
-          iconAlt="New Referral"
+          iconSource={syncIcon}
+          iconAlt="Sync Application"
         />
       </div>
     );
