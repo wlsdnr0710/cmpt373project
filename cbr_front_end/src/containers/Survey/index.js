@@ -1,5 +1,6 @@
 import React from "react";
 import { getDefaultSurveyQuestionTypes } from "../../utils/Utilities";
+import MultipleChoiceQuestion from "../../components/MultipleChoiceQuestion";
 import YesOrNoQuestion from "../../components/YesOrNoQuestion";
 import "./style.css";
 
@@ -31,6 +32,29 @@ const Survey = ({ survey, values, setter }) => {
         return sortedQuestions;
     };
 
+    const parseAndGetSurveyQuestion = question => {
+        switch (question["type"]) {
+            case surveyQuestionType["Yes or No"]:
+                return (
+                    <YesOrNoQuestion
+                        key={question["id"]}
+                        question={question}
+                        value={values[question["id"]]["value"]}
+                        onChangeHandler={getQuestionOnChangeHandler(question)}
+                    />
+                );
+            case surveyQuestionType["Multiple Choice"]:
+                return (
+                    <MultipleChoiceQuestion
+                        key={question["id"]}
+                        question={question}
+                        value={values[question["id"]]["value"]}
+                        onChangeHandler={getQuestionOnChangeHandler(question)}
+                    />
+                );
+        }
+    };
+
     const getQuestionOnChangeHandler = question => {
         const id = question["id"];
         if (question["type"] === surveyQuestionType["Yes or No"]) {
@@ -44,6 +68,33 @@ const Survey = ({ survey, values, setter }) => {
                     return newState;
                 });
             };
+        } else if (question["type"] === surveyQuestionType["Multiple Choice"]) {
+            return option => {
+                return event => {
+                    const isChecked = event.target.checked;
+                    if (isChecked) {
+                        setter(prevState => {
+                            const newState = { ...prevState };
+                            const newQuestion = { ...newState[id] };
+                            const newValue = [...newQuestion["value"]];
+                            newValue.push(option);
+                            newQuestion["value"] = newValue;
+                            newState[id] = newQuestion;
+                            return newState;
+                        });
+                    } else {
+                        setter(prevState => {
+                            const newState = { ...prevState };
+                            const newQuestion = { ...newState[id] };
+                            const newValue = [...newQuestion["value"]];
+                            const removedOptionValue = removeOptionFromArray(newValue, option)
+                            newQuestion["value"] = removedOptionValue;
+                            newState[id] = newQuestion;
+                            return newState;
+                        });
+                    }
+                }
+            }
         } else {
             return event => {
                 const value = event.target.value;
@@ -56,21 +107,18 @@ const Survey = ({ survey, values, setter }) => {
                 });
             };
         }
-
     };
 
-    const parseAndGetSurveyQuestion = question => {
-        switch (question["type"]) {
-            case surveyQuestionType["Yes or No"]:
-                return (
-                    <YesOrNoQuestion
-                        key={question["id"]}
-                        question={question}
-                        value={values[question["id"]]["value"]}
-                        onChangeHandler={getQuestionOnChangeHandler(question)}
-                    />
-                );
+    const removeOptionFromArray = (array, option) => {
+        const afterRemovedArray = [...array];
+        for (let i = 0; i < afterRemovedArray.length; i++) {
+            const optionFromArray = afterRemovedArray[i];
+            if (optionFromArray["id"] === option["id"]) {
+                afterRemovedArray.splice(i, 1);
+                break;
+            }
         }
+        return afterRemovedArray;
     };
 
     return (

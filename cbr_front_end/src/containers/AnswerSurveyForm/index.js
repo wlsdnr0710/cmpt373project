@@ -74,6 +74,8 @@ const AnswerSurveyForm = () => {
     const getSurveyInputDefaultValue = question => {
         if (question["type"] === surveyQuestionType["Yes or No"]) {
             return false;
+        } else if (question["type"] === surveyQuestionType["Multiple Choice"]) {
+            return [];
         } else {
             return "";
         }
