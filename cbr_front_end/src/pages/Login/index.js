@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { isAuthenticated } from "../../utils/AuthenticationUtil";
-import { saveToken } from "../../utils/AuthenticationUtil";
+import { isAuthenticated, saveToken } from "../../utils/AuthenticationUtil";
+import { getWorkerInformationFromServer } from "../../utils/Utilities";
 import LoginInputField from "../../components/LoginInputField";
 import CheckBox from "../../components/CheckBox"
 import Logo from "../../assets/HHALogo.svg";
