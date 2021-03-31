@@ -20,6 +20,8 @@ const PageTemplate = ({ children }) => {
     const [isCurrentPageNonTemplate, setIsCurrentPageNonTemplate] = useState(false);
     const [isCurrentPageNonNav, setIsCurrentPageNonNav] = useState(false);
     const location = useLocation();
+
+    // Hiding TopBar + NavBars
     const hideTemplate = useCallback(() => {
         const currentPageNonTemplate = location.pathname.indexOf("user-login") !== -1 ||
                                   location.pathname.indexOf("create-account") !== -1 ||
@@ -28,7 +30,7 @@ const PageTemplate = ({ children }) => {
         setIsCurrentPageNonTemplate(currentPageNonTemplate);
     }, [location]);
 
-    
+    // Hiding only NavBars
     const hideNav = useCallback(() => {
         const currentPageNonNav = location.pathname.indexOf("home") !== -1;
         setIsCurrentPageNonNav(currentPageNonNav);
