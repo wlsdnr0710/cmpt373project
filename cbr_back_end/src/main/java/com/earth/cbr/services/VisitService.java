@@ -11,6 +11,8 @@ public interface VisitService {
     List<Visit> getAllVisitsByCbrWorkerName(String cbrWorkerName);
     List<Visit> getAllVisitsByClientId(Long clientId);
     List<Visit> getAllVisitsByClientIdSortedByDate(Long clientId);
+    Long getAllVisitsCount();
+    Integer getAllVisitsByZoneCount(Integer zoneId);
     Visit addVisit(@Valid Visit visit);
     Visit updateVisitById(@Valid Visit visit);
     void deleteVisitById(Long id);

@@ -43,6 +43,16 @@ public class VisitServiceImpl implements VisitService{
     }
 
     @Override
+    public Long getAllVisitsCount() {
+        return visitRepository.count();
+    }
+
+    @Override
+    public Integer getAllVisitsByZoneCount(Integer zoneId) {
+        return visitRepository.findAllByZone(zoneId).size();
+    }
+
+    @Override
     public Visit addVisit(@Valid Visit visit) {
         return visitRepository.save(visit);
     }

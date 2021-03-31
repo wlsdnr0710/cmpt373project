@@ -78,6 +78,22 @@ public class VisitController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/count")
+    public ResponseEntity<JSONObject> getAllVisitsCount() {
+        Long visitCount = visitService.getAllVisitsCount();
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", visitCount);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/count/zone/{zone}")
+    public ResponseEntity<JSONObject> getAllVisitsByZoneCount(@PathVariable Integer zone) {
+        Integer visitCount = visitService.getAllVisitsByZoneCount(zone);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", visitCount);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @PostMapping
     public ResponseEntity<JSONObject> addVisit(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException {
