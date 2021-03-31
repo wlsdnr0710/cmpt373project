@@ -14,7 +14,7 @@ const MultipleChoiceQuestion = ({ question, value, onChangeHandler }) => {
                 <div key={option["id"]}>
                     <div>
                         <CheckBox
-                            name="yes"
+                            name="multiple-choice"
                             value={value}
                             actionHandler={onChangeHandler(option)}
                             displayText={option["name"]}

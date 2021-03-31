@@ -1,5 +1,6 @@
 import React from "react";
 import { getDefaultSurveyQuestionTypes } from "../../utils/Utilities";
+import DropdownQuestion from "../../components/DropdownQuestion";
 import MultipleChoiceQuestion from "../../components/MultipleChoiceQuestion";
 import YesOrNoQuestion from "../../components/YesOrNoQuestion";
 import "./style.css";
@@ -46,6 +47,15 @@ const Survey = ({ survey, values, setter }) => {
             case surveyQuestionType["Multiple Choice"]:
                 return (
                     <MultipleChoiceQuestion
+                        key={question["id"]}
+                        question={question}
+                        value={values[question["id"]]["value"]}
+                        onChangeHandler={getQuestionOnChangeHandler(question)}
+                    />
+                );
+            case surveyQuestionType["Dropdown"]:
+                return (
+                    <DropdownQuestion
                         key={question["id"]}
                         question={question}
                         value={values[question["id"]]["value"]}
