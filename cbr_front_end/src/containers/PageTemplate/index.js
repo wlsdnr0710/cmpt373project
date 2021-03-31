@@ -55,8 +55,7 @@ const PageTemplate = ({ children }) => {
                 <div className="page-content">{children}</div>
             </div>
         );
-    }
-    else {
+    } else {
         return (
             <div className="page-template">
                 <div className="top-container">{getTopBar()}</div>
