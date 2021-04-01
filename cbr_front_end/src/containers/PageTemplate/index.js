@@ -5,7 +5,6 @@ import "./style.css";
 import MobileNavigationBar from "../../containers/MobileNavigationBar";
 import DesktopNavigationBar from "../DesktopNavigationBar";
 
-
 const PageTemplate = ({ children }) => {
     let history = useHistory();
     const getTopBar = () => {

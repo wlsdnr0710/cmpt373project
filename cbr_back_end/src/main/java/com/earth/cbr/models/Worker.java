@@ -11,7 +11,7 @@ import javax.validation.constraints.*;
 @Table(name = "worker")
 public class Worker {
 
-    private enum Role {
+    public enum Role {
         admin,
         clinician,
         worker,

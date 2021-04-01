@@ -1,0 +1,20 @@
+.outstanding-referral {
+    margin-top: 1rem;
+}
+
+.outstanding-referral .client-name {
+    font-size: 1.5rem;
+}
+
+.outstanding-referral .attribute {
+    margin-bottom: 0.5rem;
+}
+
+.outstanding-referral .attribute-title {
+    font-size: 1.2rem;
+    margin-top: 0.3rem;
+}
+
+.outstanding-referral .badge {
+    margin-right: 0.3rem;
+}

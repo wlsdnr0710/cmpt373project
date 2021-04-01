@@ -1,5 +1,6 @@
 package com.earth.cbr.interceptors;
 
+import com.earth.cbr.models.authentication.Admin;
 import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,15 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
         String token = getTokenFromHeader(request);
         boolean doesTokenHasValidWorker = tokenService.doesTokenHasValidWorker(token);
-        return doesTokenHasValidWorker;
+        if (!doesTokenHasValidWorker) {
+            return false;
+        }
+
+        if (!doesRequestNeedAdminRole(method)) {
+            boolean doesWorkerHaveAdminRole = tokenService.doesWorkerHaveAdminRole(token);
+            return doesWorkerHaveAdminRole;
+        }
+        return true;
     }
 
     @Override
@@ -55,6 +64,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 
     private boolean hasPassToken(Method method) {
         return method.isAnnotationPresent(PassToken.class);
+    }
+
+    private boolean doesRequestNeedAdminRole(Method method) {
+        return !hasAdminRole(method);
+    }
+
+    private boolean hasAdminRole(Method method) {
+        return method.isAnnotationPresent(Admin.class);
     }
 
     private boolean doesTokenPresentInHeader(HttpServletRequest request) {
