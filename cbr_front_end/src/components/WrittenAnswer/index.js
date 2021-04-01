@@ -5,7 +5,7 @@ import "./style.css";
 const WrittenAnswer = ({ question, value, onChangeHandler }) => {
 
     return (
-        <div className="written-answer">
+        <div className="written-answer question">
             <div className="question-name">
                 {question["name"]}
             </div>

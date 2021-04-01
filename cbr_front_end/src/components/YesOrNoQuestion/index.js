@@ -4,7 +4,7 @@ import "./style.css";
 
 const YesOrNoQuestion = ({ question, value, onChangeHandler }) => {
     return (
-        <div className="yes-or-no-question">
+        <div className="yes-or-no-question question">
             <div className="question-name">
                 {question["name"]}
             </div>

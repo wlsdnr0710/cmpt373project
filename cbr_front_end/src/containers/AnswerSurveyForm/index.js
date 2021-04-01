@@ -142,6 +142,7 @@ const AnswerSurveyForm = () => {
                 {showSurvey()}
             </div>
             <div>
+                <hr />
                 <Button
                     variant="primary"
                     size="sm"

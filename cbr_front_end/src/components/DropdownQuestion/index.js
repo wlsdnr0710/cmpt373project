@@ -24,7 +24,7 @@ const DropdownQuestion = ({ question, value, onChangeHandler }) => {
     };
 
     return (
-        <div className="dropdown-question">
+        <div className="dropdown-question question">
             <div className="question-name">
                 {question["name"]}
             </div>

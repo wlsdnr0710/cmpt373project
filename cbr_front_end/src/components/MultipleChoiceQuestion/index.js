@@ -35,7 +35,7 @@ const MultipleChoiceQuestion = ({ question, value, onChangeHandler }) => {
     };
 
     return (
-        <div className="multiple-choice-question">
+        <div className="multiple-choice-question question">
             <div className="question-name">
                 {question["name"]}
             </div>
