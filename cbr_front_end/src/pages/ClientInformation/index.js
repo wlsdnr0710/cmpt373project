@@ -135,6 +135,13 @@ const ClientInfo = props => {
         });
     };
 
+    const onClickAnswerSurveyPage = () => {
+        history.push({
+            pathname: "/answer-survey",
+            state: { clientID: formInputs["id"] }
+        });
+    };
+
     const onClickGetEditClientPage = () => {
         history.push({
             pathname: "/edit-client",
@@ -194,6 +201,16 @@ const ClientInfo = props => {
                     <div className="client-information-hr mt-3">
                         <button type="button" className="btn btn-primary" onClick={onClickGetNewReferralPage}>
                             Add Referral
+                        </button>
+                    </div>
+                </BackgroundCard>
+            </div>
+            <div className="view-all-referrals-details">
+                <BackgroundCard heading="Surveys">
+                    {/* TODO: Add answered survey list */}
+                    <div className="client-information-hr mt-3">
+                        <button type="button" className="btn btn-primary" onClick={onClickAnswerSurveyPage}>
+                            Add Survey
                         </button>
                     </div>
                 </BackgroundCard>

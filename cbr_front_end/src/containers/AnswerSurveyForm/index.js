@@ -7,7 +7,7 @@ import { getDefaultSurveyQuestionTypes } from "../../utils/Utilities";
 import Survey from "../../containers/Survey";
 import "./style.css";
 
-const AnswerSurveyForm = () => {
+const AnswerSurveyForm = ({ clientID }) => {
     const [surveys, setSurveys] = useState([]);
     const [selectedSurveyId, setSelectedSurveyId] = useState("");
     const [surveyInput, setSurveyInput] = useState();
@@ -128,6 +128,12 @@ const AnswerSurveyForm = () => {
         );
     };
 
+    const onSubmitHandler = () => {
+        const submittingSurveyInput = { ...surveyInput };
+        submittingSurveyInput["clientId"] = clientID;
+        // TODO: make axios call to submit survey input when API is done
+    };
+
     return (
         <div className="answer-survey-form">
             <div className="select-survey-dropdown">
@@ -150,7 +156,7 @@ const AnswerSurveyForm = () => {
                     variant="primary"
                     size="sm"
                     disabled={false}
-                    onClick={() => { console.log(surveyInput) }}
+                    onClick={onSubmitHandler}
                 >
                     Submit
                 </Button>
