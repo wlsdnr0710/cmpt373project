@@ -1,5 +1,5 @@
 import React from "react";
-import { getDefaultSurveyQuestionTypes } from "../../utils/Utilities";
+import { getDefaultSurveyQuestionTypes, sortArrayByIdAscending } from "../../utils/Utilities";
 import DropdownQuestion from "../../components/DropdownQuestion";
 import MultipleChoiceQuestion from "../../components/MultipleChoiceQuestion";
 import WrittenAnswer from "../../components/WrittenAnswer";
@@ -16,7 +16,7 @@ const Survey = ({ survey, values, setter }) => {
 
     const parseSurveyQuestions = () => {
         const questions = survey["questions"];
-        const sortedQuestions = sortQuestionsById(questions);
+        const sortedQuestions = sortArrayByIdAscending(questions);
         const questionComponents = [];
         for (let i = 0; i < sortedQuestions.length; i++) {
             const question = sortedQuestions[i];
@@ -24,14 +24,6 @@ const Survey = ({ survey, values, setter }) => {
             questionComponents.push(component);
         }
         return questionComponents;
-    };
-
-    const sortQuestionsById = questions => {
-        const sortedQuestions = [...questions];
-        sortedQuestions.sort((q1, q2) => {
-            return q1["id"] > q2["id"] ? 1 : -1;
-        });
-        return sortedQuestions;
     };
 
     const parseAndGetSurveyQuestion = question => {

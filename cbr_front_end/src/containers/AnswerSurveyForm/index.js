@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import DropdownList from "../../components/DropdownList";
 import { getToken } from "../../utils/AuthenticationUtil";
-import { getAllSurveys } from "../../utils/Utilities";
+import { getAllSurveys, sortArrayByIdAscending } from "../../utils/Utilities";
 import { getDefaultSurveyQuestionTypes } from "../../utils/Utilities";
 import Survey from "../../containers/Survey";
 import "./style.css";
@@ -76,6 +76,9 @@ const AnswerSurveyForm = () => {
             return false;
         } else if (question["type"] === surveyQuestionType["Multiple Choice"]) {
             return [];
+        } else if (question["type"] === surveyQuestionType["Dropdown"]) {
+            const sortedOptions = sortArrayByIdAscending(question["options"]);
+            return sortedOptions[0]["id"];
         } else {
             return "";
         }

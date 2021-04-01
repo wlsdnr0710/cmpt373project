@@ -218,3 +218,11 @@ export const getDefaultSurveyQuestionTypes = () => {
     };
     return defaultSurveyQuestionTypes;
 };
+
+export const sortArrayByIdAscending = array => {
+    const sortedArray = [...array];
+    sortedArray.sort((a, b) => {
+        return a["id"] > b["id"] ? 1 : -1;
+    });
+    return sortedArray;
+};

@@ -1,26 +1,19 @@
 import React from "react";
 import DropdownList from "../../components/DropdownList";
+import { sortArrayByIdAscending } from "../../utils/Utilities";
 import "./style.css";
 
 const DropdownQuestion = ({ question, value, onChangeHandler }) => {
 
     const getDropdownKeyValuePairs = question => {
         const options = question["options"];
-        const sortedOptions = sortOptionsById(options);
+        const sortedOptions = sortArrayByIdAscending(options);
         const dropdownKeyValuePairs = {};
         for (let i = 0; i < sortedOptions.length; i++) {
             const option = sortedOptions[i];
             dropdownKeyValuePairs[option["name"]] = option["id"];
         }
         return dropdownKeyValuePairs;
-    };
-
-    const sortOptionsById = options => {
-        const sortedOptions = [...options];
-        sortedOptions.sort((o1, o2) => {
-            return o1["id"] > o2["id"] ? 1 : -1;
-        });
-        return sortedOptions;
     };
 
     return (
