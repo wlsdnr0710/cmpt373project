@@ -1,15 +1,22 @@
 package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Visit;
+import com.earth.cbr.models.Zone;
+import com.earth.cbr.models.authentication.Admin;
 import com.earth.cbr.services.VisitService;
+import com.earth.cbr.services.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin
@@ -18,6 +25,9 @@ import java.util.List;
 public class VisitController {
     @Autowired
     private VisitService visitService;
+
+    @Autowired
+    private ZoneService zoneService;
 
     @GetMapping
     public ResponseEntity<JSONObject> getAllVisits() {
@@ -78,14 +88,26 @@ public class VisitController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @Admin
     @GetMapping(value = "/count")
     public ResponseEntity<JSONObject> getAllVisitsCount() {
         Long visitCount = visitService.getAllVisitsCount();
         JSONObject responseJson = new JSONObject();
-        responseJson.put("data", visitCount);
+        List<JSONObject> items = new ArrayList<>();
+        List<Zone> zones = zoneService.getAllZones();
+
+        for(Zone zone : zones) {
+            JSONObject element = new JSONObject();
+            element.put("name", zone.getName());
+            element.put("count", visitService.getAllVisitsByZoneCount(Math.toIntExact(zone.getId())));
+            items.add(element);
+        }
+
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @Admin
     @GetMapping(value = "/count/zone/{zone}")
     public ResponseEntity<JSONObject> getAllVisitsByZoneCount(@PathVariable Integer zone) {
         Integer visitCount = visitService.getAllVisitsByZoneCount(zone);

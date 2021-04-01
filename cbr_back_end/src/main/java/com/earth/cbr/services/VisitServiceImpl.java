@@ -10,7 +10,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 @Service
-public class VisitServiceImpl implements VisitService{
+public class VisitServiceImpl implements VisitService {
 
     @Autowired
     private VisitRepository visitRepository;
