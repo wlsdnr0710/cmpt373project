@@ -103,16 +103,12 @@ public class VisitController {
             items.add(element);
         }
 
-        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
-        return ResponseEntity.ok().body(responseJson);
-    }
+        JSONObject total = new JSONObject();
+        total.put("name", "TOTAL");
+        total.put("count", visitService.getAllVisitsCount());
+        items.add(total);
 
-    @Admin
-    @GetMapping(value = "/count/zone/{zone}")
-    public ResponseEntity<JSONObject> getAllVisitsByZoneCount(@PathVariable Integer zone) {
-        Integer visitCount = visitService.getAllVisitsByZoneCount(zone);
-        JSONObject responseJson = new JSONObject();
-        responseJson.put("data", visitCount);
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
     }
 

@@ -19,6 +19,8 @@ public interface ClientService {
                                                    String sortBy,
                                                    Boolean ascending);
     List<Client> getTop5ClientsWithHighestRisk();
+    Long getAllClientsCount();
+    Integer getAllClientsByZoneCount(Integer zoneId);
     Client updateClientById(@Valid Client client);
     Client addClient(@Valid Client client);
     void deleteClientById(Long id);
