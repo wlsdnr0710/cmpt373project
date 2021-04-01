@@ -1,16 +1,12 @@
 package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.ColumnNotFoundException;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Client;
-import com.earth.cbr.models.Zone;
-import com.earth.cbr.models.authentication.Admin;
 import com.earth.cbr.services.ClientService;
-import com.earth.cbr.services.ZoneService;
 import com.earth.cbr.utilities.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,8 +14,6 @@ import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @CrossOrigin
@@ -29,38 +23,11 @@ public class ClientController {
     @Autowired
     private ClientService clientService;
 
-    @Autowired
-    private ZoneService zoneService;
-
     @GetMapping
     public ResponseEntity<JSONObject> getAllClients() {
         List<Client> clients = clientService.getAllClients();
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", clients);
-        return ResponseEntity.ok().body(responseJson);
-    }
-
-    @Admin
-    @GetMapping(value = "/count")
-    public ResponseEntity<JSONObject> getAllVisitsCount() {
-        Long visitCount = clientService.getAllClientsCount();
-        JSONObject responseJson = new JSONObject();
-        List<JSONObject> items = new ArrayList<>();
-        List<Zone> zones = zoneService.getAllZones();
-
-        for(Zone zone : zones) {
-            JSONObject element = new JSONObject();
-            element.put("name", zone.getName());
-            element.put("count", clientService.getAllClientsByZoneCount(Math.toIntExact(zone.getId())));
-            items.add(element);
-        }
-
-        JSONObject total = new JSONObject();
-        total.put("name", "TOTAL");
-        total.put("count", clientService.getAllClientsCount());
-        items.add(total);
-
-        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
     }
 

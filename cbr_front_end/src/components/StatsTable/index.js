@@ -7,7 +7,8 @@ const StatsTable = (props) => {
     return (
         <tr>
             <td>{props.stat.name}</td>
-            <td>{props.stat.count}</td>
+            <td>{props.stat.clientCount}</td>
+            <td>{props.stat.visitCount}</td>
         </tr>
 
     );

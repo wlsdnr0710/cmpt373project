@@ -7,35 +7,35 @@ import Table from 'react-bootstrap/Table';
 import "./style.css";
 
 const Statistics = () => {
-    const [visitsCounts, setVisitsCounts] = useState([]);
+    const [countByZone, setCountByZone] = useState([]);
 
-    const getVisitCount = () => {
+    const getCountByZone = () => {
         const requestHeader = {
             token: getToken()
         };
         axios.get(
-            ServerConfig.api.url + "/api/v1/visit/count",
+            ServerConfig.api.url + "/api/v1/statistics/countByZone",
             {
                 headers: requestHeader,
             }
         )
         .then(response => {
-            setVisitsCounts(response.data.data[0]);
+            setCountByZone(response.data.data[0]);
         });
     };
 
     useEffect(()=> {
-        getVisitCount();
+        getCountByZone();
     }, []);
 
-    const createPriorityClientListComponents = () => {
+    const createStatTableComponents = () => {
         const statTableComponents = [];
-        if(visitsCounts === undefined || visitsCounts.length === 0) {
+        if(countByZone === undefined || countByZone.length === 0) {
             return (<p>Currently there are no stats.</p>);
         }
         else {
-            for (const index in visitsCounts) {
-                statTableComponents.push(<StatsTable number={index} stat={visitsCounts[index]} key={index}/>);
+            for (const index in countByZone) {
+                statTableComponents.push(<StatsTable number={index} stat={countByZone[index]} key={index}/>);
             }
             return statTableComponents;
         }
@@ -47,15 +47,16 @@ const Statistics = () => {
                 Statistics
             </div>
             <div>
-                <Table striped>
+                <Table striped bordered>
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Visit Count</th>
+                            <th>Zone</th>
+                            <th>Clients</th>
+                            <th>Visits</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {createPriorityClientListComponents()}
+                        {createStatTableComponents()}
                     </tbody>
                 </Table>
             </div>
