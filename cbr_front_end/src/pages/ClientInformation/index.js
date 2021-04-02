@@ -205,7 +205,7 @@ const ClientInfo = props => {
                     </div>
                 </BackgroundCard>
             </div>
-            <div className="view-all-referrals-details">
+            <div className="view-all-surveys-details">
                 <BackgroundCard heading="Surveys">
                     {/* TODO: Add answered survey list */}
                     <div className="client-information-hr mt-3">

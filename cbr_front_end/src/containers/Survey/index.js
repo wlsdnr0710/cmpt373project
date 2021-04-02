@@ -99,7 +99,7 @@ const Survey = ({ survey, values, setter }) => {
                             const newState = { ...prevState };
                             const newQuestion = { ...newState[id] };
                             const newValue = [...newQuestion["value"]];
-                            const removedOptionValue = removeOptionFromArray(newValue, option)
+                            const removedOptionValue = removeOptionFromArray(newValue, option);
                             newQuestion["value"] = removedOptionValue;
                             newState[id] = newQuestion;
                             return newState;
