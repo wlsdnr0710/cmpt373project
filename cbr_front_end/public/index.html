@@ -43,11 +43,11 @@
     <!-- 
       Check if brower supports having service workers 
      -->
-    <script type="module">
+    <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
-            .register("./sw.js")
+            .register('%PUBLIC_URL%/service-worker.js')
             .then((registration) => {
               console.log("Success: " + registration.scope);
             })
