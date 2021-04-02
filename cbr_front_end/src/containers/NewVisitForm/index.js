@@ -22,9 +22,9 @@ const defaultPurpose = {
 };
 
 const defaultGoalInputs = {
-    "Cancelled": "cancelled",
-    "Ongoing": "ongoing",
-    "Concluded": "concluded",
+    "Cancelled": "CANCELLED",
+    "Ongoing": "ONGOING",
+    "Concluded": "CONCLUDED",
 };
 
 const defaultClientZones = {
@@ -55,11 +55,11 @@ const NewVisitForm = (props) => {
         "longitude" : "",
 
         //Goals
-        "healthGoalProgress": "cancelled",
+        "healthGoalProgress": "CANCELLED",
         "healthOutcome": "",
-        "socialGoalProgress": "cancelled",
+        "socialGoalProgress": "CANCELLED",
         "socialOutcome": "",
-        "educationGoalProgress": "cancelled",
+        "educationGoalProgress": "CANCELLED",
         "educationOutcome": "",
     });
 
@@ -271,7 +271,7 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
-        const concludedStr = "concluded"
+        const concludedStr = "CONCLUDED"
 
         if (name === "healthGoalProgress") {
             if (value !== concludedStr){
@@ -291,7 +291,7 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
-        const concludedStr = "concluded"
+        const concludedStr = "CONCLUDED"
 
         if (name === "educationGoalProgress") {
             if (value !== concludedStr){
@@ -311,7 +311,7 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
-        const concludedStr = "concluded"
+        const concludedStr = "CONCLUDED"
 
         if (name === "socialGoalProgress") {
             if (value !== concludedStr){

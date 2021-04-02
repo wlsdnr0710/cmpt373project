@@ -13,9 +13,9 @@ import java.util.Set;
 public class Visit {
 
     private enum Progress {
-        cancelled,
-        ongoing,
-        concluded
+        CANCELLED,
+        ONGOING,
+        CONCLUDED
     }
 
     @Id
