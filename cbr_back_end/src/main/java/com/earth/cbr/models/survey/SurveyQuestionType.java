@@ -1,8 +1,8 @@
 package com.earth.cbr.models.survey;
 
 public enum SurveyQuestionType {
-    multiple_choice,
-    yes_or_no,
-    dropdown,
-    written,
+    MULTIPLE_CHOICE,
+    YES_OR_NO,
+    DROPDOWN,
+    WRITTEN,
 }
