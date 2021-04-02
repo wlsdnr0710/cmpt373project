@@ -148,60 +148,60 @@ const NewVisitForm = (props) => {
 
     const updateFormInputsFromHealthForm = (submittedForm) =>{
         if (healthFormInputs.wheelchair === true ){
-            submittedForm = addServiceProvided("wheelchair", "health", healthFormInputs.wheelchairDesc, submittedForm);
+            submittedForm = addServiceProvided("wheelchair", "HEALTH", healthFormInputs.wheelchairDesc, submittedForm);
         } 
         if (healthFormInputs.prosthetic === true){
-            submittedForm = addServiceProvided("prosthetic", "health", healthFormInputs.prostheticDesc, submittedForm);
+            submittedForm = addServiceProvided("prosthetic", "HEALTH", healthFormInputs.prostheticDesc, submittedForm);
         }
         if (healthFormInputs.orthotic === true){
-            submittedForm = addServiceProvided("orthotic", "health", healthFormInputs.orthoticDesc, submittedForm);
+            submittedForm = addServiceProvided("orthotic", "HEALTH", healthFormInputs.orthoticDesc, submittedForm);
         }
         if (healthFormInputs.wheelchairRepairs === true){
-            submittedForm = addServiceProvided("wheelchairRepairs", "health", healthFormInputs.wheelchairRepairsDesc, submittedForm);
+            submittedForm = addServiceProvided("wheelchairRepairs", "HEALTH", healthFormInputs.wheelchairRepairsDesc, submittedForm);
         }
         if (healthFormInputs.referralToHealthCentre === true){
-            submittedForm = addServiceProvided("referralToHealthCentre", "health", healthFormInputs.referralToHealthCentreDesc, submittedForm);
+            submittedForm = addServiceProvided("referralToHealthCentre", "HEALTH", healthFormInputs.referralToHealthCentreDesc, submittedForm);
         }
         if (healthFormInputs.healthAdvice === true){
-            submittedForm = addServiceProvided("healthAdvice", "health", healthFormInputs.healthAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("healthAdvice", "HEALTH", healthFormInputs.healthAdviceDesc, submittedForm);
         }
         if (healthFormInputs.healthAdvocacy === true){
-            submittedForm = addServiceProvided("healthAdvocacy", "health", healthFormInputs.healthAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("healthAdvocacy", "HEALTH", healthFormInputs.healthAdvocacyDesc, submittedForm);
         }
         if (healthFormInputs.healthEncouragement === true){
-            submittedForm = addServiceProvided("healthEncouragement", "health", healthFormInputs.healthEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("healthEncouragement", "HEALTH", healthFormInputs.healthEncouragementDesc, submittedForm);
         }
         return submittedForm
     }
 
     const updateFormInputsFromEducationForm = (submittedForm) =>{
         if (educationFormInputs.referralToEducationOrg === true ){
-            submittedForm = addServiceProvided("referralToEducationOrg", "education", educationFormInputs.referralToEducationOrgDesc, submittedForm);
+            submittedForm = addServiceProvided("referralToEducationOrg", "EDUCATION", educationFormInputs.referralToEducationOrgDesc, submittedForm);
         } 
         if (educationFormInputs.educationAdvice === true ){
-            submittedForm = addServiceProvided("educationAdvice", "education", educationFormInputs.educationAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("educationAdvice", "EDUCATION", educationFormInputs.educationAdviceDesc, submittedForm);
         } 
         if (educationFormInputs.educationAdvocacy === true ){
-            submittedForm = addServiceProvided("educationAdvocacy", "education", educationFormInputs.educationAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("educationAdvocacy", "EDUCATION", educationFormInputs.educationAdvocacyDesc, submittedForm);
         } 
         if (educationFormInputs.educationEncouragement === true ){
-            submittedForm = addServiceProvided("educationEncouragement", "education", educationFormInputs.educationEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("educationEncouragement", "EDUCATION", educationFormInputs.educationEncouragementDesc, submittedForm);
         } 
         return submittedForm
     }
 
     const updateFormInputsFromSocialForm = (submittedForm) =>{
         if (socialFormInputs.referralToSocialOrg === true ){
-            submittedForm = addServiceProvided("referralToSocialOrg", "social", socialFormInputs.referralToSocialOrgDesc, submittedForm);
+            submittedForm = addServiceProvided("referralToSocialOrg", "SOCIAL", socialFormInputs.referralToSocialOrgDesc, submittedForm);
         } 
         if (socialFormInputs.socialAdvice === true ){
-            submittedForm = addServiceProvided("socialAdvice", "social", socialFormInputs.socialAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("socialAdvice", "SOCIAL", socialFormInputs.socialAdviceDesc, submittedForm);
         } 
         if (socialFormInputs.socialAdvocacy === true ){
-            submittedForm = addServiceProvided("socialAdvocacy", "social", socialFormInputs.socialAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("socialAdvocacy", "SOCIAL", socialFormInputs.socialAdvocacyDesc, submittedForm);
         } 
         if (socialFormInputs.socialEncouragement === true ){
-            submittedForm = addServiceProvided("socialEncouragement", "social", socialFormInputs.socialEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("socialEncouragement", "SOCIAL", socialFormInputs.socialEncouragementDesc, submittedForm);
         } 
         return submittedForm
     }

@@ -9,9 +9,9 @@ import javax.validation.constraints.NotNull;
 public class ServiceOption {
 
     private enum Type {
-        health,
-        social,
-        education
+        HEALTH,
+        SOCIAL,
+        EDUCATION
     }
 
     @Id
