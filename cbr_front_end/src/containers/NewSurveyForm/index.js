@@ -92,7 +92,7 @@ const NewSurveyForm = () => {
 
     const addOrRemoveOptionsByQuestionType = question => {
         const questionType = question["type"];
-        if (questionType === 'yes_or_no' || questionType === 'written') {
+        if (questionType === 'YES_OR_NO' || questionType === 'WRITTEN') {
             question["options"] = [];
         } else {
             question["options"] = [getDefaultSurveyQuestionOptionObject()];

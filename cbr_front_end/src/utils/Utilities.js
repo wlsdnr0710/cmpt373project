@@ -180,7 +180,7 @@ export const getDefaultNewSurveyObject = () => {
 export const getDefaultSurveyQuestionObject = () => {
     const defaultSurveyQuestion = {
         "name": "",
-        "type": "multiple_choice",
+        "type": "MULTIPLE_CHOICE",
         "isRequired": false,
         "options": [getDefaultSurveyQuestionOptionObject()],
     };
@@ -219,10 +219,10 @@ export const getAllSurveys = requestHeader => {
 
 export const getDefaultSurveyQuestionTypes = () => {
     const defaultSurveyQuestionTypes = {
-        "Multiple Choice": "multiple_choice",
-        "Yes or No": "yes_or_no",
-        "Dropdown": "dropdown",
-        "Written Answer": "written",
+        "Multiple Choice": "MULTIPLE_CHOICE",
+        "Yes or No": "YES_OR_NO",
+        "Dropdown": "DROPDOWN",
+        "Written Answer": "WRITTEN",
     };
     return defaultSurveyQuestionTypes;
 };

@@ -22,7 +22,7 @@ export const doAuthentication = history => {
 };
 
 export const checkForAdmin = history => {
-    if (getRole() !== "admin") {
+    if (getRole() !== "ADMIN") {
         history.push("dashboard");
         return false;
     }
