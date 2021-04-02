@@ -25,6 +25,21 @@ public class ReferralServiceImpl implements ReferralService {
     }
 
     @Override
+    public List<Referral> getAllReferralsByWorkerId(Long workerId) {
+        return referralRepository.findAllByWorkerId(workerId);
+    }
+
+    @Override
+    public Long getAllReferralsCount() {
+        return referralRepository.count();
+    }
+
+    @Override
+    public Integer getAllReferralsByWorkerIdCount(Long workerId) {
+        return referralRepository.findAllByWorkerId(workerId).size();
+    }
+
+    @Override
     public List<Referral> getAllReferralsByClientIdSortedByDate(Long clientId) {
         return referralRepository.findAllByClientIdOrderByDateDesc(clientId);
     }

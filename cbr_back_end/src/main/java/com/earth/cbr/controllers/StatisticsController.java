@@ -2,11 +2,10 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.models.authentication.Admin;
-import com.earth.cbr.services.ClientService;
-import com.earth.cbr.services.VisitService;
-import com.earth.cbr.services.ZoneService;
+import com.earth.cbr.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +25,17 @@ public class StatisticsController {
     private ClientService clientService;
 
     @Autowired
+    private WorkerService workerService;
+
+    @Autowired
+    private ReferralService referralService;
+
+    @Autowired
     private ZoneService zoneService;
 
     @Admin
     @GetMapping(value = "/countByZone")
     public ResponseEntity<JSONObject> getAllVisitsCount() {
-        Long visitCount = visitService.getAllVisitsCount();
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -48,6 +52,29 @@ public class StatisticsController {
         total.put("name", "TOTAL");
         total.put("clientCount", clientService.getAllClientsCount());
         total.put("visitCount", visitService.getAllVisitsCount());
+        items.add(total);
+
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @Admin
+    @GetMapping(value = "/countByWorker")
+    public ResponseEntity<JSONObject> getAllReferralsByWorkerCount() {
+        JSONObject responseJson = new JSONObject();
+        List<JSONObject> items = new ArrayList<>();
+        List<Worker> workers = workerService.getAllWorkers();
+
+        for(Worker worker : workers) {
+            JSONObject element = new JSONObject();
+            element.put("name", worker.getFirstName() + " " + worker.getLastName());
+            element.put("referralCount", referralService.getAllReferralsByWorkerIdCount(worker.getId()));
+            items.add(element);
+        }
+
+        JSONObject total = new JSONObject();
+        total.put("name", "TOTAL");
+        total.put("clientCount", referralService.getAllReferralsCount());
         items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));

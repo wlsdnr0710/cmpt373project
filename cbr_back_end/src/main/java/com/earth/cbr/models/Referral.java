@@ -91,6 +91,12 @@ public class Referral {
     @CreatedDate
     private Date date;
 
+    @Column (
+            name = "worker_id",
+            columnDefinition = "INT"
+    )
+    private Long workerId;
+
     @OneToOne(optional = false)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
     @NotNull(message = "Required Services cannot be null")
@@ -121,6 +127,7 @@ public class Referral {
                     Boolean isResolved,
                     String outcome,
                     Date date,
+                    Long workerId,
                     RequiredServices requiredServices,
                     Physiotherapy physiotherapy,
                     Client client) {
@@ -137,6 +144,7 @@ public class Referral {
         this.isResolved = isResolved;
         this.outcome = outcome;
         this.date = date;
+        this.workerId = workerId;
         this.requiredServices = requiredServices;
         this.physiotherapy = physiotherapy;
         this.client = client;
@@ -244,6 +252,14 @@ public class Referral {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public Long getWorkerId() {
+        return workerId;
+    }
+
+    public void setWorkerId(Long workerId) {
+        this.workerId = workerId;
     }
 
     public RequiredServices getRequiredServices() {
