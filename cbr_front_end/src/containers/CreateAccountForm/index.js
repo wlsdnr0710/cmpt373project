@@ -16,9 +16,9 @@ const CreateAccountForm = () => {
 
     const getRoleMapping = () => {
         return {
-            "Worker": "Worker",
-            "Admin": "Admin",
-            "Clinician": "Clinician",
+            "Worker": "WORKER",
+            "Admin": "ADMIN",
+            "Clinician": "CLINICIAN",
         };
     };
 
@@ -26,7 +26,7 @@ const CreateAccountForm = () => {
         "firstName": "",
         "lastName": "",
         "zone": 1,
-        "role": "Worker",
+        "role": "WORKER",
         "email": "",
         "phone": "",
         "username": "",

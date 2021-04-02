@@ -78,7 +78,7 @@ public class TokenServiceImpl implements TokenService {
             return false;
         }
 
-        if (worker.getRole() == Worker.Role.admin) {
+        if (worker.getRole() == Worker.Role.ADMIN) {
             return true;
         } else {
             return false;
