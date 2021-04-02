@@ -2,6 +2,8 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.models.Client;
+import com.earth.cbr.models.ServiceDescription;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.models.authentication.Admin;
@@ -69,12 +71,14 @@ public class StatisticsController {
             JSONObject element = new JSONObject();
             element.put("name", worker.getFirstName() + " " + worker.getLastName());
             element.put("referralCount", referralService.getAllReferralsByWorkerIdCount(worker.getId()));
+            element.put("outstandingReferralCount", referralService.getAllOutstandingReferralsByWorkerIdCount(worker.getId()));
             items.add(element);
         }
 
         JSONObject total = new JSONObject();
         total.put("name", "TOTAL");
-        total.put("clientCount", referralService.getAllReferralsCount());
+        total.put("referralCount", referralService.getAllReferralsCount());
+        total.put("outstandingReferralCount", referralService.getAllOutstandingReferralsCount());
         items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));

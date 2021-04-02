@@ -25,11 +25,6 @@ public class ReferralServiceImpl implements ReferralService {
     }
 
     @Override
-    public List<Referral> getAllReferralsByWorkerId(Long workerId) {
-        return referralRepository.findAllByWorkerId(workerId);
-    }
-
-    @Override
     public Long getAllReferralsCount() {
         return referralRepository.count();
     }
@@ -47,6 +42,16 @@ public class ReferralServiceImpl implements ReferralService {
     @Override
     public List<Referral> getAllOutstandingReferralsSortedByDate() {
         return referralRepository.findAllByIsResolvedFalseOrderByDateAsc();
+    }
+
+    @Override
+    public Integer getAllOutstandingReferralsByWorkerIdCount(Long workerId) {
+        return referralRepository.findAllByWorkerIdAndIsResolvedFalse(workerId).size();
+    }
+
+    @Override
+    public Integer getAllOutstandingReferralsCount() {
+        return referralRepository.findAllByIsResolvedFalseOrderByDateAsc().size();
     }
 
     @Override

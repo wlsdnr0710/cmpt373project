@@ -10,7 +10,6 @@ const StatsTable = (props) => {
             <td>{props.stat.clientCount}</td>
             <td>{props.stat.visitCount}</td>
         </tr>
-
     );
 };
 
