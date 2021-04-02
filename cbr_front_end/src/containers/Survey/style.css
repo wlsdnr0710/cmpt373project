@@ -1,0 +1,21 @@
+.survey .survey-name {
+    font-size: 2rem;
+    background-color: #57af3128;
+    border-radius: 5px;
+    padding-left: 0.5rem;
+    margin: 1rem auto;
+}
+
+.survey .survey-questions .question {
+    border-left: 6px solid #57af31cc;
+    padding: 0.5rem;
+    background-color: rgba(0, 0, 0, 0.021);
+    border-radius: 5px;
+    margin-bottom: 1rem;
+}
+
+.survey .survey-questions .question .question-name {
+    margin-bottom: 1rem;
+    font-weight: 600;
+    opacity: 0.8;
+}
