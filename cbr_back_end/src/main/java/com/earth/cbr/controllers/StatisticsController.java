@@ -2,8 +2,6 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.models.Client;
-import com.earth.cbr.models.ServiceDescription;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.models.authentication.Admin;
@@ -36,8 +34,25 @@ public class StatisticsController {
     private ZoneService zoneService;
 
     @Admin
+    @GetMapping(value = "/countAll")
+    public ResponseEntity<JSONObject> getAllCounts() {
+        JSONObject responseJson = new JSONObject();
+        List<JSONObject> items = new ArrayList<>();
+
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        total.put("clientCount", clientService.getAllClientsCount());
+        total.put("visitCount", visitService.getAllVisitsCount());
+        total.put("referralCount", referralService.getAllReferralsCount());
+        items.add(total);
+
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @Admin
     @GetMapping(value = "/countByZone")
-    public ResponseEntity<JSONObject> getAllVisitsCount() {
+    public ResponseEntity<JSONObject> getAllCountsByZone() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -47,6 +62,7 @@ public class StatisticsController {
             element.put("name", zone.getName());
             element.put("clientCount", clientService.getAllClientsByZoneCount(Math.toIntExact(zone.getId())));
             element.put("visitCount", visitService.getAllVisitsByZoneCount(Math.toIntExact(zone.getId())));
+            element.put("referralCount", referralService.getAllReferralsByZoneIdCount(Math.toIntExact(zone.getId())));
             items.add(element);
         }
 
@@ -54,6 +70,7 @@ public class StatisticsController {
         total.put("name", "TOTAL");
         total.put("clientCount", clientService.getAllClientsCount());
         total.put("visitCount", visitService.getAllVisitsCount());
+        total.put("referralCount", referralService.getAllReferralsCount());
         items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));

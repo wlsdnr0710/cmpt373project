@@ -30,6 +30,11 @@ public class ReferralServiceImpl implements ReferralService {
     }
 
     @Override
+    public Integer getAllReferralsByZoneIdCount(Integer zoneId) {
+        return referralRepository.findAllByClientZone(zoneId).size();
+    }
+
+    @Override
     public Integer getAllReferralsByWorkerIdCount(Long workerId) {
         return referralRepository.findAllByWorkerId(workerId).size();
     }

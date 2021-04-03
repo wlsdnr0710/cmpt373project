@@ -9,6 +9,22 @@ import "./style.css";
 const Statistics = () => {
     const [countByZone, setCountByZone] = useState([]);
     const [countByWorker, setCountByWorker] = useState([]);
+    const [countAll, setCountAll] = useState([]);
+
+    const getCountAll = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.get(
+            ServerConfig.api.url + "/api/v1/statistics/countAll",
+            {
+                headers: requestHeader,
+            }
+        )
+        .then(response => {
+            setCountAll(response.data.data[0]);
+        });
+    };
 
     const getCountByZone = () => {
         const requestHeader = {
@@ -43,9 +59,10 @@ const Statistics = () => {
     useEffect(()=> {
         getCountByZone();
         getCountByWorker();
+        getCountAll();
     }, []);
 
-    const createStatTableComponents = () => {
+    const createStatTableComponents2 = () => {
         const statTableComponents = [];
         if(countByZone === undefined || countByZone.length === 0) {
             return (<p>Currently there are no stats.</p>);
@@ -56,6 +73,8 @@ const Statistics = () => {
                                             <td>{countByZone[index]["name"]}</td>
                                             <td>{countByZone[index]["clientCount"]}</td>
                                             <td>{countByZone[index]["visitCount"]}</td>
+                                            <td>{countByZone[index]["referralCount"]}</td>
+
                                          </tr>
                                         );
             }
@@ -64,22 +83,41 @@ const Statistics = () => {
     };
 
     const createStatTableComponents2 = () => {
-            const statTableComponents = [];
-            if(countByWorker === undefined || countByWorker.length === 0) {
-                return (<p>Currently there are no stats.</p>);
+        const statTableComponents = [];
+        if(countByZone === undefined || countByZone.length === 0) {
+            return (<p>Currently there are no stats.</p>);
+        }
+        else {
+            for (const index in countByZone) {
+                statTableComponents.push(<tr>
+                                            <td>{countByZone[index]["name"]}</td>
+                                            <td>{countByZone[index]["clientCount"]}</td>
+                                            <td>{countByZone[index]["visitCount"]}</td>
+                                            <td>{countByZone[index]["referralCount"]}</td>
+                                         </tr>
+                                        );
             }
-            else {
-                for (const index in countByWorker) {
-                    statTableComponents.push(<tr>
-                                                <td>{countByWorker[index]["name"]}</td>
-                                                <td>{countByWorker[index]["referralCount"]}</td>
-                                                <td>{countByWorker[index]["outstandingReferralCount"]}</td>
-                                             </tr>
-                                            );
-                }
-                return statTableComponents;
+            return statTableComponents;
+        }
+    };
+
+    const createStatTableComponents3 = () => {
+        const statTableComponents = [];
+        if(countByWorker === undefined || countByWorker.length === 0) {
+            return (<p>Currently there are no stats.</p>);
+        }
+        else {
+            for (const index in countByWorker) {
+                statTableComponents.push(<tr>
+                                            <td>{countByWorker[index]["name"]}</td>
+                                            <td>{countByWorker[index]["referralCount"]}</td>
+                                            <td>{countByWorker[index]["outstandingReferralCount"]}</td>
+                                         </tr>
+                                        );
             }
-        };
+            return statTableComponents;
+        }
+    };
 
     return (
         <div className="statistics">
@@ -90,13 +128,34 @@ const Statistics = () => {
                 <Table striped bordered>
                     <thead>
                         <tr>
-                            <th>Zone</th>
+                            <th></th>
                             <th>Clients</th>
                             <th>Visits</th>
+                            <th>Referrals</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {createStatTableComponents()}
+                        <tr>
+                            <td>{countAll[index]["name"]}</td>
+                            <td>{countAll[index]["clientCount"]}</td>
+                            <td>{countAll[index]["visitCount"]}</td>
+                            <td>{countAll[index]["referralCount"]}</td>
+                         </tr>
+                    </tbody>
+                </Table>
+            </div>
+            <div>
+                <Table striped bordered>
+                    <thead>
+                        <tr>
+                            <th>Zone</th>
+                            <th>Clients</th>
+                            <th>Visits</th>
+                            <th>Referrals</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {createStatTableComponents2()}
                     </tbody>
                 </Table>
             </div>
@@ -110,7 +169,7 @@ const Statistics = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {createStatTableComponents2()}
+                        {createStatTableComponents3()}
                     </tbody>
                 </Table>
             </div>

@@ -10,6 +10,7 @@ public interface ReferralService {
     List<Referral> getAllReferralsByClientId(Long clientId);
     Long getAllReferralsCount();
     Integer getAllReferralsByWorkerIdCount(Long workerId);
+    Integer getAllReferralsByZoneIdCount(Integer zoneId);
     List<Referral> getAllReferralsByClientIdSortedByDate(Long clientId);
     List<Referral> getAllOutstandingReferralsSortedByDate();
     Integer getAllOutstandingReferralsCount();
