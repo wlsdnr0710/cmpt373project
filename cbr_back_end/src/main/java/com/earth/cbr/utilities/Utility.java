@@ -2,6 +2,9 @@ package com.earth.cbr.utilities;
 
 public class Utility {
     public static String formatPhoneNumber(String oldNumber) {
+        if(oldNumber == null) {
+            return null;
+        }
         String newNumber = "";
         for(Integer i = 0; i < oldNumber.length(); i++) {
             if(Character.isDigit(oldNumber.charAt(i))) {
