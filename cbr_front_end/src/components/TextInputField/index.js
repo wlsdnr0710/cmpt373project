@@ -1,7 +1,7 @@
 import React from "react";
 import { getLabelTag } from "../../utils/Utilities";
 
-const TextInputField = ({ name, value, onChange, isDisabled, label }) => {
+const TextInputField = ({ name, value, onChange, isDisabled, label, className }) => {
   return (
     <div>
       {getLabelTag(label)}
@@ -11,6 +11,7 @@ const TextInputField = ({ name, value, onChange, isDisabled, label }) => {
         value={value}
         onChange={onChange}
         disabled={isDisabled}
+        className={className}
       />
     </div>
   );

@@ -11,6 +11,7 @@ import DropdownList from "../../components/DropdownList";
 import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
+import ConditionedSearchBox from "../ConditionedSearchBox";
 import "./style.css";
 
 const ClientTable = props => {
@@ -243,8 +244,12 @@ const ClientTable = props => {
                     <div className="search-text-input">
                         <TextInputField value={searchKeywordBuffer} onChange={onChangeSearchKeywordHandler} />
                     </div>
-                    <div className="search-button">
+                    {/* TODO: ConditionedSearchBox to edit */}
+                    {/* <div className="search-button">
                         <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button>
+                    </div> */}
+                    <div>
+                        <ConditionedSearchBox/>
                     </div>
                 </div>
                 <hr />
