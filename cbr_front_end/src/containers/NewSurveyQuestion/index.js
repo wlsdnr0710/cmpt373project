@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import TextInputField from "../../components/TextInputField";
+import { getDefaultSurveyQuestionTypes } from "../../utils/Utilities";
 import "./style.css";
 
 const NewSurveyQuestion = (
@@ -73,12 +74,7 @@ const NewSurveyQuestion = (
     };
 
     // Important: The question type values should match the enum class in server
-    const defaultSurveyQuestionTypes = {
-        "Multiple Choice": "multiple_choice",
-        "Yes or No": "yes_or_no",
-        "Dropdown": "dropdown",
-        "Written Answer": "written",
-    };
+    const defaultSurveyQuestionTypes = getDefaultSurveyQuestionTypes();
 
     return (
         <div className="new-survey-question">

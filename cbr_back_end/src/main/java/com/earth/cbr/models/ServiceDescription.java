@@ -12,9 +12,9 @@ import javax.validation.constraints.PositiveOrZero;
 public class ServiceDescription {
 
     private enum Type {
-        health,
-        social,
-        education
+        HEALTH,
+        SOCIAL,
+        EDUCATION
     }
 
     @Id

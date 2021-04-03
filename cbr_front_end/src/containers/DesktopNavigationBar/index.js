@@ -34,7 +34,7 @@ const DesktopNavigationBar = () => {
             .then(response => {
                 const role = response.data.data.role;
                 saveRole(role);
-                if (role === "admin") {
+                if (role === "ADMIN") {
                     setAdminRole(true);
                 }
             })
@@ -45,7 +45,7 @@ const DesktopNavigationBar = () => {
     };
 
     const getAdminNavigationItem = () => {
-        if(getRole() === "admin" || isAdminRole === true) {
+        if(getRole() === "ADMIN" || isAdminRole === true) {
             return (
                 <NavigationBarEntry
                     label="Admin"
