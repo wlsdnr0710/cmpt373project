@@ -1,13 +1,8 @@
 package com.earth.cbr.services;
 
 import com.earth.cbr.models.Physiotherapy;
-import com.earth.cbr.models.Physiotherapy;
 import com.earth.cbr.repositories.PhysiotherapyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;

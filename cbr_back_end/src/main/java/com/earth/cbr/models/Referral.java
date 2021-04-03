@@ -1,10 +1,13 @@
 package com.earth.cbr.models;
 
 import com.earth.cbr.models.validation.UniqueRequiredServicesID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.sql.Date;
 
 @Entity(name = "Referral")
 @Table(name = "referral")
@@ -30,7 +33,7 @@ public class Referral {
             columnDefinition = "DECIMAL(4,2)"
     )
     @Positive(message = "Hip width must be positive")
-    private float hipWidthInInches;
+    private Float hipWidthInInches;
 
     @Column (
             name = "is_intermediate_user",
@@ -81,6 +84,13 @@ public class Referral {
     )
     private String outcome;
 
+    @Column(
+            name = "date",
+            columnDefinition = "DATE"
+    )
+    @CreatedDate
+    private Date date;
+
     @OneToOne(optional = false)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
     @NotNull(message = "Required Services cannot be null")
@@ -91,13 +101,17 @@ public class Referral {
     @JoinColumn(name = "physiotherapy_id", referencedColumnName = "id")
     private Physiotherapy physiotherapy;
 
+    @ManyToOne
+    @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Client client;
+
     public Referral() {
     }
 
     public Referral(Long id,
                     Long clientId,
                     String photo,
-                    float hipWidthInInches,
+                    Float hipWidthInInches,
                     Boolean isIntermediateUser,
                     Boolean hasExistingWheelchair,
                     Boolean doesRequireRepairs,
@@ -106,8 +120,10 @@ public class Referral {
                     String referTo,
                     Boolean isResolved,
                     String outcome,
+                    Date date,
                     RequiredServices requiredServices,
-                    Physiotherapy physiotherapy) {
+                    Physiotherapy physiotherapy,
+                    Client client) {
         this.id = id;
         this.clientId = clientId;
         this.photo = photo;
@@ -120,8 +136,10 @@ public class Referral {
         this.referTo = referTo;
         this.isResolved = isResolved;
         this.outcome = outcome;
+        this.date = date;
         this.requiredServices = requiredServices;
         this.physiotherapy = physiotherapy;
+        this.client = client;
     }
 
     public Long getId() {
@@ -148,11 +166,11 @@ public class Referral {
         this.photo = photo;
     }
 
-    public float getHipWidthInInches() {
+    public Float getHipWidthInInches() {
         return hipWidthInInches;
     }
 
-    public void setHipWidthInInches(float hipWidthInInches) {
+    public void setHipWidthInInches(Float hipWidthInInches) {
         this.hipWidthInInches = hipWidthInInches;
     }
 
@@ -220,6 +238,14 @@ public class Referral {
         this.outcome = outcome;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public RequiredServices getRequiredServices() {
         return requiredServices;
     }
@@ -234,5 +260,13 @@ public class Referral {
 
     public void setPhysiotherapy(Physiotherapy physiotherapy) {
         this.physiotherapy = physiotherapy;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client client) {
+        this.client = client;
     }
 }

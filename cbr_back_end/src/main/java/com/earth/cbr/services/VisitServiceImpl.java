@@ -38,6 +38,11 @@ public class VisitServiceImpl implements VisitService{
     }
 
     @Override
+    public List<Visit> getAllVisitsByClientIdSortedByDate(Long clientId) {
+        return visitRepository.findAllByClientIdOrderByDateDesc(clientId);
+    }
+
+    @Override
     public Visit addVisit(@Valid Visit visit) {
         return visitRepository.save(visit);
     }

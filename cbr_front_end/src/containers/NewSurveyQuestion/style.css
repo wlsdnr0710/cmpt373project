@@ -9,3 +9,11 @@
 .new-survey-question .input-field-container {
     margin: 1rem 0 1rem 0;
 }
+
+.new-survey-question .option-input-field-container {
+    display: flex;
+}
+
+.new-survey-question .option-input-field-container input {
+    margin-right: 0.5rem;
+}

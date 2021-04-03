@@ -5,7 +5,6 @@ import "./style.css";
 import MobileNavigationBar from "../../containers/MobileNavigationBar";
 import DesktopNavigationBar from "../DesktopNavigationBar";
 
-
 const PageTemplate = ({ children }) => {
     let history = useHistory();
     const getTopBar = () => {
@@ -17,18 +16,21 @@ const PageTemplate = ({ children }) => {
         );
     };
 
-    const [isCurrentPageLoginOrCreateAccount, setIsCurrentPageLoginOrCreateAccount] = useState(false);
+    const [isCurrentPageNonNav, setIsCurrentPageNonNav] = useState(false);
     const location = useLocation();
     const hideNavInLoginPage = useCallback(() => {
-        const currentPageIsLoginOrCreateAccount = location.pathname.indexOf("login") !== -1 || location.pathname.indexOf("create-account") !== -1;
-        setIsCurrentPageLoginOrCreateAccount(currentPageIsLoginOrCreateAccount);
+        const currentPageNonNav = location.pathname.indexOf("user-login") !== -1 ||
+                                  location.pathname.indexOf("create-account") !== -1 ||
+                                  location.pathname.indexOf("OTP-verification") !== -1 ||
+                                  location.pathname.indexOf("forgot-password") !== -1 ;
+        setIsCurrentPageNonNav(currentPageNonNav);
     }, [location]);
 
     useEffect(() => {
         hideNavInLoginPage();
     }, [hideNavInLoginPage]);
 
-    if (isCurrentPageLoginOrCreateAccount) {
+    if (isCurrentPageNonNav) {
         return (
             <div>
                 {children}

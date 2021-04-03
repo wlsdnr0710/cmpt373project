@@ -10,4 +10,5 @@ import java.util.List;
 public interface VisitRepository extends JpaRepository<Visit, Long> {
     List<Visit> findAllByCbrWorkerName(String cbrWorkerName);
     List<Visit> findAllByClientId(Long clientId);
+    List<Visit> findAllByClientIdOrderByDateDesc(Long clientId);
 }

@@ -11,10 +11,10 @@ import javax.validation.constraints.*;
 @Table(name = "worker")
 public class Worker {
 
-    private enum Role {
-        admin,
-        clinician,
-        worker,
+    public enum Role {
+        ADMIN,
+        CLINICIAN,
+        WORKER,
     }
 
     @Id
