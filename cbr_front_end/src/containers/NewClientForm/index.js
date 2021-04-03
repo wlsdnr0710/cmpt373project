@@ -46,7 +46,7 @@ const NewClientForm = () => {
         "lastName": "",
         "gender": "F",
         "contactNumber": "",
-        "caregiverNumber": null,
+        "caregiverNumber": "",
         "disabilityType": [],
         "healthRisk": "low",
         "healthNeed": "",
