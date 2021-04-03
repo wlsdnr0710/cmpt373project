@@ -1,6 +1,10 @@
 /* eslint-disable no-undef */
 importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-sw.js');
 
+// const precacheManifest = [];
+// eslint-disable-next-line no-restricted-globals
+workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
+
 workbox.routing.registerRoute(
   new RegExp("http://localhost:8080/api/v1/"),
   new workbox.strategies.StaleWhileRevalidate({
@@ -19,4 +23,3 @@ workbox.routing.registerRoute(
     cacheName: 'images'
   }),
 )
-
