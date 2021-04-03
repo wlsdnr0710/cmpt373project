@@ -1,25 +1,67 @@
 /* eslint-disable no-undef */
-importScripts('https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-sw.js');
+importScripts(
+    "https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-sw.js"
+);
+const MAX_RETRY_MIN = 3 * 24 * 60;
+const SYNC_QUEUE_NAME = "syncQueue";
 
 // const precacheManifest = [];
 // eslint-disable-next-line no-restricted-globals
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
-workbox.routing.registerRoute(
-  new RegExp("http://localhost:8080/api/v1/"),
-  new workbox.strategies.StaleWhileRevalidate({
-    cacheName: 'requests',
-    plugins: [
-      new workbox.cacheableResponse.CacheableResponsePlugin({
-        statuses: [200],
-      })
-    ]
-  })
+const backgroundSyncPlugin = new workbox.backgroundSync.BackgroundSyncPlugin(
+    SYNC_QUEUE_NAME,
+    {
+        // Configure maximum amount of time request will try to sync
+        maxRetentionTime: MAX_RETRY_MIN,
+        //TODO: insert callback function to let user know that they are back online and synced
+    }
 );
 
 workbox.routing.registerRoute(
-  new RegExp(/\.(?:png|jpg|jpeg)$/),
-  new workbox.strategies.CacheFirst({
-    cacheName: 'images'
-  }),
-)
+    new RegExp("http://localhost:8080/api/v1/"),
+    new workbox.strategies.StaleWhileRevalidate({
+        cacheName: "requests",
+        plugins: [
+            new workbox.cacheableResponse.CacheableResponsePlugin({
+                statuses: [200],
+            }),
+        ],
+    }),
+    "GET"
+);
+
+workbox.routing.registerRoute(
+    new RegExp(/\.(?:png|jpg|jpeg)$/),
+    new workbox.strategies.CacheFirst({
+        cacheName: "images",
+    })
+);
+
+//TODO: cache post put and delete request
+workbox.routing.registerRoute(
+    new RegExp("http://localhost:8080/api/v1/"),
+    new workbox.strategies.NetworkOnly({
+        plugins: [backgroundSyncPlugin],
+    }),
+    "POST"
+);
+
+workbox.routing.registerRoute(
+    new RegExp("http://localhost:8080/api/v1/"),
+    new workbox.strategies.NetworkOnly({
+        plugins: [backgroundSyncPlugin],
+    }),
+    "PUT"
+);
+
+workbox.routing.registerRoute(
+    new RegExp("http://localhost:8080/api/v1/"),
+    new workbox.strategies.NetworkOnly({
+        plugins: [backgroundSyncPlugin],
+    }),
+    "DELETE"
+);
+
+
+//const showSyncNotification = () => {}
