@@ -28,6 +28,13 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
+    public Worker getWorkerByContactNumber(String contactNumber) {
+        Optional<Worker> workerOptional = workerRepository.findByPhone(contactNumber);
+        Worker worker = workerOptional.orElse(null);
+        return worker;
+    }
+
+    @Override
     public Worker getWorkerById(Long id) {
         Optional<Worker> workerOptional = workerRepository.findById(id);
         Worker worker = workerOptional.orElse(null);

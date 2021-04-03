@@ -1,0 +1,15 @@
+.new-survey-form .input-field-container {
+    margin: 1rem 0 1rem 0;
+}
+
+.new-survey-form .label-container {
+    margin-bottom: 0.5rem;
+}
+
+.new-survey-form .more-questions-button-container {
+    margin-bottom: 1rem;
+}
+
+.new-survey-form .feedback-messages {
+    margin-top: 1rem;
+}

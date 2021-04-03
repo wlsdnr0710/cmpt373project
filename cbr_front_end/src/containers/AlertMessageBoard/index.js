@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getToken } from "../../utils/AuthenticationUtil";
+import { getToken, getRole } from "../../utils/AuthenticationUtil";
 import { parseEpochToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import AlertMessage from '../../components/AlertMessage';
@@ -23,7 +23,7 @@ const AlertMessageBoard = () => {
         "message": "",
         "priority": 1
     });
-;
+
     const variantList = ["primary", "warning", "danger"];
 
     const getPriorityMapping = () => {

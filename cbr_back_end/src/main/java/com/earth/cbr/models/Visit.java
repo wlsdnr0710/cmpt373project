@@ -1,5 +1,7 @@
 package com.earth.cbr.models;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 import javax.validation.constraints.*;
 
@@ -41,6 +43,20 @@ public class Visit {
     )
     @NotBlank(message = "CBR Worker name is mandatory")
     private String cbrWorkerName;
+
+    @Column(
+            name = "latitude",
+            columnDefinition = "DECIMAL(8, 6)"
+    )
+    @Range(min = -90, max = 90)
+    private Double latitude;
+
+    @Column(
+            name = "longitude",
+            columnDefinition = "DECIMAL(9, 6)"
+    )
+    @Range(min = -180, max = 180)
+    private Double longitude;
 
     @Column(
             name = "purpose",
@@ -126,13 +142,28 @@ public class Visit {
 
     }
 
-    public Visit(Integer consent, Date date, String cbrWorkerName, String purpose, Integer zone, Integer villageNumber,
-                 Progress healthGoalProgress, String healthOutcome, Progress socialGoalProgress, String socialOutcome,
-                 Progress educationGoalProgress, String educationOutcome, Long clientId, Zone zoneName,
+    public Visit(Integer consent,
+                 Date date,
+                 String cbrWorkerName,
+                 Double latitude,
+                 Double longitude,
+                 String purpose,
+                 Integer zone,
+                 Integer villageNumber,
+                 Progress healthGoalProgress,
+                 String healthOutcome,
+                 Progress socialGoalProgress,
+                 String socialOutcome,
+                 Progress educationGoalProgress,
+                 String educationOutcome,
+                 Long clientId,
+                 Zone zoneName,
                  Set<ServiceDescription> serviceDescription) {
         this.consent = consent;
         this.date = date;
         this.cbrWorkerName = cbrWorkerName;
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.purpose = purpose;
         this.zone = zone;
         this.villageNumber = villageNumber;
@@ -177,6 +208,22 @@ public class Visit {
 
     public void setCbrWorkerName(String cbrWorkerName) {
         this.cbrWorkerName = cbrWorkerName;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 
     public String getPurpose() {

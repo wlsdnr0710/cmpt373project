@@ -3,39 +3,47 @@ import "./style.css";
 import { getLabelTag } from "../../utils/Utilities";
 
 const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange ,isDisabled ,label}) => {
-  const getDropdownListOptions = () => {
-    const itemsInOptionTag = [];
-    let listChildId = 0;
+    const getDropdownListOptions = () => {
+	    const itemsInOptionTag = [];
+	    let listChildId = 0;
 
-    for (const itemName in dropdownListItemsKeyValue) {
-      const itemValue = dropdownListItemsKeyValue[itemName];
+	    for (const itemName in dropdownListItemsKeyValue) {
+	        let itemValue = "";
+	        let name = itemName;
 
-      itemsInOptionTag.push(
-        <option value={itemValue} key={listChildId}>
-          {itemName}
-        </option>
-      );
+            if (dropdownListItemsKeyValue[itemName].name !== undefined) {
+                itemValue = dropdownListItemsKeyValue[itemName].id;
+                name = dropdownListItemsKeyValue[itemName].name;
+            } else {
+                itemValue = dropdownListItemsKeyValue[itemName];
+            }
 
-      listChildId++;
-    }
+            itemsInOptionTag.push(
+            <option value={itemValue} key={listChildId}>
+                {name}
+            </option>
+            );
 
-    return itemsInOptionTag;
-  };
+            listChildId++;
+        };
 
-  return (
-    <div>
-      {getLabelTag(label)}
-      <select
-        className="dropdown-list"
-        name={dropdownName}
-        value={value}
-        onChange={onChange}
-        disabled={isDisabled}
-      >
-        {getDropdownListOptions()}
-      </select>
-    </div>
-  );
+        return itemsInOptionTag;
+    };
+
+    return (
+        <div>
+            {getLabelTag(label)}
+            <select
+                className="dropdown-list"
+                name={dropdownName}
+                value={value}
+                onChange={onChange}
+                disabled={isDisabled}
+            >
+            {getDropdownListOptions()}
+            </select>
+        </div>
+    );
 };
 
 export default DropdownList;

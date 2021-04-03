@@ -13,7 +13,6 @@ import {
   deleteClientFromServer,
   getClientInformationFromServer,
   getClientObject,
-  getLatestRiskUpdate,
   updateClientInformationToServer,
   getClientZonesObject,
   getGendersObject

@@ -1,0 +1,10 @@
+.statistics {
+    border: 0.1rem;
+    margin: auto;
+    padding: 1rem;
+}
+
+.statistics .statistics-title {
+    font-size: 2rem;
+    margin-left: 1rem;
+}

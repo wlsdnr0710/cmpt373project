@@ -2,23 +2,16 @@ import React, { useState } from "react";
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
-import CameraSanpshot from "../../containers/CameraSnapshot";
-import Card from 'react-bootstrap/Card';
+import CameraSnapshot from "../../containers/CameraSnapshot";
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
-import { 
-    getClientInformationFromServer, 
-    getDefaultPhysiotherapyConditions, 
-    getRequiredServicesKeyValues 
-} from "../../utils/Utilities";
+import { getDefaultPhysiotherapyConditions, getRequiredServicesKeyValues } from "../../utils/Utilities";
 import { getToken } from "../../utils/AuthenticationUtil";
 import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
 import ServerConfig from "../../config/ServerConfig";
-import Spinner from 'react-bootstrap/Spinner';
 import TextAreaInputField from "../../components/TextAreaInputField";
-import TextInputField from "../../components/TextInputField";
 import "./style.css";
 
 const NewReferralForm = props => {
@@ -40,10 +33,7 @@ const NewReferralForm = props => {
     const [showPhysiotherapyQuestions, setShowPhysiotherapyQuestions] = useState(false);
     const [showOrthoticQuestions, setShowOrthoticQuestions] = useState(false);
     const [showProstheticQuestions, setShowProstheticQuestions] = useState(false);
-    const [isLoadingSearchResult, setIsLoadingSearchResult] = useState(false);
-    const [searchErrorMessage, setSearchErrorMessage] = useState(null);
-    const [searchClientId, setSearchClientId] = useState("");
-    const [client, setClient] = useState(null);
+    const clientId = props.clientId;
 
     const requiredServicesKeyValues = getRequiredServicesKeyValues();
     const defaultPhysiotherapyConditions = getDefaultPhysiotherapyConditions();
@@ -60,7 +50,7 @@ const NewReferralForm = props => {
 
     const defaultProstheticConditions = {
         "Above knee": "1",
-        "Below Knee": "2",
+        "Below knee": "2",
     };
 
     const getRequiredServicesCheckBoxesOnChangeHandler = name => {
@@ -77,35 +67,22 @@ const NewReferralForm = props => {
         };
     };
 
+    const requiredServiceMapNameToSetter = {
+        "prosthetic": setShowProstheticQuestions,
+        "orthotic": setShowOrthoticQuestions,
+        "physiotherapy": setShowPhysiotherapyQuestions,
+        "wheelchair": setShowWheelchairQuestions,
+        "other": setShowOtherDescription,
+    };
+
     const showSubQuestionsFor = (checkBoxesValues) => {
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "prosthetic")) {
-            setShowProstheticQuestions(true);
-        } else {
-            setShowProstheticQuestions(false);
-        }
-
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "orthotic")) {
-            setShowOrthoticQuestions(true)
-        } else {
-            setShowOrthoticQuestions(false)
-        }
-
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "physiotherapy")) {
-            setShowPhysiotherapyQuestions(true)
-        } else {
-            setShowPhysiotherapyQuestions(false)
-        }
-
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "wheelchair")) {
-            setShowWheelchairQuestions(true)
-        } else {
-            setShowWheelchairQuestions(false)
-        }
-
-        if (isRequiredServiceCheckedByName(checkBoxesValues, "other")) {
-            setShowOtherDescription(true);
-        } else {
-            setShowOtherDescription(false);
+        for (const name in requiredServiceMapNameToSetter) {
+            const setter = requiredServiceMapNameToSetter[name];
+            if (isRequiredServiceCheckedByName(checkBoxesValues, name)) {
+                setter(true);
+            } else {
+                setter(false);
+            }
         }
     };
 
@@ -163,7 +140,7 @@ const NewReferralForm = props => {
                 <div>
                     Photo is required.
                 </div>
-                <CameraSanpshot storeImage={() => {}} />
+                <CameraSnapshot storeImage={() => {}} />
             </div>
         );
     };
@@ -185,7 +162,7 @@ const NewReferralForm = props => {
 
                 <div className="input-field-container">
                     <div>
-                        Is the injury below or above the elbow?
+                        Is the injury below or above the knee?
                     </div>
                     <DropdownList
                         dropdownName="prostheticConditions"
@@ -359,117 +336,11 @@ const NewReferralForm = props => {
         updateFormInputByNameValue(name, value);
     };
 
-    const showClientIdSearchArea = () => {
-        return (
-            <div>
-                <div className="section search">
-                    <div className="search-text-input">
-                        <TextInputField value={searchClientId} onChange={onSearchClientIdChange} />
-                    </div>
-                    <div className="search-button">
-                        <Button variant="secondary" onClick={onClickSearchClient}>Search Client ID</Button>
-                    </div>
-                </div>
-                {showSearchErrorMessage()}
-                {showClientInfo()}
-            </div>
-        );
-    };
-
-    const showSearchErrorMessage = () => {
-        if (!searchErrorMessage) {
-            return null;
-        }
-
-        return (
-            <div>
-                <Alert variant="danger">
-                    {searchErrorMessage}
-                </Alert >
-            </div>
-        );
-    };
-
-    const showClientInfo = () => {
-        if (isLoadingSearchResult) {
-            return (
-                <Spinner
-                    className="spinner"
-                    variant="primary"
-                    as="div"
-                    animation="grow"
-                    size="lg"
-                    role="status"
-                    aria-hidden="true"
-                />
-            );
-        }
-
-        if (!client) {
-            return null;
-        }
-
-        return (
-            <Card>
-                <Card.Header>Client Information</Card.Header>
-                <Card.Body>
-                    <Card.Title>{client.lastName + ", " + client.firstName}</Card.Title>
-                    <div className="client-info-attribute">
-                        <div className="attribute-key">ID:</div>
-                        <div>{client.id}</div>
-                    </div>
-                    <div className="client-info-attribute">
-                        <div className="attribute-key">Age:</div>
-                        <div>{client.age}</div>
-                    </div>
-                    <div className="client-info-attribute">
-                        <div className="attribute-key">Zone:</div>
-                        <div>{client.zoneName.name}</div>
-                    </div>
-                </Card.Body>
-            </Card>
-        );
-    };
-
-    const onSearchClientIdChange = event => {
-        const searchBox = event.target;
-        const value = searchBox.value;
-        setSearchClientId(value);
-    };
-
-    const onClickSearchClient = event => {
-        event.preventDefault();
-        if (searchClientId === "" || isNaN(searchClientId)) {
-            setSearchErrorMessage("Please enter a numeric client ID");
-            return;
-        }
-
-        const requestHeader = {
-            token: getToken()
-        };
-        setIsLoadingSearchResult(true);
-        setSearchErrorMessage(null);
-        setClient(null);
-        getClientInformationFromServer(searchClientId, requestHeader)
-            .then(response => {
-                const receivedClient = response.data.data;
-                setClient(receivedClient);
-            })
-            .catch(error => {
-                const errorMessage = error.response.data.message;
-                setSearchErrorMessage(errorMessage);
-            })
-            .then(() => {
-                setIsLoadingSearchResult(false);
-            });
-    };
-
     return (
         <div className="new-referral-form">
             <FormHeader
                 headerText="New Referral"
             />
-            {showClientIdSearchArea()}
             <div className="form-body">
                 <div className="input-field-container">
                     <h2>

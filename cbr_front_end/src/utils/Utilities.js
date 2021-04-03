@@ -11,27 +11,50 @@ export const parseEpochToDateString = epoch => {
 
 const containsValidLabel = label => {
     if (label !== undefined) {
-      return true;
+        return true;
     } else {
-      return false;
+        return false;
     }
-  }
+}
   
-  export const getLabelTag = label => {
+export const getLabelTag = label => {
     if (containsValidLabel(label)) {
-      return (
-        <div>
-          <label>{label}</label>
-        </div>
-      );
+        return (
+            <div>
+                <label>{label}</label>
+            </div>
+        );
     } else {
-      return;
+        return;
     }
-  }
-  
+}
 
 export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
+};
+
+export const getVisitsInformationFromServer = (clientId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
+};
+
+export const getReferralsInformationFromServer = (clientId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/referral/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
+};
+
+export const getOutstandingReferralsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/referral/outstandingReferrals', {headers: requestHeader});
+};
+
+export const getWorkerInformationFromServer = (username, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/worker/username/' + username, {headers: requestHeader});
+};
+
+export const addWorkerToServer = (workerInformation) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/worker', {"data" : workerInformation});
+};
+
+export const getZonesFromServer = () => {
+    return axios.get(ServerConfig.api.url + '/api/v1/zone');
 };
 
 export const updateClientInformationToServer = (clientInformation, requestHeader) => {
@@ -113,10 +136,10 @@ export const getGendersObject = () =>{
 export const getLatestRiskUpdate = (clientObject) => {
     const riskHistoryListLength = clientObject.riskHistories.length;
     if(riskHistoryListLength < 1){
-      return getRiskObject();
+        return getRiskObject();
     } else {
-      const lastRiskUpdateIndex = riskHistoryListLength - 1;
-      return clientObject.riskHistories[lastRiskUpdateIndex];
+        const lastRiskUpdateIndex = riskHistoryListLength - 1;
+        return clientObject.riskHistories[lastRiskUpdateIndex];
     }
 }
 
@@ -144,4 +167,48 @@ export const getDefaultPhysiotherapyConditions = () => {
         "Other": "9",
     };
     return defaultPhysiotherapyConditions;
+};
+
+export const getDefaultNewSurveyObject = () => {
+    const defaultNewSurvey = {
+        "name": "",
+        "questions": [getDefaultSurveyQuestionObject()],
+    };
+    return defaultNewSurvey;
+};
+
+export const getDefaultSurveyQuestionObject = () => {
+    const defaultSurveyQuestion = {
+        "name": "",
+        "type": "multiple_choice",
+        "isRequired": false,
+        "options": [getDefaultSurveyQuestionOptionObject()],
+    };
+    return defaultSurveyQuestion;
+};
+
+export const getDefaultSurveyQuestionOptionObject = () => {
+    const surveyQuestionOption = {
+        "name": "",
+    };
+    return surveyQuestionOption;
+};
+
+export const updateFormInputByNameAndSetter = (name, setter) => {
+    return event => {
+        const value = event.target.value;
+        setter(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
+        });
+    }
+};
+
+export const postNewSurveyQuestions = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/survey', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
 };

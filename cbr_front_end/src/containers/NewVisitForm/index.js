@@ -23,7 +23,7 @@ const defaultPurpose = {
 
 const defaultGoalInputs = {
     "Cancelled": "cancelled",
-    "Ongoin": "ongoing",
+    "Ongoing": "ongoing",
     "Concluded": "concluded",
 };
 
@@ -51,10 +51,8 @@ const NewVisitForm = (props) => {
         "cbrWorkerName": "",
         "clientId": "",
         "serviceProvided": [],
-
-    //  TODO: add GPS in the visits table
-    //  "latitude" : "",
-    //  "longitude" : "",
+        "latitude" : "",
+        "longitude" : "",
 
         //Goals
         "healthGoalProgress": "cancelled",
@@ -429,7 +427,7 @@ const NewVisitForm = (props) => {
         setCurrDay(newDate.getDate());
         setCurrMonth(newDate.getMonth() + 1);
         setCurrYear(newDate.getFullYear());
-        updateFormInputByNameValue("date", Math.floor(newDate / 1000));
+        updateFormInputByNameValue("date", Math.floor(newDate.getTime()));
     }
 
     const initGeolocation = () => {

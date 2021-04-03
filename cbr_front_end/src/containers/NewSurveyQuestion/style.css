@@ -1,0 +1,19 @@
+.new-survey-question {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    border: 1px solid #dadce0;
+    border-radius: 5px;
+    box-shadow: 0 2px 1px -1px rgb(0 0 0 / 20%), 0 1px 1px 0 rgb(0 0 0 / 14%), 0 1px 3px 0 rgb(0 0 0 / 12%);
+}
+
+.new-survey-question .input-field-container {
+    margin: 1rem 0 1rem 0;
+}
+
+.new-survey-question .option-input-field-container {
+    display: flex;
+}
+
+.new-survey-question .option-input-field-container input {
+    margin-right: 0.5rem;
+}

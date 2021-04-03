@@ -5,47 +5,49 @@ import "./style.css";
 import MobileNavigationBar from "../../containers/MobileNavigationBar";
 import DesktopNavigationBar from "../DesktopNavigationBar";
 
-
 const PageTemplate = ({ children }) => {
-  let history = useHistory();
-  const getTopBar = () => {
-    return (
-      <div className="top-navigation">
-        <img className="logo" src={logo} alt="Hope Health Action Logo" onClick={()=>{history.push("/home")}}/>
-        <div className="style-bar"></div>
-      </div>
-    );
-  };
+    let history = useHistory();
+    const getTopBar = () => {
+        return (
+            <div className="top-navigation">
+                <img className="logo" src={logo} alt="Hope Health Action Logo" onClick={()=>{history.push("/home")}}/>
+                <div className="style-bar"></div>
+            </div>
+        );
+    };
 
-  const [isCurrentPageLogin, setIsCurrentPageLogin] = useState(false);
-  const location = useLocation();
-  const hideNavInLoginPage = useCallback(() => {
-    const currentPageIsLogin = location.pathname.indexOf("login") !== -1;
-    setIsCurrentPageLogin(currentPageIsLogin);
-  }, [location]);
+    const [isCurrentPageNonNav, setIsCurrentPageNonNav] = useState(false);
+    const location = useLocation();
+    const hideNavInLoginPage = useCallback(() => {
+        const currentPageNonNav = location.pathname.indexOf("user-login") !== -1 ||
+                                  location.pathname.indexOf("create-account") !== -1 ||
+                                  location.pathname.indexOf("OTP-verification") !== -1 ||
+                                  location.pathname.indexOf("forgot-password") !== -1 ;
+        setIsCurrentPageNonNav(currentPageNonNav);
+    }, [location]);
 
-  useEffect(() => {
-    hideNavInLoginPage();
-  }, [hideNavInLoginPage]);
+    useEffect(() => {
+        hideNavInLoginPage();
+    }, [hideNavInLoginPage]);
 
-  if (isCurrentPageLogin) {
-    return (
-      <div>
-        {children}
-      </div>
-    );
-  } else {
-    return (
-      <div className="page-template">
-        <div className="top-container">{getTopBar()}</div>
-        <div className="bottom-container">
-          <MobileNavigationBar />
-          <DesktopNavigationBar />
-          <div className="page-content">{children}</div>
-        </div>
-      </div>
-    );
-  }
+    if (isCurrentPageNonNav) {
+        return (
+            <div>
+                {children}
+            </div>
+        );
+    } else {
+        return (
+            <div className="page-template">
+                <div className="top-container">{getTopBar()}</div>
+                <div className="bottom-container">
+                    <MobileNavigationBar />
+                    <DesktopNavigationBar />
+                    <div className="page-content">{children}</div>
+                </div>
+            </div>
+        );
+    }
 };
 
 export default PageTemplate;

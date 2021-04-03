@@ -37,14 +37,6 @@ public class ServiceDescription {
     private String description;
 
     @Column(
-            name = "type",
-            columnDefinition = "ENUM"
-    )
-    @NotNull(message = "Type cannot be null")
-    @Enumerated(EnumType.STRING)
-    private Type type;
-
-    @Column(
             name = "service_option_id",
             columnDefinition = "INT"
     )
@@ -58,17 +50,20 @@ public class ServiceDescription {
     private Visit visit;
 
     @OneToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "service_option_id", referencedColumnName = "id", insertable = false, updatable = false)
     private ServiceOption serviceOption;
 
     public ServiceDescription(){
 
     }
 
-    public ServiceDescription(Integer visitId, String description, Integer serviceOptionId, Type type, Visit visit, ServiceOption serviceOption) {
+    public ServiceDescription(Integer visitId,
+                              String description,
+                              Integer serviceOptionId,
+                              Visit visit,
+                              ServiceOption serviceOption) {
         this.visitId = visitId;
         this.description = description;
-        this.type = type;
         this.serviceOptionId = serviceOptionId;
         this.visit = visit;
         this.serviceOption = serviceOption;
@@ -96,14 +91,6 @@ public class ServiceDescription {
 
     public void setDescription(String description){
         this.description = description;
-    }
-
-    public Type getType(){
-        return type;
-    }
-
-    public void setType(Type type){
-        this.type = type;
     }
 
     public Integer getServiceOptionId() {

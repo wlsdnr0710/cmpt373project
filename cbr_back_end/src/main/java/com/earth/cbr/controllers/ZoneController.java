@@ -2,9 +2,10 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.ObjectDoesNotExist;
+import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Zone;
+import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.ZoneService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +20,7 @@ public class ZoneController {
     @Autowired
     private ZoneService zoneService;
 
+    @PassToken
     @GetMapping
     public ResponseEntity<JSONObject> getAllZones() {
         List<Zone> zones = zoneService.getAllZones();
@@ -28,9 +30,9 @@ public class ZoneController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getZoneById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> getZoneById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(zoneService.getZoneById(id) == null) {
-            throw new ObjectDoesNotExist("Zone with that ID does not exist");
+            throw new ObjectDoesNotExistException("Zone with that ID does not exist");
         }
 
         Zone zone = zoneService.getZoneById(id);
@@ -62,7 +64,7 @@ public class ZoneController {
 
     @PutMapping
     public ResponseEntity<JSONObject> updateZoneById(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
+            throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
         JSONObject zoneJSON = payload.getJSONObject("data");
 
         if (zoneJSON == null) {
@@ -70,7 +72,7 @@ public class ZoneController {
         }
 
         if(zoneService.getZoneById(zoneJSON.getLong("id")) == null) {
-            throw new ObjectDoesNotExist("Zone with that ID does not exist");
+            throw new ObjectDoesNotExistException("Zone with that ID does not exist");
         }
 
         String zoneString = zoneJSON.toJSONString();
@@ -87,9 +89,9 @@ public class ZoneController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteZoneById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> deleteZoneById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(zoneService.getZoneById(id) == null) {
-            throw new ObjectDoesNotExist("Zone with that ID does not exist");
+            throw new ObjectDoesNotExistException("Zone with that ID does not exist");
         }
 
         zoneService.deleteZoneById(id);

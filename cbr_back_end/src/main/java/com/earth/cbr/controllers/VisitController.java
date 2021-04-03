@@ -2,7 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.exceptions.ObjectDoesNotExist;
+import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Visit;
 import com.earth.cbr.services.VisitService;
@@ -28,9 +28,9 @@ public class VisitController {
     }
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> getVisitById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> getVisitById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(visitService.getVisitById(id) == null) {
-            throw new ObjectDoesNotExist("Visit with that ID does not exist");
+            throw new ObjectDoesNotExistException("Visit with that ID does not exist");
         }
 
         Visit visit = visitService.getVisitById(id);
@@ -40,9 +40,10 @@ public class VisitController {
     }
 
     @GetMapping(value = "/clientId/{clientId}")
-    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> getAllVisitsByClientId(@PathVariable Long clientId)
+            throws ObjectDoesNotExistException {
         if(visitService.getAllVisitsByClientId(clientId) == null) {
-            throw new ObjectDoesNotExist("Client not associated with any visits");
+            throw new ObjectDoesNotExistException("Client not associated with any visits");
         }
 
         List<Visit> visits = visitService.getAllVisitsByClientId(clientId);
@@ -51,11 +52,24 @@ public class VisitController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @GetMapping(value = "/clientId/{clientId}/sortByDate")
+    public ResponseEntity<JSONObject> getAllVisitsByClientIdSortedByDate(@PathVariable Long clientId)
+            throws ObjectDoesNotExistException {
+        if(visitService.getAllVisitsByClientId(clientId) == null) {
+            throw new ObjectDoesNotExistException("Client not associated with any visits");
+        }
+
+        List<Visit> visits = visitService.getAllVisitsByClientIdSortedByDate(clientId);
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", visits);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
     @GetMapping(value = "/workerName/{cbrWorkerName}")
     public ResponseEntity<JSONObject> getAllVisitsByCbrWorkerName(@PathVariable String cbrWorkerName)
-            throws ObjectDoesNotExist {
+            throws ObjectDoesNotExistException {
         if(visitService.getAllVisitsByCbrWorkerName(cbrWorkerName) == null) {
-            throw new ObjectDoesNotExist("CBR worker not associated with any visits");
+            throw new ObjectDoesNotExistException("CBR worker not associated with any visits");
         }
 
         List<Visit> visits = visitService.getAllVisitsByCbrWorkerName(cbrWorkerName);
@@ -85,14 +99,14 @@ public class VisitController {
 
     @PutMapping
     public ResponseEntity<JSONObject> updateVisitById(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException, ObjectDoesNotExist {
+            throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
         JSONObject visitJSON = payload.getJSONObject("data");
 
         if (visitJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Visit data");
         }
         if(visitService.getVisitById(visitJSON.getLong("id")) == null) {
-            throw new ObjectDoesNotExist("Visit with that ID does not exist");
+            throw new ObjectDoesNotExistException("Visit with that ID does not exist");
         }
 
         String visitString = visitJSON.toJSONString();
@@ -106,9 +120,9 @@ public class VisitController {
     }
 
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<JSONObject> deleteVisitById(@PathVariable Long id) throws ObjectDoesNotExist {
+    public ResponseEntity<JSONObject> deleteVisitById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(visitService.getVisitById(id) == null) {
-            throw new ObjectDoesNotExist("Visit with that ID does not exist");
+            throw new ObjectDoesNotExistException("Visit with that ID does not exist");
         }
 
         visitService.deleteVisitById(id);

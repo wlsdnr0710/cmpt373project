@@ -20,16 +20,21 @@ public class TokenServiceImpl implements TokenService {
     private Algorithm algorithm = Algorithm.HMAC256(tokenSecret);
     private JWTVerifier jwtVerifier = JWT.require(algorithm).build();
 
-    private long TOKEN_VALID_DAYS = 7;
+    private long DEFAULT_TOKEN_VALID_DAYS = 1;
+    private long REMEMBER_PASSWORD_TOKEN_VALID_DAYS = 30;
 
     @Autowired
     private WorkerService workerService;
 
     @Override
-    public String getTokenForWorker(Worker worker) {
+    public String getTokenForWorkerWithRememberPassword(Worker worker, Boolean rememberPass) {
+        long token_valid_days = DEFAULT_TOKEN_VALID_DAYS;
+        if (rememberPass) {
+            token_valid_days = REMEMBER_PASSWORD_TOKEN_VALID_DAYS;
+        }
         Long id = worker.getId();
         String username = worker.getUsername();
-        Date expiredDate = getExpireDateSinceToday(TOKEN_VALID_DAYS);
+        Date expiredDate = getExpireDateSinceToday(token_valid_days);
 
         String token = JWT.create()
                 .withAudience(String.valueOf(id), username)
@@ -62,8 +67,27 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
+    public Boolean doesWorkerHaveAdminRole(String token) {
+        Long id = getWorkerIdFromToken(token);
+        if (id == null) {
+            return false;
+        }
+
+        Worker worker = workerService.getWorkerById(id);
+        if (worker == null) {
+            return false;
+        }
+
+        if (worker.getRole() == Worker.Role.admin) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
     public Date getExpireDateSinceToday(Long days) {
-        Instant instant = ZonedDateTime.now().plusDays(TOKEN_VALID_DAYS).toInstant();
+        Instant instant = ZonedDateTime.now().plusDays(DEFAULT_TOKEN_VALID_DAYS).toInstant();
         Date expiredDate = Date.from(instant);
         return expiredDate;
     }

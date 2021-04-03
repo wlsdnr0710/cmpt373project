@@ -11,10 +11,10 @@ import javax.validation.constraints.*;
 @Table(name = "worker")
 public class Worker {
 
-    private enum Role{
+    public enum Role {
         admin,
         clinician,
-        worker
+        worker,
     }
 
     @Id
@@ -89,8 +89,15 @@ public class Worker {
 
     }
 
-    public Worker(String firstName, String lastName, String username, String password, String phone, String email,
-                  Role role, Integer zone, Zone zoneName) {
+    public Worker(String firstName,
+                  String lastName,
+                  String username,
+                  String password,
+                  String phone,
+                  String email,
+                  Role role,
+                  Integer zone,
+                  Zone zoneName) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;

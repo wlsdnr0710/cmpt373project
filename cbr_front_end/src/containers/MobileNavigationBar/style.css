@@ -16,12 +16,13 @@
   background-color: #333;
   display: inline-block;
   flex-direction: row;
-  width: calc(100% / 3);
+  width: 25%;
   height: 100%;
 }
 
 .mobile-navigation-bar .navigation-entry:hover {
   background-color: #ddd;
+  opacity: 1.0;
 }
 
 .mobile-navigation-bar .navigation-entry .icon {

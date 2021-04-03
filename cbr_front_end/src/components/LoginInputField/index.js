@@ -3,11 +3,11 @@ import "./style.css";
 
 class LoginInputField extends Component {
     render() {
-        const { value, onChangeValue, type, placeholder } = this.props
+        const { name, value, onChangeValue, type, placeholder } = this.props
         return (
             <input
                 type={type}
-                name={type}
+                name={name}
                 placeholder={placeholder}
                 value={value}
                 onChange={onChangeValue}

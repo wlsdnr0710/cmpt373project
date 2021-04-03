@@ -28,7 +28,6 @@ const getRiskUpdateList = (separatedRiskUpdates) => {
 };
 
 const getPastRiskUpdateList = (riskHistories) => {
-  console.log(riskHistories);
   const riskHistoriesListIsEmpty = riskHistories.length < 1;
   if (riskHistoriesListIsEmpty) {
     return emptyRiskUpdate();

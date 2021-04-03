@@ -1,0 +1,10 @@
+.worker-list {
+    border: 0.1rem;
+    margin: auto;
+    padding: 1rem;
+}
+
+.worker-list .worker-list-title {
+    font-size: 2rem;
+    margin-left: 1rem;
+}
