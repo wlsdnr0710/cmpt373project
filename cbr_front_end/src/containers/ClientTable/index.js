@@ -29,6 +29,18 @@ const ClientTable = props => {
     const [searchKeyword, setSearchKeyword] = useState("");
     const [searchKeywordBuffer, setSearchKeywordBuffer] = useState("");
 
+    const [isSortAscending, setIsSortAscending] = useState(true);
+
+    const getSearchByList = () => {
+        return {
+            "ID": "cbrWorkerId",
+            "First Name": "firstName",
+            "Last Name": "lastName",
+            "Zone": "zone",
+            "Village No.": "villageNumber",
+        };
+    }
+
     const getSortByList = () => {
         return {
             "Default": defaultSortBy,
@@ -243,6 +255,14 @@ const ClientTable = props => {
                     <div className="search-text-input">
                         <TextInputField value={searchKeywordBuffer} onChange={onChangeSearchKeywordHandler} />
                     </div>
+                    <div className="search-dropdown">
+                        <DropdownList
+                            dropdownName="search-by"
+                            dropdownListItemsKeyValue={}
+                            value={}
+                            onChange={}
+                        />
+                    <div/>
                     <div className="search-button">
                         <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button>
                     </div>
@@ -250,12 +270,21 @@ const ClientTable = props => {
                 <hr />
                 <div className="section">
                     <span>Sort By: </span>
-                    <DropdownList
-                        dropdownName="sort-by"
-                        dropdownListItemsKeyValue={getSortByList()}
-                        value={sortBy}
-                        onChange={onChangeSortByHandler}
-                    />
+                    <div className="sortBy">
+                        <DropdownList
+                            dropdownName="sort-by"
+                            dropdownListItemsKeyValue={getSortByList()}
+                            value={sortBy}
+                            onChange={onChangeSortByHandler}
+                            className={"sortBy"}
+                        />
+                        <button
+                            className={"sortBy"}
+                        />
+                        <button
+                            className={"sortBy"}
+                        />
+                    </div>
                 </div>
             </div>
             <div className="table">

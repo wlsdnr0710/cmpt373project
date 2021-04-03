@@ -2,7 +2,7 @@ import React from "react";
 import "./style.css";
 import { getLabelTag } from "../../utils/Utilities";
 
-const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange ,isDisabled ,label}) => {
+const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange ,isDisabled ,label, className}) => {
     const getDropdownListOptions = () => {
 	    const itemsInOptionTag = [];
 	    let listChildId = 0;
@@ -34,7 +34,7 @@ const DropdownList = ({dropdownName ,dropdownListItemsKeyValue ,value ,onChange 
         <div>
             {getLabelTag(label)}
             <select
-                className="dropdown-list"
+                className={className}
                 name={dropdownName}
                 value={value}
                 onChange={onChange}
