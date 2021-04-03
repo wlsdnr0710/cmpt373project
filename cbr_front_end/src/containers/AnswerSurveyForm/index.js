@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Button from 'react-bootstrap/Button';
 import DropdownList from "../../components/DropdownList";
 import { getToken } from "../../utils/AuthenticationUtil";
-import { getAllSurveys, sortArrayByIdAscending } from "../../utils/Utilities";
+import { getAllSurveys, postAnsweredSurvey, sortArrayByIdAscending } from "../../utils/Utilities";
 import { getDefaultSurveyQuestionTypes } from "../../utils/Utilities";
 import Survey from "../../containers/Survey";
 import "./style.css";
@@ -131,7 +131,16 @@ const AnswerSurveyForm = ({ clientID }) => {
     const onSubmitHandler = () => {
         const submittingSurveyInput = { ...surveyInput };
         submittingSurveyInput["clientId"] = clientID;
-        // TODO: make axios call to submit survey input when API is done
+        const requestHeader = {
+            token: getToken()
+        };
+        postAnsweredSurvey(submittingSurveyInput, requestHeader)
+            .then(response => {
+
+            })
+            .catch(error => {
+
+            })
     };
 
     return (

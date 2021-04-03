@@ -3,6 +3,8 @@ package com.earth.cbr.models.survey;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity(name = "AnsweredQuestion")
@@ -30,6 +32,13 @@ public class AnsweredQuestion {
     )
     private String writtenAnswer;
 
+    @Column(
+            name = "is_true",
+            columnDefinition = "BOOLEAN",
+            nullable = true
+    )
+    private Boolean isTrue;
+
     public AnsweredQuestion() {
     }
 
@@ -38,12 +47,34 @@ public class AnsweredQuestion {
             AnsweredSurvey answeredSurvey,
             SurveyQuestion question,
             Set<SurveyQuestionOption> options,
-            String writtenAnswer) {
+            String writtenAnswer,
+            Boolean isTrue) {
         this.id = id;
         this.answeredSurvey = answeredSurvey;
         this.question = question;
         this.options = options;
         this.writtenAnswer = writtenAnswer;
+        this.isTrue = isTrue;
+    }
+
+    public static AnsweredQuestion buildYesOrNo(
+            SurveyQuestion question,
+            Boolean isTrue
+    ) {
+        AnsweredQuestion answeredQuestion = new AnsweredQuestion();
+        answeredQuestion.setQuestion(question);
+        answeredQuestion.setIsTrue(isTrue);
+        return answeredQuestion;
+    }
+
+    public static AnsweredQuestion buildMultipleChoice(
+            SurveyQuestion question,
+            Set<SurveyQuestionOption> options
+    ) {
+        AnsweredQuestion answeredQuestion = new AnsweredQuestion();
+        answeredQuestion.setQuestion(question);
+        answeredQuestion.setOptions(options);
+        return answeredQuestion;
     }
 
     public Long getId() {
@@ -84,5 +115,13 @@ public class AnsweredQuestion {
 
     public void setWrittenAnswer(String writtenAnswer) {
         this.writtenAnswer = writtenAnswer;
+    }
+
+    public Boolean getIsTrue() {
+        return isTrue;
+    }
+
+    public void setIsTrue(Boolean isTrue) {
+        this.isTrue = isTrue;
     }
 }
