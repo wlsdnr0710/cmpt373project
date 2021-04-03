@@ -8,7 +8,9 @@ import java.util.List;
 public interface RiskHistoryService {
     List<RiskHistory> getAllRiskHistories();
     RiskHistory getRiskHistoryById(Long id);
-    Integer getRiskHistoryByHealthRiskAndClientZone(Integer healthRisk, Long zoneId);
+    Integer getRiskHistoryByHealthRiskAndClientZone(Integer healthRisk, Integer zoneId);
+    Integer getRiskHistoryBySocialRiskAndClientZone(Integer socialRisk, Integer zoneId);
+    Integer getRiskHistoryByEducationRiskAndClientZone(Integer educationRisk, Integer zoneId);
     RiskHistory addRiskHistory(@Valid RiskHistory riskHistory);
     RiskHistory updateRiskHistoryById(@Valid RiskHistory riskHistory);
     void deleteRiskHistoryById(Long id);

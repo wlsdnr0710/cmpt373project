@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface RiskHistoryRepository extends JpaRepository<RiskHistory, Long> {
-    List<RiskHistory> findAllByHealthRiskAndClientZone(Integer healthRisk, Long zoneId);
+    List<RiskHistory> findAllByHealthRiskAndClientZone(Integer healthRisk, Integer zoneId);
+    List<RiskHistory> findAllBySocialRiskAndClientZone(Integer healthRisk, Integer zoneId);
+    List<RiskHistory> findAllByEducationRiskAndClientZone(Integer healthRisk, Integer zoneId);
 }

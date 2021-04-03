@@ -21,8 +21,18 @@ public class RiskHistoryServiceImpl implements RiskHistoryService{
     }
 
     @Override
-    public Integer getRiskHistoryByHealthRiskAndClientZone(Integer healthRisk, Long zoneId) {
+    public Integer getRiskHistoryByHealthRiskAndClientZone(Integer healthRisk, Integer zoneId) {
         return riskHistoryRepository.findAllByHealthRiskAndClientZone(healthRisk, zoneId).size();
+    }
+
+    @Override
+    public Integer getRiskHistoryBySocialRiskAndClientZone(Integer socialRisk, Integer zoneId) {
+        return riskHistoryRepository.findAllBySocialRiskAndClientZone(socialRisk, zoneId).size();
+    }
+
+    @Override
+    public Integer getRiskHistoryByEducationRiskAndClientZone(Integer educationRisk, Integer zoneId) {
+        return riskHistoryRepository.findAllByEducationRiskAndClientZone(educationRisk, zoneId).size();
     }
 
     @Override
