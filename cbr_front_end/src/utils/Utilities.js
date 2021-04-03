@@ -180,7 +180,7 @@ export const getDefaultNewSurveyObject = () => {
 export const getDefaultSurveyQuestionObject = () => {
     const defaultSurveyQuestion = {
         "name": "",
-        "type": "multiple_choice",
+        "type": "MULTIPLE_CHOICE",
         "isRequired": false,
         "options": [getDefaultSurveyQuestionOptionObject()],
     };
@@ -211,4 +211,26 @@ export const postNewSurveyQuestions = (data, requestHeader) => {
     }, {
         headers: requestHeader,
     });
+};
+
+export const getAllSurveys = requestHeader => {
+    return axios.get(ServerConfig.api.url + '/api/v1/survey', {headers: requestHeader});
+};
+
+export const getDefaultSurveyQuestionTypes = () => {
+    const defaultSurveyQuestionTypes = {
+        "Multiple Choice": "MULTIPLE_CHOICE",
+        "Yes or No": "YES_OR_NO",
+        "Dropdown": "DROPDOWN",
+        "Written Answer": "WRITTEN",
+    };
+    return defaultSurveyQuestionTypes;
+};
+
+export const sortArrayByIdAscending = array => {
+    const sortedArray = [...array];
+    sortedArray.sort((a, b) => {
+        return a["id"] > b["id"] ? 1 : -1;
+    });
+    return sortedArray;
 };

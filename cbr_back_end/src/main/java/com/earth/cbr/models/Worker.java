@@ -12,9 +12,9 @@ import javax.validation.constraints.*;
 public class Worker {
 
     public enum Role {
-        admin,
-        clinician,
-        worker,
+        ADMIN,
+        CLINICIAN,
+        WORKER,
     }
 
     @Id
