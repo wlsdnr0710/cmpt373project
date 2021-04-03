@@ -107,14 +107,14 @@ public class Client {
     private Long cbrWorkerId;
 
     @Column(
-            name = "caregiver_contact",
+            name = "caregiver_number",
             columnDefinition = "TEXT"
     )
     @Pattern(
             regexp = "\\d{10}",
             message = "Caregiver contact should be 10 consecutive digits with no special characters ex. 0123456789"
     )
-    private String caregiverContact;
+    private String caregiverNumber;
 
     @Column(
             name = "caregiver_photo",
@@ -170,7 +170,7 @@ public class Client {
                   Date signupDate,
                   String contactNumber,
                   Long cbrWorkerId,
-                  String caregiverContact,
+                  String caregiverNumber,
                   String caregiverPhoto,
                   String requiredServices,
                   String individualGoals,
@@ -188,7 +188,7 @@ public class Client {
         this.signupDate = signupDate;
         this.contactNumber = contactNumber;
         this.cbrWorkerId = cbrWorkerId;
-        this.caregiverContact = caregiverContact;
+        this.caregiverNumber = caregiverNumber;
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
         this.individualGoals = individualGoals;
@@ -296,12 +296,12 @@ public class Client {
         this.cbrWorkerId = cbrWorkerId;
     }
 
-    public String getCaregiverContact() {
-        return caregiverContact;
+    public String getCaregiverNumber() {
+        return caregiverNumber;
     }
 
-    public void setCaregiverContact(String caregiverContact) {
-        this.caregiverContact = caregiverContact;
+    public void setCaregiverNumber(String caregiverNumber) {
+        this.caregiverNumber = caregiverNumber;
     }
 
     public String getCaregiverPhoto() {
