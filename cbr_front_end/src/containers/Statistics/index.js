@@ -10,19 +10,20 @@ const Statistics = () => {
     const [countByZone, setCountByZone] = useState([]);
     const [countByWorker, setCountByWorker] = useState([]);
     const [countAll, setCountAll] = useState([]);
+    const [countRisks, setCountRisks] = useState([]);
 
     const getCountAll = () => {
         const requestHeader = {
             token: getToken()
         };
         axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countAll",
+            ServerConfig.api.url + "/api/v1/statistics/countRisks",
             {
                 headers: requestHeader,
             }
         )
         .then(response => {
-            setCountAll(response.data.data[0]);
+            setCountRisks(response.data.data[0]);
         });
     };
 
@@ -56,31 +57,27 @@ const Statistics = () => {
         });
     };
 
+    const getCountRisk = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.get(
+            ServerConfig.api.url + "/api/v1/statistics/countByWorker",
+            {
+                headers: requestHeader,
+            }
+        )
+        .then(response => {
+            setCountByWorker(response.data.data[0]);
+        });
+    };
+
     useEffect(()=> {
         getCountByZone();
         getCountByWorker();
         getCountAll();
+        getCountRisk();
     }, []);
-
-    const createStatTableComponents2 = () => {
-        const statTableComponents = [];
-        if(countByZone === undefined || countByZone.length === 0) {
-            return (<p>Currently there are no stats.</p>);
-        }
-        else {
-            for (const index in countByZone) {
-                statTableComponents.push(<tr>
-                                            <td>{countByZone[index]["name"]}</td>
-                                            <td>{countByZone[index]["clientCount"]}</td>
-                                            <td>{countByZone[index]["visitCount"]}</td>
-                                            <td>{countByZone[index]["referralCount"]}</td>
-
-                                         </tr>
-                                        );
-            }
-            return statTableComponents;
-        }
-    };
 
     const createStatTableComponents2 = () => {
         const statTableComponents = [];
@@ -110,6 +107,7 @@ const Statistics = () => {
             for (const index in countByWorker) {
                 statTableComponents.push(<tr>
                                             <td>{countByWorker[index]["name"]}</td>
+                                            <td>{countByWorker[index]["visitCount"]}</td>
                                             <td>{countByWorker[index]["referralCount"]}</td>
                                             <td>{countByWorker[index]["outstandingReferralCount"]}</td>
                                          </tr>
@@ -117,6 +115,42 @@ const Statistics = () => {
             }
             return statTableComponents;
         }
+    };
+
+    const createStatTableComponents4 = () => {
+        const statTableComponents = [];
+        if(countRisks === undefined || countRisks.length === 0) {
+            return (<p>Currently there are no stats.</p>);
+        }
+        else {
+            for (const index in countRisks) {
+                statTableComponents.push(<tr>
+                                            <td>{countByWorker[index]["name"]}</td>
+                                            <td>{countByWorker[index]["criticalCount"]}</td>
+                                            <td>{countByWorker[index]["highCount"]}</td>
+                                            <td>{countByWorker[index]["mediumCount"]}</td>
+                                            <td>{countByWorker[index]["lowCount"]}</td>
+                                         </tr>
+                                        );
+            }
+            return statTableComponents;
+        }
+    };
+
+    const createTotal = () => {
+    console.log(countAll[0]);
+    if(countAll === undefined || countAll.length === 0) {
+        return null;
+    } else {
+        return (
+            <tr>
+                <td>{countAll[0]["name"]}</td>
+                <td>{countAll[0]["clientCount"]}</td>
+                <td>{countAll[0]["visitCount"]}</td>
+                <td>{countAll[0]["referralCount"]}</td>
+             </tr>
+         );
+     }
     };
 
     return (
@@ -128,19 +162,16 @@ const Statistics = () => {
                 <Table striped bordered>
                     <thead>
                         <tr>
-                            <th></th>
+                            <th>#</th>
                             <th>Clients</th>
                             <th>Visits</th>
                             <th>Referrals</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>{countAll[index]["name"]}</td>
-                            <td>{countAll[index]["clientCount"]}</td>
-                            <td>{countAll[index]["visitCount"]}</td>
-                            <td>{countAll[index]["referralCount"]}</td>
-                         </tr>
+
+                            {createTotal()}
+
                     </tbody>
                 </Table>
             </div>
@@ -164,12 +195,29 @@ const Statistics = () => {
                     <thead>
                         <tr>
                             <th>Worker</th>
+                            <th>Visits</th>
                             <th>Referrals</th>
                             <th>Outstanding Referrals</th>
                         </tr>
                     </thead>
                     <tbody>
                         {createStatTableComponents3()}
+                    </tbody>
+                </Table>
+            </div>
+            <div>
+                <Table striped bordered>
+                    <thead>
+                        <tr>
+                            <th>Zone</th>
+                            <th>Critical</th>
+                            <th>High</th>
+                            <th>Medium</th>
+                            <th>Low</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {createStatTableComponents4()}
                     </tbody>
                 </Table>
             </div>

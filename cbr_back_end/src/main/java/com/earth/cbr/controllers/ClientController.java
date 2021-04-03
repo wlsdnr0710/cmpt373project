@@ -134,7 +134,7 @@ public class ClientController {
         Client client = JSON.parseObject(clientString, Client.class);
 
         client.setContactNumber(Utility.formatPhoneNumber(client.getContactNumber()));
-        client.setCaregiverContact(Utility.formatPhoneNumber(client.getCaregiverContact()));
+        client.setCaregiverNumber(Utility.formatPhoneNumber(client.getCaregiverNumber()));
 
         Client addedClient = clientService.addClient(client);
 
@@ -163,7 +163,7 @@ public class ClientController {
         Client client = JSON.parseObject(clientString, Client.class);
 
         client.setContactNumber(Utility.formatPhoneNumber(client.getContactNumber()));
-        client.setCaregiverContact(Utility.formatPhoneNumber(client.getCaregiverContact()));
+        client.setCaregiverNumber(Utility.formatPhoneNumber(client.getCaregiverNumber()));
 
         Client updatedClient = clientService.updateClientById(client);
 

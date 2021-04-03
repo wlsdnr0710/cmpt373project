@@ -2,6 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.models.ServiceOption;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.models.authentication.Admin;
@@ -32,6 +33,18 @@ public class StatisticsController {
 
     @Autowired
     private ZoneService zoneService;
+
+    @Autowired
+    private ServiceDescriptionService serviceDescriptionService;
+
+    @Autowired
+    private ServiceOptionService serviceOptionService;
+
+    @Autowired
+    private DisabilityService disabilityService;
+
+    @Autowired
+    private RiskHistoryService riskHistoryService;
 
     @Admin
     @GetMapping(value = "/countAll")
@@ -66,13 +79,6 @@ public class StatisticsController {
             items.add(element);
         }
 
-        JSONObject total = new JSONObject();
-        total.put("name", "TOTAL");
-        total.put("clientCount", clientService.getAllClientsCount());
-        total.put("visitCount", visitService.getAllVisitsCount());
-        total.put("referralCount", referralService.getAllReferralsCount());
-        items.add(total);
-
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
     }
@@ -87,16 +93,32 @@ public class StatisticsController {
         for(Worker worker : workers) {
             JSONObject element = new JSONObject();
             element.put("name", worker.getFirstName() + " " + worker.getLastName());
+            element.put("visitCount", visitService.getAllVisitsByZoneCount(Math.toIntExact(worker.getId())));
             element.put("referralCount", referralService.getAllReferralsByWorkerIdCount(worker.getId()));
             element.put("outstandingReferralCount", referralService.getAllOutstandingReferralsByWorkerIdCount(worker.getId()));
             items.add(element);
         }
 
-        JSONObject total = new JSONObject();
-        total.put("name", "TOTAL");
-        total.put("referralCount", referralService.getAllReferralsCount());
-        total.put("outstandingReferralCount", referralService.getAllOutstandingReferralsCount());
-        items.add(total);
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @Admin
+    @GetMapping(value = "/countRisks")
+    public ResponseEntity<JSONObject> getAllRisksByZoneCount() {
+        JSONObject responseJson = new JSONObject();
+        List<JSONObject> items = new ArrayList<>();
+        List<Zone> zones = zoneService.getAllZones();
+
+        for(Zone zone : zones) {
+            JSONObject element = new JSONObject();
+            element.put("name", zone.getName());
+            element.put("criticalCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(4,zone.getId()));
+            element.put("highCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(3,zone.getId()));
+            element.put("mediumCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(2,zone.getId()));
+            element.put("smallCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(1,zone.getId()));
+            items.add(element);
+        }
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
