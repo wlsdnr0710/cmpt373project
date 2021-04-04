@@ -136,14 +136,6 @@ public class Client {
     @NotNull(message = "Individual goals cannot be null")
     private String individualGoals;
 
-    @ManyToMany
-    @JoinTable(
-            name = "disabled",
-            joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = @JoinColumn(name = "disability_id")
-    )
-    private Set<Disability> disabilities;
-
     @OneToMany(mappedBy = "client")
     private Set<RiskHistory> riskHistories;
 
@@ -154,6 +146,9 @@ public class Client {
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     private Set<Referral> referrals;
+
+    @OneToMany(mappedBy = "client")
+    private Set<Disability> disability;
 
     public Client() {
 
@@ -174,7 +169,7 @@ public class Client {
                   String caregiverPhoto,
                   String requiredServices,
                   String individualGoals,
-                  Set<Disability> disabilities,
+                  Set<Disability> disability,
                   Set<RiskHistory> riskHistories,
                   Zone zoneName,
                   Set<Referral> referrals) {
@@ -192,7 +187,7 @@ public class Client {
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
         this.individualGoals = individualGoals;
-        this.disabilities = disabilities;
+        this.disability = disability;
         this.riskHistories = riskHistories;
         this.zoneName = zoneName;
         this.referrals = referrals;
@@ -328,12 +323,12 @@ public class Client {
         this.individualGoals = individualGoals;
     }
 
-    public Set<Disability> getDisabilities() {
-        return disabilities;
+    public Set<Disability> getDisability() {
+        return disability;
     }
 
-    public void setDisabilities(Set<Disability> disabilities) {
-        this.disabilities = disabilities;
+    public void setDisability(Set<Disability> disability) {
+        this.disability = disability;
     }
 
     public Set<RiskHistory> getRiskHistories() {
