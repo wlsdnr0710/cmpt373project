@@ -50,7 +50,8 @@ public class ClientServiceImpl implements ClientService {
             } else {
                 pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
             }
-        } else {
+        }
+        else {
             if (!sortBy.equals("birthdate")) {
                 pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
             } else {
@@ -110,7 +111,8 @@ public class ClientServiceImpl implements ClientService {
             } else {
                 pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
             }
-        } else {
+        }
+        else {
             if (!sortBy.equals("birthdate")) {
                 pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
             } else {
