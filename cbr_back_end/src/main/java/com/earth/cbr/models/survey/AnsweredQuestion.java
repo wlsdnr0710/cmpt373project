@@ -23,7 +23,7 @@ public class AnsweredQuestion {
     private SurveyQuestion question;
 
     @ManyToMany
-    private Set<SurveyQuestionOption> options;
+    private Set<SurveyQuestionOption> options = new HashSet<>();
 
     @Column(
             name = "written_answer",
@@ -75,6 +75,20 @@ public class AnsweredQuestion {
         answeredQuestion.setQuestion(question);
         answeredQuestion.setOptions(options);
         return answeredQuestion;
+    }
+
+    public static AnsweredQuestion buildDropdown(
+            SurveyQuestion question,
+            SurveyQuestionOption option
+    ) {
+        AnsweredQuestion answeredQuestion = new AnsweredQuestion();
+        answeredQuestion.setQuestion(question);
+        answeredQuestion.addOption(option);
+        return answeredQuestion;
+    }
+
+    public void addOption(SurveyQuestionOption option) {
+        options.add(option);
     }
 
     public Long getId() {

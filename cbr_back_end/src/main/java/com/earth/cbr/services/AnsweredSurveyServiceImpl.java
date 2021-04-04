@@ -23,10 +23,11 @@ public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
 
     @Override
     public AnsweredSurveyServiceImpl buildAnsweredSurvey(JSONObject data) {
-        Set<String> questionIds = data.keySet();
+        Map<String, Object> surveyInputs = (Map<String, Object>) data.get("surveyInputs");
+        Set<String> questionIds = surveyInputs.keySet();
         List<AnsweredQuestion> answeredQuestions = new ArrayList<>();
         for (String questionIdString : questionIds) {
-            JSONObject questionValueJSON = new JSONObject((Map<String, Object>) data.get(questionIdString));
+            JSONObject questionValueJSON = new JSONObject((Map<String, Object>) surveyInputs.get(questionIdString));
 
             Long questionId = Long.valueOf(questionIdString);
             Optional<SurveyQuestion> surveyQuestionOptional = surveyQuestionRepository.findById(questionId);
@@ -45,6 +46,11 @@ public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
                 case YES_OR_NO:
                     Boolean isYes = (Boolean) questionValueJSON.get("value");
                     answeredQuestion = AnsweredQuestion.buildYesOrNo(surveyQuestion, isYes);
+                    break;
+                case DROPDOWN:
+                    long optionId = (int) questionValueJSON.get("value");
+                    SurveyQuestionOption option = getOptionById(optionId);
+                    answeredQuestion = AnsweredQuestion.buildDropdown(surveyQuestion, option);
                     break;
 
             }
@@ -66,5 +72,10 @@ public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
         long optionId = (int) map.get("id");
         Optional<SurveyQuestionOption> surveyQuestionOptionOptional = surveyQuestionOptionRepository.findById(optionId);
         return surveyQuestionOptionOptional.orElse(null);
+    }
+
+    private SurveyQuestionOption getOptionById(Long id) {
+        Optional<SurveyQuestionOption> optionOptional = surveyQuestionOptionRepository.findById(id);
+        return optionOptional.orElse(null);
     }
 }

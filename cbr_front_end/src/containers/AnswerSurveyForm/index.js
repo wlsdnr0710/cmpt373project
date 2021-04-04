@@ -129,12 +129,14 @@ const AnswerSurveyForm = ({ clientID }) => {
     };
 
     const onSubmitHandler = () => {
-        const submittingSurveyInput = { ...surveyInput };
-        submittingSurveyInput["clientId"] = clientID;
+        const data = {
+            "surveyInputs": surveyInput,
+            "clientId": clientID,
+        }
         const requestHeader = {
             token: getToken()
         };
-        postAnsweredSurvey(submittingSurveyInput, requestHeader)
+        postAnsweredSurvey(data, requestHeader)
             .then(response => {
 
             })
