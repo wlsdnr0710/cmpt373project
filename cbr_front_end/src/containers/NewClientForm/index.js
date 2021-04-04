@@ -502,7 +502,7 @@ const NewClientForm = () => {
                         name="caregiverName"
                         value={formInputs["caregiverName"]}
                         onChange={formInputChangeHandler}
-                        isDisabled={isCaregiverRelatedInputDisabled}
+                        isDisabled={isCaregiverRelatedInputDisabled()}
                     />
                 </div>
 
