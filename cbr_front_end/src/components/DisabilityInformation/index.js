@@ -34,7 +34,7 @@ const getEmptyDisabilitiesList = () => {
 };
 
 const DisabilityInformation = ({ disabilityList }) => {
-  if (disabilityList === undefined) {
+  if (disabilityList === undefined || disabilityList.length === 0) {
     return getEmptyDisabilitiesList();
   } else {
     return getDisabilitiesList(disabilityList);
