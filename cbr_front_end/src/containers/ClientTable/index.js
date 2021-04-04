@@ -198,7 +198,6 @@ const ClientTable = props => {
         const searchByDropdown = event.target;
         const searchByValue = searchByDropdown.value;
         setSearchBy(searchByValue);
-
     };
 
     const onChangeSortByHandler = event => {
@@ -207,7 +206,6 @@ const ClientTable = props => {
         setCurrentPage(firstPage);
         setSortBy(sortByValue);
         setClients([]);
-        
     };
 
     const onChangeSearchKeywordHandler = event => {
