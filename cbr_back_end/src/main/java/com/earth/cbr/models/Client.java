@@ -107,14 +107,20 @@ public class Client {
     private Long cbrWorkerId;
 
     @Column(
-            name = "caregiver_contact",
+            name = "caregiver_name",
+            columnDefinition = "TEXT"
+    )
+    private String caregiverName;
+
+    @Column(
+            name = "caregiver_number",
             columnDefinition = "TEXT"
     )
     @Pattern(
             regexp = "\\d{10}",
             message = "Caregiver contact should be 10 consecutive digits with no special characters ex. 0123456789"
     )
-    private String caregiverContact;
+    private String caregiverNumber;
 
     @Column(
             name = "caregiver_photo",
@@ -136,14 +142,6 @@ public class Client {
     @NotNull(message = "Individual goals cannot be null")
     private String individualGoals;
 
-    @ManyToMany
-    @JoinTable(
-            name = "disabled",
-            joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = @JoinColumn(name = "disability_id")
-    )
-    private Set<Disability> disabilities;
-
     @OneToMany(mappedBy = "client")
     private Set<RiskHistory> riskHistories;
 
@@ -154,6 +152,9 @@ public class Client {
     @JsonIgnore
     @OneToMany(mappedBy = "client")
     private Set<Referral> referrals;
+
+    @OneToMany(mappedBy = "client")
+    private Set<Disabled> disabled;
 
     public Client() {
 
@@ -170,11 +171,12 @@ public class Client {
                   Date signupDate,
                   String contactNumber,
                   Long cbrWorkerId,
-                  String caregiverContact,
+                  String caregiverName,
+                  String caregiverNumber,
                   String caregiverPhoto,
                   String requiredServices,
                   String individualGoals,
-                  Set<Disability> disabilities,
+                  Set<Disabled> disabled,
                   Set<RiskHistory> riskHistories,
                   Zone zoneName,
                   Set<Referral> referrals) {
@@ -188,11 +190,12 @@ public class Client {
         this.signupDate = signupDate;
         this.contactNumber = contactNumber;
         this.cbrWorkerId = cbrWorkerId;
-        this.caregiverContact = caregiverContact;
+        this.caregiverName = caregiverName;
+        this.caregiverNumber = caregiverNumber;
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
         this.individualGoals = individualGoals;
-        this.disabilities = disabilities;
+        this.disabled = disabled;
         this.riskHistories = riskHistories;
         this.zoneName = zoneName;
         this.referrals = referrals;
@@ -296,12 +299,20 @@ public class Client {
         this.cbrWorkerId = cbrWorkerId;
     }
 
-    public String getCaregiverContact() {
-        return caregiverContact;
+    public String getCaregiverName() {
+        return caregiverName;
     }
 
-    public void setCaregiverContact(String caregiverContact) {
-        this.caregiverContact = caregiverContact;
+    public void setCaregiverName(String caregiverName) {
+        this.caregiverName = caregiverName;
+    }
+
+    public String getCaregiverNumber() {
+        return caregiverNumber;
+    }
+
+    public void setCaregiverNumber(String caregiverNumber) {
+        this.caregiverNumber = caregiverNumber;
     }
 
     public String getCaregiverPhoto() {
@@ -328,12 +339,12 @@ public class Client {
         this.individualGoals = individualGoals;
     }
 
-    public Set<Disability> getDisabilities() {
-        return disabilities;
+    public Set<Disabled> getDisabled() {
+        return disabled;
     }
 
-    public void setDisabilities(Set<Disability> disabilities) {
-        this.disabilities = disabilities;
+    public void setDisabled(Set<Disabled> disabled) {
+        this.disabled = disabled;
     }
 
     public Set<RiskHistory> getRiskHistories() {
