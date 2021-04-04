@@ -55,7 +55,7 @@ const ClientInfo = props => {
 
                 newFormInputs["riskHistories"] = data.riskHistories;
 
-                newFormInputs["disabilities"] = data.disabilities;
+                newFormInputs["disabled"] = data.disabled;
                 return newFormInputs;
             });
         })
@@ -173,7 +173,7 @@ const ClientInfo = props => {
                         <hr className="client-information-hr" />
                         <h1>Disability and Ailment(s)</h1>
                         <DisabilityInformation
-                            disabilityList={formInputs.disabilities}
+                            disabilityList={formInputs.disabled}
                         />
                         <div className="client-information-hr">
                             <div className="client-information-hr mt-3">

@@ -7,8 +7,8 @@ const getDisabilitiesList = (disabilityList) => {
   for (const index in disabilityList) {
     // TODO: Change variant according to disability risk level
     const disability = (
-      <ListGroup.Item variant="danger" key={disabilityList[index].id}>
-        {disabilityList[index].type}
+      <ListGroup.Item variant="danger" key={disabilityList[index].disability.id}>
+        {disabilityList[index].disability.type}
       </ListGroup.Item>
     );
     listItem.push(disability);
