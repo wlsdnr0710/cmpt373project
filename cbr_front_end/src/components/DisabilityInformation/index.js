@@ -8,7 +8,7 @@ const getDisabilitiesList = (disabilityList) => {
     // TODO: Change variant according to disability risk level
     let type = disabilityList[index].disability.type;
     if(type === "Other") {
-        type = disabilityList[index].otherDescription;
+        type = disabilityList[index].disability.otherDescription;
     }
 
     const disability = (
