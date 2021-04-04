@@ -57,6 +57,7 @@ public class StatisticsController {
         total.put("clientCount", clientService.getAllClientsCount());
         total.put("visitCount", visitService.getAllVisitsCount());
         total.put("referralCount", referralService.getAllReferralsCount());
+        total.put("outstandingReferralCount", referralService.getAllOutstandingReferralsCount());
         items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
@@ -93,7 +94,6 @@ public class StatisticsController {
         for(Worker worker : workers) {
             JSONObject element = new JSONObject();
             element.put("name", worker.getFirstName() + " " + worker.getLastName());
-            element.put("visitCount", visitService.getAllVisitsByZoneCount(Math.toIntExact(worker.getId())));
             element.put("referralCount", referralService.getAllReferralsByWorkerIdCount(worker.getId()));
             element.put("outstandingReferralCount", referralService.getAllOutstandingReferralsByWorkerIdCount(worker.getId()));
             items.add(element);
@@ -113,10 +113,10 @@ public class StatisticsController {
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
-            element.put("criticalCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(4,Math.toIntExact(zone.getId())));
-            element.put("highCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(3,Math.toIntExact(zone.getId())));
-            element.put("mediumCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(2,Math.toIntExact(zone.getId())));
-            element.put("lowCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(1,Math.toIntExact(zone.getId())));
+            element.put("criticalCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(4, Math.toIntExact(zone.getId())));
+            element.put("highCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(3, Math.toIntExact(zone.getId())));
+            element.put("mediumCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(2, Math.toIntExact(zone.getId())));
+            element.put("lowCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(1, Math.toIntExact(zone.getId())));
             items.add(element);
         }
 
@@ -134,10 +134,10 @@ public class StatisticsController {
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
-            element.put("criticalCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(4,Math.toIntExact(zone.getId())));
-            element.put("highCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(3,Math.toIntExact(zone.getId())));
-            element.put("mediumCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(2,Math.toIntExact(zone.getId())));
-            element.put("lowCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(1,Math.toIntExact(zone.getId())));
+            element.put("criticalCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(4, Math.toIntExact(zone.getId())));
+            element.put("highCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(3, Math.toIntExact(zone.getId())));
+            element.put("mediumCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(2, Math.toIntExact(zone.getId())));
+            element.put("lowCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(1, Math.toIntExact(zone.getId())));
             items.add(element);
         }
 
@@ -155,10 +155,10 @@ public class StatisticsController {
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
-            element.put("criticalCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(4,Math.toIntExact(zone.getId())));
-            element.put("highCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(3,Math.toIntExact(zone.getId())));
-            element.put("mediumCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(2,Math.toIntExact(zone.getId())));
-            element.put("lowCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(1,Math.toIntExact(zone.getId())));
+            element.put("criticalCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(4, Math.toIntExact(zone.getId())));
+            element.put("highCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(3, Math.toIntExact(zone.getId())));
+            element.put("mediumCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(2, Math.toIntExact(zone.getId())));
+            element.put("lowCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(1, Math.toIntExact(zone.getId())));
             items.add(element);
         }
 

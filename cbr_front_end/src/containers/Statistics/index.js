@@ -221,6 +221,7 @@ const Statistics = () => {
                     <td>{countAll[0]["clientCount"]}</td>
                     <td>{countAll[0]["visitCount"]}</td>
                     <td>{countAll[0]["referralCount"]}</td>
+                    <td>{countAll[0]["outstandingReferralCount"]}</td>
                  </tr>
              );
         }
@@ -241,6 +242,7 @@ const Statistics = () => {
                             <th>Clients</th>
                             <th>Visits</th>
                             <th>Referrals</th>
+                            <th>Outstanding Referrals</th>
                         </tr>
                     </thead>
                     <tbody>
