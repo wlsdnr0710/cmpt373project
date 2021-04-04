@@ -46,6 +46,7 @@ const NewClientForm = () => {
         "lastName": "",
         "gender": "F",
         "contactNumber": "",
+        "caregiverName": "",
         "caregiverNumber": "",
         "disabilityType": [],
         "healthRisk": "low",
@@ -64,7 +65,7 @@ const NewClientForm = () => {
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
     const [isPhotographDisabled, setIsPhotographDisabled] = useState(true);
-    const [isCaregivenPresent, setIsCaregivenPresent] = useState(false);
+    const [isCaregiverPresent, setIsCaregiverPresent] = useState(false);
     const [showHealthSurvey, setShowHealthSurvey] = useState(true);
     const [showSocialSurvey, setShowSocialSurvey] = useState(true);
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
@@ -309,12 +310,12 @@ const NewClientForm = () => {
     const isCaregiverPresentCheckBoxActionHandler = event => {
         const checkBox = event.target;
         const isCaregiverPresent = checkBox.checked;
-        setIsCaregivenPresent(isCaregiverPresent);
+        setIsCaregiverPresent(isCaregiverPresent);
         updateFormInputByNameValue("isCaregiverPresent", isCaregiverPresent);
     };
 
     const isCaregiverRelatedInputDisabled = () => {
-        return isFormInputDisabled || !isCaregivenPresent;
+        return isFormInputDisabled || !isCaregiverPresent;
     };
 
     const isClientPhotographDisabled = () => {
@@ -490,6 +491,18 @@ const NewClientForm = () => {
                         displayText={"Is the Caregiver present?"}
                         isDisabled={isFormInputDisabled}
 
+                    />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Caregiver Name:</label>
+                    </div>
+                    <TextInputField
+                        name="caregiverName"
+                        value={formInputs["caregiverName"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isCaregiverRelatedInputDisabled()}
                     />
                 </div>
 
