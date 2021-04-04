@@ -44,9 +44,18 @@ public class ClientServiceImpl implements ClientService {
         Pageable pageable;
 
         if (ascending == true) {
-            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+            //TODO: find better fix than using a string comparison to birthdate
+            if (!sortBy.equals("birthdate")) {
+                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+            } else {
+                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+            }
         } else {
-            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+            if (!sortBy.equals("birthdate")) {
+                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+            } else {
+                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+            }
         }
 
         return clientRepository.findAll(pageable);
@@ -94,10 +103,19 @@ public class ClientServiceImpl implements ClientService {
         Pageable pageable;
         Page<Client> filteredClients = null;
 
-        if(ascending == true) {
-            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+        if (ascending == true) {
+            //TODO: find better fix than using a string comparison to birthdate
+            if (!sortBy.equals("birthdate")) {
+                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+            } else {
+                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+            }
         } else {
-            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+            if (!sortBy.equals("birthdate")) {
+                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
+            } else {
+                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
+            }
         }
 
         switch (columns.valueOf(filterBy)) {
