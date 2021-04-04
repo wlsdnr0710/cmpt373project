@@ -25,7 +25,8 @@ const ClientTable = props => {
     const clientsPerPage = 10;
 
     const defaultSortBy = "id";
-    const defaultSearchBy = "firstName"
+    const defaultSearchBy = "cbrWorkerId"
+    const [isSearching, setIsSearching] = useState(false);
     const [sortBy, setSortBy] = useState(defaultSortBy);
     const [isSortAscending, setIsSortAscending] = useState(true);
     const [searchBy, setSearchBy] = useState(defaultSearchBy);
@@ -75,14 +76,17 @@ const ClientTable = props => {
 
     const requestClientsByPageable = useCallback(pageable => {
         const { page, clientsPerPage, sortBy, isSortAscending } = pageable;
-
+        let getUrlCall = ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage + "/sortBy/" + sortBy + "/ascending/" + isSortAscending;
+        if (isSearching){
+            console.log("called");
+            getUrlCall = ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage + "/filterBy/" + searchBy + "/searchBy/" + searchKeywordBuffer + "/sortBy/" + sortBy + "/ascending/" + isSortAscending;
+        }
         const requestHeader = {
             token: getToken()
         };
         setIsLoading(true);
         axios.get(
-                // ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage, 
-                ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage + "/sortBy/" + sortBy + "/ascending/" + isSortAscending,
+                getUrlCall,
                 {
                     headers: requestHeader,
                 }
@@ -97,6 +101,7 @@ const ClientTable = props => {
             })
             .then(() => {
                 setIsLoading(false);
+                setIsSearching(false);
             });
     }, [searchKeyword, sortBy]); // TODO: Will use searchKeyword and sortBy dependencies
 
@@ -218,11 +223,17 @@ const ClientTable = props => {
     const onClickSearchHandler = event => {
         event.preventDefault();
         if (searchKeywordBuffer.length === 0) {
-            return;
+            setIsSearching(false);
+            setCurrentPage(firstPage);
+            setClients([]);
+            
+        }else {
+            setIsSearching(true);
+            console.log("isSearching");
+            setCurrentPage(firstPage);
+            setSearchKeyword(searchKeywordBuffer);
+            setClients([]);
         }
-        setCurrentPage(firstPage);
-        setClients([]);
-        setSearchKeyword(searchKeywordBuffer);
     };
 
     const showSpinnerWhenIsLoading = isLoading => {
