@@ -217,7 +217,7 @@ const EditClientForm = (props) => {
       <div>
         <h1>Disability and Ailment(s)</h1>
         <DisabilityInformation
-          disabilityList={clientInformation.disabilities}
+          disabilityList={clientInformation.disabled}
         />
         <input
           className="btn btn-secondary update-disability-button"

@@ -45,12 +45,13 @@ public class Disabled {
 
     }
 
-    public Disabled(Long id, Long clientId, Long disabilityId, String otherDescription, Client client) {
+    public Disabled(Long id, Long clientId, Long disabilityId, String otherDescription, Client client, Disability disability) {
         this.id = id;
         this.clientId = clientId;
         this.disabilityId = disabilityId;
         this.otherDescription = otherDescription;
         this.client = client;
+        this.disability = disability;
     }
 
     public Long getId() {
@@ -90,6 +91,13 @@ public class Disabled {
     }
 
     public void setClient(Client client) {
-        this.client = client;
+        this.client = client; }
+
+    public Disability getDisability() {
+        return disability;
+    }
+
+    public void setDisability(Disability disability) {
+        this.disability = disability;
     }
 }
