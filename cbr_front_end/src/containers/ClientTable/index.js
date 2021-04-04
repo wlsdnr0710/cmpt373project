@@ -26,29 +26,27 @@ const ClientTable = props => {
 
     const defaultSortBy = "id";
     const defaultSearchBy = "cbrWorkerId"
-    const [isSearching, setIsSearching] = useState(false);
     const [sortBy, setSortBy] = useState(defaultSortBy);
     const [isSortAscending, setIsSortAscending] = useState(true);
     const [searchBy, setSearchBy] = useState(defaultSearchBy);
     const [searchKeyword, setSearchKeyword] = useState("");
     const [searchKeywordBuffer, setSearchKeywordBuffer] = useState("");
 
-    
-    const getSearchByList = () => {
-        return {
-            "ID": "cbrWorkerId",
-            "First Name": "firstName",
-            "Last Name": "lastName",
-            "Zone": "zone",
-            "Village No.": "villageNumber",
-        };
-    }
-
     const getAscendingText = () => {
         if (isSortAscending){
             return "Ascending";
         }
         return "Descending";
+    }
+
+    const getSearchByList = () => {
+        return {
+            "CBR Worker ID": "cbrWorkerId",
+            "First Name": "firstName",
+            "Last Name": "lastName",
+            "Zone": "zone",
+            "Village No.": "villageNumber",
+        };
     }
 
     const getSortByList = () => {
@@ -71,14 +69,15 @@ const ClientTable = props => {
             clientsPerPage: clientsPerPage,
             sortBy: sortBy,
             isSortAscending: isSortAscending,
+            searchBy : searchBy,
+            searchKeywordBuffer :searchKeywordBuffer
         }
     };
 
     const requestClientsByPageable = useCallback(pageable => {
-        const { page, clientsPerPage, sortBy, isSortAscending } = pageable;
+        const { page, clientsPerPage, sortBy, isSortAscending, searchBy, searchKeywordBuffer } = pageable;
         let getUrlCall = ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage + "/sortBy/" + sortBy + "/ascending/" + isSortAscending;
-        if (isSearching){
-            console.log("called");
+        if (searchKeywordBuffer !== ""){
             getUrlCall = ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage + "/filterBy/" + searchBy + "/searchBy/" + searchKeywordBuffer + "/sortBy/" + sortBy + "/ascending/" + isSortAscending;
         }
         const requestHeader = {
@@ -101,7 +100,6 @@ const ClientTable = props => {
             })
             .then(() => {
                 setIsLoading(false);
-                setIsSearching(false);
             });
     }, [searchKeyword, sortBy]); // TODO: Will use searchKeyword and sortBy dependencies
 
@@ -199,8 +197,8 @@ const ClientTable = props => {
     const onChangeSearchByHandler = event => {
         const searchByDropdown = event.target;
         const searchByValue = searchByDropdown.value;
-        setCurrentPage(firstPage);
         setSearchBy(searchByValue);
+
     };
 
     const onChangeSortByHandler = event => {
@@ -222,18 +220,9 @@ const ClientTable = props => {
 
     const onClickSearchHandler = event => {
         event.preventDefault();
-        if (searchKeywordBuffer.length === 0) {
-            setIsSearching(false);
-            setCurrentPage(firstPage);
-            setClients([]);
-            
-        }else {
-            setIsSearching(true);
-            console.log("isSearching");
-            setCurrentPage(firstPage);
-            setSearchKeyword(searchKeywordBuffer);
-            setClients([]);
-        }
+        setSearchKeyword(searchKeywordBuffer);
+        setCurrentPage(firstPage);
+        setClients([]);
     };
 
     const showSpinnerWhenIsLoading = isLoading => {
@@ -300,7 +289,7 @@ const ClientTable = props => {
                         />
                     </div>
                     <div className="search-button">
-                        <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button>
+                        <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button> 
                     </div>
                 </div>
                 <hr />
