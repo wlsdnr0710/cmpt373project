@@ -117,7 +117,6 @@ const NewVisitForm = (props) => {
     const [isEducationGoalConcluded, setIsEducationGoalConcluded] = useState(false);
     const [isSocialGoalConcluded, setIsSocialGoalConcluded] = useState(false);
 
-    const [isPurposeCBR, setPurposeCBR] = useState(true);
     const [currLongitude, setCurrLongitude] = useState();
     const [currLatitude, setCurrLatitude] = useState();
 
@@ -255,14 +254,6 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
-        const purposeStr = "purpose";
-        const cbrStr = "cbr";
-
-        if (name === purposeStr && value !== cbrStr) {
-            setPurposeCBR(false);
-        } else if (name === purposeStr && value === cbrStr) {
-            setPurposeCBR(true);
-        }
 
         updateFormInputByNameValue(name, value);
     };
@@ -535,7 +526,7 @@ const NewVisitForm = (props) => {
                             isDisabled={false}
                         />
                     </div>
-                    <div hidden={!isPurposeCBR}>
+                    <div>
                         <CheckBox
                             name="doHealthCheckBox"
                             value={healthCheckBox}
@@ -600,7 +591,7 @@ const NewVisitForm = (props) => {
                     />
                 </div>
                 <hr />
-                <div hidden={(isHealthInputDisabled) || (!isPurposeCBR)}>
+                <div hidden={(isHealthInputDisabled)}>
                     <NewClientVisitsHealthForm
                         wheelchairValue={healthFormInputs["wheelchair"]}
                         prostheticValue={healthFormInputs["prosthetic"]}
@@ -631,7 +622,7 @@ const NewVisitForm = (props) => {
                     <hr />
                 </div>
 
-                <div hidden={(isEducationInputDisabled) || (!isPurposeCBR)}>
+                <div hidden={(isEducationInputDisabled)}>
                     <NewClientVisitsEducationForm
                         referralToEducationOrgValue={educationFormInputs["referralToEducationOrg"]}
                         referralToEducationOrgDescValue={educationFormInputs["referralToEducationOrgDesc"]}
@@ -652,7 +643,7 @@ const NewVisitForm = (props) => {
                     <hr />
                 </div>
 
-                <div hidden={(isSocialInputDisabled) || (!isPurposeCBR)}>
+                <div hidden={(isSocialInputDisabled)}>
                     <NewClientVisitsSocialForm
                         referralToSocialOrgValue={socialFormInputs["referralToSocialOrg"]}
                         referralToSocialOrgDescValue={socialFormInputs["referralToSocialOrgDesc"]}
