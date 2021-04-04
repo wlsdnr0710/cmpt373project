@@ -6,46 +6,48 @@ import {
     removeToken,
     removeRole,
     getWorkerUsernameFromToken,
-    isAuthenticated
+    isAuthenticated,
 } from "../../utils/AuthenticationUtil";
-import { useEffect, useState } from 'react';
-import { useLocation, useHistory } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { getWorkerInformationFromServer } from "../../utils/Utilities";
+import SyncNavigationBarEntry from "../../components/SyncNavigationBarEntry";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/id_card.svg";
 import newClientIcon from "../../assets/svg/navigation_icons/user_plus.svg";
 import newVisitIcon from "../../assets/svg/navigation_icons/visitor.svg";
 import newReferralIcon from "../../assets/svg/navigation_icons/user_pin.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/people.svg";
-import cloudSyncIcon from "../../assets/svg/navigation_icons/sync.svg";
+import syncIcon from "../../assets/svg/navigation_icons/sync.svg";
 import logoutIcon from "../../assets/svg/navigation_icons/logout.svg";
 import adminIcon from "../../assets/svg/navigation_icons/settings.svg";
 import "./style.css";
 
 const DesktopNavigationBar = () => {
+
     const [isAdminRole, setAdminRole] = useState(false);
 
     const setRoleIfRoleIsNull = () => {
         if (getRole() === null && isAuthenticated()) {
             const requestHeader = {
-                token: getToken()
+                token: getToken(),
             };
-            getWorkerInformationFromServer(getWorkerUsernameFromToken(getToken()), requestHeader)
-            .then(response => {
-                const role = response.data.data.role;
-                saveRole(role);
-                if (role === "ADMIN") {
-                    setAdminRole(true);
-                }
-            })
-            .catch(error => {
-
-            });
+            getWorkerInformationFromServer(
+                getWorkerUsernameFromToken(getToken()),
+                requestHeader
+            )
+                .then((response) => {
+                    const role = response.data.data.role;
+                    saveRole(role);
+                    if (role === "ADMIN") {
+                        setAdminRole(true);
+                    }
+                })
+                .catch((error) => {});
         }
     };
 
     const getAdminNavigationItem = () => {
-        if(getRole() === "ADMIN" || isAdminRole === true) {
+        if (getRole() === "ADMIN" || isAdminRole === true) {
             return (
                 <NavigationBarEntry
                     label="Admin"
@@ -118,11 +120,9 @@ const DesktopNavigationBar = () => {
                     />
                 </div>
                 <div className="sync">
-                    <NavigationBarEntry
+                    <SyncNavigationBarEntry
                         label="Sync"
-                        destination="#"
-                        query="#"
-                        iconSource={cloudSyncIcon}
+                        iconSource={syncIcon}
                         iconAlt="Sync"
                     />
                 </div>

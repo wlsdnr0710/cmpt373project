@@ -29,6 +29,13 @@ export const getLabelTag = label => {
     }
 }
 
+export const displayIcon = (iconSource, iconAlt) => {
+    const entryIncludesIcon = iconSource !== undefined && iconAlt !== undefined;
+    if (entryIncludesIcon) {
+      return <img className="icon" src={iconSource} alt={iconAlt} />;
+    }
+  };
+
 export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
 };

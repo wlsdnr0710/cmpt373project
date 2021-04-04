@@ -14,7 +14,8 @@ const backgroundSyncPlugin = new workbox.backgroundSync.BackgroundSyncPlugin(
     {
         // Configure maximum amount of time request will try to sync
         maxRetentionTime: MAX_RETRY_MIN,
-        //TODO: insert callback function to let user know that they are back online and synced
+        // TODO: insert callback function to let user know that they are back online and synced
+        // TODO: access indexdb manually to see if there is anything to update 
     }
 );
 
@@ -38,9 +39,9 @@ workbox.routing.registerRoute(
     })
 );
 
-//TODO: cache post put and delete request
 workbox.routing.registerRoute(
-    new RegExp("http://localhost:8080/api/v1/"),
+    // Match requests to server based on "/api/v1/" to avoid having to specify localhost or production server
+    new RegExp(/\/api\/v1\//),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
@@ -48,7 +49,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    new RegExp("http://localhost:8080/api/v1/"),
+    new RegExp(/\/api\/v1\//),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
@@ -56,7 +57,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    new RegExp("http://localhost:8080/api/v1/"),
+    new RegExp(/\/api\/v1\//),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
