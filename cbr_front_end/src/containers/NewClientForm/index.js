@@ -495,6 +495,18 @@ const NewClientForm = () => {
 
                 <div className="input-field-container">
                     <div className="label-container">
+                        <label>Caregiver Name:</label>
+                    </div>
+                    <TextInputField
+                        name="caregiverName"
+                        value={formInputs["caregiverName"]}
+                        onChange={formInputChangeHandler}
+                        isDisabled={isFormInputDisabled}
+                    />
+                </div>
+
+                <div className="input-field-container">
+                    <div className="label-container">
                         <label>Caregiver Number:</label>
                     </div>
                     <NumberInputField
