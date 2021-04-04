@@ -2,6 +2,7 @@ package com.earth.cbr.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
+import org.hibernate.validator.constraints.Range;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -148,7 +149,7 @@ public class Client {
     private Set<Referral> referrals;
 
     @OneToMany(mappedBy = "client")
-    private Set<Disability> disability;
+    private Set<Disabled> disabled;
 
     public Client() {
 
@@ -169,7 +170,7 @@ public class Client {
                   String caregiverPhoto,
                   String requiredServices,
                   String individualGoals,
-                  Set<Disability> disability,
+                  Set<Disabled> disabled,
                   Set<RiskHistory> riskHistories,
                   Zone zoneName,
                   Set<Referral> referrals) {
@@ -187,7 +188,7 @@ public class Client {
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
         this.individualGoals = individualGoals;
-        this.disability = disability;
+        this.disabled = disabled;
         this.riskHistories = riskHistories;
         this.zoneName = zoneName;
         this.referrals = referrals;
@@ -323,12 +324,12 @@ public class Client {
         this.individualGoals = individualGoals;
     }
 
-    public Set<Disability> getDisability() {
-        return disability;
+    public Set<Disabled> getDisabled() {
+        return disabled;
     }
 
-    public void setDisability(Set<Disability> disability) {
-        this.disability = disability;
+    public void setDisabled(Set<Disabled> disabled) {
+        this.disabled = disabled;
     }
 
     public Set<RiskHistory> getRiskHistories() {

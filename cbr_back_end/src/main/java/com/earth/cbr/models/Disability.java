@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Set;
+import org.hibernate.validator.constraints.Range;
 
 @Entity(name = "Disability")
 @Table(name = "disability")
