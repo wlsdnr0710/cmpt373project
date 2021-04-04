@@ -107,6 +107,12 @@ public class Client {
     private Long cbrWorkerId;
 
     @Column(
+            name = "caregiver_name",
+            columnDefinition = "TEXT"
+    )
+    private String caregiverName;
+
+    @Column(
             name = "caregiver_number",
             columnDefinition = "TEXT"
     )
@@ -165,6 +171,7 @@ public class Client {
                   Date signupDate,
                   String contactNumber,
                   Long cbrWorkerId,
+                  String caregiverName,
                   String caregiverNumber,
                   String caregiverPhoto,
                   String requiredServices,
@@ -183,6 +190,7 @@ public class Client {
         this.signupDate = signupDate;
         this.contactNumber = contactNumber;
         this.cbrWorkerId = cbrWorkerId;
+        this.caregiverName = caregiverName;
         this.caregiverNumber = caregiverNumber;
         this.caregiverPhoto = caregiverPhoto;
         this.requiredServices = requiredServices;
@@ -289,6 +297,14 @@ public class Client {
 
     public void setCbrWorkerId(Long cbrWorkerId) {
         this.cbrWorkerId = cbrWorkerId;
+    }
+
+    public String getCaregiverName() {
+        return caregiverName;
+    }
+
+    public void setCaregiverName(String caregiverName) {
+        this.caregiverName = caregiverName;
     }
 
     public String getCaregiverNumber() {
