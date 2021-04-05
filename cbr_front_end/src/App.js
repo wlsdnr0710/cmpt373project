@@ -5,15 +5,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PageTemplate from "./containers/PageTemplate";
 
 function App() {
-  return (
-    <div className="App">
-      <BrowserRouter>
-        <PageTemplate>
-          <Router />
-        </PageTemplate>
-      </BrowserRouter>
-    </div>
-  );
+    return (
+        <div className="App">
+            <BrowserRouter>
+                <PageTemplate>
+                    <Router />
+                </PageTemplate>
+            </BrowserRouter>
+        </div>
+    );
 }
 
 export default App;
