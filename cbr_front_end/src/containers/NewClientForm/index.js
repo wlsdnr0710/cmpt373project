@@ -1,10 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getToken } from "../../utils/AuthenticationUtil";
+import { getZonesFromServer } from "../../utils/Utilities";
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
-import DisabilityTypeCheckBoxes from "../DisabilityTypeCheckBoxes";
 import FormHeader from "../../components/FormHeader";
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
@@ -16,19 +16,6 @@ import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
-
-// TODO: We want to fetch zones from backend server instead of hardcoding them here.
-const defaultClientZones = {
-    "BidiBidi Zone 1": "1",
-    "BidiBidi Zone 2": "2",
-    "BidiBidi Zone 3": "3",
-    "BidiBidi Zone 4": "4",
-    "BidiBidi Zone 5": "5",
-    "Palorinya Basecamp": "6",
-    "Palorinya Zone 1": "7",
-    "Palorinya Zone 2": "8",
-    "Palorinya Zone 3": "9",
-};
 
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
@@ -76,6 +63,8 @@ const NewClientForm = () => {
     const refClientPhotoInput = useRef(null);
     const refCaregiverPhotoInput = useRef(null);
 
+    const [zoneList, setZoneList] = useState({});
+    const [disabilityList, setDisabilityList] = useState({});
 
     const reqInputNameAndDisplayNames = {
         "zone": "Client zone",
@@ -151,9 +140,52 @@ const NewClientForm = () => {
         return ref.current.files[0];
     };
 
+    const getDisabilities = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.get(ServerConfig.api.url + '/api/v1/disability',
+        {
+            headers: requestHeader,
+            }
+            )
+        .then(response => {
+            console.log(response.data.data);
+            setDisabilityList(response.data.data);
+        });
+    };
+
+    const getDisabilityId = (name) => {
+        for (const index in disabilityList) {
+            if (disabilityList[index].name === name) {
+                return disabilityList[index].id;
+            }
+        }
+    };
+
+    const getZones = () => {
+        getZonesFromServer()
+        .then(response => {
+            setZoneList(response.data.data);
+        });
+    };
+
+    const getZoneId = () => {
+        for (const index in zoneList) {
+            if (zoneList[index].name === formInputs["zone"]) {
+                updateFormInputByNameValue("zone", zoneList[index].id);
+            }
+        }
+    };
+
+    useEffect(() => {
+        getZones();
+        getDisabilities();
+    }, []);
+
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
-        
+        getZoneId();
         const requestHeader = {
             token: getToken()
         };
@@ -344,22 +376,13 @@ const NewClientForm = () => {
         const dateTime = new Date(date).getTime();
         return dateTime;
     }
-    
-    const disabilityTypeKeyValues = {
-        "Amputee": "1",
-        "Polio": "2",
-        "Spinal Cord Injury": "3",
-        "Cerebral Palsy": "4",
-        "Spina Bifida": "5",
-        "Hydrocephalus": "6",
-        "Other": "7",
-    };
+
     const getDisabilityTypeCheckBoxesOnChangeHandler = name => {
         return event => {
             const checkBox = event.target;
             let checkBoxesValues = formInputs["disabilityType"];
             if (checkBox.checked) {
-                checkBoxesValues = [...checkBoxesValues, disabilityTypeKeyValues[name]];
+                checkBoxesValues = [...checkBoxesValues, getDisabilityId(name)];
             } else {
                 removeCheckBoxValuesByName(checkBoxesValues, name);
             }
@@ -368,9 +391,22 @@ const NewClientForm = () => {
     };
 
     const removeCheckBoxValuesByName = (checkBoxesValues, name) => {
-        const matchedItemIndex = checkBoxesValues.indexOf(disabilityTypeKeyValues[name]);
+        const matchedItemIndex = checkBoxesValues.indexOf(getDisabilityId(name));
         if (matchedItemIndex !== -1) {
             checkBoxesValues.splice(matchedItemIndex, 1);
+        }
+    };
+
+    const createDisabilityCheckboxComponents = () => {
+        const disabilityCheckboxComponents = [];
+        if(disabilityList === undefined || disabilityList.length === 0) {
+            return null;
+        }
+        else {
+            for (const index in disabilityList) {
+                disabilityCheckboxComponents.push(<CheckBox name={disabilityList[index].type} value={disabilityList[index].id} actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(disabilityList[index].type)} isDisabled={isFormInputDisabled} displayText={disabilityList[index].type} displayTextOnRight={true} key={index}/>);
+            }
+            return disabilityCheckboxComponents;
         }
     };
 
@@ -399,7 +435,7 @@ const NewClientForm = () => {
                     <DropdownList
                         dropdownName="zone"
                         value={formInputs["zone"]}
-                        dropdownListItemsKeyValue={defaultClientZones}
+                        dropdownListItemsKeyValue={zoneList}
                         onChange={formInputChangeHandler}
                         isDisabled={isFormInputDisabled}
                     />
@@ -490,7 +526,6 @@ const NewClientForm = () => {
                         actionHandler={isCaregiverPresentCheckBoxActionHandler}
                         displayText={"Is the Caregiver present?"}
                         isDisabled={isFormInputDisabled}
-
                     />
                 </div>
 
@@ -556,11 +591,7 @@ const NewClientForm = () => {
                     <div className="label-container">
                         <label>Disability Type:</label>
                     </div>
-                    <DisabilityTypeCheckBoxes 
-                        values={formInputs["disabilityType"]}
-                        getOnChangeHandlers={getDisabilityTypeCheckBoxesOnChangeHandler}
-                        isDisabled={isFormInputDisabled}
-                    />
+                    {createDisabilityCheckboxComponents()}
                 </div>
 
                 <hr />
