@@ -130,6 +130,7 @@ const AnswerSurveyForm = ({ clientID }) => {
 
     const onSubmitHandler = () => {
         const data = {
+            "surveyId": parseInt(selectedSurveyId),
             "surveyInputs": surveyInput,
             "clientId": clientID,
         }

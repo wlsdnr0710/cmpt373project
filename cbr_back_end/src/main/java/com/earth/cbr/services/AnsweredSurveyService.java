@@ -1,7 +1,8 @@
 package com.earth.cbr.services;
 
 import com.alibaba.fastjson.JSONObject;
+import com.earth.cbr.models.survey.AnsweredSurvey;
 
 public interface AnsweredSurveyService {
-    AnsweredSurveyServiceImpl buildAnsweredSurvey(JSONObject data);
+    AnsweredSurvey buildAnsweredSurvey(JSONObject data);
 }

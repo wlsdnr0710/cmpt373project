@@ -1,12 +1,12 @@
 package com.earth.cbr.services;
 
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.models.survey.AnsweredQuestion;
-import com.earth.cbr.models.survey.SurveyQuestion;
-import com.earth.cbr.models.survey.SurveyQuestionOption;
-import com.earth.cbr.models.survey.SurveyQuestionType;
+import com.earth.cbr.models.Client;
+import com.earth.cbr.models.survey.*;
+import com.earth.cbr.repositories.ClientRepository;
 import com.earth.cbr.repositories.SurveyQuestionOptionRepository;
 import com.earth.cbr.repositories.SurveyQuestionRepository;
+import com.earth.cbr.repositories.SurveyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,19 @@ import java.util.*;
 public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
 
     @Autowired
+    private SurveyRepository surveyRepository;
+
+    @Autowired
     private SurveyQuestionRepository surveyQuestionRepository;
 
     @Autowired
     private SurveyQuestionOptionRepository surveyQuestionOptionRepository;
 
+    @Autowired
+    ClientRepository clientRepository;
+
     @Override
-    public AnsweredSurveyServiceImpl buildAnsweredSurvey(JSONObject data) {
+    public AnsweredSurvey buildAnsweredSurvey(JSONObject data) {
         Map<String, Object> surveyInputs = (Map<String, Object>) data.get("surveyInputs");
         Set<String> questionIds = surveyInputs.keySet();
         List<AnsweredQuestion> answeredQuestions = new ArrayList<>();
@@ -52,11 +58,26 @@ public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
                     SurveyQuestionOption option = getOptionById(optionId);
                     answeredQuestion = AnsweredQuestion.buildDropdown(surveyQuestion, option);
                     break;
-
+                case WRITTEN:
+                    String writtenAnswer = (String) questionValueJSON.get("value");
+                    answeredQuestion = AnsweredQuestion.buildWrittenAnswer(surveyQuestion, writtenAnswer);
+                    break;
             }
             answeredQuestions.add(answeredQuestion);
         }
-        return null;
+
+        long surveyId = (int) data.get("surveyId");
+        Survey survey = surveyRepository.findById(surveyId).orElse(null);
+        long clientId = (int) data.get("clientId");
+        Client client = clientRepository.findById(clientId).orElse(null);
+        AnsweredSurvey answeredSurvey = new AnsweredSurvey();
+        answeredSurvey.setSurvey(survey);
+        for (AnsweredQuestion answeredQuestion : answeredQuestions) {
+            answeredQuestion.setAnsweredSurvey(answeredSurvey);
+        }
+        answeredSurvey.setAnsweredQuestions(new HashSet<>(answeredQuestions));
+        answeredSurvey.setClient(client);
+        return answeredSurvey;
     }
 
     private Set<SurveyQuestionOption> parseSurveyQuestionOptions(List<Map<String, Object>> list) {

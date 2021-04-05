@@ -87,6 +87,16 @@ public class AnsweredQuestion {
         return answeredQuestion;
     }
 
+    public static AnsweredQuestion buildWrittenAnswer(
+            SurveyQuestion question,
+            String writtenAnswer
+    ) {
+        AnsweredQuestion answeredQuestion = new AnsweredQuestion();
+        answeredQuestion.setQuestion(question);
+        answeredQuestion.setWrittenAnswer(writtenAnswer);
+        return answeredQuestion;
+    }
+
     public void addOption(SurveyQuestionOption option) {
         options.add(option);
     }
