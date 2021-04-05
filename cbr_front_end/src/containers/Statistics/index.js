@@ -13,6 +13,7 @@ const Statistics = () => {
     const [countHealthRisks, setCountHealthRisks] = useState([]);
     const [countSocialRisks, setCountSocialRisks] = useState([]);
     const [countEducationRisks, setCountEducationRisks] = useState([]);
+    const [countDisabilities, setCountDisabilities] = useState([]);
 
     const getCountAll = () => {
         const requestHeader = {
@@ -104,6 +105,21 @@ const Statistics = () => {
         });
     };
 
+    const getCountDisabilities = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.get(
+            ServerConfig.api.url + "/api/v1/statistics/countDisabilities",
+            {
+                headers: requestHeader,
+            }
+        )
+        .then(response => {
+            setCountDisabilities(response.data.data[0]);
+        });
+    };
+
     useEffect(()=> {
         getCountByZone();
         getCountByWorker();
@@ -111,6 +127,7 @@ const Statistics = () => {
         getCountHealthRisk();
         getCountSocialRisk();
         getCountEducationRisk();
+        getCountDisabilities();
     }, []);
 
     const createStatTableComponents2 = () => {
@@ -204,6 +221,32 @@ const Statistics = () => {
                                             <td>{countEducationRisks[index]["highCount"]}</td>
                                             <td>{countEducationRisks[index]["mediumCount"]}</td>
                                             <td>{countEducationRisks[index]["lowCount"]}</td>
+                                         </tr>
+                                        );
+            }
+            return statTableComponents;
+        }
+    };
+
+    const createStatTableComponents7 = () => {
+        const statTableComponents = [];
+        if(countDisabilities === undefined || countDisabilities.length === 0) {
+            return null;
+        }
+        else {
+            for (const index in countDisabilities) {
+                statTableComponents.push(<tr>
+                                            <td>{countDisabilities[index]["name"]}</td>
+                                            <td>{countDisabilities[index]["a"]}</td>
+                                            <td>{countDisabilities[index]["b"]}</td>
+                                            <td>{countDisabilities[index]["c"]}</td>
+                                            <td>{countDisabilities[index]["d"]}</td>
+                                            <td>{countDisabilities[index]["e"]}</td>
+                                            <td>{countDisabilities[index]["f"]}</td>
+                                            <td>{countDisabilities[index]["g"]}</td>
+                                            <td>{countDisabilities[index]["h"]}</td>
+                                            <td>{countDisabilities[index]["i"]}</td>
+                                            <td>{countDisabilities[index]["j"]}</td>
                                          </tr>
                                         );
             }
@@ -330,6 +373,29 @@ const Statistics = () => {
                     </thead>
                     <tbody>
                         {createStatTableComponents6()}
+                    </tbody>
+                </Table>
+            </div>
+            <div>
+                <h5>Disabilities By Zone:</h5>
+                <Table striped bordered size="sm">
+                    <thead>
+                        <tr>
+                            <th>Zone</th>
+                            <th>d1</th>
+                            <th>d2</th>
+                            <th>d3</th>
+                            <th>d4</th>
+                            <th>d5</th>
+                            <th>d6</th>
+                            <th>d7</th>
+                            <th>d8</th>
+                            <th>d9</th>
+                            <th>d10</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {createStatTableComponents7()}
                     </tbody>
                 </Table>
             </div>

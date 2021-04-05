@@ -41,6 +41,9 @@ public class StatisticsController {
     private ServiceOptionService serviceOptionService;
 
     @Autowired
+    private DisabledService disabledService;
+
+    @Autowired
     private DisabilityService disabilityService;
 
     @Autowired
@@ -159,6 +162,33 @@ public class StatisticsController {
             element.put("highCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(3, Math.toIntExact(zone.getId())));
             element.put("mediumCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(2, Math.toIntExact(zone.getId())));
             element.put("lowCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(1, Math.toIntExact(zone.getId())));
+            items.add(element);
+        }
+
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @Admin
+    @GetMapping(value = "/countDisabilities")
+    public ResponseEntity<JSONObject> getAllDisabilitiesByZoneCount() {
+        JSONObject responseJson = new JSONObject();
+        List<JSONObject> items = new ArrayList<>();
+        List<Zone> zones = zoneService.getAllZones();
+
+        for(Zone zone : zones) {
+            JSONObject element = new JSONObject();
+            element.put("name", zone.getName());
+            element.put("a", disabledService.getAllDisabledsByZoneIdCount(1L, Math.toIntExact(zone.getId())));
+            element.put("b", disabledService.getAllDisabledsByZoneIdCount(2L, Math.toIntExact(zone.getId())));
+            element.put("c", disabledService.getAllDisabledsByZoneIdCount(3L, Math.toIntExact(zone.getId())));
+            element.put("d", disabledService.getAllDisabledsByZoneIdCount(4L, Math.toIntExact(zone.getId())));
+            element.put("e", disabledService.getAllDisabledsByZoneIdCount(5L, Math.toIntExact(zone.getId())));
+            element.put("f", disabledService.getAllDisabledsByZoneIdCount(6L, Math.toIntExact(zone.getId())));
+            element.put("g", disabledService.getAllDisabledsByZoneIdCount(7L, Math.toIntExact(zone.getId())));
+            element.put("h", disabledService.getAllDisabledsByZoneIdCount(8L, Math.toIntExact(zone.getId())));
+            element.put("i", disabledService.getAllDisabledsByZoneIdCount(9L, Math.toIntExact(zone.getId())));
+            element.put("j", disabledService.getAllDisabledsByZoneIdCount(10L, Math.toIntExact(zone.getId())));
             items.add(element);
         }
 

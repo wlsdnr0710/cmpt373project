@@ -21,6 +21,16 @@ public class DisabledServiceImpl implements DisabledService {
     }
 
     @Override
+    public Long getAllDisabledsCount() {
+        return disabledRepository.count();
+    }
+
+    @Override
+    public Integer getAllDisabledsByZoneIdCount(Long disabilityId, Integer zoneId) {
+        return disabledRepository.findAllByDisabilityIdAndClientZone(disabilityId, zoneId).size();
+    }
+
+    @Override
     public Disabled getDisabledById(Long id) {
         Optional<Disabled> disabledOptional = disabledRepository.findById(id);
         Disabled disabled = disabledOptional.orElse(null);

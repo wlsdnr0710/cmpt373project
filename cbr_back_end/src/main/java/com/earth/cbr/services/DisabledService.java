@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface DisabledService {
     List<Disabled> getAllDisableds();
+    Long getAllDisabledsCount();
+    Integer getAllDisabledsByZoneIdCount(Long disabilityId, Integer zoneId);
     Disabled getDisabledById(Long id);
     Disabled addDisabled(@Valid Disabled disabled);
     Disabled updateDisabledById(@Valid Disabled disabled);
