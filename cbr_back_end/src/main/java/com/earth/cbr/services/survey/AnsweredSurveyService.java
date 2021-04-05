@@ -1,4 +1,4 @@
-package com.earth.cbr.services;
+package com.earth.cbr.services.survey;
 
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.survey.AnsweredSurvey;

@@ -1,4 +1,4 @@
-package com.earth.cbr.services;
+package com.earth.cbr.services.survey;
 
 import com.earth.cbr.models.survey.Survey;
 import com.earth.cbr.models.survey.SurveyQuestion;
@@ -6,6 +6,7 @@ import com.earth.cbr.models.survey.SurveyQuestionOption;
 import com.earth.cbr.repositories.QuestionOptionRepository;
 import com.earth.cbr.repositories.QuestionRepository;
 import com.earth.cbr.repositories.SurveyRepository;
+import com.earth.cbr.services.survey.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

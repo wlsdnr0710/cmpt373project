@@ -1,4 +1,4 @@
-package com.earth.cbr.services;
+package com.earth.cbr.services.survey;
 
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Client;
@@ -7,6 +7,7 @@ import com.earth.cbr.repositories.ClientRepository;
 import com.earth.cbr.repositories.SurveyQuestionOptionRepository;
 import com.earth.cbr.repositories.SurveyQuestionRepository;
 import com.earth.cbr.repositories.SurveyRepository;
+import com.earth.cbr.services.survey.AnsweredSurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
