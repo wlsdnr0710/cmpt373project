@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
 import Alert from 'react-bootstrap/Alert';
@@ -13,6 +13,13 @@ import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
 import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
+import RiskInformation from "../RiskInformation";
+import {
+  deleteClientFromServer,
+  getClientInformationFromServer,
+  getClientObject,
+  updateClientInformationToServer
+} from "../../utils/Utilities";
 
 // TODO: We want to fetch zones from backend server instead of hardcoding them here.
 const defaultPurpose = {
@@ -40,6 +47,7 @@ const defaultClientZones = {
 };
 
 const NewVisitForm = (props) => {
+    const clientId = props.clientID;
     const history = useHistory();
     const [formInputs, setFormInputs] = useState({
         "consent" : 1,
@@ -104,6 +112,33 @@ const NewVisitForm = (props) => {
         "socialAdvocacyDesc": "",
         "socialEncouragementDesc": "",
     });
+
+     const [clientInformation, setClientInformation] = useState(getClientObject());
+      const [originalClientInformation, setOriginalClientInformation] = useState(
+        getClientObject()
+      );
+
+      const discardChanges = () => {
+        setClientInformation(originalClientInformation);
+      };
+
+      const getClientInformation = useCallback(() => {
+        const requestHeader = {
+          token: getToken(),
+        };
+        getClientInformationFromServer(clientId, requestHeader)
+          .then((response) => {
+            setClientInformation(response.data.data);
+            setOriginalClientInformation(response.data.data);
+          })
+          .catch((error) => {
+            console.log("ERROR: Get request failed. " + error);
+          });
+      }, [clientId]);
+
+      useEffect(() => {
+        getClientInformation();
+      }, [getClientInformation]);
 
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
