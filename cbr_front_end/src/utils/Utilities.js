@@ -90,7 +90,7 @@ export const getClientObject = () => {
         caregiverPhoto: "image.png",
         requiredServices: "N/A",
         individualGoals: "N/A",
-        disabilities: [],
+        disabled: [],
         riskHistories: [],
     });
 }
