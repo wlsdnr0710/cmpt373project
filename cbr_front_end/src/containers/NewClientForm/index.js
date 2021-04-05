@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getToken } from "../../utils/AuthenticationUtil";
-import { getZonesFromServer } from "../../utils/Utilities";
+import { getZonesFromServer, getDisabilitiesFromServer, addClientToServer } from "../../utils/Utilities";
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
@@ -144,13 +144,8 @@ const NewClientForm = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(ServerConfig.api.url + '/api/v1/disability',
-        {
-            headers: requestHeader,
-            }
-            )
+        getDisabilitiesFromServer(requestHeader)
         .then(response => {
-            console.log(response.data.data);
             setDisabilityList(response.data.data);
         });
     };
@@ -189,21 +184,17 @@ const NewClientForm = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.post(ServerConfig.api.url + '/api/v1/client', {
-            "data": data
-        }, {
-            headers: requestHeader,
+        addClientToServer(data, requestHeader)
+        .then(response => {
+            setFormStateAfterSubmitSuccess();
+            const clientId = response.data.id;
+            const oneSecond = 1;
+            redirectToClientInfoPageAfter(clientId, oneSecond);
         })
-            .then(response => {
-                setFormStateAfterSubmitSuccess();
-                const clientId = response.data.id;
-                const oneSecond = 1;
-                redirectToClientInfoPageAfter(clientId, oneSecond);
-            })
-            .catch(error => {
-                updateErrorMessages(error);
-                setStatesWhenFormIsSubmitting(false);
-            })
+        .catch(error => {
+            updateErrorMessages(error);
+            setStatesWhenFormIsSubmitting(false);
+        })
     };
 
     const setFormStateAfterSubmitSuccess = () => {

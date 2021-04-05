@@ -53,8 +53,20 @@ export const addWorkerToServer = (workerInformation) => {
     return axios.post(ServerConfig.api.url + '/api/v1/worker', {"data" : workerInformation});
 };
 
+export const addClientToServer = (clientInformation, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/client', {"data" : clientInformation}, {headers: requestHeader});
+};
+
+export const addVisitToServer = (visitInformation, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/visit', {"data" : visitInformation}, {headers: requestHeader});
+};
+
 export const getZonesFromServer = () => {
     return axios.get(ServerConfig.api.url + '/api/v1/zone');
+};
+
+export const getDisabilitiesFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/disability', {headers: requestHeader});
 };
 
 export const updateClientInformationToServer = (clientInformation, requestHeader) => {
@@ -109,20 +121,6 @@ export const getDisabilityObject = () => {
         id: "N/A",
         type: "N/A"
     }
-}
-
-export const getClientZonesObject = () => {
-    return {
-        "BidiBidi Zone 1": "1",
-        "BidiBidi Zone 2": "2",
-        "BidiBidi Zone 3": "3",
-        "BidiBidi Zone 4": "4",
-        "BidiBidi Zone 5": "5",
-        "Palorinya Basecamp": "6",
-        "Palorinya Zone 1": "7",
-        "Palorinya Zone 2": "8",
-        "Palorinya Zone 3": "9",
-      };
 }
 
 export const getGendersObject = () =>{

@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
-import { getZonesFromServer} from "../../utils/Utilities";
+import { getToken, getWorkerUsernameFromToken } from "../../utils/AuthenticationUtil";
+import { getZonesFromServer, addVisitToServer } from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -202,11 +202,7 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
-        axios.post(ServerConfig.api.url +  '/api/v1/visit', {
-            "data": data
-        }, {
-            headers: requestHeader,
-        })
+        addVisitToServer(data, requestHeader)
         .then(response => {
             setFormStateAfterSubmitSuccess();
             const clientId = props.clientID;
