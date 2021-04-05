@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
+import { getZonesFromServer} from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -14,7 +15,6 @@ import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 
-// TODO: We want to fetch zones from backend server instead of hardcoding them here.
 const defaultPurpose = {
     "CBR": "cbr",
     "Disability centre referral": "referral",
@@ -25,18 +25,6 @@ const defaultGoalInputs = {
     "Cancelled": "CANCELLED",
     "Ongoing": "ONGOING",
     "Concluded": "CONCLUDED",
-};
-
-const defaultClientZones = {
-    "BidiBidi Zone 1": "1",
-    "BidiBidi Zone 2": "2",
-    "BidiBidi Zone 3": "3",
-    "BidiBidi Zone 4": "4",
-    "BidiBidi Zone 5": "5",
-    "Palorinya Basecamp": "6",
-    "Palorinya Zone 1": "7",
-    "Palorinya Zone 2": "8",
-    "Palorinya Zone 3": "9",
 };
 
 const NewVisitForm = (props) => {
@@ -104,6 +92,8 @@ const NewVisitForm = (props) => {
         "socialAdvocacyDesc": "",
         "socialEncouragementDesc": "",
     });
+
+    const [zoneList, setZoneList] = useState({});
 
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
@@ -208,6 +198,7 @@ const NewVisitForm = (props) => {
     
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
+        getZoneId();
         const requestHeader = {
             token: getToken()
         };
@@ -226,6 +217,21 @@ const NewVisitForm = (props) => {
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
         });
+    };
+
+    const getZones = () => {
+        getZonesFromServer()
+        .then(response => {
+            setZoneList(response.data.data);
+        });
+    };
+
+    const getZoneId = () => {
+        for (const index in zoneList) {
+            if (zoneList[index].name === formInputs["zone"]) {
+                updateFormInputByNameValue("zone", zoneList[index].id);
+            }
+        }
     };
 
     const getWorkerNameByGetRequest = () => {
@@ -511,6 +517,7 @@ const NewVisitForm = (props) => {
 
     useEffect(() => {
         getWorkerNameByGetRequest();
+        getZones();
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
@@ -582,7 +589,7 @@ const NewVisitForm = (props) => {
                     <DropdownList
                         dropdownName="zone"
                         value={formInputs["zone"]}
-                        dropdownListItemsKeyValue={defaultClientZones}
+                        dropdownListItemsKeyValue={zoneList}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
