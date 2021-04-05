@@ -98,7 +98,6 @@ const ClientInfo = props => {
     };
 
     const createReferralListComponents = () => {
-    console.log(referrals);
         const referralComponents = [];
         if(referrals === undefined || referrals.length === 0) {
             return (<p>There are no referrals.</p>);

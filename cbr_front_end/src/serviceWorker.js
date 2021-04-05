@@ -1,14 +1,19 @@
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-undef */
 
-// importScripts("./config/ServerConfig");
+// Disable eslint since importing workbox from CDN
 importScripts(
     "https://storage.googleapis.com/workbox-cdn/releases/6.1.1/workbox-sw.js"
 );
 
 const MAX_RETRY_MIN = 3 * 24 * 60;
 const SYNC_QUEUE_NAME = "syncQueue";
-const cacheRegExp = "http://localhost:8080/api/v1";
+
+// Biting the bullet and hardcoding server host name 
+// - Workbox cannot take a regex expression for third party requests, must take full URL 
+// - Can't use enviornment variables, DOM, or importing modules to get information into service worker 
+// TODO: Must change SERVER_HOST for production to "https://cmpt373-1211-03.cmpt.sfu.ca"
+const SERVER_HOST = "http://localhost:8080";
 
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
@@ -17,12 +22,11 @@ const backgroundSyncPlugin = new workbox.backgroundSync.BackgroundSyncPlugin(
     {
         // Configure maximum amount of time in minutes request will try to sync
         maxRetentionTime: MAX_RETRY_MIN,
-        // TODO: insert callback function to let user know that they are back online and synced
     }
 );
 
 workbox.routing.registerRoute(
-    new RegExp("http://localhost:8080/api/v1"),
+    new RegExp(SERVER_HOST),
     new workbox.strategies.StaleWhileRevalidate({
         cacheName: "requests",
         plugins: [
@@ -41,9 +45,9 @@ workbox.routing.registerRoute(
     })
 );
 
+// Cannot specify a route with POST, PUT and DELETE 
 workbox.routing.registerRoute(
-    // Match requests to server based on "/api/v1/" to avoid having to specify localhost or production server
-    new RegExp("http://localhost:8080/api/v1"),
+    new RegExp(SERVER_HOST),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
@@ -51,7 +55,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    new RegExp("http://localhost:8080/api/v1"),
+    new RegExp(SERVER_HOST),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
@@ -59,7 +63,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    new RegExp("http://localhost:8080/api/v1"),
+    new RegExp(SERVER_HOST),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
