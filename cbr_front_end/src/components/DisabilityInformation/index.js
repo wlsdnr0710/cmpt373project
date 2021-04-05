@@ -5,7 +5,6 @@ import "./style.css";
 const getDisabilitiesList = (disabilityList) => {
     const listItem = [];
     for (const index in disabilityList) {
-        // TODO: Change variant according to disability risk level
         let type = disabilityList[index].disability.type;
         if(type === "Other") {
             type = disabilityList[index].otherDescription;

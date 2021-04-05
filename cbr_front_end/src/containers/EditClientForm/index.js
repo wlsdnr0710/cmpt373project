@@ -15,13 +15,11 @@ import {
     getClientObject,
     updateClientInformationToServer,
     getClientZonesObject,
-    getGendersObject
+    getGendersObject,
+    getZonesFromServer
 } from "../../utils/Utilities";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./style.css";
-
-//TODO: Grab dropdown options from database table
-const defaultClientZones = getClientZonesObject();
 
 const genders = getGendersObject();
 
@@ -34,8 +32,25 @@ const EditClientForm = (props) => {
         getClientObject()
     );
 
+    const [zoneList, setZoneList] = useState({});
+
     const discardChanges = () => {
         setClientInformation(originalClientInformation);
+    };
+
+    const getZoneId = () => {
+        for (const index in zoneList) {
+            if (zoneList[index].name === clientInformation["zone"]) {
+                updateClientInformation("zone", zoneList[index].id);
+            }
+        }
+    };
+
+    const getZones = () => {
+        getZonesFromServer()
+        .then(response => {
+            setZoneList(response.data.data);
+        });
     };
 
     const getClientInformation = useCallback(() => {
@@ -54,6 +69,7 @@ const EditClientForm = (props) => {
 
     useEffect(() => {
         getClientInformation();
+        getZones();
     }, [getClientInformation]);
 
     const handleChange = (event) => {
@@ -65,6 +81,7 @@ const EditClientForm = (props) => {
 
     const saveChangesAndPushClientInformationPage = event => {
         event.preventDefault();
+        getZoneId();
         const requestHeader = {
             token: getToken(),
         };
@@ -80,9 +97,9 @@ const EditClientForm = (props) => {
 
     const updateClientInformation = (name, value) => {
         setClientInformation((prevFormInputs) => {
-        const newFormInputs = { ...prevFormInputs };
-        newFormInputs[name] = value;
-        return newFormInputs;
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
         });
     };
 
@@ -133,7 +150,7 @@ const EditClientForm = (props) => {
 
             <div className="input-field">
                 <DropdownList
-                    dropdownListItemsKeyValue={defaultClientZones}
+                    dropdownListItemsKeyValue={zoneList}
                     dropdownName="zone"
                     value={clientInformation.zone}
                     label="Location: "
