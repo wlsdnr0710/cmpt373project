@@ -43,7 +43,7 @@
     <!-- 
       Check if brower supports having service workers 
      -->
-    <script>
+    <script type="module">
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker

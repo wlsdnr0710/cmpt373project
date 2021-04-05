@@ -5,7 +5,7 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { Provider as AlertProvider } from "react-alert";
 import AlertTemplate from 'react-alert-template-basic'
-import { getAlertOptionsObject } from "./utils/backgroundSync"
+import { getAlertOptionsObject } from "./config/ReactAlertConfig"
 
 //TODO: Change tempalte options here 
 ReactDOM.render(
