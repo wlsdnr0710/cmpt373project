@@ -3,17 +3,18 @@ package com.earth.cbr.services.survey;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Client;
 import com.earth.cbr.models.survey.*;
-import com.earth.cbr.repositories.ClientRepository;
-import com.earth.cbr.repositories.SurveyQuestionOptionRepository;
-import com.earth.cbr.repositories.SurveyQuestionRepository;
-import com.earth.cbr.repositories.SurveyRepository;
+import com.earth.cbr.repositories.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.*;
 
 @Service
 public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
+
+    @Autowired
+    private AnsweredSurveyRepository answeredSurveyRepository;
 
     @Autowired
     private SurveyRepository surveyRepository;
@@ -55,6 +56,30 @@ public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
                     break;
             }
         }
+    }
+
+    @Override
+    public AnsweredSurvey getAnsweredSurveyById(Long id) {
+        AnsweredSurvey answeredSurvey = answeredSurveyRepository.findById(id).orElse(null);
+        if (answeredSurvey == null) {
+            return null;
+        }
+        answeredSurvey.setSurveyId(answeredSurvey.getSurvey().getId());
+        answeredSurvey.setSurveyName(answeredSurvey.getSurvey().getName());
+        answeredSurvey.setClientId(answeredSurvey.getClient().getId());
+        answeredSurvey.setClientFirstName(answeredSurvey.getClient().getFirstName());
+        answeredSurvey.setClientLastName(answeredSurvey.getClient().getLastName());
+        return answeredSurvey;
+    }
+
+    @Override
+    public AnsweredSurvey addAnsweredSurvey(@Valid AnsweredSurvey answeredSurvey) {
+        return answeredSurveyRepository.save(answeredSurvey);
+    }
+
+    @Override
+    public void deleteAnsweredSurveyById(Long id) {
+        answeredSurveyRepository.deleteById(id);
     }
 
     @Override
