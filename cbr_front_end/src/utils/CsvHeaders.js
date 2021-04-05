@@ -33,7 +33,7 @@ export const getClientCsvHeaders = () => {
         "Caregiver Contact": "caregiverContact",
         "Required Services": "requiredServices",
         "Individual Goals": "individualGoals",
-        "Disabilities": "disabilities",
+        "Disabilities": "disabled",
         "Risk Histories": "riskHistories",
     };
 
