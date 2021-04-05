@@ -43,7 +43,6 @@ const ClientTable = props => {
         "BIRTHDATE": "birthdate",
     };
         
-
     const getSearchByList = () => {
         return {
             "CBR Worker ID": "cbrWorkerId",
@@ -186,9 +185,7 @@ const ClientTable = props => {
         }
 
         if (sortBy === (sortType.BIRTHDATE)){
-            console.log("hi")
             updateClients(reverseArray(clients));
-            
         } 
 
         setUpInfiniteScroll();
