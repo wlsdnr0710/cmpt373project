@@ -44,19 +44,10 @@ public class ClientServiceImpl implements ClientService {
         Pageable pageable;
 
         if (ascending == true) {
-            //TODO: find better fix than using a string comparison to birthdate
-            if (!sortBy.equals("birthdate")) {
-                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-            } else {
-                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-            }
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         }
         else {
-            if (!sortBy.equals("birthdate")) {
-                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-            } else {
-                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-            }
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
         }
 
         return clientRepository.findAll(pageable);
@@ -105,19 +96,10 @@ public class ClientServiceImpl implements ClientService {
         Page<Client> filteredClients = null;
 
         if (ascending == true) {
-            //TODO: find better fix than using a string comparison to birthdate
-            if (!sortBy.equals("birthdate")) {
-                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-            } else {
-                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-            }
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
         }
         else {
-            if (!sortBy.equals("birthdate")) {
-                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
-            } else {
-                pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-            }
+            pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
         }
 
         switch (columns.valueOf(filterBy)) {

@@ -22,7 +22,7 @@ const ClientTable = props => {
 
     const firstPage = 1;
     const [currentPage, setCurrentPage] = useState(firstPage);
-    const clientsPerPage = 10;
+    const clientsPerPage = 20;
 
     const defaultSortBy = "id";
     const defaultSearchBy = "cbrWorkerId"
@@ -38,6 +38,11 @@ const ClientTable = props => {
         }
         return "Descending";
     }
+
+    const sortType = {
+        "BIRTHDATE": "birthdate",
+    };
+        
 
     const getSearchByList = () => {
         return {
@@ -58,7 +63,6 @@ const ClientTable = props => {
             "Village No.": "villageNumber",
             "Gender": "gender",
             "Risk": "riskHistories",
-            "Disability": "disabilities",
             "Age": "birthdate",
         };
     };
@@ -75,6 +79,7 @@ const ClientTable = props => {
     };
 
     const requestClientsByPageable = useCallback(pageable => {
+        
         const { page, clientsPerPage, sortBy, isSortAscending, searchBy, searchKeywordBuffer } = pageable;
         let getUrlCall = ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage + "/sortBy/" + sortBy + "/ascending/" + isSortAscending;
         if (searchKeywordBuffer !== ""){
@@ -92,7 +97,7 @@ const ClientTable = props => {
             )
             .then(response => {
                 const receivedClients = response.data.data.content;
-                updateClients(receivedClients);
+                updateClients(receivedClients);          
                 incrementPage();
             })
             .catch(error => {
@@ -121,6 +126,12 @@ const ClientTable = props => {
         }
         return paramString;
     };
+
+    const reverseArray = (array) => {
+        var reverseArray = array.reverse();
+        return reverseArray;
+
+    }
 
     const updateClients = receivedClients => {
         setClients(prevClients => {
@@ -173,6 +184,12 @@ const ClientTable = props => {
             const pageable = getPageableByPage(currentPage);
             requestClientsByPageable(pageable);
         }
+
+        if (sortBy === (sortType.BIRTHDATE)){
+            console.log("hi")
+            updateClients(reverseArray(clients));
+            
+        } 
 
         setUpInfiniteScroll();
         return disconnectIntersectionObserver;
