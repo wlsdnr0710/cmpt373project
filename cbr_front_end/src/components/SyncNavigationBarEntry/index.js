@@ -1,13 +1,14 @@
 import { useAlert } from "react-alert";
 import { displayIcon } from "../../utils/Utilities";
 
+
 const SyncNavigationBarEntry = ({ label, iconSource, iconAlt }) => {
     const alert = useAlert();
 
     const getSyncUpdate = () => {
-        //TODO: access indexedDB to see if there are any entries to send
         let syncRequests = -1;
 
+        // Default name for workbox's indexedDB background sync 
         let dataBaseOpenRequest = window.indexedDB.open(
             "workbox-background-sync"
         );
@@ -32,7 +33,7 @@ const SyncNavigationBarEntry = ({ label, iconSource, iconAlt }) => {
         };
 
         dataBaseOpenRequest.onerror = () => {
-            //throw error
+            throw new DOMException("Cannot open workbox indexedDB")
         };
     };
 
