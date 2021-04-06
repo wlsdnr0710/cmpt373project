@@ -1,13 +1,7 @@
 import React from "react";
 import { useHistory } from 'react-router-dom';
+import { displayIcon } from '../../utils/Utilities';
 import "./style.css";
-
-const displayIcon = (iconSource, iconAlt) => {
-    const entryIncludesIcon = iconSource !== undefined && iconAlt !== undefined;
-        if (entryIncludesIcon) {
-            return <img className="icon" src={iconSource} alt={iconAlt} />;
-    }
-};
 
 const isQueryValid = query => {
     return query !== "#" && query !== "";

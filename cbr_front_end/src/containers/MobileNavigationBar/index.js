@@ -1,5 +1,6 @@
 import React from "react";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
+import SyncNavigationBarEntry from "../../components/SyncNavigationBarEntry";
 import dashboardIcon from "../../assets/svg/navigation_icons/id_card.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/people.svg";
 import homeIcon from "../../assets/svg/navigation_icons/home.svg";
@@ -31,21 +32,15 @@ const MobileNavigationBar = () => {
                     iconSource={allClientsIcon}
                     iconAlt="All Clients"
                 />
-                <NavigationBarEntry
+                <SyncNavigationBarEntry
                     label="Sync"
-                    destination="#"
-                    query="#"
                     iconSource={syncIcon}
-                    iconAlt="Sync Application"
+                    iconAlt="Sync"
                 />
             </div>
         );
     };
-    return (
-        <div className="mobile-navigation-bar">
-            {getNavigationItems()}
-        </div>
-    )
+    return <div className="mobile-navigation-bar">{getNavigationItems()}</div>;
 };
 
 export default MobileNavigationBar;

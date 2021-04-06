@@ -109,10 +109,13 @@ const Survey = ({ survey, values, setter }) => {
             }
         } else {
             return event => {
-                const value = event.target.value;
+                let value = event.target.value;
                 setter(prevState => {
                     const newState = { ...prevState };
                     const newQuestion = { ...newState[id] };
+                    if (question["type"] === surveyQuestionType["Dropdown"]) {
+                        value = parseInt(value);
+                    }
                     newQuestion["value"] = value;
                     newState[id] = newQuestion;
                     return newState;

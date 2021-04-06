@@ -1,14 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { Provider as AlertProvider } from "react-alert";
+import AlertTemplate from 'react-alert-template-basic'
+import { getAlertOptionsObject } from "./config/ReactAlertConfig"
 
+//TODO: Change tempalte options here
 ReactDOM.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>,
-    document.getElementById('root')
+    <AlertProvider template={AlertTemplate} {...getAlertOptionsObject}>
+        <React.StrictMode>
+            <App />
+        </React.StrictMode>
+    </AlertProvider>,
+    document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
