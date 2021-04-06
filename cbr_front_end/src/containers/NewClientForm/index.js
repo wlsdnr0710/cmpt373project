@@ -152,7 +152,7 @@ const NewClientForm = () => {
 
     const getDisabilityId = (name) => {
         for (const index in disabilityList) {
-            if (disabilityList[index].name === name) {
+            if (disabilityList[index].type === name) {
                 return disabilityList[index].id;
             }
         }
