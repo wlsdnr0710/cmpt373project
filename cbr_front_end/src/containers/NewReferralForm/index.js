@@ -1,16 +1,18 @@
 import React, { useState } from "react";
-import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import CameraSnapshot from "../../containers/CameraSnapshot";
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
-import { getDefaultPhysiotherapyConditions, getRequiredServicesKeyValues } from "../../utils/Utilities";
+import { 
+    getDefaultPhysiotherapyConditions, 
+    getRequiredServicesKeyValues, 
+    postNewReferrals
+} from "../../utils/Utilities";
 import { getToken } from "../../utils/AuthenticationUtil";
 import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
-import ServerConfig from "../../config/ServerConfig";
 import TextAreaInputField from "../../components/TextAreaInputField";
 import "./style.css";
 
@@ -336,6 +338,20 @@ const NewReferralForm = props => {
         updateFormInputByNameValue(name, value);
     };
 
+    const onSubmitHandler = event => {
+        event.preventDefault();
+        const requestHeader = {
+            token: getToken()
+        };
+        postNewReferrals(formInputs, requestHeader)
+        .then(response => {
+
+        })
+        .catch(error => {
+
+        });
+    };
+
     return (
         <div className="new-referral-form">
             <FormHeader
@@ -362,7 +378,7 @@ const NewReferralForm = props => {
                 {showWheelchairQuestionsInputFields()}
 
                 <div>
-                    <Button variant="primary" onClick={()=>{}}>Submit</Button>
+                    <Button variant="primary" onClick={onSubmitHandler}>Submit</Button>
                 </div>
             </div>
         </div>

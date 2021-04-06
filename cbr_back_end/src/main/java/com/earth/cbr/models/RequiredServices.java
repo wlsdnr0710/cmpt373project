@@ -78,6 +78,26 @@ public class RequiredServices {
         this.referral = referral;
     }
 
+    public void includeRequiredServices(RequiredServicesEnum requiredServicesEnum) {
+        switch (requiredServicesEnum) {
+            case PHYSIOTHERAPY:
+                isPhysiotherapy = true;
+                break;
+            case ORTHOTIC:
+                isOrthotic = true;
+                break;
+            case PROSTHETIC:
+                isProsthetic = true;
+                break;
+            case WHEELCHAIR:
+                isWheelchair = true;
+                break;
+            case OTHER:
+                isOther = true;
+                break;
+        }
+    }
+
     public Long getId() {
         return id;
     }

@@ -41,6 +41,14 @@ export const getReferralsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/referral/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
 
+export const postNewReferrals = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/referral', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
+};
+
 export const getOutstandingReferralsFromServer = (requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/referral/outstandingReferrals', {headers: requestHeader});
 };
@@ -145,11 +153,11 @@ export const getLatestRiskUpdate = (clientObject) => {
 
 export const getRequiredServicesKeyValues = () => {
     const requiredServicesKeyValues = {
-        "physiotherapy": "1",
-        "prosthetic": "2",
-        "orthotic": "3",
-        "wheelchair": "4",
-        "other": "5",
+        "physiotherapy": "PHYSIOTHERAPY",
+        "prosthetic": "PROSTHETIC",
+        "orthotic": "ORTHOTIC",
+        "wheelchair": "WHEELCHAIR",
+        "other": "OTHER",
     };
     return requiredServicesKeyValues;
 };
