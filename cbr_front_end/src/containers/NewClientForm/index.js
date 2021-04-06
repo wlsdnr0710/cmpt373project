@@ -395,7 +395,14 @@ const NewClientForm = () => {
         }
         else {
             for (const index in disabilityList) {
-                disabilityCheckboxComponents.push(<CheckBox name={disabilityList[index].type} value={disabilityList[index].id} actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(disabilityList[index].type)} isDisabled={isFormInputDisabled} displayText={disabilityList[index].type} displayTextOnRight={true} key={index}/>);
+                disabilityCheckboxComponents.push(<CheckBox
+                                                        name={disabilityList[index].type}
+                                                        value={disabilityList[index].id}
+                                                        actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(disabilityList[index].type)}
+                                                        isDisabled={isFormInputDisabled} displayText={disabilityList[index].type}
+                                                        displayTextOnRight={true} key={index}
+                                                   />
+                                                  );
             }
             return disabilityCheckboxComponents;
         }
