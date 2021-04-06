@@ -1,6 +1,9 @@
 import { useAlert } from "react-alert";
 import { displayIcon } from "../../utils/Utilities";
 
+const TRANSACTION_NAME = "requests";
+const OBJECT_STORE_NAME = "queueName";
+
 
 const SyncNavigationBarEntry = ({ label, iconSource, iconAlt }) => {
     const alert = useAlert();
@@ -9,15 +12,16 @@ const SyncNavigationBarEntry = ({ label, iconSource, iconAlt }) => {
         let syncRequests = -1;
 
         // Default name for workbox's indexedDB background sync 
-        let dataBaseOpenRequest = window.indexedDB.open(
+        let databaseOpenRequest = window.indexedDB.open(
             "workbox-background-sync"
         );
-        dataBaseOpenRequest.onsuccess = () => {
-            let dataBase = dataBaseOpenRequest.result;
-            let transaction = dataBase.transaction(["requests"], "readonly");
-            let objectStore = transaction.objectStore("requests");
 
-            let queueIndex = objectStore.index("queueName");
+        databaseOpenRequest.onsuccess = () => {
+            let database = databaseOpenRequest.result;
+            let transaction = database.transaction([TRANSACTION_NAME], "readonly");
+            let objectStore = transaction.objectStore(TRANSACTION_NAME);
+
+            let queueIndex = objectStore.index(OBJECT_STORE_NAME);
             let syncCountRequest = queueIndex.count();
 
             syncCountRequest.onsuccess = () => {
@@ -32,7 +36,7 @@ const SyncNavigationBarEntry = ({ label, iconSource, iconAlt }) => {
             };
         };
 
-        dataBaseOpenRequest.onerror = () => {
+        databaseOpenRequest.onerror = () => {
             throw new DOMException("Cannot open workbox indexedDB")
         };
     };

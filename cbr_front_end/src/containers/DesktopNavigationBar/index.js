@@ -22,6 +22,8 @@ import logoutIcon from "../../assets/svg/navigation_icons/logout.svg";
 import adminIcon from "../../assets/svg/navigation_icons/settings.svg";
 import "./style.css";
 
+const ROLE_ADMIN = "ADMIN";
+
 const DesktopNavigationBar = () => {
 
     const [isAdminRole, setAdminRole] = useState(false);
@@ -38,7 +40,7 @@ const DesktopNavigationBar = () => {
                 .then((response) => {
                     const role = response.data.data.role;
                     saveRole(role);
-                    if (role === "ADMIN") {
+                    if (role === ROLE_ADMIN) {
                         setAdminRole(true);
                     }
                 })
@@ -47,7 +49,7 @@ const DesktopNavigationBar = () => {
     };
 
     const getAdminNavigationItem = () => {
-        if (getRole() === "ADMIN" || isAdminRole === true) {
+        if (getRole() === ROLE_ADMIN || isAdminRole === true) {
             return (
                 <NavigationBarEntry
                     label="Admin"
