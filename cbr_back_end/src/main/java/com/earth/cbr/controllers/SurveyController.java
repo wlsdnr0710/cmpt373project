@@ -7,7 +7,7 @@ import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.models.survey.Survey;
 import com.earth.cbr.models.survey.SurveyQuestion;
 import com.earth.cbr.models.survey.SurveyQuestionOption;
-import com.earth.cbr.services.SurveyService;
+import com.earth.cbr.services.survey.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
