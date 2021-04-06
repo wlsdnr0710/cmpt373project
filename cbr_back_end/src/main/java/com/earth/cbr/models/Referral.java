@@ -182,6 +182,12 @@ public class Referral {
         isIntermediateUser = intermediateUser;
     }
 
+    public void setIntermediateUserByWheelchairUserType(WheelchairUserType wheelchairUserType) {
+        if (wheelchairUserType == WheelchairUserType.INTERMEDIATE) {
+            isIntermediateUser = true;
+        }
+    }
+
     public Boolean getHasExistingWheelchair() {
         return hasExistingWheelchair;
     }

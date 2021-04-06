@@ -5,9 +5,10 @@ import CameraSnapshot from "../../containers/CameraSnapshot";
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
-import { 
-    getDefaultPhysiotherapyConditions, 
-    getRequiredServicesKeyValues, 
+import {
+    getDefaultPhysiotherapyConditions,
+    getDefaultWheelchairUserTypes,
+    getRequiredServicesKeyValues,
     postNewReferrals
 } from "../../utils/Utilities";
 import { getToken } from "../../utils/AuthenticationUtil";
@@ -21,7 +22,7 @@ const NewReferralForm = props => {
         "requiredServices": [],
         "requiredServiceOtherDescription": "",
         "hipWidthInInches": "",
-        "userType": "1",
+        "wheelchairUserType": "BASIC",
         "doTheyHaveExistingWheelchair": false,
         "canExistingWheelchairRepaired": false,
         "prostheticCondition": "1",
@@ -40,10 +41,7 @@ const NewReferralForm = props => {
     const requiredServicesKeyValues = getRequiredServicesKeyValues();
     const defaultPhysiotherapyConditions = getDefaultPhysiotherapyConditions();
 
-    const defaultUserTypes = {
-        "Basic": "1",
-        "Intermediate": "2",
-    };
+    const wheelchairUserTypes = getDefaultWheelchairUserTypes();
 
     const defaultOrthoticConditions = {
         "Above elbow": "1",
@@ -115,11 +113,11 @@ const NewReferralForm = props => {
         return (
             <div>
                 <div>Please describe Other:</div>
-                <TextAreaInputField 
-                    name={"requiredServiceOtherDescription"} 
-                    value={formInputs["requiredServiceOtherDescription"]} 
-                    onChange={formInputChangeHandler} 
-                    rows="4" 
+                <TextAreaInputField
+                    name={"requiredServiceOtherDescription"}
+                    value={formInputs["requiredServiceOtherDescription"]}
+                    onChange={formInputChangeHandler}
+                    rows="4"
                     isDisabled={false}
                 />
             </div>
@@ -142,7 +140,7 @@ const NewReferralForm = props => {
                 <div>
                     Photo is required.
                 </div>
-                <CameraSnapshot storeImage={() => {}} />
+                <CameraSnapshot storeImage={() => { }} />
             </div>
         );
     };
@@ -241,11 +239,11 @@ const NewReferralForm = props => {
             return (
                 <div>
                     <div>Please describe Other:</div>
-                    <TextAreaInputField 
-                        name={"physiotherapyConditionOtherDesc"} 
-                        value={formInputs["physiotherapyConditionOtherDesc"]} 
-                        onChange={formInputChangeHandler} 
-                        rows="4" 
+                    <TextAreaInputField
+                        name={"physiotherapyConditionOtherDesc"}
+                        value={formInputs["physiotherapyConditionOtherDesc"]}
+                        onChange={formInputChangeHandler}
+                        rows="4"
                         isDisabled={false}
                     />
                 </div>
@@ -271,9 +269,9 @@ const NewReferralForm = props => {
                         Is the user a basic or intermediate user?
                     </div>
                     <DropdownList
-                        dropdownName="userType"
-                        value={formInputs["userType"]}
-                        dropdownListItemsKeyValue={defaultUserTypes}
+                        dropdownName="wheelchairUserType"
+                        value={formInputs["wheelchairUserType"]}
+                        dropdownListItemsKeyValue={wheelchairUserTypes}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
@@ -334,7 +332,12 @@ const NewReferralForm = props => {
     const formInputChangeHandler = event => {
         const input = event.target;
         const name = input.name;
-        const value = input.value;
+        let value = null;
+        if (input.type === "checkbox") {
+            value = input.checked;
+        } else {
+            value = input.value;
+        }
         updateFormInputByNameValue(name, value);
     };
 
@@ -343,13 +346,17 @@ const NewReferralForm = props => {
         const requestHeader = {
             token: getToken()
         };
-        postNewReferrals(formInputs, requestHeader)
-        .then(response => {
 
-        })
-        .catch(error => {
+        const data = { ...formInputs };
+        data["clientId"] = clientId;
 
-        });
+        postNewReferrals(data, requestHeader)
+            .then(response => {
+
+            })
+            .catch(error => {
+
+            });
     };
 
     return (
@@ -362,7 +369,7 @@ const NewReferralForm = props => {
                     <h2>
                         Required Services
                     </h2>
-                    <RequiredServiceCheckBoxes 
+                    <RequiredServiceCheckBoxes
                         values={formInputs["requiredServices"]}
                         getOnChangeHandlers={getRequiredServicesCheckBoxesOnChangeHandler}
                         isDisabled={false}

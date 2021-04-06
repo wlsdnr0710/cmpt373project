@@ -2,10 +2,11 @@ package com.earth.cbr.models;
 
 public class ReferralAdapterImpl implements ReferralAdapter {
 
+    private Long clientId;
     private RequiredServicesEnum[] requiredServices;
     private String requiredServiceOtherDescription;
-    private Integer hipWidthInInches;
-    private Integer userType;
+    private Float hipWidthInInches;
+    private WheelchairUserType wheelchairUserType;
     private Boolean doTheyHaveExistingWheelchair;
     private Boolean canExistingWheelchairRepaired;
     private Integer prostheticCondition;
@@ -18,7 +19,11 @@ public class ReferralAdapterImpl implements ReferralAdapter {
     @Override
     public Referral buildReferral() {
         RequiredServices requiredServices = buildRequiredServices();
-
+        referral.setRequiredServices(requiredServices);
+        referral.setClientId(clientId);
+        referral.setHipWidthInInches(hipWidthInInches);
+        referral.setIntermediateUserByWheelchairUserType(wheelchairUserType);
+        referral.setHasExistingWheelchair(doTheyHaveExistingWheelchair);
 
         return referral;
     }
@@ -41,6 +46,14 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         return requiredServices;
     }
 
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
+    }
+
     public void setRequiredServices(RequiredServicesEnum[] requiredServices) {
         this.requiredServices = requiredServices;
     }
@@ -53,20 +66,20 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         this.requiredServiceOtherDescription = requiredServiceOtherDescription;
     }
 
-    public Integer getHipWidthInInches() {
+    public Float getHipWidthInInches() {
         return hipWidthInInches;
     }
 
-    public void setHipWidthInInches(Integer hipWidthInInches) {
+    public void setHipWidthInInches(Float hipWidthInInches) {
         this.hipWidthInInches = hipWidthInInches;
     }
 
-    public Integer getUserType() {
-        return userType;
+    public WheelchairUserType getWheelchairUserType() {
+        return wheelchairUserType;
     }
 
-    public void setUserType(Integer userType) {
-        this.userType = userType;
+    public void setWheelchairUserType(WheelchairUserType wheelchairUserType) {
+        this.wheelchairUserType = wheelchairUserType;
     }
 
     public Boolean getDoTheyHaveExistingWheelchair() {

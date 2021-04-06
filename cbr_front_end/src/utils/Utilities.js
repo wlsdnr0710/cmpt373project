@@ -257,3 +257,11 @@ export const sortArrayByIdAscending = array => {
     });
     return sortedArray;
 };
+
+export const getDefaultWheelchairUserTypes = () => {
+    const wheelchairUserTypes = {
+        "Basic": "BASIC",
+        "Intermediate": "INTERMEDIATE",
+    };
+    return wheelchairUserTypes;
+};
