@@ -1,5 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import Alert from "react-bootstrap/Alert";
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
@@ -27,7 +28,9 @@ const EditClientForm = (props) => {
     const clientId = props.clientID;
     const history = useHistory();
 
-    const [clientInformation, setClientInformation] = useState(getClientObject());
+    const [clientInformation, setClientInformation] = useState(
+        getClientObject()
+    );
     const [originalClientInformation, setOriginalClientInformation] = useState(
         getClientObject()
     );
@@ -79,19 +82,34 @@ const EditClientForm = (props) => {
         updateClientInformation(name, value);
     };
 
-    const saveChangesAndPushClientInformationPage = event => {
+    const saveChangesAndPushClientInformationPage = (event) => {
         event.preventDefault();
         getZoneId();
         const requestHeader = {
             token: getToken(),
         };
+
         updateClientInformationToServer(clientInformation, requestHeader)
-        .then((response) => {
-            //TODO: Inform the client information page that the save was a success
-            history.push("/client-information?id=" + clientInformation["id"]);
-        })
-        .catch((error) => {
-            console.log("ERROR: Put request failed." + error);
+            .then((response) => {
+                setFormStateAfterSubmitSuccess();
+                const clientId = response.data.id;
+                const oneSecond = 1;
+                redirectToClientInfoPageAfter(clientId, oneSecond);
+            })
+            .catch((error) => {
+                updateErrorMessages(error);
+                setStatesWhenFormIsSubmitting(false);
+            });
+    };
+
+    const updateErrorMessages = (error) => {
+        setErrorMessages((prevErrorMessages) => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
         });
     };
 
@@ -108,13 +126,16 @@ const EditClientForm = (props) => {
             token: getToken(),
         };
         deleteClientFromServer(clientId, requestHeader)
-        .then((response) => {
-            //TODO:Inform the view client page that the deletetion was a success
-            history.push("view-client?query=clients");
-        })
-        .catch((error) => {
-            console.log("ERROR: Delete request failed. " + error);
-        });
+            .then((response) => {
+                setFormStateAfterDeleteSuccess();
+                const clientId = response.data.id;
+                const oneSecond = 1;
+                redirectToViewClientsPageAfter(oneSecond);
+            })
+            .catch((error) => {
+                updateErrorMessages(error);
+                setStatesWhenFormIsSubmitting(false);
+            });
     };
 
     const [showImageUploader, setImageUploader] = useState(false);
@@ -135,6 +156,95 @@ const EditClientForm = (props) => {
         } else {
             return null;
         }
+    };
+
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+    const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errorMessages, setErrorMessages] = useState([]);
+
+    const showSuccessMessage = () => {
+        if (isSubmitSuccess) {
+            return (
+                <Alert variant="success">
+                    You updated client information successfully! You will be
+                    redirected to the client page soon.
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const showDeleteMessage = () => {
+        if (isDeleteSuccess) {
+            return (
+                <Alert variant="success">
+                    You deleted client successfully! You will be redirected to
+                    the client list page soon.
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return <Alert variant="danger">{msgInDivs}</Alert>;
+        } else {
+            return null;
+        }
+    };
+
+    const setFormStateAfterSubmitSuccess = () => {
+        setIsSubmitSuccess(true);
+        setIsSubmitting(false);
+        setIsDeleteSuccess(false);
+    };
+
+    const setFormStateAfterDeleteSuccess = () => {
+        setIsSubmitSuccess(false);
+        setIsSubmitting(false);
+        setIsDeleteSuccess(true);
+    };
+
+    const setStatesWhenFormIsSubmitting = (isSubmitting) => {
+        if (isSubmitting) {
+            setIsSubmitting(true);
+        } else {
+            setIsSubmitting(false);
+        }
+    };
+
+    const packMessagesInDivs = (messages) => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(<div key={idx}>{msg}</div>);
+        }
+        return msgInDivs;
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
+    };
+
+    const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("/client-information?id=" + clientId);
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
+    };
+
+    const redirectToViewClientsPageAfter = (timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("view-client?query=clients");
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
     };
 
     return (
@@ -243,6 +353,10 @@ const EditClientForm = (props) => {
                 />
             </div>
             <hr />
+            {showErrorMessages()}
+            {showSuccessMessage()}
+            {showDeleteMessage()}
+
             <div className="action-buttons">
                 {/* TODO: restructure css layout for mobile*/}
                 <input
