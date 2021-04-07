@@ -33,7 +33,7 @@ const NewVisitForm = (props) => {
         "consent" : 1,
         "cbr_worker_name" : "", 
         "purpose": "cbr",
-        "zone": "1",
+        "zone": 1,
         "villageNumber": "0",
         "date": "",
         "cbrWorkerName": "",
@@ -198,7 +198,6 @@ const NewVisitForm = (props) => {
     
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
-        getZoneId();
         const requestHeader = {
             token: getToken()
         };
@@ -220,14 +219,6 @@ const NewVisitForm = (props) => {
         .then(response => {
             setZoneList(response.data.data);
         });
-    };
-
-    const getZoneId = () => {
-        for (const index in zoneList) {
-            if (zoneList[index].name === formInputs["zone"]) {
-                updateFormInputByNameValue("zone", zoneList[index].id);
-            }
-        }
     };
 
     const getWorkerNameByGetRequest = () => {

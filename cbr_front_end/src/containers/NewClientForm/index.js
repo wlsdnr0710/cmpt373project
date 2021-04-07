@@ -26,7 +26,7 @@ const NewClientForm = () => {
         "doConsentToInterview": false,
         "isCaregiverPresent": false,
         "doConsentToPhotograph": false,
-        "zone": "1",
+        "zone": 1,
         "villageNumber": "",
         "birthdate": "",
         "firstName": "",
@@ -165,14 +165,6 @@ const NewClientForm = () => {
         });
     };
 
-    const getZoneId = () => {
-        for (const index in zoneList) {
-            if (zoneList[index].name === formInputs["zone"]) {
-                updateFormInputByNameValue("zone", zoneList[index].id);
-            }
-        }
-    };
-
     useEffect(() => {
         getZones();
         getDisabilities();
@@ -180,7 +172,6 @@ const NewClientForm = () => {
 
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
-        getZoneId();
         const requestHeader = {
             token: getToken()
         };
@@ -298,6 +289,7 @@ const NewClientForm = () => {
         const name = input.name;
         const value = input.value;
         updateFormInputByNameValue(name, value);
+        console.log(formInputs["zone"]);
     };
 
     const dateFormInputChangeHandler = event => {

@@ -41,14 +41,6 @@ const EditClientForm = (props) => {
         setClientInformation(originalClientInformation);
     };
 
-    const getZoneId = () => {
-        for (const index in zoneList) {
-            if (zoneList[index].name === clientInformation["zone"]) {
-                updateClientInformation("zone", zoneList[index].id);
-            }
-        }
-    };
-
     const getZones = () => {
         getZonesFromServer()
         .then(response => {
@@ -84,7 +76,6 @@ const EditClientForm = (props) => {
 
     const saveChangesAndPushClientInformationPage = (event) => {
         event.preventDefault();
-        getZoneId();
         const requestHeader = {
             token: getToken(),
         };
