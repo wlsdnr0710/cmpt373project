@@ -13,7 +13,7 @@ import {
     getRequiredServicesKeyValues,
     postNewReferrals
 } from "../../utils/Utilities";
-import { getToken } from "../../utils/AuthenticationUtil";
+import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
 import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
 import TextAreaInputField from "../../components/TextAreaInputField";
@@ -31,6 +31,8 @@ const NewReferralForm = props => {
         "orthoticCondition": "BELOW_ELBOW",
         "physiotherapyCondition": "",
         "physiotherapyConditionOtherDesc": "",
+        "isResolved": false,
+        "workerId": getWorkerIdFromToken(getToken())
     });
     const [showOtherDescription, setShowOtherDescription] = useState(false);
     const [showWheelchairQuestions, setShowWheelchairQuestions] = useState(false);
@@ -400,6 +402,16 @@ const NewReferralForm = props => {
                 {showOrthoticQuestionsInputFields()}
                 {showPhysiotherapyQuestionsInputFields()}
                 {showWheelchairQuestionsInputFields()}
+
+                <div>
+                    <CheckBox
+                        name="isResolved"
+                        value={formInputs["isResolved"]}
+                        actionHandler={formInputChangeHandler}
+                        displayText={"Is the referral resolved?"}
+                        isDisabled={false}
+                    />
+                </div>
 
                 <div>
                     <Button variant="primary" onClick={onSubmitHandler}>Submit</Button>

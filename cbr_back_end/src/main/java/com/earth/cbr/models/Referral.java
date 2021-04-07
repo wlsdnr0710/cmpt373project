@@ -1,7 +1,6 @@
 package com.earth.cbr.models;
 
 import com.earth.cbr.models.validation.UniqueRequiredServicesID;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -91,7 +90,7 @@ public class Referral {
     @CreatedDate
     private Date date;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
     @NotNull(message = "Required Services cannot be null")
     @UniqueRequiredServicesID(message = "Another referral is already linked to this service")
@@ -104,6 +103,10 @@ public class Referral {
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Client client;
+
+    @ManyToOne
+    @JoinColumn(name = "worker_id", referencedColumnName = "id")
+    private Worker worker;
 
     public Referral() {
     }
@@ -123,7 +126,8 @@ public class Referral {
                     Date date,
                     RequiredServices requiredServices,
                     Physiotherapy physiotherapy,
-                    Client client) {
+                    Client client,
+                    Worker worker) {
         this.id = id;
         this.clientId = clientId;
         this.photo = photo;
@@ -140,6 +144,7 @@ public class Referral {
         this.requiredServices = requiredServices;
         this.physiotherapy = physiotherapy;
         this.client = client;
+        this.worker = worker;
     }
 
     public Long getId() {
@@ -280,5 +285,13 @@ public class Referral {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
     }
 }

@@ -1,13 +1,17 @@
 package com.earth.cbr.models;
 
 import com.earth.cbr.context.SpringContext;
+import com.earth.cbr.repositories.ClientRepository;
 import com.earth.cbr.repositories.PhysiotherapyRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.earth.cbr.repositories.WorkerRepository;
 
 public class ReferralAdapterImpl implements ReferralAdapter {
 
     private PhysiotherapyRepository physiotherapyRepository;
+    private ClientRepository clientRepository;
+    private WorkerRepository workerRepository;
 
+    private Long workerId;
     private Long clientId;
     private RequiredServicesEnum[] requiredServices;
     private String requiredServiceOtherDescription;
@@ -19,15 +23,23 @@ public class ReferralAdapterImpl implements ReferralAdapter {
     private OrthoticConditionEnum orthoticCondition;
     private Long physiotherapyCondition;
     private Integer physiotherapyConditionOtherDesc;
+    private Boolean isResolved;
 
     private Referral referral = new Referral();
 
     public ReferralAdapterImpl() {
         physiotherapyRepository = SpringContext.getBean(PhysiotherapyRepository.class);
+        clientRepository = SpringContext.getBean(ClientRepository.class);
+        workerRepository = SpringContext.getBean(WorkerRepository.class);
     }
 
     @Override
     public Referral buildReferral() {
+        setReferralFields(referral);
+        return referral;
+    }
+
+    public Referral setReferralFields(Referral referral) {
         RequiredServices requiredServices = buildRequiredServices();
         referral.setRequiredServices(requiredServices);
         referral.setClientId(clientId);
@@ -38,7 +50,9 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         referral.setProstheticCondition(prostheticCondition);
         referral.setOrthoticCondition(orthoticCondition);
         referral.setPhysiotherapy(physiotherapyRepository.findById(physiotherapyCondition).orElse(null));
-
+        referral.setClient(clientRepository.findById(clientId).orElse(null));
+        referral.setResolved(isResolved);
+        referral.setWorker(workerRepository.findById(workerId).orElse(null));
         return referral;
     }
 
@@ -58,6 +72,14 @@ public class ReferralAdapterImpl implements ReferralAdapter {
 
     public RequiredServicesEnum[] getRequiredServices() {
         return requiredServices;
+    }
+
+    public Long getWorkerId() {
+        return workerId;
+    }
+
+    public void setWorkerId(Long workerId) {
+        this.workerId = workerId;
     }
 
     public Long getClientId() {
@@ -150,5 +172,13 @@ public class ReferralAdapterImpl implements ReferralAdapter {
 
     public void setReferral(Referral referral) {
         this.referral = referral;
+    }
+
+    public Boolean getResolved() {
+        return isResolved;
+    }
+
+    public void setResolved(Boolean resolved) {
+        isResolved = resolved;
     }
 }

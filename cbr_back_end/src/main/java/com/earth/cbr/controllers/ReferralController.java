@@ -87,7 +87,8 @@ public class ReferralController {
         JSONObject responseJson = new JSONObject();
         ReferralAdapterImpl referralAdapter = JSON.parseObject(referralInputString, ReferralAdapterImpl.class);
 
-        Referral addedReferral = referralService.addReferral(referralAdapter.buildReferral());
+        Referral referral = referralAdapter.buildReferral();
+        Referral addedReferral = referralService.addReferral(referral);
 
         // Need to tell front-end the new Referral's id
         // so front-end can update the UI
