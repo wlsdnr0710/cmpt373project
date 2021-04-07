@@ -59,11 +59,11 @@ public class FirebaseInitializer {
 
         String curDir = new java.io.File(".").getCanonicalPath();
         ClassPathResource classPathResource = new ClassPathResource("firebaseServiceAccountKey.json");
-        FileWriter file = new FileWriter(classPathResource.getFile());
+        FileWriter file = new FileWriter(classPathResource.getPath());
         file.write(firebaseConfig.toJSONString());
         file.flush();
         FileInputStream serviceAccount =
-                new FileInputStream(classPathResource.getFile());
+                new FileInputStream(classPathResource.getPath());
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
