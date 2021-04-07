@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
-import Spinner from "react-bootstrap/Spinner";
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
@@ -24,7 +23,6 @@ import "./style.css";
 
 //TODO: Grab dropdown options from database table
 const defaultClientZones = getClientZonesObject();
-
 const genders = getGendersObject();
 
 const EditClientForm = (props) => {
