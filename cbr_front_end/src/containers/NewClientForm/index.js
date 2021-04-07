@@ -150,9 +150,9 @@ const NewClientForm = () => {
         });
     };
 
-    const getDisabilityId = (name) => {
+    const getDisabilityId = (type) => {
         for (const index in disabilityList) {
-            if (disabilityList[index].type === name) {
+            if (disabilityList[index].type === type) {
                 return disabilityList[index].id;
             }
         }
@@ -368,14 +368,14 @@ const NewClientForm = () => {
         return dateTime;
     }
 
-    const getDisabilityTypeCheckBoxesOnChangeHandler = name => {
+    const getDisabilityTypeCheckBoxesOnChangeHandler = type => {
         return event => {
             const checkBox = event.target;
             let checkBoxesValues = formInputs["disabilityType"];
             if (checkBox.checked) {
-                checkBoxesValues = [...checkBoxesValues, getDisabilityId(name)];
+                checkBoxesValues = [...checkBoxesValues, getDisabilityId(type)];
             } else {
-                removeCheckBoxValuesByName(checkBoxesValues, name);
+                removeCheckBoxValuesByName(checkBoxesValues, type);
             }
             updateFormInputByNameValue("disabilityType", checkBoxesValues);
         };
@@ -395,12 +395,16 @@ const NewClientForm = () => {
         }
         else {
             for (const index in disabilityList) {
+                const type = disabilityList[index].type;
+                const id = disabilityList[index].id;
                 disabilityCheckboxComponents.push(<CheckBox
-                                                        name={disabilityList[index].type}
-                                                        value={disabilityList[index].id}
-                                                        actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(disabilityList[index].type)}
-                                                        isDisabled={isFormInputDisabled} displayText={disabilityList[index].type}
-                                                        displayTextOnRight={true} key={index}
+                                                        name={type}
+                                                        value={id}
+                                                        actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(type)}
+                                                        isDisabled={isFormInputDisabled}
+                                                        displayText={type}
+                                                        displayTextOnRight={true}
+                                                        key={index}
                                                    />
                                                   );
             }
