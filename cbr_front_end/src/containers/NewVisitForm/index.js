@@ -214,6 +214,7 @@ const NewVisitForm = (props) => {
         };
         let descriptionFailed = false;
         let descriptionError = "";
+        console.log(data);
         axios.post(ServerConfig.api.url +  '/api/v1/visit', {
             "data": data
         }, {
@@ -229,6 +230,7 @@ const NewVisitForm = (props) => {
                                 // Failure here is likely a technical issue
                                 console.log(error);
                             })
+                        // Propagate error up into higher then
                         descriptionFailed = true;
                         descriptionError = error;
                     })
@@ -242,13 +244,18 @@ const NewVisitForm = (props) => {
             setFormStateAfterSubmitSuccess();
             const clientId = props.clientID;
             const oneSecond = 1;
-            // redirectToClientInfoPageAfter(clientId, oneSecond);
+            redirectToClientInfoPageAfter(clientId, oneSecond);
         })
         .catch(error => {
+            clearDescriptions();
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
         });
     };
+
+    const clearDescriptions = () => {
+        updateFormInputByNameValue("serviceProvided", "");
+    }
 
     const getWorkerNameByGetRequest = () => {
         const requestHeader = {
