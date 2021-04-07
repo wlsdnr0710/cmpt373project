@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import CameraSnapshot from "../../containers/CameraSnapshot";
@@ -16,10 +17,12 @@ import {
 import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
 import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
+import Spinner from 'react-bootstrap/Spinner';
 import TextAreaInputField from "../../components/TextAreaInputField";
 import "./style.css";
 
 const NewReferralForm = props => {
+    const history = useHistory();
     const [formInputs, setFormInputs] = useState({
         "requiredServices": [],
         "requiredServiceOtherDescription": "",
@@ -41,6 +44,11 @@ const NewReferralForm = props => {
     const [showOrthoticQuestions, setShowOrthoticQuestions] = useState(false);
     const [showProstheticQuestions, setShowProstheticQuestions] = useState(false);
     const clientId = props.clientId;
+
+    const [isFormDisabled, setIsFormDisabled] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [errorMessages, setErrorMessages] = useState([]);
 
     const requiredServicesKeyValues = getRequiredServicesKeyValues();
     const wheelchairUserTypes = getDefaultWheelchairUserTypes();
@@ -362,6 +370,7 @@ const NewReferralForm = props => {
 
     const onSubmitHandler = event => {
         event.preventDefault();
+        setStatesDuringSubmitting();
         const requestHeader = {
             token: getToken()
         };
@@ -371,11 +380,113 @@ const NewReferralForm = props => {
 
         postNewReferrals(data, requestHeader)
             .then(response => {
-
+                setStatesWhenSuccess();
+                const oneSecond = 1;
+                redirectToClientInfoPageAfter(clientId, oneSecond);
             })
             .catch(error => {
-
+                setStatesWhenFail();
+                updateErrorMessages(error);
             });
+    };
+
+    const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("/client-information?id=" + clientId);
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
+    };
+
+    const showSuccessMessage = () => {
+        if (!isSuccess) {
+            return null;
+        } else {
+            return (
+                <Alert variant="success">
+                    The referral form is successfully submitted!
+                </Alert>
+            );
+        }
+    };
+
+    const setStatesDuringSubmitting = () => {
+        setIsSuccess(false);
+        setErrorMessages([]);
+        setIsFormDisabled(true);
+        setIsSubmitting(true);
+    };
+
+    const setStatesWhenSuccess = () => {
+        setIsSuccess(true);
+        setIsFormDisabled(false);
+        setIsSubmitting(false);
+    };
+
+    const setStatesWhenFail = () => {
+        setIsFormDisabled(false);
+        setIsSubmitting(false);
+    };
+
+    const updateErrorMessages = error => {
+        setErrorMessages(prevErrorMessages => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const getSubmitButtonText = () => {
+        if (isSubmitting) {
+            return (
+                <div className="spinning-submit-button-text">
+                    <Spinner
+                        className="spinner"
+                        as="div"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    />
+                    Submitting
+                </div>
+            );
+        } else {
+            return "Submit";
+        }
     };
 
     return (
@@ -414,7 +525,14 @@ const NewReferralForm = props => {
                 </div>
 
                 <div>
-                    <Button variant="primary" onClick={onSubmitHandler}>Submit</Button>
+                    <Button variant="primary" onClick={onSubmitHandler}>
+                        {getSubmitButtonText()}
+                    </Button>
+                </div>
+
+                <div className="feedback-messages">
+                    {showSuccessMessage()}
+                    {showErrorMessages()}
                 </div>
             </div>
         </div>

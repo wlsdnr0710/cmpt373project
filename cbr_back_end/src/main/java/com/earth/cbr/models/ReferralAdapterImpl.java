@@ -5,6 +5,8 @@ import com.earth.cbr.repositories.ClientRepository;
 import com.earth.cbr.repositories.PhysiotherapyRepository;
 import com.earth.cbr.repositories.WorkerRepository;
 
+import java.sql.Date;
+
 public class ReferralAdapterImpl implements ReferralAdapter {
 
     private PhysiotherapyRepository physiotherapyRepository;
@@ -53,6 +55,7 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         referral.setClient(clientRepository.findById(clientId).orElse(null));
         referral.setResolved(isResolved);
         referral.setWorker(workerRepository.findById(workerId).orElse(null));
+        referral.setDate(new Date(System.currentTimeMillis()));
         return referral;
     }
 
