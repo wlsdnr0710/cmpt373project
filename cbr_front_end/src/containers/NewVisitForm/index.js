@@ -218,11 +218,9 @@ const NewVisitForm = (props) => {
             headers: requestHeader,
         })
         .then(response => {
-            console.log(data);
-            data.serviceProvided.forEach(function(entry) {
-                console.log(entry);
-                entry.visitId = response.data.id;
-                postNewServiceDescription(entry, requestHeader)
+            data.serviceProvided.forEach(function(serviceOption) {
+                serviceOption.visitId = response.data.id;
+                postNewServiceDescription(serviceOption, requestHeader)
                     .catch(error => {
                         setStatesWhenFormIsSubmitting(false);
                         updateErrorMessages(error);
