@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
+import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
@@ -24,6 +26,8 @@ import "./style.css";
 const defaultClientZones = getClientZonesObject();
 
 const genders = getGendersObject();
+
+
 
 const EditClientForm = (props) => {
   const clientId = props.clientID;
@@ -68,15 +72,30 @@ const EditClientForm = (props) => {
     const requestHeader = {
       token: getToken(),
     };
+
     updateClientInformationToServer(clientInformation, requestHeader)
       .then((response) => {
-        //TODO: Inform the client information page that the save was a success
-        history.push("/client-information?id=" + clientInformation["id"]);
+        setFormStateAfterSubmitSuccess();
+        const clientId = response.data.id;
+        const oneSecond = 1;
+        redirectToClientInfoPageAfter(clientId, oneSecond);
       })
       .catch((error) => {
-        console.log("ERROR: Put request failed." + error);
+          updateErrorMessages(error);
+          setStatesWhenFormIsSubmitting(false);
       });
   };
+
+    const updateErrorMessages = error => {
+        setErrorMessages(prevErrorMessages => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
+    };
 
   const updateClientInformation = (name, value) => {
     setClientInformation((prevFormInputs) => {
@@ -92,11 +111,14 @@ const EditClientForm = (props) => {
     };
     deleteClientFromServer(clientId, requestHeader)
       .then((response) => {
-        //TODO:Inform the view client page that the deletetion was a success
-        history.push("view-client?query=clients");
+        setFormStateAfterDeleteSuccess();
+        const clientId = response.data.id;
+        const oneSecond = 1;
+        redirectToClientInfoPageAfter(clientId, oneSecond);
       })
       .catch((error) => {
-        console.log("ERROR: Delete request failed. " + error);
+        updateErrorMessages(error);
+        setStatesWhenFormIsSubmitting(false);
       });
   };
 
@@ -119,6 +141,102 @@ const EditClientForm = (props) => {
       return null;
     }
   };
+
+  const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+  const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessages, setErrorMessages] = useState([]);
+
+
+  const showSuccessMessage = () => {
+    if (isSubmitSuccess) {
+        return (
+            <Alert variant="success">
+                You updated client information successfully! You will be redirected to the client page soon.
+            </Alert>
+            );
+        } else {
+        return null;
+        }
+    };
+
+  const showDeleteMessage = () => {
+    if (isDeleteSuccess) {
+        return (
+            <Alert variant="success">
+                You deleted client successfully! You will be redirected to the clients list page soon.
+            </Alert>
+            );
+        } else {
+        return null;
+        }
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const setFormStateAfterSubmitSuccess = () => {
+        setIsSubmitSuccess(true);
+        setIsSubmitting(false);
+        setIsDeleteSuccess(false);
+    };
+
+    const setFormStateAfterDeleteSuccess = () => {
+        setIsSubmitSuccess(false);
+        setIsSubmitting(false);
+        setIsDeleteSuccess(true);
+    };
+
+    const setStatesWhenFormIsSubmitting = isSubmitting => {
+        if (isSubmitting) {
+            setIsSubmitting(true);
+        } else {
+            setIsSubmitting(false);
+        }
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
+    };
+
+    const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("/client-information?id=" + clientId);
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
+    };
+
+    const redirectToClientPageAfter = (clientId, timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("/client-information?id=" + clientId);
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
+    };
 
   return (
     <form className="edit-client-form">
@@ -226,6 +344,9 @@ const EditClientForm = (props) => {
         />
       </div>
       <hr />
+      {showErrorMessages()}
+      {showSuccessMessage()}
+
       <div className="action-buttons">
         {/* TODO: restructure css layout for mobile*/}
         <input
