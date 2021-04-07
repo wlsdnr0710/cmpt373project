@@ -214,7 +214,6 @@ const NewVisitForm = (props) => {
         };
         let descriptionFailed = false;
         let descriptionError = "";
-        console.log(data);
         axios.post(ServerConfig.api.url +  '/api/v1/visit', {
             "data": data
         }, {
