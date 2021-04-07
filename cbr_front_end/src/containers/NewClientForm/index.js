@@ -34,7 +34,7 @@ const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
     const history = useHistory();
-const [formInputs, setFormInputs] = useState({
+    const [formInputs, setFormInputs] = useState({
         "cbrWorkerId": 1, //TODO: Replace this when login is implemented
         "doConsentToInterview": false,
         "isCaregiverPresent": false,
