@@ -44,6 +44,14 @@ export const getVisitsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
 
+export const postNewServiceDescription = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url +  '/api/v1/serviceDescription', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
+};
+
 export const getReferralsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/referral/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
