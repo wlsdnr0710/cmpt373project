@@ -238,8 +238,6 @@ const NewVisitForm = (props) => {
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
         });
-
-        
     };
 
     const getWorkerNameByGetRequest = () => {
