@@ -44,6 +44,10 @@ export const getVisitsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
 
+export const deleteVisitFromServer = (visitId, requestHeader) => {
+    return axios.delete(ServerConfig.api.url + '/api/v1/visit/' + visitId, {headers: requestHeader})
+}
+
 export const postNewServiceDescription = (data, requestHeader) => {
     return axios.post(ServerConfig.api.url +  '/api/v1/serviceDescription', {
         "data": data

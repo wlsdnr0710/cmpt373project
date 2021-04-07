@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
-import { postNewServiceDescription } from "../../utils/Utilities";
+import { postNewServiceDescription, deleteVisitFromServer } from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -212,27 +212,37 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
+        let descriptionFailed = false;
+        let descriptionError = "";
         axios.post(ServerConfig.api.url +  '/api/v1/visit', {
             "data": data
         }, {
             headers: requestHeader,
         })
-        .then(response => {
-            data.serviceProvided.forEach(function(serviceOption) {
+        .then(async (response) => {
+            for (const serviceOption of data.serviceProvided) {
                 serviceOption.visitId = response.data.id;
-                postNewServiceDescription(serviceOption, requestHeader)
+                await postNewServiceDescription(serviceOption, requestHeader)
                     .catch(error => {
-                        setStatesWhenFormIsSubmitting(false);
-                        updateErrorMessages(error);
+                        deleteVisitFromServer(response.data.id, requestHeader)
+                            .catch(error => {
+                                // Failure here is likely a technical issue
+                                console.log(error);
+                            })
+                        descriptionFailed = true;
+                        descriptionError = error;
                     })
-            })
+            }
                 
         })
         .then(response => {
+            if (descriptionFailed) {
+                throw descriptionError;
+            }
             setFormStateAfterSubmitSuccess();
             const clientId = props.clientID;
             const oneSecond = 1;
-            redirectToClientInfoPageAfter(clientId, oneSecond);
+            // redirectToClientInfoPageAfter(clientId, oneSecond);
         })
         .catch(error => {
             updateErrorMessages(error);
