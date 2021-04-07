@@ -41,7 +41,7 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         return referral;
     }
 
-    public Referral setReferralFields(Referral referral) {
+    private Referral setReferralFields(Referral referral) {
         RequiredServices requiredServices = buildRequiredServices();
         referral.setRequiredServices(requiredServices);
         referral.setClientId(clientId);
