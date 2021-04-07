@@ -1,4 +1,4 @@
-package com.earth.cbr.services;
+package com.earth.cbr.services.survey;
 
 import com.earth.cbr.models.survey.Survey;
 import com.earth.cbr.models.survey.SurveyQuestion;

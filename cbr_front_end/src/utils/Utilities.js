@@ -220,6 +220,14 @@ export const postNewSurveyQuestions = (data, requestHeader) => {
     });
 };
 
+export const postAnsweredSurvey = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/answered_survey', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
+};
+
 export const getAllSurveys = requestHeader => {
     return axios.get(ServerConfig.api.url + '/api/v1/survey', {headers: requestHeader});
 };
