@@ -37,7 +37,7 @@ const SyncNavigationBarEntry = ({ label, iconSource, iconAlt }) => {
                     }
                 };
             } catch {
-                // Error means workbox has not initalized background sync indexedDB
+                // Access error means workbox has not initalized background sync indexedDB
                 // meaning nothing has been previously synced / needs to be synced
                 alert.info("Nothing to sync");
             }
