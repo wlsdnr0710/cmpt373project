@@ -1,6 +1,12 @@
 package com.earth.cbr.models;
 
+import com.earth.cbr.context.SpringContext;
+import com.earth.cbr.repositories.PhysiotherapyRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+
 public class ReferralAdapterImpl implements ReferralAdapter {
+
+    private PhysiotherapyRepository physiotherapyRepository;
 
     private Long clientId;
     private RequiredServicesEnum[] requiredServices;
@@ -9,12 +15,16 @@ public class ReferralAdapterImpl implements ReferralAdapter {
     private WheelchairUserType wheelchairUserType;
     private Boolean doTheyHaveExistingWheelchair;
     private Boolean canExistingWheelchairRepaired;
-    private Integer prostheticCondition;
-    private Integer orthoticCondition;
-    private Integer physiotherapyCondition;
+    private ProstheticConditionEnum prostheticCondition;
+    private OrthoticConditionEnum orthoticCondition;
+    private Long physiotherapyCondition;
     private Integer physiotherapyConditionOtherDesc;
 
     private Referral referral = new Referral();
+
+    public ReferralAdapterImpl() {
+        physiotherapyRepository = SpringContext.getBean(PhysiotherapyRepository.class);
+    }
 
     @Override
     public Referral buildReferral() {
@@ -24,6 +34,10 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         referral.setHipWidthInInches(hipWidthInInches);
         referral.setIntermediateUserByWheelchairUserType(wheelchairUserType);
         referral.setHasExistingWheelchair(doTheyHaveExistingWheelchair);
+        referral.setDoesRequireRepairs(canExistingWheelchairRepaired);
+        referral.setProstheticCondition(prostheticCondition);
+        referral.setOrthoticCondition(orthoticCondition);
+        referral.setPhysiotherapy(physiotherapyRepository.findById(physiotherapyCondition).orElse(null));
 
         return referral;
     }
@@ -98,27 +112,27 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         this.canExistingWheelchairRepaired = canExistingWheelchairRepaired;
     }
 
-    public Integer getProstheticCondition() {
+    public ProstheticConditionEnum getProstheticCondition() {
         return prostheticCondition;
     }
 
-    public void setProstheticCondition(Integer prostheticCondition) {
+    public void setProstheticCondition(ProstheticConditionEnum prostheticCondition) {
         this.prostheticCondition = prostheticCondition;
     }
 
-    public Integer getOrthoticCondition() {
+    public OrthoticConditionEnum getOrthoticCondition() {
         return orthoticCondition;
     }
 
-    public void setOrthoticCondition(Integer orthoticCondition) {
+    public void setOrthoticCondition(OrthoticConditionEnum orthoticCondition) {
         this.orthoticCondition = orthoticCondition;
     }
 
-    public Integer getPhysiotherapyCondition() {
+    public Long getPhysiotherapyCondition() {
         return physiotherapyCondition;
     }
 
-    public void setPhysiotherapyCondition(Integer physiotherapyCondition) {
+    public void setPhysiotherapyCondition(Long physiotherapyCondition) {
         this.physiotherapyCondition = physiotherapyCondition;
     }
 

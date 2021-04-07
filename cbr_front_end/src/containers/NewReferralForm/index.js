@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import CameraSnapshot from "../../containers/CameraSnapshot";
@@ -6,8 +6,10 @@ import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
 import {
-    getDefaultPhysiotherapyConditions,
+    getPhysiotherapyConditionsFromServer,
     getDefaultWheelchairUserTypes,
+    getDefaultOrthoticConditions,
+    getDefaultProstheticConditions,
     getRequiredServicesKeyValues,
     postNewReferrals
 } from "../../utils/Utilities";
@@ -25,9 +27,9 @@ const NewReferralForm = props => {
         "wheelchairUserType": "BASIC",
         "doTheyHaveExistingWheelchair": false,
         "canExistingWheelchairRepaired": false,
-        "prostheticCondition": "1",
-        "orthoticCondition": "1",
-        "physiotherapyCondition": "1",
+        "prostheticCondition": "BELOW_KNEE",
+        "orthoticCondition": "BELOW_ELBOW",
+        "physiotherapyCondition": "",
         "physiotherapyConditionOtherDesc": "",
     });
     const [showOtherDescription, setShowOtherDescription] = useState(false);
@@ -39,18 +41,33 @@ const NewReferralForm = props => {
     const clientId = props.clientId;
 
     const requiredServicesKeyValues = getRequiredServicesKeyValues();
-    const defaultPhysiotherapyConditions = getDefaultPhysiotherapyConditions();
-
     const wheelchairUserTypes = getDefaultWheelchairUserTypes();
+    const defaultOrthoticConditions = getDefaultOrthoticConditions();
+    const defaultProstheticConditions = getDefaultProstheticConditions();
 
-    const defaultOrthoticConditions = {
-        "Above elbow": "1",
-        "Below elbow": "2",
-    };
+    const [physiotherapyConditions, setPhysiotherapyConditions] = useState({});
+    useEffect(() => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getPhysiotherapyConditionsFromServer(requestHeader)
+            .then(response => {
+                const data = response.data.data;
+                const conditions = {};
+                for (let i = 0; i < data.length; i++) {
+                    const condition = data[i];
+                    conditions[condition["type"]] = condition["id"];
+                }
+                setPhysiotherapyConditions(conditions);
+                setDefaultPhysiotherapyConditionId(data[0]["id"]);
+            })
+            .catch(error => {
 
-    const defaultProstheticConditions = {
-        "Above knee": "1",
-        "Below knee": "2",
+            });
+    }, []);
+
+    const setDefaultPhysiotherapyConditionId = defaultConditionId => {
+        updateFormInputByNameValue("physiotherapyCondition", defaultConditionId);
     };
 
     const getRequiredServicesCheckBoxesOnChangeHandler = name => {
@@ -165,8 +182,8 @@ const NewReferralForm = props => {
                         Is the injury below or above the knee?
                     </div>
                     <DropdownList
-                        dropdownName="prostheticConditions"
-                        value={formInputs["prostheticConditions"]}
+                        dropdownName="prostheticCondition"
+                        value={formInputs["prostheticCondition"]}
                         dropdownListItemsKeyValue={defaultProstheticConditions}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
@@ -223,7 +240,7 @@ const NewReferralForm = props => {
                     <DropdownList
                         dropdownName="physiotherapyCondition"
                         value={formInputs["physiotherapyCondition"]}
-                        dropdownListItemsKeyValue={defaultPhysiotherapyConditions}
+                        dropdownListItemsKeyValue={physiotherapyConditions}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
@@ -235,7 +252,7 @@ const NewReferralForm = props => {
     };
 
     const showDescribeOtherPhysiotherapyTextArea = () => {
-        if (formInputs["physiotherapyCondition"] === defaultPhysiotherapyConditions["Other"]) {
+        if (formInputs["physiotherapyCondition"] === physiotherapyConditions["Other"]) {
             return (
                 <div>
                     <div>Please describe Other:</div>

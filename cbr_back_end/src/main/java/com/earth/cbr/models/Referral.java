@@ -183,9 +183,7 @@ public class Referral {
     }
 
     public void setIntermediateUserByWheelchairUserType(WheelchairUserType wheelchairUserType) {
-        if (wheelchairUserType == WheelchairUserType.INTERMEDIATE) {
-            isIntermediateUser = true;
-        }
+        setIntermediateUser(wheelchairUserType == WheelchairUserType.INTERMEDIATE);
     }
 
     public Boolean getHasExistingWheelchair() {
@@ -212,12 +210,20 @@ public class Referral {
         isBelowKnee = belowKnee;
     }
 
+    public void setProstheticCondition(ProstheticConditionEnum condition) {
+        setBelowKnee(condition == ProstheticConditionEnum.BELOW_KNEE);
+    }
+
     public Boolean getBelowElbow() {
         return isBelowElbow;
     }
 
     public void setBelowElbow(Boolean belowElbow) {
         isBelowElbow = belowElbow;
+    }
+
+    public void setOrthoticCondition(OrthoticConditionEnum condition) {
+        setBelowElbow(condition == OrthoticConditionEnum.BELOW_ELBOW);
     }
 
     public String getReferTo() {

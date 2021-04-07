@@ -169,19 +169,11 @@ export const getRequiredServicesKeyValues = () => {
     return requiredServicesKeyValues;
 };
 
-export const getDefaultPhysiotherapyConditions = () => {
-    const defaultPhysiotherapyConditions = {
-        "Amputee": "1",
-        "Polio": "2",
-        "Spinal Cord Injury": "3",
-        "Cerebral Palsy": "4",
-        "Spina Bifida": "5",
-        "Hydrocephalus": "6",
-        "Visual Impairment": "7",
-        "Hearing Impairment": "8",
-        "Other": "9",
-    };
-    return defaultPhysiotherapyConditions;
+export const getPhysiotherapyConditionsFromServer = (requestHeader) => {
+    return axios.get(
+            ServerConfig.api.url + '/api/v1/physiotherapy',
+            {headers: requestHeader}
+        );
 };
 
 export const getDefaultNewSurveyObject = () => {
@@ -264,4 +256,20 @@ export const getDefaultWheelchairUserTypes = () => {
         "Intermediate": "INTERMEDIATE",
     };
     return wheelchairUserTypes;
+};
+
+export const getDefaultOrthoticConditions = () => {
+    const defaultOrthoticConditions = {
+        "Above elbow": "ABOVE_ELBOW",
+        "Below elbow": "BELOW_ELBOW",
+    };
+    return defaultOrthoticConditions;
+};
+
+export const getDefaultProstheticConditions = () => {
+    const defaultProstheticConditions = {
+        "Above knee": "ABOVE_KNEE",
+        "Below knee": "BELOW_KNEE",
+    };
+    return defaultProstheticConditions;
 };
