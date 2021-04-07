@@ -23,6 +23,7 @@ import "./style.css";
 
 //TODO: Grab dropdown options from database table
 const defaultClientZones = getClientZonesObject();
+
 const genders = getGendersObject();
 
 const EditClientForm = (props) => {
