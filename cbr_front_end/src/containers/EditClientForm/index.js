@@ -114,7 +114,7 @@ const EditClientForm = (props) => {
         setFormStateAfterDeleteSuccess();
         const clientId = response.data.id;
         const oneSecond = 1;
-        redirectToClientInfoPageAfter(clientId, oneSecond);
+        redirectToViewClientsPageAfter(oneSecond);
       })
       .catch((error) => {
         updateErrorMessages(error);
@@ -164,7 +164,7 @@ const EditClientForm = (props) => {
     if (isDeleteSuccess) {
         return (
             <Alert variant="success">
-                You deleted client successfully! You will be redirected to the clients list page soon.
+                You deleted client successfully! You will be redirected to the client list page soon.
             </Alert>
             );
         } else {
@@ -230,10 +230,10 @@ const EditClientForm = (props) => {
         }, timeInMilliSecond);
     };
 
-    const redirectToClientPageAfter = (clientId, timeInSecond) => {
+    const redirectToViewClientsPageAfter = (timeInSecond) => {
         const timeInMilliSecond = timeInSecond * 1000;
         setTimeout(() => {
-            history.push("/client-information?id=" + clientId);
+            history.push("view-client?query=clients");
             window.scrollTo(0, 0);
         }, timeInMilliSecond);
     };
@@ -346,6 +346,7 @@ const EditClientForm = (props) => {
       <hr />
       {showErrorMessages()}
       {showSuccessMessage()}
+      {showDeleteMessage()}
 
       <div className="action-buttons">
         {/* TODO: restructure css layout for mobile*/}
