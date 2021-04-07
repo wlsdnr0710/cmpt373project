@@ -5,6 +5,7 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.core.env.Environment;
 
@@ -57,11 +58,12 @@ public class FirebaseInitializer {
         firebaseConfig.put("client_x509_cert_url", client_x509_cert_url);
 
         String curDir = new java.io.File(".").getCanonicalPath();
-        FileWriter file = new FileWriter(curDir +"/src/main/java/com/earth/cbr/config/firebaseServiceAccountKey.json");
+        ClassPathResource classPathResource = new ClassPathResource("firebaseServiceAccountKey.json");
+        FileWriter file = new FileWriter(classPathResource.getFile());
         file.write(firebaseConfig.toJSONString());
         file.flush();
         FileInputStream serviceAccount =
-                new FileInputStream(curDir +"/src/main/java/com/earth/cbr/config/firebaseServiceAccountKey.json");
+                new FileInputStream(classPathResource.getFile());
 
         FirebaseOptions options = new FirebaseOptions.Builder()
                 .setCredentials(GoogleCredentials.fromStream(serviceAccount))
