@@ -17,12 +17,10 @@ import {
     updateClientInformationToServer,
     getClientZonesObject,
     getGendersObject,
+    getZonesFromServer
 } from "../../utils/Utilities";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./style.css";
-
-//TODO: Grab dropdown options from database table
-const defaultClientZones = getClientZonesObject();
 
 const genders = getGendersObject();
 
@@ -37,8 +35,17 @@ const EditClientForm = (props) => {
         getClientObject()
     );
 
+    const [zoneList, setZoneList] = useState({});
+
     const discardChanges = () => {
         setClientInformation(originalClientInformation);
+    };
+
+    const getZones = () => {
+        getZonesFromServer()
+        .then(response => {
+            setZoneList(response.data.data);
+        });
     };
 
     const getClientInformation = useCallback(() => {
@@ -46,17 +53,18 @@ const EditClientForm = (props) => {
             token: getToken(),
         };
         getClientInformationFromServer(clientId, requestHeader)
-            .then((response) => {
-                setClientInformation(response.data.data);
-                setOriginalClientInformation(response.data.data);
-            })
-            .catch((error) => {
-                console.log("ERROR: Get request failed. " + error);
-            });
+        .then((response) => {
+            setClientInformation(response.data.data);
+            setOriginalClientInformation(response.data.data);
+        })
+        .catch((error) => {
+            console.log("ERROR: Get request failed. " + error);
+        });
     }, [clientId]);
 
     useEffect(() => {
         getClientInformation();
+        getZones();
     }, [getClientInformation]);
 
     const handleChange = (event) => {
@@ -243,7 +251,7 @@ const EditClientForm = (props) => {
 
             <div className="input-field">
                 <DropdownList
-                    dropdownListItemsKeyValue={defaultClientZones}
+                    dropdownListItemsKeyValue={zoneList}
                     dropdownName="zone"
                     value={clientInformation.zone}
                     label="Location: "

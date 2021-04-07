@@ -1,50 +1,50 @@
 .page-template {
-  padding-bottom: 10vh;
+    padding-bottom: 10vh;
 }
 
 .page-template .bottom-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 /* TODO: Resize HHALogo, currently too much white space on top / bottom 
          requiring the negative position */
 .top-navigation .logo {
-  margin: -40px 0;
-  height: auto;
-  width: 300px;
-  cursor: pointer;
+    margin: -40px 0;
+    height: auto;
+    width: 300px;
+    cursor: pointer;
 }
 
 .top-navigation {
-  position: relative;
-  height: 6rem;
-  width: 100%;
+    position: relative;
+    height: 6rem;
+    width: 100%;
 }
 
 .top-navigation .style-bar {
-  background-color: #56af31;
-  bottom: 0;
-  position: absolute;
-  height: 0.5rem;
-  width: 100%;
+    background-color: #56af31;
+    bottom: 0;
+    position: absolute;
+    height: 0.5rem;
+    width: 100%;
 }
 
 .page-content {
-  flex-grow: 1.5;
-  padding: 3vh 2vw;
+    flex-grow: 1.5;
+    padding: 3vh 2vw;
 }
 
 @media only screen and (max-width: 1200px) {
-  /* TODO: After changing logo, change this part as well */
-  .top-navigation .logo {
-    margin-top: -28px;
-    height: auto;
-    width: 200px;
-  }
+    /* TODO: After changing logo, change this part as well */
+    .top-navigation .logo {
+        margin-top: -28px;
+        height: auto;
+        width: 200px;
+    }
 
-  .top-navigation {
-    height: 4rem;
-  }
+    .top-navigation {
+        height: 4rem;
+    }
 }

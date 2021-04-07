@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
+import { getToken, getWorkerUsernameFromToken } from "../../utils/AuthenticationUtil";
+import { getZonesFromServer, addVisitToServer } from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -14,7 +15,6 @@ import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 
-// TODO: We want to fetch zones from backend server instead of hardcoding them here.
 const defaultPurpose = {
     "CBR": "cbr",
     "Disability centre referral": "referral",
@@ -27,25 +27,13 @@ const defaultGoalInputs = {
     "Concluded": "CONCLUDED",
 };
 
-const defaultClientZones = {
-    "BidiBidi Zone 1": "1",
-    "BidiBidi Zone 2": "2",
-    "BidiBidi Zone 3": "3",
-    "BidiBidi Zone 4": "4",
-    "BidiBidi Zone 5": "5",
-    "Palorinya Basecamp": "6",
-    "Palorinya Zone 1": "7",
-    "Palorinya Zone 2": "8",
-    "Palorinya Zone 3": "9",
-};
-
 const NewVisitForm = (props) => {
     const history = useHistory();
     const [formInputs, setFormInputs] = useState({
         "consent" : 1,
         "cbr_worker_name" : "", 
         "purpose": "cbr",
-        "zone": "1",
+        "zone": 1,
         "villageNumber": "0",
         "date": "",
         "cbrWorkerName": "",
@@ -104,6 +92,8 @@ const NewVisitForm = (props) => {
         "socialAdvocacyDesc": "",
         "socialEncouragementDesc": "",
     });
+
+    const [zoneList, setZoneList] = useState({});
 
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
@@ -211,11 +201,7 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
-        axios.post(ServerConfig.api.url +  '/api/v1/visit', {
-            "data": data
-        }, {
-            headers: requestHeader,
-        })
+        addVisitToServer(data, requestHeader)
         .then(response => {
             setFormStateAfterSubmitSuccess();
             const clientId = props.clientID;
@@ -225,6 +211,13 @@ const NewVisitForm = (props) => {
         .catch(error => {
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
+        });
+    };
+
+    const getZones = () => {
+        getZonesFromServer()
+        .then(response => {
+            setZoneList(response.data.data);
         });
     };
 
@@ -511,6 +504,7 @@ const NewVisitForm = (props) => {
 
     useEffect(() => {
         getWorkerNameByGetRequest();
+        getZones();
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
@@ -582,7 +576,7 @@ const NewVisitForm = (props) => {
                     <DropdownList
                         dropdownName="zone"
                         value={formInputs["zone"]}
-                        dropdownListItemsKeyValue={defaultClientZones}
+                        dropdownListItemsKeyValue={zoneList}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />

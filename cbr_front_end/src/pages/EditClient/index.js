@@ -5,14 +5,14 @@ import EditClientForm from "../../containers/EditClientForm";
 import "./style.css";
 
 const EditClient = ({ history, location }) => {
-  doAuthentication(history);
-  return (
-    <div>
-      <BackgroundCard heading="Edit Client">
-        <EditClientForm clientID={location.state.clientID}/>
-      </BackgroundCard>
-    </div>
-  );
+    doAuthentication(history);
+    return (
+        <div>
+            <BackgroundCard heading="Edit Client">
+                <EditClientForm clientID={location.state.clientID}/>
+            </BackgroundCard>
+        </div>
+    );
 };
 
 export default EditClient;
