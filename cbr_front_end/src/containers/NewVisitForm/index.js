@@ -588,6 +588,13 @@ const NewVisitForm = (props) => {
                 </div>
                 <hr />
                 <div>
+                    <h1>Risk</h1>
+                    <RiskInformation
+                        riskHistories={clientInformation.riskHistories}
+                />
+                </div>
+                <hr />
+                <div>
                     <label>Name of CBR worker: {formInputs["cbr_worker_name"]}</label>
                 </div>
                 <hr />
