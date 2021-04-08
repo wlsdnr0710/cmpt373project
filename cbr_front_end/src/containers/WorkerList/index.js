@@ -11,13 +11,13 @@ import "./style.css";
 const WorkerList = (props) => {
     const [isLoading, setIsLoading] = useState(true);
     const [clients, setClients] = useState([]);
-    const [showedClients, setShowedClients] = useState([]);
+    const [showedWorkers, setShowedWorkers] = useState([]);
     const [hasMoreClients, setHasMoreClients] = useState(true);
     const intersectionObserver = useRef();
     const observeeElement = useRef();
-
     const firstPage = 1;
-    const [currentPage, setCurrentPage] = useState(firstPage);
+    const [currentPage, setCurrentPage] = useState(firstPage - 1);
+    const [loadedWorkers, setLoadedWorkers] = useState(firstPage);
     const clientsPerPage = 5;
 
     const getPageableByPage = page => {
@@ -42,7 +42,7 @@ const WorkerList = (props) => {
                 const receivedClients = response.data.data;
                 console.log(receivedClients)
                 updateClients(receivedClients);          
-                incrementPage();
+                incrementLoad();
             })
             .catch(error => {
 
@@ -63,35 +63,20 @@ const WorkerList = (props) => {
         });
     };
 
-    const incrementPage = () => {
-        setCurrentPage(prevPage => {
-            return prevPage + 1;
+    const incrementLoad = () => {
+        setLoadedWorkers(prevLoad => {
+            return prevLoad + 1;
         });
     };
 
+    const splitArrayFromClientsToShowedWorkers = (min, max) => {
+        console.log(clients.slice(min, max));
+        const slicedWorkersArr = clients.slice(min, max);
+        setShowedWorkers(slicedWorkersArr);
+        console.log(showedWorkers);
+    }
+
     useEffect(() => {
-        const setUpInfiniteScroll = () => {
-            intersectionObserver.current = new IntersectionObserver(infScrollIntersecObserverCallBack);
-            intersectionObserver.current.observe(observeeElement.current);
-        };
-
-        const infScrollIntersecObserverCallBack = entries => {
-            entries.forEach(entry => {
-                const { isIntersecting } = entry;
-                if (isIntersecting) {
-                    disconnectIntersectionObserver();
-                    loadMoreClientsAndSetHasMoreClients();
-                }
-            });
-        };
-
-        const loadMoreClientsAndSetHasMoreClients = () => {
-            if (!hasMoreClients || currentPage === firstPage) {
-                return;
-            }
-            const pageable = getPageableByPage(currentPage);
-            requestClientsByPageable(pageable);
-        };
 
         const disconnectIntersectionObserver = () => {
             if (intersectionObserver.current) {
@@ -99,14 +84,14 @@ const WorkerList = (props) => {
             }
         };
 
-        if (currentPage === firstPage) {
-            const pageable = getPageableByPage(currentPage);
+        if (loadedWorkers === firstPage) {
+            const pageable = getPageableByPage(loadedWorkers);
             requestClientsByPageable(pageable);
         }
 
-        // setUpInfiniteScroll();
+        splitArrayFromClientsToShowedWorkers(currentPage, currentPage + clientsPerPage);
         return disconnectIntersectionObserver;
-    }, [hasMoreClients, currentPage, requestClientsByPageable]);
+    }, [hasMoreClients, loadedWorkers, requestClientsByPageable]);
 
     const mapClientToTableData = clients => {
         const data = [];
@@ -142,7 +127,7 @@ const WorkerList = (props) => {
                 Worker List
             </div>
             <div className="table">
-                <Table headers={["Workers"]} data={mapClientToTableData(clients)} />
+                <Table headers={["Workers"]} data={mapClientToTableData(showedWorkers)} />
             </div>
             <div className="infinite-scroll-observer" ref={element => observeeElement.current = element}>
             </div>
