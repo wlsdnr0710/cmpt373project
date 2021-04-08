@@ -1,14 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { getToken } from "../../utils/AuthenticationUtil";
-import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
 import axios from 'axios';
-import ClientInfoCard from "../../components/ClientInfoCard";
+import WorkerInfoCard from "../../components/WorkerInfoCard";
 import Table from "../../components/Table";
-import Button from 'react-bootstrap/Button';
-import DropdownList from "../../components/DropdownList";
 import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
-import TextInputField from "../../components/TextInputField";
+
 import "./style.css";
 
 const WorkerList = (props) => {
@@ -21,25 +18,12 @@ const WorkerList = (props) => {
 
     const firstPage = 1;
     const [currentPage, setCurrentPage] = useState(firstPage);
-    const clientsPerPage = 20;
-
-    const defaultSortBy = "id";
-    const defaultSearchBy = "cbrWorkerId"
-    const [sortBy, setSortBy] = useState(defaultSortBy);
-    const [isSortAscending, setIsSortAscending] = useState(true);
-    const [searchBy, setSearchBy] = useState(defaultSearchBy);
-    const [searchKeyword, setSearchKeyword] = useState("");
-    const [searchKeywordBuffer, setSearchKeywordBuffer] = useState("");
-
+    const clientsPerPage = 5;
 
     const getPageableByPage = page => {
         return {
             page: page,
             clientsPerPage: clientsPerPage,
-            sortBy: sortBy,
-            isSortAscending: isSortAscending,
-            searchBy : searchBy,
-            searchKeywordBuffer :searchKeywordBuffer
         }
     };
 
@@ -66,7 +50,7 @@ const WorkerList = (props) => {
             .then(() => {
                 setIsLoading(false);
             });
-    }, [searchKeyword, sortBy]); 
+    }, []); 
 
     const updateClients = receivedClients => {
         setClients(prevClients => {
@@ -128,7 +112,7 @@ const WorkerList = (props) => {
         const data = [];
         for (const index in clients) {
             const row = {};
-            row["Workers"] = <ClientInfoCard client={clients[index]} queryData={props.query} />;
+            row["Workers"] = <WorkerInfoCard client={clients[index]} queryData={props.query} />;
             data.push(row);
         }
         return data;
@@ -150,12 +134,6 @@ const WorkerList = (props) => {
         } else {
             return null;
         }
-    };
-
-    const formatDateString = date => {
-        const epoch = parseDateStringToEpoch(date);
-        const dateString = parseEpochToDateString(epoch);
-        return dateString;
     };
 
     return (
