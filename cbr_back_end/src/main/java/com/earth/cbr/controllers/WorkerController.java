@@ -25,6 +25,7 @@ public class WorkerController {
     @Admin
     @GetMapping
     public ResponseEntity<JSONObject> getAllWorkers() {
+        System.out.println("hello");
         List<Worker> workers = workerService.getAllWorkers();
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", workers);
