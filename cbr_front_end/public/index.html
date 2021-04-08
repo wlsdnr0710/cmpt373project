@@ -43,16 +43,13 @@
     <!-- 
       Check if brower supports having service workers 
      -->
-    <script type="module">
+    <script>
       if ("serviceWorker" in navigator) {
         window.addEventListener("load", () => {
           navigator.serviceWorker
-            .register('serviceWorker.js')
-            .then((registration) => {
-              console.log("Success: " + registration.scope);
-            })
+            .register('%PUBLIC_URL%/serviceWorker.js')
             .catch((error) => {
-              console.log("Error: " + error);
+              throw new DOMException("Web browser does not support service workers");
             });
         });
       }
