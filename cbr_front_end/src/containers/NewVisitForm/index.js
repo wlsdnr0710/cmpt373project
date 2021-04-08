@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
-import { postNewServiceDescription, deleteVisitFromServer } from "../../utils/Utilities";
+import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
+import { getZonesFromServer, addVisitToServer, getWorkerInformationFromServer, postNewServiceDescription, deleteVisitFromServer,  } from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -15,7 +15,6 @@ import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 
-// TODO: We want to fetch zones from backend server instead of hardcoding them here.
 const defaultPurpose = {
     "CBR": "cbr",
     "Disability centre referral": "referral",
@@ -28,29 +27,18 @@ const defaultGoalInputs = {
     "Concluded": "CONCLUDED",
 };
 
-const defaultClientZones = {
-    "BidiBidi Zone 1": "1",
-    "BidiBidi Zone 2": "2",
-    "BidiBidi Zone 3": "3",
-    "BidiBidi Zone 4": "4",
-    "BidiBidi Zone 5": "5",
-    "Palorinya Basecamp": "6",
-    "Palorinya Zone 1": "7",
-    "Palorinya Zone 2": "8",
-    "Palorinya Zone 3": "9",
-};
-
 const NewVisitForm = (props) => {
     const history = useHistory();
+    const workerId = getWorkerIdFromToken(getToken());
     const [formInputs, setFormInputs] = useState({
         "consent" : 1,
-        "cbr_worker_name" : "", 
         "purpose": "cbr",
-        "zone": "1",
+        "zone": 1,
         "villageNumber": "0",
         "date": "",
         "cbrWorkerName": "",
         "clientId": "",
+        "workerId": workerId,
         "serviceProvided": [],
         "latitude" : "",
         "longitude" : "",
@@ -105,6 +93,8 @@ const NewVisitForm = (props) => {
         "socialAdvocacyDesc": "",
         "socialEncouragementDesc": "",
     });
+
+    const [zoneList, setZoneList] = useState({});
 
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
@@ -214,11 +204,7 @@ const NewVisitForm = (props) => {
         };
         let descriptionFailed = false;
         let descriptionError = "";
-        axios.post(ServerConfig.api.url +  '/api/v1/visit', {
-            "data": data
-        }, {
-            headers: requestHeader,
-        })
+        addVisitToServer(data, requestHeader)
         .then(async (response) => {
             for (const serviceOption of data.serviceProvided) {
                 serviceOption.visitId = response.data.id;
@@ -255,19 +241,23 @@ const NewVisitForm = (props) => {
     const clearDescriptions = () => {
         updateFormInputByNameValue("serviceProvided", "");
     }
+    const getZones = () => {
+        getZonesFromServer()
+        .then(response => {
+            setZoneList(response.data.data);
+        });
+    };
 
     const getWorkerNameByGetRequest = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(ServerConfig.api.url +  '/api/v1/worker/username/' + getWorkerUsernameFromToken(getToken()), {
-            headers: requestHeader,
-        })
+        getWorkerInformationFromServer(workerId, requestHeader)
         .then(response => {
-            updateFormInputByNameValue("cbr_worker_name", response.data.data.firstName + " " + response.data.data.lastName);
+            updateFormInputByNameValue("cbrWorkerName", response.data.data.firstName + " " + response.data.data.lastName);
         })
         .catch(error => {
-            updateFormInputByNameValue("cbr_worker_name" , "Unable to fetch CBR worker name");
+            updateFormInputByNameValue("cbrWorkerName" , "Unable to fetch CBR worker name");
         });
     }
 
@@ -533,6 +523,7 @@ const NewVisitForm = (props) => {
 
     useEffect(() => {
         getWorkerNameByGetRequest();
+        getZones();
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
@@ -584,7 +575,7 @@ const NewVisitForm = (props) => {
                 </div>
                 <hr />
                 <div>
-                    <label>Name of CBR worker: {formInputs["cbr_worker_name"]}</label>
+                    <label>Name of CBR worker: {formInputs["cbrWorkerName"]}</label>
                 </div>
                 <hr />
                 <div>
@@ -604,7 +595,7 @@ const NewVisitForm = (props) => {
                     <DropdownList
                         dropdownName="zone"
                         value={formInputs["zone"]}
-                        dropdownListItemsKeyValue={defaultClientZones}
+                        dropdownListItemsKeyValue={zoneList}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
@@ -706,7 +697,7 @@ const NewVisitForm = (props) => {
                     Submit
                 </Button>
             </div>
-        </div >
+        </div>
     );
 }
 

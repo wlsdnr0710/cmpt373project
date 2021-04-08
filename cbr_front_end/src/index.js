@@ -7,7 +7,7 @@ import { Provider as AlertProvider } from "react-alert";
 import AlertTemplate from 'react-alert-template-basic'
 import { getAlertOptionsObject } from "./config/ReactAlertConfig"
 
-//TODO: Change tempalte options here 
+//TODO: Change tempalte options here
 ReactDOM.render(
     <AlertProvider template={AlertTemplate} {...getAlertOptionsObject}>
         <React.StrictMode>

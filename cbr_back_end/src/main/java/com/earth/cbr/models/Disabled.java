@@ -66,7 +66,7 @@ public class Disabled {
         return clientId;
     }
 
-    public void setClientId(Long id) {
+    public void setClientId(Long clientId) {
         this.clientId = clientId;
     }
 
@@ -74,7 +74,7 @@ public class Disabled {
         return disabilityId;
     }
 
-    public void setDisabilityId(Long id) {
+    public void setDisabilityId(Long disabilityId) {
         this.disabilityId = disabilityId;
     }
 
