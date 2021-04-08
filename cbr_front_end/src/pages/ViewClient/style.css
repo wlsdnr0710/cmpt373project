@@ -13,9 +13,21 @@
 }
 .view-client .action-group .section.search {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
 }
 
 .view-client .action-group .section.search .search-text-input {
     margin-right: 0.5rem;
+}
+
+.view-client .action-group .section.search .search-text-input {
+    margin-top: 0.5rem;
+}
+
+.client-table .search .search-action {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 0.5rem;
 }

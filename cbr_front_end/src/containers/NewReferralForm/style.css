@@ -27,3 +27,8 @@
 .new-referral-form .attribute-key {
     font-weight: 600;
 }
+
+.new-referral-form .feedback-messages {
+    margin-top: 1rem;
+}
+

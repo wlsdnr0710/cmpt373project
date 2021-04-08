@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.models.Referral;
+import com.earth.cbr.models.ReferralAdapter;
+import com.earth.cbr.models.ReferralAdapterImpl;
 import com.earth.cbr.services.ReferralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -80,11 +82,12 @@ public class ReferralController {
         if (referralJSON == null) {
             throw new MissingRequiredDataObjectException("Missing data object containing Referral data");
         }
-        String referralString = referralJSON.toJSONString();
+        String referralInputString = referralJSON.toJSONString();
 
         JSONObject responseJson = new JSONObject();
-        Referral referral = JSON.parseObject(referralString, Referral.class);
+        ReferralAdapterImpl referralAdapter = JSON.parseObject(referralInputString, ReferralAdapterImpl.class);
 
+        Referral referral = referralAdapter.buildReferral();
         Referral addedReferral = referralService.addReferral(referral);
 
         // Need to tell front-end the new Referral's id
