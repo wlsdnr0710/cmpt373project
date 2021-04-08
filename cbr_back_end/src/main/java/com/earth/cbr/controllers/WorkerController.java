@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.models.Worker;
+import com.earth.cbr.models.WorkerCreateAccountCode;
 import com.earth.cbr.models.authentication.Admin;
 import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.WorkerService;
@@ -113,5 +114,14 @@ public class WorkerController {
 
         workerService.deleteWorkerById(id);
         return ResponseEntity.ok().body(null);
+    }
+
+    @Admin
+    @GetMapping(value = "/create_account_token")
+    public ResponseEntity<JSONObject> getWorkerCreateAccountToken() {
+        WorkerCreateAccountCode code = workerService.generateAndSaveWorkerCreateAccountCode();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("data", code);
+        return ResponseEntity.ok().body(jsonObject);
     }
 }

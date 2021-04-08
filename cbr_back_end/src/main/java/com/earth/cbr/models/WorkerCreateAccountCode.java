@@ -12,9 +12,6 @@ import java.util.Date;
 @Entity(name = "WorkerCreateAccountCode")
 @Table(name = "worker_create_account_code")
 public class WorkerCreateAccountCode {
-
-    private WorkerService workerService;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
