@@ -52,8 +52,8 @@ export const getOutstandingReferralsFromServer = (requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/referral/outstandingReferrals', {headers: requestHeader});
 };
 
-export const getWorkerInformationFromServer = (username, requestHeader) => {
-    return axios.get(ServerConfig.api.url + '/api/v1/worker/username/' + username, {headers: requestHeader});
+export const getWorkerInformationFromServer = (id, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/worker/' + id, {headers: requestHeader});
 };
 
 export const addWorkerToServer = (workerInformation) => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import { getToken, getWorkerUsernameFromToken } from "../../utils/AuthenticationUtil";
-import { getZonesFromServer, addVisitToServer } from "../../utils/Utilities";
+import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
+import { getZonesFromServer, addVisitToServer, getWorkerInformationFromServer } from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -29,15 +29,16 @@ const defaultGoalInputs = {
 
 const NewVisitForm = (props) => {
     const history = useHistory();
+    const workerId = getWorkerIdFromToken(getToken());
     const [formInputs, setFormInputs] = useState({
         "consent" : 1,
-        "cbr_worker_name" : "", 
         "purpose": "cbr",
         "zone": 1,
         "villageNumber": "0",
         "date": "",
         "cbrWorkerName": "",
         "clientId": "",
+        "workerId": workerId,
         "serviceProvided": [],
         "latitude" : "",
         "longitude" : "",
@@ -225,14 +226,12 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(ServerConfig.api.url +  '/api/v1/worker/username/' + getWorkerUsernameFromToken(getToken()), {
-            headers: requestHeader,
-        })
+        getWorkerInformationFromServer(workerId, requestHeader)
         .then(response => {
-            updateFormInputByNameValue("cbr_worker_name", response.data.data.firstName + " " + response.data.data.lastName);
+            updateFormInputByNameValue("cbrWorkerName", response.data.data.firstName + " " + response.data.data.lastName);
         })
         .catch(error => {
-            updateFormInputByNameValue("cbr_worker_name" , "Unable to fetch CBR worker name");
+            updateFormInputByNameValue("cbrWorkerName" , "Unable to fetch CBR worker name");
         });
     }
 
@@ -556,7 +555,7 @@ const NewVisitForm = (props) => {
                 </div>
                 <hr />
                 <div>
-                    <label>Name of CBR worker: {formInputs["cbr_worker_name"]}</label>
+                    <label>Name of CBR worker: {formInputs["cbrWorkerName"]}</label>
                 </div>
                 <hr />
                 <div>

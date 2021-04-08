@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { getToken } from "../../utils/AuthenticationUtil";
+import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
 import { getZonesFromServer, getDisabilitiesFromServer, addClientToServer } from "../../utils/Utilities";
 import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
@@ -22,7 +22,7 @@ const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 const NewClientForm = () => {
     const history = useHistory();
     const [formInputs, setFormInputs] = useState({
-        "cbrWorkerId": 1, //TODO: Replace this when login is implemented
+        "cbrWorkerId": getWorkerIdFromToken(getToken()),
         "doConsentToInterview": false,
         "isCaregiverPresent": false,
         "doConsentToPhotograph": false,
