@@ -15,10 +15,10 @@ import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 import RiskInformation from "../RiskInformation";
 import {
-  deleteClientFromServer,
-  getClientInformationFromServer,
-  getClientObject,
-  updateClientInformationToServer
+    getRiskObject,
+    getRiskInformationFromServer,
+    updateRiskInformationToServer,
+
 } from "../../utils/Utilities";
 
 // TODO: We want to fetch zones from backend server instead of hardcoding them here.
@@ -113,32 +113,24 @@ const NewVisitForm = (props) => {
         "socialEncouragementDesc": "",
     });
 
-     const [clientInformation, setClientInformation] = useState(getClientObject());
-      const [originalClientInformation, setOriginalClientInformation] = useState(
-        getClientObject()
+      const [riskInformation, setRiskInformation] = useState(getRiskObject());
+      const [originalRiskInformation, setOriginalRiskInformation] = useState(
+        getRiskObject()
       );
 
-      const discardChanges = () => {
-        setClientInformation(originalClientInformation);
+    const getRiskInformation = useCallback(() => {
+      const requestHeader = {
+        token: getToken(),
       };
-
-      const getClientInformation = useCallback(() => {
-        const requestHeader = {
-          token: getToken(),
-        };
-        getClientInformationFromServer(clientId, requestHeader)
-          .then((response) => {
-            setClientInformation(response.data.data);
-            setOriginalClientInformation(response.data.data);
-          })
-          .catch((error) => {
-            console.log("ERROR: Get request failed. " + error);
-          });
-      }, [clientId]);
-
-      useEffect(() => {
-        getClientInformation();
-      }, [getClientInformation]);
+      getRiskInformationFromServer(clientId, requestHeader)
+        .then((response) => {
+          setRiskInformation(response.data.data);
+          setOriginalRiskInformation(response.data.data);
+        })
+        .catch((error) => {
+          console.log("ERROR: Get request failed. " + error);
+        });
+    }, [clientId]);
 
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
@@ -540,7 +532,8 @@ const NewVisitForm = (props) => {
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
-    }, []);
+        getRiskInformation();
+    }, [getRiskInformation]);
 
     return (
         <div className="new-visit-form">
@@ -588,14 +581,17 @@ const NewVisitForm = (props) => {
                 </div>
                 <hr />
                 <div>
-                    <h1>Risk</h1>
-                    <RiskInformation
-                        riskHistories={clientInformation.riskHistories}
-                />
+                    <label>Name of CBR worker: {formInputs["cbr_worker_name"]}</label>
                 </div>
                 <hr />
                 <div>
-                    <label>Name of CBR worker: {formInputs["cbr_worker_name"]}</label>
+                    <label>Health Goal: {riskInformation.healthGoal}</label>
+                </div>
+                <div>
+                    <label>Education Goal: {riskInformation.educationGoal}</label>
+                </div>
+                <div>
+                    <label>Social Goal: {riskInformation.socialGoal}</label>
                 </div>
                 <hr />
                 <div>
