@@ -1,5 +1,7 @@
 package com.earth.cbr.services;
 
+import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
+import com.earth.cbr.exceptions.WorkerCreateAccountCodeInvalid;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.WorkerCreateAccountCode;
 import com.earth.cbr.repositories.WorkerCreateAccountCodeRepository;
@@ -129,5 +131,31 @@ public class WorkerServiceImpl implements WorkerService {
         int limit = 26;
         char code = (char) (base + rand.nextInt(limit));
         return String.valueOf(code);
+    }
+
+    @Override
+    public void useWorkerCreateAccountCodeByWorker(String code, Long workerId) throws WorkerCreateAccountCodeInvalid {
+        validateCreateAccountCode(code);
+        WorkerCreateAccountCode workerCreateAccountCode = getUnusedWorkerCreateAccountCodeByCode(code);
+        workerCreateAccountCode = setWorkerCreateAccountCodeAsUsedByWorker(workerCreateAccountCode, workerId);
+        workerCreateAccountCodeRepository.save(workerCreateAccountCode);
+    }
+
+    private WorkerCreateAccountCode setWorkerCreateAccountCodeAsUsedByWorker(WorkerCreateAccountCode code, Long workerId) {
+        code.setUsedByWorkerId(workerId);
+        code.setUsed(true);
+        return code;
+    }
+
+    @Override
+    public void validateCreateAccountCode(String code) throws WorkerCreateAccountCodeInvalid {
+        WorkerCreateAccountCode workerCreateAccountCode = getUnusedWorkerCreateAccountCodeByCode(code);
+        if (workerCreateAccountCode == null) {
+            throw new WorkerCreateAccountCodeInvalid("Worker account create code is not valid.");
+        }
+    }
+
+    private WorkerCreateAccountCode getUnusedWorkerCreateAccountCodeByCode(String code) {
+        return workerCreateAccountCodeRepository.findByCodeAndIsUsed(code, false);
     }
 }

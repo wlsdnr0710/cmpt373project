@@ -1,5 +1,6 @@
 package com.earth.cbr.services;
 
+import com.earth.cbr.exceptions.WorkerCreateAccountCodeInvalid;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.WorkerCreateAccountCode;
 
@@ -15,4 +16,6 @@ public interface WorkerService {
     Worker updateWorkerById(@Valid Worker worker);
     void deleteWorkerById(Long id);
     WorkerCreateAccountCode generateAndSaveWorkerCreateAccountCode();
+    void validateCreateAccountCode(String code) throws WorkerCreateAccountCodeInvalid;
+    void useWorkerCreateAccountCodeByWorker(String code, Long workerId) throws WorkerCreateAccountCodeInvalid;
 }

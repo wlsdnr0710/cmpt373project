@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
@@ -30,7 +29,8 @@ const CreateAccountForm = () => {
         "email": "",
         "phone": "",
         "username": "",
-        "password": ""
+        "password": "",
+        "createAccountCode": ""
     });
 
     const [zoneList, setZoneList] = useState({});
@@ -216,6 +216,14 @@ const CreateAccountForm = () => {
                     <TextInputField
                         name="phone"
                         value={formInputs["phone"]}
+                        onChange={formInputChangeHandler}
+                    />
+                </div>
+                <strong>Create Account Code:</strong> 
+                <div className="form-input">
+                    <TextInputField
+                        name="createAccountCode"
+                        value={formInputs["createAccountCode"]}
                         onChange={formInputChangeHandler}
                     />
                 </div>

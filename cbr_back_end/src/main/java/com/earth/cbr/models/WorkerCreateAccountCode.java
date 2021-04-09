@@ -38,6 +38,12 @@ public class WorkerCreateAccountCode {
     @NotNull(message = "Worker create account code is used column cannot be null")
     private Boolean isUsed;
 
+    @Column(
+            name = "used_by_worker_id",
+            columnDefinition = "BIGINT"
+    )
+    private Long usedByWorkerId;
+
     public WorkerCreateAccountCode() {
     }
 
@@ -78,5 +84,13 @@ public class WorkerCreateAccountCode {
 
     public void setUsed(Boolean used) {
         isUsed = used;
+    }
+
+    public Long getUsedByWorkerId() {
+        return usedByWorkerId;
+    }
+
+    public void setUsedByWorkerId(Long usedByWorkerId) {
+        this.usedByWorkerId = usedByWorkerId;
     }
 }
