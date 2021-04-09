@@ -588,6 +588,7 @@ const EditClientForm = (props) => {
                     className="btn btn-secondary update-disability-button"
                     type="button"
                     value="Update Disability"
+                    onClick={onSubmitRiskHandler}
                 />
             </div>
             <hr />
