@@ -94,18 +94,6 @@ const EditClientForm = (props) => {
             });
     };
 
-    const setRequiredInputErrorMessages = requiredInputDisplayNames => {
-        const requiredErrorMessages = [];
-        for (const idx in requiredInputDisplayNames) {
-            const displayName = requiredInputDisplayNames[idx];
-            requiredErrorMessages.push(displayName + " is required.");
-        }
-        setErrorMessages(prevErrorMessages => {
-            const newErrorMessages = [...prevErrorMessages, ...requiredErrorMessages];
-            return newErrorMessages;
-        });
-    };
-
     const clearErrorMessages = () => {
         setErrorMessages([]);
     };
@@ -200,6 +188,8 @@ const EditClientForm = (props) => {
     };
 
     const onSubmitRiskHandler = event => {
+            clearErrorMessages();
+            let submittedForm = formInputs;
         event.preventDefault();
         clearErrorMessages();
 
