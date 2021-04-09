@@ -9,6 +9,8 @@ import Button from 'react-bootstrap/Button';
 import "./style.css";
 
 const WorkerList = (props) => {
+    const [isWorkerListHidden, setIsWorkerListHidden] = useState(false);
+
     const [isLoading, setIsLoading] = useState(true);
     const [workers, setWorkers] = useState([]);
     const [showedWorkers, setShowedWorkers] = useState([]);
@@ -18,12 +20,11 @@ const WorkerList = (props) => {
     const observeeElement = useRef();
 
     const firstPage = 1;
+    const workersPerPage = 5;
     const [isStartPage, setIsStartPage] = useState(false);
     const [isLastPage, setIsLastPage] = useState(false);
     const [currentPage, setCurrentPage] = useState(firstPage - 1);
     const [loadedWorkers, setLoadedWorkers] = useState(firstPage);
-    const workersPerPage = 5;
-
 
     const requestWorkers = useCallback(() => {
         const requestHeader = {
@@ -104,11 +105,11 @@ const WorkerList = (props) => {
         return disconnectIntersectionObserver;
     }, [hasMoreWorkers, loadedWorkers, requestWorkers]);
 
-    const mapClientToTableData = workers => {
+    const mapWorkersToTableData = workers => {
         const data = [];
         for (const index in workers) {
             const row = {};
-            row["Workers"] = <WorkerInfoCard worker={workers[index]} queryData={props.query} />;
+            row["Workers"] = <WorkerInfoCard worker={workers[index]} />;
             data.push(row);
         }
         return data;
@@ -117,13 +118,13 @@ const WorkerList = (props) => {
     const onClickNextPageHandler = () => {
         let newPage = currentPage + workersPerPage;
         setCurrentPage(newPage);
-        splitArrayFromWorkersToShowedWorkers(newPage, newPage + workersPerPage)
+        splitArrayFromWorkersToShowedWorkers(newPage, newPage + workersPerPage);
     }
 
     const onClickPrevPageHandler = () => {
         let newPage = currentPage - workersPerPage;
         setCurrentPage(newPage);
-        splitArrayFromWorkersToShowedWorkers(newPage, newPage + workersPerPage)
+        splitArrayFromWorkersToShowedWorkers(newPage, newPage + workersPerPage);
     }
 
     const showSpinnerWhenIsLoading = isLoading => {
@@ -145,24 +146,26 @@ const WorkerList = (props) => {
     };
 
     return (
-        <div className="worker-list">
+        <div className="worker-list" hidden={isWorkerListHidden}>
             <div className="worker-list-title">
                 Worker List
             </div>
             <div className="table">
-                <Table headers={["Workers"]} data={mapClientToTableData(showedWorkers)} />
+                <Table headers={["Workers"]} data={mapWorkersToTableData(showedWorkers)} />
             </div>
             <div className="infinite-scroll-observer" ref={element => observeeElement.current = element}>
             </div>
             <div className="spinner">
                 {showSpinnerWhenIsLoading(isLoading)}
             </div>
-            <Button onClick={onClickNextPageHandler} hidden={isLastPage}>
-                Next Page
-            </Button>
-            <Button onClick={onClickPrevPageHandler} hidden={isStartPage}>
-                Prev Page
-            </Button>
+            <div className="page-buttons">
+                <Button onClick={onClickNextPageHandler} hidden={isLastPage} className="ml-3">
+                    Next Page
+                </Button>
+                <Button onClick={onClickPrevPageHandler} hidden={isStartPage} className="ml-3">
+                    Prev Page
+                </Button>
+            </div>
         </div>
     );
 };

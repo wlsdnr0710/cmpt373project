@@ -95,6 +95,19 @@ export const getClientObject = () => {
     });
 }
 
+export const getWorkerObject = () => {
+    return( {
+        id:"N/A",
+        firstName:"N/A",
+        lastName:"N/A",
+        photo:"N/A",
+        zone:"N/A",
+        email:"N/A",
+        contactNumber:"N/A",
+        role:"N/A",
+    });
+}
+
 export const getRiskObject = () => {
     return ({
         id: "N/A",
