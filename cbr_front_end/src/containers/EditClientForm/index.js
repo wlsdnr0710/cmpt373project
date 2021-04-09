@@ -18,7 +18,8 @@ import {
     getClientZonesObject,
     getGendersObject,
     getZonesFromServer,
-    addRiskToServer
+    addRiskToServer,
+    parseEpochToDateString
 } from "../../utils/Utilities";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./style.css";
@@ -62,6 +63,15 @@ const EditClientForm = (props) => {
             console.log("ERROR: Get request failed. " + error);
         });
     }, [clientId]);
+
+    const initEpochDateTime = () => {
+        let newDate = new Date();
+        const epochDate = Math.floor(newDate.getTime());
+        const date = parseEpochToDateString(epochDate);
+
+        updateFormInputByNameValue("date", date);
+    }
+
 
     useEffect(() => {
         getClientInformation();
@@ -171,6 +181,7 @@ const EditClientForm = (props) => {
 
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
+        console.log(data);
         const requestHeader = {
             token: getToken()
         };
@@ -182,14 +193,14 @@ const EditClientForm = (props) => {
                 redirectToViewClientsPageAfter(oneSecond);
         })
         .catch(error => {
+
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
         })
     };
 
     const onSubmitRiskHandler = event => {
-            clearErrorMessages();
-            let submittedForm = formInputs;
+        let submittedForm = formInputs;
         event.preventDefault();
         clearErrorMessages();
 
@@ -208,6 +219,8 @@ const EditClientForm = (props) => {
     const [errorMessages, setErrorMessages] = useState([]);
 
     const [formInputs, setFormInputs] = useState({
+        "clientId": clientId,
+        "createdDate": "2021-04-09",
         "healthGoal": "",
         "healthRisk": "",
         "healthRiskDescription": "",
