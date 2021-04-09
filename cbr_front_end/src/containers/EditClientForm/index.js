@@ -218,12 +218,16 @@ const EditClientForm = (props) => {
     const [errorMessages, setErrorMessages] = useState([]);
 
     const [formInputs, setFormInputs] = useState({
+        "healthGoal": "",
         "healthRisk": "",
         "healthRiskDescription": "",
+        "educationGoal": "",
+        "educationRisk": "",
+        "educationRiskDescription": "",
+        "socialGoal": "",
         "socialRisk": "",
         "socialRiskDescription": "",
-        "educationRisk": "",
-        "educationRisk": "description",
+
     });
 
     const showSuccessMessage = () => {
@@ -500,6 +504,8 @@ const EditClientForm = (props) => {
                 <DisabilityInformation
                     disabilityList={clientInformation.disabled}
                 />
+
+
                 <input
                     className="btn btn-secondary update-disability-button"
                     type="button"
