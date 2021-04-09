@@ -26,6 +26,7 @@ public class ReferralAdapterImpl implements ReferralAdapter {
     private Long physiotherapyCondition;
     private Integer physiotherapyConditionOtherDesc;
     private Boolean isResolved;
+    private Referral.ReferTo referTo;
 
     private Referral referral = new Referral();
 
@@ -54,6 +55,7 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         referral.setPhysiotherapy(physiotherapyRepository.findById(physiotherapyCondition).orElse(null));
         referral.setClient(clientRepository.findById(clientId).orElse(null));
         referral.setResolved(isResolved);
+        referral.setReferTo(referTo);
         referral.setWorker(workerRepository.findById(workerId).orElse(null));
         referral.setDate(new Date(System.currentTimeMillis()));
         return referral;
@@ -183,5 +185,13 @@ public class ReferralAdapterImpl implements ReferralAdapter {
 
     public void setResolved(Boolean resolved) {
         isResolved = resolved;
+    }
+
+    public Referral.ReferTo getReferTo() {
+        return referTo;
+    }
+
+    public void setReferTo(Referral.ReferTo referTo) {
+        this.referTo = referTo;
     }
 }
