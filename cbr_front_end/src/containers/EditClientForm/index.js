@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
+import CheckBox from "../../components/CheckBox";
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
@@ -19,6 +20,7 @@ import {
     getGendersObject,
     getZonesFromServer,
     addRiskToServer,
+    getDisabilitiesFromServer,
     parseEpochToDateString
 } from "../../utils/Utilities";
 import DisabilityInformation from "../../components/DisabilityInformation";
@@ -66,16 +68,28 @@ const EditClientForm = (props) => {
 
     const initEpochDateTime = () => {
         let newDate = new Date();
-        const epochDate = Math.floor(newDate.getTime());
-        const date = parseEpochToDateString(epochDate);
-
-        updateFormInputByNameValue("date", date);
+        const date = newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate();
+        updateFormInputByNameValue("createdDate", date);
     }
+
+    const getDisabilities = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getDisabilitiesFromServer(requestHeader)
+        .then(response => {
+            setDisabilityList(response.data.data);
+        });
+    };
+
 
 
     useEffect(() => {
         getClientInformation();
         getZones();
+        getDisabilities();
+        initEpochDateTime();
+
     }, [getClientInformation]);
 
     const handleChange = (event) => {
@@ -181,16 +195,15 @@ const EditClientForm = (props) => {
 
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
-        console.log(data);
         const requestHeader = {
             token: getToken()
         };
         addRiskToServer(data, requestHeader)
         .then(response => {
             setFormStateAfterSubmitSuccess();
-            const clientId = response.data.id;
+            const clientId = props.clientID;
             const oneSecond = 1;
-                redirectToViewClientsPageAfter(oneSecond);
+                redirectToClientInfoPageAfter(clientId, oneSecond);
         })
         .catch(error => {
 
@@ -220,7 +233,7 @@ const EditClientForm = (props) => {
 
     const [formInputs, setFormInputs] = useState({
         "clientId": clientId,
-        "createdDate": "2021-04-09",
+        "createdDate": "",
         "healthGoal": "",
         "healthRisk": "",
         "healthRiskDescription": "",
@@ -232,6 +245,59 @@ const EditClientForm = (props) => {
         "socialRiskDescription": "",
 
     });
+
+    const [disabilityList, setDisabilityList] = useState({});
+
+    const getDisabilityId = (type) => {
+        for (const index in disabilityList) {
+            if (disabilityList[index].type === type) {
+                return disabilityList[index].id;
+            }
+        }
+    };
+
+    const getDisabilityTypeCheckBoxesOnChangeHandler = type => {
+        return event => {
+            const checkBox = event.target;
+            let checkBoxesValues = formInputs["disabilityType"];
+            if (checkBox.checked) {
+                checkBoxesValues = [...checkBoxesValues, getDisabilityId(type)];
+            } else {
+                removeCheckBoxValuesByName(checkBoxesValues, type);
+            }
+            updateFormInputByNameValue("disabilityType", checkBoxesValues);
+        };
+    };
+
+    const removeCheckBoxValuesByName = (checkBoxesValues, name) => {
+        const matchedItemIndex = checkBoxesValues.indexOf(getDisabilityId(name));
+        if (matchedItemIndex !== -1) {
+            checkBoxesValues.splice(matchedItemIndex, 1);
+        }
+    };
+
+    const createDisabilityCheckboxComponents = () => {
+        const disabilityCheckboxComponents = [];
+        if(disabilityList === undefined || disabilityList.length === 0) {
+            return null;
+        }
+        else {
+            for (const index in disabilityList) {
+                const type = disabilityList[index].type;
+                const id = disabilityList[index].id;
+                disabilityCheckboxComponents.push(<CheckBox
+                                                        name={type}
+                                                        value={id}
+                                                        actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(type)}
+                                                        displayText={type}
+                                                        displayTextOnRight={true}
+                                                        key={index}
+                                                   />
+                                                  );
+            }
+            return disabilityCheckboxComponents;
+        }
+    };
 
     const showSuccessMessage = () => {
         if (isSubmitSuccess) {
@@ -507,6 +573,15 @@ const EditClientForm = (props) => {
                 <DisabilityInformation
                     disabilityList={clientInformation.disabled}
                 />
+
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Disability Type:</label>
+                </div>
+                {createDisabilityCheckboxComponents()}
+            </div>
+
+
 
 
                 <input
