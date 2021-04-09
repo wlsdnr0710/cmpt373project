@@ -9,3 +9,18 @@
     justify-content: center;
     opacity: 0.8;
 }
+
+.sortBy {
+    display: flex;
+    flex-direction: row;
+    margin-right: 8px;
+}
+
+.search-button {
+    margin-left: 10px;
+}
+
+.isAscendingBtn {
+    background-color: gray;
+    margin-top: -5px;
+}

@@ -1,13 +1,13 @@
 import React from 'react';
 import { doAuthentication } from "../../utils/AuthenticationUtil";
+import HomeNavigation from "../../containers/HomeNavigation";
 import "./style.css";
 
-// TODO: Implement HomePage
 const HomePage = ({ history }) => {
     doAuthentication(history);
     return (
         <div>
-            <p>This is the temporary Home Page</p>
+            <HomeNavigation />
         </div>
     );
 };

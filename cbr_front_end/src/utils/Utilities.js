@@ -29,6 +29,13 @@ export const getLabelTag = label => {
     }
 }
 
+export const displayIcon = (iconSource, iconAlt) => {
+    const entryIncludesIcon = iconSource !== undefined && iconAlt !== undefined;
+    if (entryIncludesIcon) {
+        return <img className="icon" src={iconSource} alt={iconAlt} />;
+    }
+};
+
 export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
 };
@@ -37,24 +44,56 @@ export const getVisitsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
 
+export const deleteVisitFromServer = (visitId, requestHeader) => {
+    return axios.delete(ServerConfig.api.url + '/api/v1/visit/' + visitId, {headers: requestHeader})
+}
+
+export const postNewServiceDescription = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url +  '/api/v1/serviceDescription', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
+};
+
 export const getReferralsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/referral/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
+};
+
+export const postNewReferrals = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/referral', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
 };
 
 export const getOutstandingReferralsFromServer = (requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/referral/outstandingReferrals', {headers: requestHeader});
 };
 
-export const getWorkerInformationFromServer = (username, requestHeader) => {
-    return axios.get(ServerConfig.api.url + '/api/v1/worker/username/' + username, {headers: requestHeader});
+export const getWorkerInformationFromServer = (id, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/worker/' + id, {headers: requestHeader});
 };
 
 export const addWorkerToServer = (workerInformation) => {
     return axios.post(ServerConfig.api.url + '/api/v1/worker', {"data" : workerInformation});
 };
 
+export const addClientToServer = (clientInformation, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/client', {"data" : clientInformation}, {headers: requestHeader});
+};
+
+export const addVisitToServer = (visitInformation, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/visit', {"data" : visitInformation}, {headers: requestHeader});
+};
+
 export const getZonesFromServer = () => {
     return axios.get(ServerConfig.api.url + '/api/v1/zone');
+};
+
+export const getDisabilitiesFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/disability', {headers: requestHeader});
 };
 
 export const updateClientInformationToServer = (clientInformation, requestHeader) => {
@@ -83,7 +122,7 @@ export const getClientObject = () => {
         caregiverPhoto: "image.png",
         requiredServices: "N/A",
         individualGoals: "N/A",
-        disabilities: [],
+        disabled: [],
         riskHistories: [],
     });
 }
@@ -111,20 +150,6 @@ export const getDisabilityObject = () => {
     }
 }
 
-export const getClientZonesObject = () => {
-    return {
-        "BidiBidi Zone 1": "1",
-        "BidiBidi Zone 2": "2",
-        "BidiBidi Zone 3": "3",
-        "BidiBidi Zone 4": "4",
-        "BidiBidi Zone 5": "5",
-        "Palorinya Basecamp": "6",
-        "Palorinya Zone 1": "7",
-        "Palorinya Zone 2": "8",
-        "Palorinya Zone 3": "9",
-      };
-}
-
 export const getGendersObject = () =>{
     return {
         F: "F",
@@ -145,28 +170,20 @@ export const getLatestRiskUpdate = (clientObject) => {
 
 export const getRequiredServicesKeyValues = () => {
     const requiredServicesKeyValues = {
-        "physiotherapy": "1",
-        "prosthetic": "2",
-        "orthotic": "3",
-        "wheelchair": "4",
-        "other": "5",
+        "physiotherapy": "PHYSIOTHERAPY",
+        "prosthetic": "PROSTHETIC",
+        "orthotic": "ORTHOTIC",
+        "wheelchair": "WHEELCHAIR",
+        "other": "OTHER",
     };
     return requiredServicesKeyValues;
 };
 
-export const getDefaultPhysiotherapyConditions = () => {
-    const defaultPhysiotherapyConditions = {
-        "Amputee": "1",
-        "Polio": "2",
-        "Spinal Cord Injury": "3",
-        "Cerebral Palsy": "4",
-        "Spina Bifida": "5",
-        "Hydrocephalus": "6",
-        "Visual Impairment": "7",
-        "Hearing Impairment": "8",
-        "Other": "9",
-    };
-    return defaultPhysiotherapyConditions;
+export const getPhysiotherapyConditionsFromServer = (requestHeader) => {
+    return axios.get(
+            ServerConfig.api.url + '/api/v1/physiotherapy',
+            {headers: requestHeader}
+        );
 };
 
 export const getDefaultNewSurveyObject = () => {
@@ -213,6 +230,14 @@ export const postNewSurveyQuestions = (data, requestHeader) => {
     });
 };
 
+export const postAnsweredSurvey = (data, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/answered_survey', {
+        "data": data
+    }, {
+        headers: requestHeader,
+    });
+};
+
 export const getAllSurveys = requestHeader => {
     return axios.get(ServerConfig.api.url + '/api/v1/survey', {headers: requestHeader});
 };
@@ -233,4 +258,28 @@ export const sortArrayByIdAscending = array => {
         return a["id"] > b["id"] ? 1 : -1;
     });
     return sortedArray;
+};
+
+export const getDefaultWheelchairUserTypes = () => {
+    const wheelchairUserTypes = {
+        "Basic": "BASIC",
+        "Intermediate": "INTERMEDIATE",
+    };
+    return wheelchairUserTypes;
+};
+
+export const getDefaultOrthoticConditions = () => {
+    const defaultOrthoticConditions = {
+        "Above elbow": "ABOVE_ELBOW",
+        "Below elbow": "BELOW_ELBOW",
+    };
+    return defaultOrthoticConditions;
+};
+
+export const getDefaultProstheticConditions = () => {
+    const defaultProstheticConditions = {
+        "Above knee": "ABOVE_KNEE",
+        "Below knee": "BELOW_KNEE",
+    };
+    return defaultProstheticConditions;
 };

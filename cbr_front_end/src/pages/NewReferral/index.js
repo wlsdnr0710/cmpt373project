@@ -1,12 +1,14 @@
 import React from "react";
+import { doAuthentication } from "../../utils/AuthenticationUtil";
 import NewReferralForm from "../../containers/NewReferralForm";
 import "./style.css";
 
-const NewReferral = props => {
+const NewReferral = ({ history, location }) => {
+    doAuthentication(history);
 
     return (
         <div className="new-referral">
-            <NewReferralForm />
+            <NewReferralForm clientId={location.state.clientID} />
         </div>
     );
 };

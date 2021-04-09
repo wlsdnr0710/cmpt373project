@@ -16,24 +16,44 @@ const PageTemplate = ({ children }) => {
         );
     };
 
+    const [isCurrentPageNonTemplate, setIsCurrentPageNonTemplate] = useState(false);
     const [isCurrentPageNonNav, setIsCurrentPageNonNav] = useState(false);
     const location = useLocation();
-    const hideNavInLoginPage = useCallback(() => {
-        const currentPageNonNav = location.pathname.indexOf("user-login") !== -1 ||
+
+    // Hiding TopBar + NavBars
+    const hideTemplate = useCallback(() => {
+        const currentPageNonTemplate = location.pathname.indexOf("user-login") !== -1 ||
                                   location.pathname.indexOf("create-account") !== -1 ||
                                   location.pathname.indexOf("OTP-verification") !== -1 ||
-                                  location.pathname.indexOf("forgot-password") !== -1 ;
+                                  location.pathname.indexOf("forgot-password") !== -1;
+        setIsCurrentPageNonTemplate(currentPageNonTemplate);
+    }, [location]);
+
+    // Hiding only NavBars
+    const hideNav = useCallback(() => {
+        const currentPageNonNav = location.pathname.indexOf("home") !== -1;
         setIsCurrentPageNonNav(currentPageNonNav);
     }, [location]);
 
     useEffect(() => {
-        hideNavInLoginPage();
-    }, [hideNavInLoginPage]);
+        hideTemplate();
+    }, [hideTemplate]);
 
-    if (isCurrentPageNonNav) {
+    useEffect(() => {
+        hideNav();
+    }, [hideNav]);
+
+    if (isCurrentPageNonTemplate) {
         return (
             <div>
                 {children}
+            </div>
+        );
+    } else if (isCurrentPageNonNav) {
+        return (
+            <div className="page-template">
+                <div className="top-container">{getTopBar()}</div>
+                <div className="page-content">{children}</div>
             </div>
         );
     } else {

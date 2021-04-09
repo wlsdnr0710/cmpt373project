@@ -1,10 +1,7 @@
 package com.earth.cbr.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.util.Set;
 
 @Entity(name = "Disability")
 @Table(name = "disability")
@@ -20,18 +17,13 @@ public class Disability {
     @NotBlank(message = "Type is mandatory")
     private String type;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "disabilities")
-    private Set<Client> clients;
-
     public Disability() {
 
     }
 
-    public Disability(Long id, String type, Set<Client> clients) {
+    public Disability(Long id, String type) {
         this.id = id;
         this.type = type;
-        this.clients = clients;
     }
 
     public Long getId() {
@@ -48,13 +40,5 @@ public class Disability {
 
     public void setType(String type) {
         this.type = type;
-    }
-
-    public Set<Client> getClients() {
-        return clients;
-    }
-
-    public void setClients(Set<Client> clients) {
-        this.clients = clients;
     }
 }

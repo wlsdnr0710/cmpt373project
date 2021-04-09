@@ -1,25 +1,25 @@
 .background-card {
-  border-radius: 10px;
-  position: relative;
-  padding: 70px 15px 25px;
-  background-color: #f1f1f1;
-  box-shadow: 0 2px 5px #ccc;
+    border-radius: 10px;
+    position: relative;
+    padding: 70px 15px 25px;
+    background-color: #f1f1f1;
+    box-shadow: 0 2px 5px #ccc;
 }
 
 .background-top { 
-  border-radius: 10px 10px 0 0;
-  height: 60px;
-  width: 100%;
-  background-color: #56AF31;
-  position: absolute;
-  top: 0;
-  left: 0;
+    border-radius: 10px 10px 0 0;
+    height: 60px;
+    width: 100%;
+    background-color: #56AF31;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
 
 .background-top-heading {
-  color: white;
-  position: absolute;
-  margin: 0;
-  left: 3rem;
-  top: 0.5vw;
+    color: white;
+    position: absolute;
+    margin: 0;
+    left: 3rem;
+    top: 0.5vw;
 }

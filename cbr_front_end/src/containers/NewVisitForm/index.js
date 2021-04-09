@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
-import { getToken, getWorkerUsernameFromToken} from "../../utils/AuthenticationUtil";
+import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
+import { getZonesFromServer, addVisitToServer, getWorkerInformationFromServer, postNewServiceDescription, deleteVisitFromServer,  } from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -14,7 +15,6 @@ import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 
-// TODO: We want to fetch zones from backend server instead of hardcoding them here.
 const defaultPurpose = {
     "CBR": "cbr",
     "Disability centre referral": "referral",
@@ -27,29 +27,18 @@ const defaultGoalInputs = {
     "Concluded": "CONCLUDED",
 };
 
-const defaultClientZones = {
-    "BidiBidi Zone 1": "1",
-    "BidiBidi Zone 2": "2",
-    "BidiBidi Zone 3": "3",
-    "BidiBidi Zone 4": "4",
-    "BidiBidi Zone 5": "5",
-    "Palorinya Basecamp": "6",
-    "Palorinya Zone 1": "7",
-    "Palorinya Zone 2": "8",
-    "Palorinya Zone 3": "9",
-};
-
 const NewVisitForm = (props) => {
     const history = useHistory();
+    const workerId = getWorkerIdFromToken(getToken());
     const [formInputs, setFormInputs] = useState({
         "consent" : 1,
-        "cbr_worker_name" : "", 
         "purpose": "cbr",
-        "zone": "1",
+        "zone": 1,
         "villageNumber": "0",
         "date": "",
         "cbrWorkerName": "",
         "clientId": "",
+        "workerId": workerId,
         "serviceProvided": [],
         "latitude" : "",
         "longitude" : "",
@@ -105,6 +94,8 @@ const NewVisitForm = (props) => {
         "socialEncouragementDesc": "",
     });
 
+    const [zoneList, setZoneList] = useState({});
+
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
     const [socialCheckBox, setSocialCheckBox] = useState(false);
@@ -148,60 +139,60 @@ const NewVisitForm = (props) => {
 
     const updateFormInputsFromHealthForm = (submittedForm) =>{
         if (healthFormInputs.wheelchair === true ){
-            submittedForm = addServiceProvided("wheelchair", "HEALTH", healthFormInputs.wheelchairDesc, submittedForm);
+            submittedForm = addServiceProvided("1", healthFormInputs.wheelchairDesc, submittedForm);
         } 
         if (healthFormInputs.prosthetic === true){
-            submittedForm = addServiceProvided("prosthetic", "HEALTH", healthFormInputs.prostheticDesc, submittedForm);
+            submittedForm = addServiceProvided("2", healthFormInputs.prostheticDesc, submittedForm);
         }
         if (healthFormInputs.orthotic === true){
-            submittedForm = addServiceProvided("orthotic", "HEALTH", healthFormInputs.orthoticDesc, submittedForm);
+            submittedForm = addServiceProvided("3", healthFormInputs.orthoticDesc, submittedForm);
         }
         if (healthFormInputs.wheelchairRepairs === true){
-            submittedForm = addServiceProvided("wheelchairRepairs", "HEALTH", healthFormInputs.wheelchairRepairsDesc, submittedForm);
+            submittedForm = addServiceProvided("4", healthFormInputs.wheelchairRepairsDesc, submittedForm);
         }
         if (healthFormInputs.referralToHealthCentre === true){
-            submittedForm = addServiceProvided("referralToHealthCentre", "HEALTH", healthFormInputs.referralToHealthCentreDesc, submittedForm);
+            submittedForm = addServiceProvided("5", healthFormInputs.referralToHealthCentreDesc, submittedForm);
         }
         if (healthFormInputs.healthAdvice === true){
-            submittedForm = addServiceProvided("healthAdvice", "HEALTH", healthFormInputs.healthAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("6", healthFormInputs.healthAdviceDesc, submittedForm);
         }
         if (healthFormInputs.healthAdvocacy === true){
-            submittedForm = addServiceProvided("healthAdvocacy", "HEALTH", healthFormInputs.healthAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("7", healthFormInputs.healthAdvocacyDesc, submittedForm);
         }
         if (healthFormInputs.healthEncouragement === true){
-            submittedForm = addServiceProvided("healthEncouragement", "HEALTH", healthFormInputs.healthEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("8", healthFormInputs.healthEncouragementDesc, submittedForm);
         }
         return submittedForm
     }
 
     const updateFormInputsFromEducationForm = (submittedForm) =>{
         if (educationFormInputs.referralToEducationOrg === true ){
-            submittedForm = addServiceProvided("referralToEducationOrg", "EDUCATION", educationFormInputs.referralToEducationOrgDesc, submittedForm);
+            submittedForm = addServiceProvided("9", educationFormInputs.referralToEducationOrgDesc, submittedForm);
         } 
         if (educationFormInputs.educationAdvice === true ){
-            submittedForm = addServiceProvided("educationAdvice", "EDUCATION", educationFormInputs.educationAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("10", educationFormInputs.educationAdviceDesc, submittedForm);
         } 
         if (educationFormInputs.educationAdvocacy === true ){
-            submittedForm = addServiceProvided("educationAdvocacy", "EDUCATION", educationFormInputs.educationAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("11", educationFormInputs.educationAdvocacyDesc, submittedForm);
         } 
         if (educationFormInputs.educationEncouragement === true ){
-            submittedForm = addServiceProvided("educationEncouragement", "EDUCATION", educationFormInputs.educationEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("12", educationFormInputs.educationEncouragementDesc, submittedForm);
         } 
         return submittedForm
     }
 
     const updateFormInputsFromSocialForm = (submittedForm) =>{
         if (socialFormInputs.referralToSocialOrg === true ){
-            submittedForm = addServiceProvided("referralToSocialOrg", "SOCIAL", socialFormInputs.referralToSocialOrgDesc, submittedForm);
+            submittedForm = addServiceProvided("13", socialFormInputs.referralToSocialOrgDesc, submittedForm);
         } 
         if (socialFormInputs.socialAdvice === true ){
-            submittedForm = addServiceProvided("socialAdvice", "SOCIAL", socialFormInputs.socialAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("14", socialFormInputs.socialAdviceDesc, submittedForm);
         } 
         if (socialFormInputs.socialAdvocacy === true ){
-            submittedForm = addServiceProvided("socialAdvocacy", "SOCIAL", socialFormInputs.socialAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("15", socialFormInputs.socialAdvocacyDesc, submittedForm);
         } 
         if (socialFormInputs.socialEncouragement === true ){
-            submittedForm = addServiceProvided("socialEncouragement", "SOCIAL", socialFormInputs.socialEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("16", socialFormInputs.socialEncouragementDesc, submittedForm);
         } 
         return submittedForm
     }
@@ -211,20 +202,49 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
-        axios.post(ServerConfig.api.url +  '/api/v1/visit', {
-            "data": data
-        }, {
-            headers: requestHeader,
+        let descriptionFailed = false;
+        let descriptionError = "";
+        addVisitToServer(data, requestHeader)
+        .then(async (response) => {
+            for (const serviceOption of data.serviceProvided) {
+                serviceOption.visitId = response.data.id;
+                await postNewServiceDescription(serviceOption, requestHeader)
+                    .catch(error => {
+                        deleteVisitFromServer(response.data.id, requestHeader)
+                            .catch(error => {
+                                // Failure here is likely a technical issue
+                                console.log(error);
+                            })
+                        // Propagate error up into higher then
+                        descriptionFailed = true;
+                        descriptionError = error;
+                    })
+            }
+                
         })
         .then(response => {
+            if (descriptionFailed) {
+                throw descriptionError;
+            }
             setFormStateAfterSubmitSuccess();
             const clientId = props.clientID;
             const oneSecond = 1;
             redirectToClientInfoPageAfter(clientId, oneSecond);
         })
         .catch(error => {
+            clearDescriptions();
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
+        });
+    };
+
+    const clearDescriptions = () => {
+        updateFormInputByNameValue("serviceProvided", "");
+    }
+    const getZones = () => {
+        getZonesFromServer()
+        .then(response => {
+            setZoneList(response.data.data);
         });
     };
 
@@ -232,14 +252,12 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(ServerConfig.api.url +  '/api/v1/worker/username/' + getWorkerUsernameFromToken(getToken()), {
-            headers: requestHeader,
-        })
+        getWorkerInformationFromServer(workerId, requestHeader)
         .then(response => {
-            updateFormInputByNameValue("cbr_worker_name", response.data.data.firstName + " " + response.data.data.lastName);
+            updateFormInputByNameValue("cbrWorkerName", response.data.data.firstName + " " + response.data.data.lastName);
         })
         .catch(error => {
-            updateFormInputByNameValue("cbr_worker_name" , "Unable to fetch CBR worker name");
+            updateFormInputByNameValue("cbrWorkerName" , "Unable to fetch CBR worker name");
         });
     }
 
@@ -359,20 +377,14 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const addServiceProvided = (name, type, description, submittedForm) => {
+    const addServiceProvided = (serviceOptionId, description, submittedForm) => {
         let testedValues = submittedForm["serviceProvided"];
         const serviceProvided = ({
             "description": "",
-            "type": "",
-            "service": {
-                "name": "",
-                "type": ""
-            }
+            "serviceOptionId": ""
         });
         serviceProvided["description"] = description;
-        serviceProvided["service"]["name"] = name;
-        serviceProvided["service"]["type"] = type;
-        serviceProvided["type"] = type;
+        serviceProvided["serviceOptionId"] = serviceOptionId;
 
         testedValues = [...testedValues, serviceProvided];
         submittedForm["serviceProvided"] = testedValues;
@@ -511,6 +523,7 @@ const NewVisitForm = (props) => {
 
     useEffect(() => {
         getWorkerNameByGetRequest();
+        getZones();
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
@@ -562,7 +575,7 @@ const NewVisitForm = (props) => {
                 </div>
                 <hr />
                 <div>
-                    <label>Name of CBR worker: {formInputs["cbr_worker_name"]}</label>
+                    <label>Name of CBR worker: {formInputs["cbrWorkerName"]}</label>
                 </div>
                 <hr />
                 <div>
@@ -582,7 +595,7 @@ const NewVisitForm = (props) => {
                     <DropdownList
                         dropdownName="zone"
                         value={formInputs["zone"]}
-                        dropdownListItemsKeyValue={defaultClientZones}
+                        dropdownListItemsKeyValue={zoneList}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
@@ -684,7 +697,7 @@ const NewVisitForm = (props) => {
                     Submit
                 </Button>
             </div>
-        </div >
+        </div>
     );
 }
 
