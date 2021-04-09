@@ -1,5 +1,6 @@
 import React from 'react';
 import { doAuthentication, checkForAdmin } from "../../utils/AuthenticationUtil";
+import CreateSurveyAdminSection from "../../containers/CreateSurveyAdminSection";
 import FormHeader from "../../components/FormHeader";
 import Statistics from "../../containers/Statistics";
 import WorkerList from "../../containers/WorkerList";
@@ -28,6 +29,11 @@ const Admin = ({ history }) => {
             <hr />
 
             <WorkerCreateAccountCode />
+
+            <hr />
+
+            <CreateSurveyAdminSection />
+
         </div>
     );
 };

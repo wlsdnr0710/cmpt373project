@@ -10,7 +10,6 @@ import newReferralIcon from "../../assets/svg/navigation_icons/user_pin.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/people.svg";
 import syncIcon from "../../assets/svg/navigation_icons/cloud-sync.svg";
 import logoutIcon from "../../assets/svg/navigation_icons/logout.svg";
-import surveyIcon from "../../assets/svg/navigation_icons/survey.svg";
 import "./style.css";
 
 const HomeNavigation = () => {
@@ -58,13 +57,6 @@ const HomeNavigation = () => {
                         query="clients"
                         iconSource={allClientsIcon}
                         iconAlt="All Clients"
-                    />
-                    <NavigationBarEntry
-                        label="Create Survey"
-                        destination="/new-survey"
-                        query="#"
-                        iconSource={surveyIcon}
-                        iconAlt="Create Survey"
                     />
                     <div className="sign-out" onClick={() => {removeToken()}}>
                         <NavigationBarEntry
