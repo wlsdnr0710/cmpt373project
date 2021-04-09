@@ -151,7 +151,7 @@ public class WorkerServiceImpl implements WorkerService {
     public void validateCreateAccountCode(String code) throws WorkerCreateAccountCodeInvalid {
         WorkerCreateAccountCode workerCreateAccountCode = getUnusedWorkerCreateAccountCodeByCode(code);
         if (workerCreateAccountCode == null) {
-            throw new WorkerCreateAccountCodeInvalid("Worker account create code is not valid.");
+            throw new WorkerCreateAccountCodeInvalid("Worker create account code is not valid.");
         }
     }
 

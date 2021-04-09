@@ -121,8 +121,8 @@ public class WorkerController {
     }
 
     @Admin
-    @GetMapping(value = "/create_account_token")
-    public ResponseEntity<JSONObject> getWorkerCreateAccountToken() {
+    @GetMapping(value = "/createAccountCode")
+    public ResponseEntity<JSONObject> getWorkerCreateAccountCode() {
         WorkerCreateAccountCode code = workerService.generateAndSaveWorkerCreateAccountCode();
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("data", code);

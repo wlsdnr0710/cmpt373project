@@ -271,3 +271,7 @@ export const getDefaultProstheticConditions = () => {
     };
     return defaultProstheticConditions;
 };
+
+export const getWorkerCreateAccountCode = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/worker/createAccountCode', {headers: requestHeader});
+};
