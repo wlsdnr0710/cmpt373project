@@ -17,7 +17,8 @@ import {
     updateClientInformationToServer,
     getClientZonesObject,
     getGendersObject,
-    getZonesFromServer
+    getZonesFromServer,
+    addRiskToServer
 } from "../../utils/Utilities";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import "./style.css";
@@ -93,6 +94,22 @@ const EditClientForm = (props) => {
             });
     };
 
+    const setRequiredInputErrorMessages = requiredInputDisplayNames => {
+        const requiredErrorMessages = [];
+        for (const idx in requiredInputDisplayNames) {
+            const displayName = requiredInputDisplayNames[idx];
+            requiredErrorMessages.push(displayName + " is required.");
+        }
+        setErrorMessages(prevErrorMessages => {
+            const newErrorMessages = [...prevErrorMessages, ...requiredErrorMessages];
+            return newErrorMessages;
+        });
+    };
+
+    const clearErrorMessages = () => {
+        setErrorMessages([]);
+    };
+
     const updateErrorMessages = (error) => {
         setErrorMessages((prevErrorMessages) => {
             let messages = ["Something went wrong on the server."];
@@ -149,10 +166,65 @@ const EditClientForm = (props) => {
         }
     };
 
+    const formInputChangeHandler = event => {
+        const input = event.target;
+        const name = input.name;
+        const value = input.value;
+        updateFormInputByNameValue(name, value);
+    };
+
+    const updateFormInputByNameValue = (name, value) => {
+        setFormInputs(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
+        });
+    };
+
+    const submitFormByPostRequest = data => {
+        setStatesWhenFormIsSubmitting(true);
+        const requestHeader = {
+            token: getToken()
+        };
+        addRiskToServer(data, requestHeader)
+        .then(response => {
+            setFormStateAfterSubmitSuccess();
+            const clientId = response.data.id;
+            const oneSecond = 1;
+                redirectToViewClientsPageAfter(oneSecond);
+        })
+        .catch(error => {
+            updateErrorMessages(error);
+            setStatesWhenFormIsSubmitting(false);
+        })
+    };
+
+    const onSubmitRiskHandler = event => {
+        event.preventDefault();
+        clearErrorMessages();
+
+
+        // We do not set state here because setState is asynchronous.
+        // State may not be updated when we submit the form.
+        const sendingData = { ...formInputs };
+
+
+        submitFormByPostRequest(sendingData);
+    };
+
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
     const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
+
+    const [formInputs, setFormInputs] = useState({
+        "healthRisk": "",
+        "healthRiskDescription": "",
+        "socialRisk": "",
+        "socialRiskDescription": "",
+        "educationRisk": "",
+        "educationRisk": "description",
+    });
 
     const showSuccessMessage = () => {
         if (isSubmitSuccess) {
@@ -325,10 +397,101 @@ const EditClientForm = (props) => {
                 <RiskInformation
                     riskHistories={clientInformation.riskHistories}
                 />
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Health Risk:</label>
+                </div>
+                <NumberInputField
+                    name="healthRisk"
+                    value={formInputs["healthRisk"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Health Risk Description:</label>
+                </div>
+                <TextInputField
+                    name="healthRiskDescription"
+                    value={formInputs["healthRiskDescription"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Health Goal:</label>
+                </div>
+                <TextInputField
+                    name="healthGoal"
+                    value={formInputs["healthGoal"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Education Risk:</label>
+                </div>
+                <NumberInputField
+                    name="educationRisk"
+                    value={formInputs["educationRisk"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Education Risk Description:</label>
+                </div>
+                <TextInputField
+                    name="educationRiskDescription"
+                    value={formInputs["educationRiskDescription"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Education Goal:</label>
+                </div>
+                <TextInputField
+                    name="educationGoal"
+                    value={formInputs["educationGoal"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Social Risk:</label>
+                </div>
+                <NumberInputField
+                    name="socialRisk"
+                    value={formInputs["socialRisk"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Social Risk Description:</label>
+                </div>
+                <TextInputField
+                    name="socialRiskDescription"
+                    value={formInputs["socialRiskDescription"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Social Goal:</label>
+                </div>
+                <TextInputField
+                    name="socialGoal"
+                    value={formInputs["socialGoal"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
                 <input
                     className="btn btn-secondary update-risk-button"
                     type="button"
                     value="Update Risk"
+                    onClick={onSubmitRiskHandler}
                 />
             </div>
             <hr />
