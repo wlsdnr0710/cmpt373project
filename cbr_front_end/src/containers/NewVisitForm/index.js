@@ -113,23 +113,23 @@ const NewVisitForm = (props) => {
         "socialEncouragementDesc": "",
     });
 
-      const [riskInformation, setRiskInformation] = useState(getRiskObject());
-      const [originalRiskInformation, setOriginalRiskInformation] = useState(
-        getRiskObject()
-      );
+    const [riskInformation, setRiskInformation] = useState(getRiskObject());
+    const [originalRiskInformation, setOriginalRiskInformation] = useState(
+    getRiskObject()
+    );
 
     const getRiskInformation = useCallback(() => {
-      const requestHeader = {
-        token: getToken(),
-      };
-      getRiskInformationFromServer(clientId, requestHeader)
-        .then((response) => {
-          setRiskInformation(response.data.data);
-          setOriginalRiskInformation(response.data.data);
-        })
-        .catch((error) => {
-          console.log("ERROR: Get request failed. " + error);
-        });
+        const requestHeader = {
+            token: getToken(),
+        };
+        getRiskInformationFromServer(clientId, requestHeader)
+            .then((response) => {
+                setRiskInformation(response.data.data);
+                setOriginalRiskInformation(response.data.data);
+            })
+            .catch((error) => {
+                console.log("ERROR: Get request failed. " + error);
+            });
     }, [clientId]);
 
     const [healthCheckBox, setHealthCheckBox] = useState(false);
