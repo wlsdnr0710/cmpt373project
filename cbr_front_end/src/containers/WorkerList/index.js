@@ -5,29 +5,27 @@ import WorkerInfoCard from "../../components/WorkerInfoCard";
 import Table from "../../components/Table";
 import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
-
+import Button from 'react-bootstrap/Button';
 import "./style.css";
 
 const WorkerList = (props) => {
     const [isLoading, setIsLoading] = useState(true);
-    const [clients, setClients] = useState([]);
+    const [workers, setWorkers] = useState([]);
     const [showedWorkers, setShowedWorkers] = useState([]);
-    const [hasMoreClients, setHasMoreClients] = useState(true);
+    const [hasMoreWorkers, setHasMoreWorkers] = useState(true);
+
     const intersectionObserver = useRef();
     const observeeElement = useRef();
+
     const firstPage = 1;
+    const [isStartPage, setIsStartPage] = useState(false);
+    const [isLastPage, setIsLastPage] = useState(false);
     const [currentPage, setCurrentPage] = useState(firstPage - 1);
     const [loadedWorkers, setLoadedWorkers] = useState(firstPage);
-    const clientsPerPage = 5;
+    const workersPerPage = 5;
 
-    const getPageableByPage = page => {
-        return {
-            page: page,
-            clientsPerPage: clientsPerPage,
-        }
-    };
 
-    const requestClientsByPageable = useCallback(pageable => {
+    const requestWorkers = useCallback(() => {
         const requestHeader = {
             token: getToken()
         };
@@ -39,9 +37,8 @@ const WorkerList = (props) => {
                 }
             )
             .then(response => {
-                const receivedClients = response.data.data;
-                console.log(receivedClients)
-                updateClients(receivedClients);          
+                const receivedWorkers = response.data.data;
+                updateWorkers(receivedWorkers);          
                 incrementLoad();
             })
             .catch(error => {
@@ -52,14 +49,14 @@ const WorkerList = (props) => {
             });
     }, []); 
 
-    const updateClients = receivedClients => {
-        setClients(prevClients => {
-            if (receivedClients.length === 0) {
-                setHasMoreClients(false);
-                return prevClients;
+    const updateWorkers = receivedWorkers => {
+        setWorkers(prevWorkers => {
+            if (receivedWorkers.length === 0) {
+                setHasMoreWorkers(false);
+                return prevWorkers;
             }
-            const newClients = [...prevClients, ...receivedClients];
-            return newClients;
+            const newWorkers = [...prevWorkers, ...receivedWorkers];
+            return newWorkers;
         });
     };
 
@@ -69,15 +66,30 @@ const WorkerList = (props) => {
         });
     };
 
-    const splitArrayFromClientsToShowedWorkers = (min, max) => {
-        console.log(clients.slice(min, max));
-        const slicedWorkersArr = clients.slice(min, max);
+    const splitArrayFromWorkersToShowedWorkers = (min, max) => {
+        const slicedWorkersArr = workers.slice(min, max);
         setShowedWorkers(slicedWorkersArr);
-        console.log(showedWorkers);
+        updateBoolStartOrLastPage(min);
+        
+    }
+
+    const updateBoolStartOrLastPage = (newPage) => {
+        if (newPage + 1 === firstPage){
+            setIsStartPage(true);
+        }
+        else {
+            setIsStartPage(false);
+        }
+        if (newPage + workersPerPage >= workers.length){
+        
+            setIsLastPage(true);
+        }
+        else {
+            setIsLastPage(false);
+        }
     }
 
     useEffect(() => {
-
         const disconnectIntersectionObserver = () => {
             if (intersectionObserver.current) {
                 intersectionObserver.current.disconnect();
@@ -85,23 +97,34 @@ const WorkerList = (props) => {
         };
 
         if (loadedWorkers === firstPage) {
-            const pageable = getPageableByPage(loadedWorkers);
-            requestClientsByPageable(pageable);
+            requestWorkers();
         }
 
-        splitArrayFromClientsToShowedWorkers(currentPage, currentPage + clientsPerPage);
+        splitArrayFromWorkersToShowedWorkers(currentPage, currentPage + workersPerPage);
         return disconnectIntersectionObserver;
-    }, [hasMoreClients, loadedWorkers, requestClientsByPageable]);
+    }, [hasMoreWorkers, loadedWorkers, requestWorkers]);
 
-    const mapClientToTableData = clients => {
+    const mapClientToTableData = workers => {
         const data = [];
-        for (const index in clients) {
+        for (const index in workers) {
             const row = {};
-            row["Workers"] = <WorkerInfoCard client={clients[index]} queryData={props.query} />;
+            row["Workers"] = <WorkerInfoCard worker={workers[index]} queryData={props.query} />;
             data.push(row);
         }
         return data;
     };
+
+    const onClickNextPageHandler = () => {
+        let newPage = currentPage + workersPerPage;
+        setCurrentPage(newPage);
+        splitArrayFromWorkersToShowedWorkers(newPage, newPage + workersPerPage)
+    }
+
+    const onClickPrevPageHandler = () => {
+        let newPage = currentPage - workersPerPage;
+        setCurrentPage(newPage);
+        splitArrayFromWorkersToShowedWorkers(newPage, newPage + workersPerPage)
+    }
 
     const showSpinnerWhenIsLoading = isLoading => {
         if (isLoading) {
@@ -134,6 +157,12 @@ const WorkerList = (props) => {
             <div className="spinner">
                 {showSpinnerWhenIsLoading(isLoading)}
             </div>
+            <Button onClick={onClickNextPageHandler} hidden={isLastPage}>
+                Next Page
+            </Button>
+            <Button onClick={onClickPrevPageHandler} hidden={isStartPage}>
+                Prev Page
+            </Button>
         </div>
     );
 };
