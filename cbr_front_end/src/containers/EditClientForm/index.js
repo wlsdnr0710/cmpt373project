@@ -10,6 +10,8 @@ import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import { getToken } from "../../utils/AuthenticationUtil";
+import DisabilityInformation from "../../components/DisabilityInformation";
+import "./style.css";
 import {
     deleteClientFromServer,
     getClientInformationFromServer,
@@ -17,12 +19,8 @@ import {
     updateClientInformationToServer,
     getGendersObject,
     getZonesFromServer,
-    addRiskToServer,
-    getDisabilitiesFromServer,
-    parseEpochToDateString
+    getDisabilitiesFromServer
 } from "../../utils/Utilities";
-import DisabilityInformation from "../../components/DisabilityInformation";
-import "./style.css";
 
 const genders = getGendersObject();
 
@@ -64,7 +62,6 @@ const EditClientForm = (props) => {
         });
     }, [clientId]);
 
-
     const getDisabilities = () => {
         const requestHeader = {
             token: getToken()
@@ -74,8 +71,6 @@ const EditClientForm = (props) => {
             setDisabilityList(response.data.data);
         });
     };
-
-
 
     useEffect(() => {
         getClientInformation();
@@ -184,17 +179,7 @@ const EditClientForm = (props) => {
 
     const [formInputs, setFormInputs] = useState({
         "clientId": clientId,
-        "createdDate": "",
-        "healthGoal": "",
-        "healthRisk": "",
-        "healthRiskDescription": "",
-        "educationGoal": "",
-        "educationRisk": "",
-        "educationRiskDescription": "",
-        "socialGoal": "",
-        "socialRisk": "",
-        "socialRiskDescription": "",
-
+        "disabilityType": []
     });
 
     const [disabilityList, setDisabilityList] = useState({});
@@ -227,6 +212,7 @@ const EditClientForm = (props) => {
         }
     };
 
+    // TODO: add/delete disabilities feature by checkbox
     const createDisabilityCheckboxComponents = () => {
         const disabilityCheckboxComponents = [];
         if(disabilityList === undefined || disabilityList.length === 0) {
@@ -421,7 +407,6 @@ const EditClientForm = (props) => {
                     disabilityList={clientInformation.disabled}
                 />
 
-
             <div className="input-field-container">
                 <div className="label-container">
                     <label>Disability Type:</label>
@@ -429,14 +414,10 @@ const EditClientForm = (props) => {
                 {createDisabilityCheckboxComponents()}
             </div>
 
-
-
-
                 <input
                     className="btn btn-primary update-disability-button"
                     type="button"
                     value="Edit Disability"
-                   // onClick={onSubmitRiskHandler}
                 />
             </div>
             <hr />
