@@ -109,7 +109,6 @@ public class Referral {
     @JoinColumn(name = "physiotherapy_id", referencedColumnName = "id")
     private Physiotherapy physiotherapy;
 
-    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Client client;

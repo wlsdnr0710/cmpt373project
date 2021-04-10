@@ -35,8 +35,17 @@ const NewReferralForm = props => {
         "physiotherapyCondition": "",
         "physiotherapyConditionOtherDesc": "",
         "isResolved": false,
+        "referTo": "DISABILITY_CENTRE",
         "workerId": getWorkerIdFromToken(getToken())
     });
+
+    const getReferToMapping = () => {
+        return {
+            "Disability Centre": "DISABILITY_CENTRE",
+            "Mobile Clinic": "MOBILE_CLINIC"
+        };
+    };
+
     const [showOtherDescription, setShowOtherDescription] = useState(false);
     const [showWheelchairQuestions, setShowWheelchairQuestions] = useState(false);
     const [showExistingWheelchairQuestions, setShowExistingWheelchairQuestions] = useState(false);
@@ -495,6 +504,18 @@ const NewReferralForm = props => {
                 headerText="New Referral"
             />
             <div className="form-body">
+                <div className="input-field-container">
+                    <h2>
+                        Refer To
+                    </h2>
+                    <DropdownList
+                        dropdownName="referTo"
+                        value={formInputs["referTo"]}
+                        dropdownListItemsKeyValue={getReferToMapping()}
+                        onChange={formInputChangeHandler}
+                    />
+                    <hr />
+                </div>
                 <div className="input-field-container">
                     <h2>
                         Required Services
