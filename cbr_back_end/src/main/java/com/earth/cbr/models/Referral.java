@@ -1,7 +1,6 @@
 package com.earth.cbr.models;
 
 import com.earth.cbr.models.validation.UniqueRequiredServicesID;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;

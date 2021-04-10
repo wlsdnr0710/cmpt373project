@@ -141,8 +141,16 @@ export const getDisabilityStatsFromServer = (requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/statistics/countDisabilities', {headers: requestHeader});
 };
 
-export const getServiceStatsFromServer = (requestHeader) => {
-    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countServices', {headers: requestHeader});
+export const getHealthServiceStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countHealthServices', {headers: requestHeader});
+};
+
+export const getSocialServiceStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countSocialServices', {headers: requestHeader});
+};
+
+export const getEducationServiceStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countEducationServices', {headers: requestHeader});
 };
 
 export const getClientObject = () => {

@@ -21,6 +21,11 @@ public class ServiceOptionServiceImpl implements ServiceOptionService{
     }
 
     @Override
+    public List<ServiceOption> getAllServiceOptionsByType(ServiceOption.Type type) {
+        return serviceOptionRepository.findAllByType(type);
+    }
+
+    @Override
     public ServiceOption getServiceOptionById(Long id) {
         Optional<ServiceOption> serviceOptionOptional = serviceOptionRepository.findById(id);
         ServiceOption serviceOption = serviceOptionOptional.orElse(null);

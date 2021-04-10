@@ -1,6 +1,7 @@
 package com.earth.cbr.services;
 
 import com.earth.cbr.models.ServiceDescription;
+import com.earth.cbr.models.ServiceOption;
 import com.earth.cbr.repositories.ServiceDescriptionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,13 +29,13 @@ public class ServiceDescriptionServiceImpl implements ServiceDescriptionService{
     }
 
     @Override
-    public Integer getAllServiceOptionsCount(Long serviceOptionId) {
-        return serviceDescriptionRepository.findAllByServiceOptionId(serviceOptionId).size();
+    public Integer getAllServiceOptionsByServiceOptionTypeCount(Long serviceOptionId, ServiceOption.Type type) {
+        return serviceDescriptionRepository.findAllByServiceOptionIdAndServiceOptionType(serviceOptionId, type).size();
     }
 
     @Override
-    public Integer getAllServiceOptionsByZoneIdCount(Long serviceOptionId, Integer zoneId) {
-        return serviceDescriptionRepository.findAllByServiceOptionIdAndVisitZone(serviceOptionId, zoneId).size();
+    public Integer getAllServiceOptionsByZoneIdAndServiceOptionTypeCount(Long serviceOptionId, Integer zoneId, ServiceOption.Type type) {
+        return serviceDescriptionRepository.findAllByServiceOptionIdAndVisitZoneAndServiceOptionType(serviceOptionId, zoneId, type).size();
     }
 
     @Override

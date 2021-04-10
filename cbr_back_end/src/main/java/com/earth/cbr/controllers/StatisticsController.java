@@ -284,12 +284,12 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countServices")
-    public ResponseEntity<JSONObject> getAllServicesCount() {
+    @GetMapping(value = "/countHealthServices")
+    public ResponseEntity<JSONObject> getAllHealthServicesCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
-        List<ServiceOption> serviceOptions = serviceOptionService.getAllServiceOptions();
+        List<ServiceOption> serviceOptions = serviceOptionService.getAllServiceOptionsByType(ServiceOption.Type.HEALTH);
 
         JSONObject headers = new JSONObject();
         Integer count = 1;
@@ -306,7 +306,8 @@ public class StatisticsController {
             element.put("name", zone.getName());
             count = 0;
             for(ServiceOption serviceOption : serviceOptions) {
-                element.put("column" + count, serviceDescriptionService.getAllServiceOptionsByZoneIdCount(serviceOption.getId(), Math.toIntExact(zone.getId())));
+                element.put("column" + count, serviceDescriptionService.getAllServiceOptionsByZoneIdAndServiceOptionTypeCount(
+                        serviceOption.getId(), Math.toIntExact(zone.getId()), ServiceOption.Type.HEALTH));
                 count++;
             }
             items.add(element);
@@ -316,7 +317,96 @@ public class StatisticsController {
         total.put("name", "Total");
         count = 0;
         for(ServiceOption serviceOption : serviceOptions) {
-            total.put("column" + count, serviceDescriptionService.getAllServiceOptionsCount(serviceOption.getId()));
+            total.put("column" + count, serviceDescriptionService.getAllServiceOptionsByServiceOptionTypeCount(
+                    serviceOption.getId(), ServiceOption.Type.HEALTH));
+            count++;
+        }
+        items.add(total);
+
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @Admin
+    @GetMapping(value = "/countSocialServices")
+    public ResponseEntity<JSONObject> getAllSocialServicesCount() {
+        JSONObject responseJson = new JSONObject();
+        List<JSONObject> items = new ArrayList<>();
+        List<Zone> zones = zoneService.getAllZones();
+        List<ServiceOption> serviceOptions = serviceOptionService.getAllServiceOptionsByType(ServiceOption.Type.SOCIAL);
+
+        JSONObject headers = new JSONObject();
+        Integer count = 1;
+        headers.put("header0", "Zone");
+        for(ServiceOption serviceOption : serviceOptions) {
+            headers.put("header" + count, serviceOption.getName());
+            count++;
+        }
+        headers.put("length", count);
+        items.add(headers);
+
+        for(Zone zone : zones) {
+            JSONObject element = new JSONObject();
+            element.put("name", zone.getName());
+            count = 0;
+            for(ServiceOption serviceOption : serviceOptions) {
+                element.put("column" + count, serviceDescriptionService.getAllServiceOptionsByZoneIdAndServiceOptionTypeCount(
+                        serviceOption.getId(), Math.toIntExact(zone.getId()), ServiceOption.Type.SOCIAL));
+                count++;
+            }
+            items.add(element);
+        }
+
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        count = 0;
+        for(ServiceOption serviceOption : serviceOptions) {
+            total.put("column" + count, serviceDescriptionService.getAllServiceOptionsByServiceOptionTypeCount(
+                    serviceOption.getId(), ServiceOption.Type.SOCIAL));
+            count++;
+        }
+        items.add(total);
+
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @Admin
+    @GetMapping(value = "/countEducationServices")
+    public ResponseEntity<JSONObject> getAllEducationServicesCount() {
+        JSONObject responseJson = new JSONObject();
+        List<JSONObject> items = new ArrayList<>();
+        List<Zone> zones = zoneService.getAllZones();
+        List<ServiceOption> serviceOptions = serviceOptionService.getAllServiceOptionsByType(ServiceOption.Type.EDUCATION);
+
+        JSONObject headers = new JSONObject();
+        Integer count = 1;
+        headers.put("header0", "Zone");
+        for(ServiceOption serviceOption : serviceOptions) {
+            headers.put("header" + count, serviceOption.getName());
+            count++;
+        }
+        headers.put("length", count);
+        items.add(headers);
+
+        for(Zone zone : zones) {
+            JSONObject element = new JSONObject();
+            element.put("name", zone.getName());
+            count = 0;
+            for(ServiceOption serviceOption : serviceOptions) {
+                element.put("column" + count, serviceDescriptionService.getAllServiceOptionsByZoneIdAndServiceOptionTypeCount(
+                        serviceOption.getId(), Math.toIntExact(zone.getId()), ServiceOption.Type.EDUCATION));
+                count++;
+            }
+            items.add(element);
+        }
+
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        count = 0;
+        for(ServiceOption serviceOption : serviceOptions) {
+            total.put("column" + count, serviceDescriptionService.getAllServiceOptionsByServiceOptionTypeCount(
+                    serviceOption.getId(), ServiceOption.Type.EDUCATION));
             count++;
         }
         items.add(total);

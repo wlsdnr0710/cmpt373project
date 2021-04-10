@@ -10,7 +10,9 @@ import {
     getSocialRiskStatsFromServer,
     getEducationRiskStatsFromServer,
     getDisabilityStatsFromServer,
-    getServiceStatsFromServer
+    getHealthServiceStatsFromServer,
+    getSocialServiceStatsFromServer,
+    getEducationServiceStatsFromServer
 } from "../../utils/Utilities";
 import StatsTable from "../../components/StatsTable";
 import Table from 'react-bootstrap/Table';
@@ -24,7 +26,9 @@ const Statistics = () => {
     const [countSocialRisks, setCountSocialRisks] = useState([]);
     const [countEducationRisks, setCountEducationRisks] = useState([]);
     const [countDisabilities, setCountDisabilities] = useState([]);
-    const [countServices, setCountServices] = useState([]);
+    const [countHealthServices, setCountHealthServices] = useState([]);
+    const [countSocialServices, setCountSocialServices] = useState([]);
+    const [countEducationServices, setCountEducationServices] = useState([]);
 
     const getCountByZone = () => {
         const requestHeader = {
@@ -86,13 +90,33 @@ const Statistics = () => {
         });
     };
 
-    const getCountServices = () => {
+    const getCountHealthServices = () => {
         const requestHeader = {
             token: getToken()
         };
-        getServiceStatsFromServer(requestHeader)
+        getHealthServiceStatsFromServer(requestHeader)
         .then(response => {
-            setCountServices(response.data.data[0]);
+            setCountHealthServices(response.data.data[0]);
+        });
+    };
+
+    const getCountSocialServices = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getSocialServiceStatsFromServer(requestHeader)
+        .then(response => {
+            setCountSocialServices(response.data.data[0]);
+        });
+    };
+
+    const getCountEducationServices = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getEducationServiceStatsFromServer(requestHeader)
+        .then(response => {
+            setCountEducationServices(response.data.data[0]);
         });
     };
 
@@ -103,7 +127,9 @@ const Statistics = () => {
         getCountSocialRisk();
         getCountEducationRisk();
         getCountDisabilities();
-        getCountServices();
+        getCountHealthServices();
+        getCountSocialServices();
+        getCountEducationServices();
     }, []);
 
     return (
@@ -131,7 +157,13 @@ const Statistics = () => {
                 <StatsTable values={countDisabilities} title="Disabilities Stats" index="6"/>
             </div>
             <div>
-                <StatsTable values={countServices} title="Services Provided Stats" index="7"/>
+                <StatsTable values={countHealthServices} title="Health Services Provided Stats" index="7"/>
+            </div>
+            <div>
+                <StatsTable values={countSocialServices} title="Social Services Provided Stats" index="8"/>
+            </div>
+            <div>
+                <StatsTable values={countEducationServices} title="Education Services Provided Stats" index="9"/>
             </div>
         </div>
     );

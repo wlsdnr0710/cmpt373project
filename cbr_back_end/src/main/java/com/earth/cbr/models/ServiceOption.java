@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "service_option")
 public class ServiceOption {
 
-    private enum Type {
+    public enum Type {
         HEALTH,
         SOCIAL,
         EDUCATION
