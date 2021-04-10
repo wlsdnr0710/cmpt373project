@@ -8,6 +8,11 @@ import "./style.css";
 
 const ViewReferrals = (props) => {
 
+    const referToMapping = {
+        "DISABILITY_CENTRE": "Disability centre",
+        "MOBILE_CLINIC": "Mobile clinic"
+    };
+
     const formatTrueFalseFields = (field) => {
         if (field === true) {
             return (
@@ -90,6 +95,21 @@ const ViewReferrals = (props) => {
                     <div className="body">
                         <div className="entry">
                             {props.referral.outcome}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+    };
+
+    const createReferToSection = () => {
+        if (props.referral.referTo !== null) {
+            return (
+                <div className="outcome">
+                    <h3>Refer To</h3>
+                    <div className="body">
+                        <div className="entry">
+                            {referToMapping[props.referral.referTo]}
                         </div>
                     </div>
                 </div>
@@ -210,12 +230,13 @@ const ViewReferrals = (props) => {
                     </Card.Header>
                     <Accordion.Collapse eventKey={props.referral.id}>
                         <Card.Body>
-                            {createOutcomeSection()}
-                            {createWheelchairSection()}
+                            {createReferToSection()}
+                            {createPhysiotherapySection()}
                             {createProstheticSection()}
                             {createOrthoticSection()}
-                            {createPhysiotherapySection()}
+                            {createWheelchairSection()}
                             {createOtherSection()}
+                            {createOutcomeSection()}
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
