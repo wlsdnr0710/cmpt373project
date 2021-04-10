@@ -35,6 +35,7 @@ const NewReferralForm = props => {
         "physiotherapyCondition": "",
         "physiotherapyConditionOtherDesc": "",
         "isResolved": false,
+        "outcome": "",
         "referTo": "DISABILITY_CENTRE",
         "workerId": getWorkerIdFromToken(getToken())
     });
@@ -52,6 +53,7 @@ const NewReferralForm = props => {
     const [showPhysiotherapyQuestions, setShowPhysiotherapyQuestions] = useState(false);
     const [showOrthoticQuestions, setShowOrthoticQuestions] = useState(false);
     const [showProstheticQuestions, setShowProstheticQuestions] = useState(false);
+    const [showOutcome, setShowOutcome] = useState(false);
     const clientId = props.clientId;
 
     const [isFormDisabled, setIsFormDisabled] = useState(false);
@@ -152,6 +154,25 @@ const NewReferralForm = props => {
                 <TextAreaInputField
                     name={"requiredServiceOtherDescription"}
                     value={formInputs["requiredServiceOtherDescription"]}
+                    onChange={formInputChangeHandler}
+                    rows="4"
+                    isDisabled={false}
+                />
+            </div>
+        );
+    };
+
+    const showOutcomeTextArea = () => {
+        if (!showOutcome) {
+            return null;
+        }
+
+        return (
+            <div className="input-field-container">
+                <div>What was the outcome?</div>
+                <TextAreaInputField
+                    name={"outcome"}
+                    value={formInputs["outcome"]}
                     onChange={formInputChangeHandler}
                     rows="4"
                     isDisabled={false}
@@ -377,6 +398,18 @@ const NewReferralForm = props => {
         updateFormInputByNameValue(name, value);
     };
 
+    const onIsResolvedClick = event => {
+        const input = event.target;
+        const value = input.checked;
+        if (value) {
+            setShowOutcome(true);
+        } else {
+            updateFormInputByNameValue("outcome", "");
+            setShowOutcome(false);
+        }
+        updateFormInputByNameValue("isResolved", value);
+    };
+
     const onSubmitHandler = event => {
         event.preventDefault();
         setStatesDuringSubmitting();
@@ -539,11 +572,13 @@ const NewReferralForm = props => {
                     <CheckBox
                         name="isResolved"
                         value={formInputs["isResolved"]}
-                        actionHandler={formInputChangeHandler}
+                        actionHandler={onIsResolvedClick}
                         displayText={"Is the referral resolved?"}
                         isDisabled={false}
                     />
                 </div>
+
+                {showOutcomeTextArea()}
 
                 <div>
                     <Button variant="primary" onClick={onSubmitHandler}>

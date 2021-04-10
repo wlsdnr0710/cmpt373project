@@ -230,13 +230,13 @@ const ViewReferrals = (props) => {
                     </Card.Header>
                     <Accordion.Collapse eventKey={props.referral.id}>
                         <Card.Body>
-                            {createOutcomeSection()}
                             {createReferToSection()}
-                            {createWheelchairSection()}
+                            {createPhysiotherapySection()}
                             {createProstheticSection()}
                             {createOrthoticSection()}
-                            {createPhysiotherapySection()}
+                            {createWheelchairSection()}
                             {createOtherSection()}
+                            {createOutcomeSection()}
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>
