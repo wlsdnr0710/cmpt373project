@@ -17,7 +17,7 @@ const RiskUpdateEntry = ({ riskObject }) => {
                             variant="link"
                             eventKey={riskObject.id}
                         >
-                            {parseISODateStringToDateString(date)}
+                            {parseISODateStringToDateString(riskObject.createdDate)}
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey={riskObject.id}>
