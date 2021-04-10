@@ -36,6 +36,11 @@ Precaching can be adjusted to add / remove file times in the `workbox-config.js`
 
 Runtime caching/request caching can be adjusted in the `service-worker.js` template. 
 
+# Testing #
+To test the offline / background sync features, use the chrome developer tools (F12) and navigate to the service worker section under Application. There should 
+be a checkbox to simulate offline functionality. Workbox addionally suggests closing down the localhost server running the backend as 
+"The offline checkbox in DevTools only affects requests from the page. Service Worker requests will continue to go through."
+
 # Deployment #
 When Workbox is imported through a CDN it will detect whether it is being run in localhost or a production URL. Logging will be removed
 if it detects a production URL. 

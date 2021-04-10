@@ -23,7 +23,7 @@ export const doAuthentication = history => {
 
 export const checkForAdmin = history => {
     if (getRole() !== "ADMIN") {
-        history.push("dashboard");
+        history.push("home");
         return false;
     }
     return true;

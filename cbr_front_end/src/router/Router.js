@@ -42,7 +42,7 @@ const Router = () => {
 
                 {/* We can redirect the user to dashboard even after login is implemented because if the user
                 is not authenticated, the user will be further redirected to login page. */}
-                <Redirect to="/dashboard" />
+                <Redirect to="/home" />
             </Switch>
         </div>
     );

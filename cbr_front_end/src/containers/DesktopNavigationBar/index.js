@@ -5,7 +5,7 @@ import {
     saveRole,
     removeToken,
     removeRole,
-    getWorkerUsernameFromToken,
+    getWorkerIdFromToken,
     isAuthenticated,
 } from "../../utils/AuthenticationUtil";
 import { useEffect, useState } from "react";
@@ -34,7 +34,7 @@ const DesktopNavigationBar = () => {
                 token: getToken(),
             };
             getWorkerInformationFromServer(
-                getWorkerUsernameFromToken(getToken()),
+                getWorkerIdFromToken(getToken()),
                 requestHeader
             )
                 .then((response) => {

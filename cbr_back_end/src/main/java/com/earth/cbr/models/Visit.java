@@ -131,6 +131,14 @@ public class Visit {
     @PositiveOrZero(message = "Client ID should be positive or zero")
     private Long clientId;
 
+    @Column(
+            name = "worker_id",
+            columnDefinition = "INT"
+    )
+    @NotNull(message = "Worker ID cannot be null")
+    @PositiveOrZero(message = "Worker ID should be positive or zero")
+    private Long workerId;
+
     @OneToOne
     @JoinColumn(name = "zone", referencedColumnName = "id", insertable = false, updatable = false)
     private Zone zoneName;
@@ -157,6 +165,7 @@ public class Visit {
                  Progress educationGoalProgress,
                  String educationOutcome,
                  Long clientId,
+                 Long workerId,
                  Zone zoneName,
                  Set<ServiceDescription> serviceDescription) {
         this.consent = consent;
@@ -174,6 +183,7 @@ public class Visit {
         this.educationGoalProgress = educationGoalProgress;
         this.educationOutcome = educationOutcome;
         this.clientId = clientId;
+        this.workerId = workerId;
         this.zoneName = zoneName;
         this.serviceDescription = serviceDescription;
     }
@@ -304,6 +314,14 @@ public class Visit {
 
     public void setClientId(Long clientId) {
         this.clientId = clientId;
+    }
+
+    public Long getWorkerId() {
+        return workerId;
+    }
+
+    public void setWorkerId(Long workerId) {
+        this.workerId = workerId;
     }
 
     public Zone getZoneName() {
