@@ -45,7 +45,6 @@ public class WorkerController {
 
     @GetMapping(value = "/{id}")
     public ResponseEntity<JSONObject> getWorkerById(@PathVariable Long id) throws ObjectDoesNotExistException {
-        System.out.println("hello");
         if(workerService.getWorkerById(id) == null) {
             throw new ObjectDoesNotExistException("Worker with that ID does not exist");
         }

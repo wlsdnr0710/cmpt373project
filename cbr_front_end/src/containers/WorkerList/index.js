@@ -10,7 +10,7 @@ import "./style.css";
 
 const WorkerList = (props) => {
     const [isWorkerListHidden, setIsWorkerListHidden] = useState(false);
-
+    const [workerListTitle, setWorkerListTitle] = useState("- Worker List");
     const [isLoading, setIsLoading] = useState(true);
     const [workers, setWorkers] = useState([]);
     const [showedWorkers, setShowedWorkers] = useState([]);
@@ -145,26 +145,38 @@ const WorkerList = (props) => {
         }
     };
 
+    const onWorkerListTitleOnClick = () => {
+        setIsWorkerListHidden(!isWorkerListHidden);
+        if (isWorkerListHidden){
+            setWorkerListTitle("- Worker List");
+        }
+        else {
+            setWorkerListTitle("+ Worker List");
+        }
+    }
+
     return (
-        <div className="worker-list" hidden={isWorkerListHidden}>
-            <div className="worker-list-title">
-                Worker List
+        <div className="worker-list">
+            <div className="worker-list-title" onClick={onWorkerListTitleOnClick}>
+                {workerListTitle}
             </div>
-            <div className="table">
-                <Table headers={["Workers"]} data={mapWorkersToTableData(showedWorkers)} />
-            </div>
-            <div className="infinite-scroll-observer" ref={element => observeeElement.current = element}>
-            </div>
-            <div className="spinner">
-                {showSpinnerWhenIsLoading(isLoading)}
-            </div>
-            <div className="page-buttons">
-                <Button onClick={onClickNextPageHandler} hidden={isLastPage} className="ml-3">
-                    Next Page
-                </Button>
-                <Button onClick={onClickPrevPageHandler} hidden={isStartPage} className="ml-3">
-                    Prev Page
-                </Button>
+            <div className={"worker-list-table"} hidden={isWorkerListHidden}>
+                <div className="table">
+                    <Table headers={["Workers"]} data={mapWorkersToTableData(showedWorkers)} />
+                </div>
+                <div className="infinite-scroll-observer" ref={element => observeeElement.current = element}>
+                </div>
+                <div className="spinner">
+                    {showSpinnerWhenIsLoading(isLoading)}
+                </div>
+                <div className="page-buttons">
+                    <Button onClick={onClickNextPageHandler} hidden={isLastPage} className="ml-3">
+                        Next Page
+                    </Button>
+                    <Button onClick={onClickPrevPageHandler} hidden={isStartPage} className="ml-3">
+                        Prev Page
+                    </Button>
+                </div>
             </div>
         </div>
     );

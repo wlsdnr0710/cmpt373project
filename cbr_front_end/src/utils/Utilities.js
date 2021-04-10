@@ -72,6 +72,18 @@ export const deleteClientFromServer = (clientId, requestHeader) => {
     return axios.delete(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader})
 }
 
+export const getWorkerInformationFromServerById = (workerId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/worker/' + workerId, {headers: requestHeader});
+};
+
+export const updateWorkerInformationToServer = (workerInformation, requestHeader) => {
+    return axios.put(ServerConfig.api.url + '/api/v1/worker/', {"data" : workerInformation}, {headers: requestHeader});
+}
+
+export const deleteWorkerFromServer = (workerId, requestHeader) => {
+    return axios.delete(ServerConfig.api.url + '/api/v1/worker/' + workerId, {headers: requestHeader})
+}
+
 export const getClientObject = () => {
     return( {
         id:"N/A",
@@ -142,6 +154,14 @@ export const getClientZonesObject = () => {
         "Palorinya Zone 1": "7",
         "Palorinya Zone 2": "8",
         "Palorinya Zone 3": "9",
+      };
+}
+
+export const getWorkerRoleObject = () => {
+    return {
+        "Worker": "WORKER",
+        "Clinician": "CLINICIAN",
+        "Admin": "ADMIN",
       };
 }
 

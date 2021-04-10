@@ -8,6 +8,7 @@ import NewClient from "../pages/NewClient";
 import NewVisit from "../pages/NewVisit";
 import ClientInformation from "../pages/ClientInformation";
 import EditClient from "../pages/EditClient";
+import EditWorker from "../pages/EditWorker"
 import HomePage from "../pages/HomePage";
 import NewReferral from "../pages/NewReferral";
 import NewSurvey from "../pages/NewSurvey";
@@ -28,6 +29,7 @@ const Router = () => {
                 <Route path="/new-visit" exact component={NewVisit} />
                 <Route path="/client-information" exact component={ClientInformation} />
                 <Route path="/edit-client" exact component={EditClient} />
+                <Route path="/edit-worker" exact component={EditWorker} />
                 <Route path="/home" exact component={HomePage} />    
                 <Route path="/new-referral" exact component={NewReferral} />
                 <Route path="/new-survey" exact component={NewSurvey} />
