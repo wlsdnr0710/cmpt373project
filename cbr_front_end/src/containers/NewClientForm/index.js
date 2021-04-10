@@ -38,7 +38,7 @@ const NewClientForm = () => {
         "caregiverName": "",
         "caregiverNumber": "",
         "disabilityType": [],
-        "other": false,
+        "Other": false,
         "otherDesc": "",
         "healthRisk": "low",
         "healthNeed": "",
@@ -595,14 +595,14 @@ const NewClientForm = () => {
                     </div>
                     {createDisabilityCheckboxComponents()}
                     <CheckBox
-                        name="other"
-                        value={formInputs["other"]}
+                        name="Other"
+                        value={formInputs["Other"]}
                         actionHandler={(e) => {updateFormInputByNameValue(e.target.name,e.target.checked)}}
                         displayText={"Other"}
                         isDisabled={isFormInputDisabled}
                         displayTextOnRight={true}
                     />
-                    <div hidden={!formInputs["other"]}>
+                    <div hidden={!formInputs["Other"]}>
                         <TextAreaInputField
                             name="otherDesc"
                             value={formInputs["otherDesc"]}
