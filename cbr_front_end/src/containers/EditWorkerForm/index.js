@@ -171,7 +171,7 @@ const EditWorkerForm = (props) => {
       </div>
       <div className="input-field">
         <PhoneInputField
-          name="contactNumber"
+          name="phone"
           value={workerInformation.phone}
           label="Contact Number: "
           onChange={handleChange}
