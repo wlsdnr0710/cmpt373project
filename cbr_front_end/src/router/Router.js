@@ -8,6 +8,7 @@ import NewClient from "../pages/NewClient";
 import NewVisit from "../pages/NewVisit";
 import ClientInformation from "../pages/ClientInformation";
 import EditClient from "../pages/EditClient";
+import EditWorker from "../pages/EditWorker"
 import HomePage from "../pages/HomePage";
 import NewReferral from "../pages/NewReferral";
 import NewSurvey from "../pages/NewSurvey";
@@ -16,7 +17,7 @@ import ForgotPassword from "../pages/ForgotPassword";
 import OTPVerification from "../pages/OTPVerification";
 import Admin from "../pages/Admin";
 import NewRiskUpdate from "../pages/NewRiskUpdate";
-
+import WorkerInformation from "../pages/WorkerInformation"
 
 const Router = () => {
     return (
@@ -29,6 +30,7 @@ const Router = () => {
                 <Route path="/new-visit" exact component={NewVisit} />
                 <Route path="/client-information" exact component={ClientInformation} />
                 <Route path="/edit-client" exact component={EditClient} />
+                <Route path="/edit-worker" exact component={EditWorker} />
                 <Route path="/home" exact component={HomePage} />    
                 <Route path="/new-referral" exact component={NewReferral} />
                 <Route path="/new-survey" exact component={NewSurvey} />
@@ -38,7 +40,7 @@ const Router = () => {
                 <Route path="/answer-survey" exact component={AnswerSurvey} />
                 <Route path="/admin" exact component={Admin} />
                 <Route path="/new-risk-update" exact component={NewRiskUpdate} />
-
+                <Route path="/worker-information" exact component={WorkerInformation} />
 
                 {/* We can redirect the user to dashboard even after login is implemented because if the user
                 is not authenticated, the user will be further redirected to login page. */}

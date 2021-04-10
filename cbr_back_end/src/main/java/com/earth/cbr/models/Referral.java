@@ -1,6 +1,7 @@
 package com.earth.cbr.models;
 
 import com.earth.cbr.models.validation.UniqueRequiredServicesID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
@@ -11,6 +12,12 @@ import java.sql.Date;
 @Entity(name = "Referral")
 @Table(name = "referral")
 public class Referral {
+
+    public enum ReferTo {
+        DISABILITY_CENTRE,
+        MOBILE_CLINIC
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -68,7 +75,9 @@ public class Referral {
             name = "refer_to",
             columnDefinition = "TEXT"
     )
-    private String referTo;
+    @NotNull(message = "Refer to cannot be null")
+    @Enumerated(EnumType.STRING)
+    private ReferTo referTo;
 
     @Column (
             name = "is_resolved",
@@ -120,7 +129,7 @@ public class Referral {
                     Boolean doesRequireRepairs,
                     Boolean isBelowKnee,
                     Boolean isBelowElbow,
-                    String referTo,
+                    ReferTo referTo,
                     Boolean isResolved,
                     String outcome,
                     Date date,
@@ -231,11 +240,11 @@ public class Referral {
         setBelowElbow(condition == OrthoticConditionEnum.BELOW_ELBOW);
     }
 
-    public String getReferTo() {
+    public ReferTo getReferTo() {
         return referTo;
     }
 
-    public void setReferTo(String referTo) {
+    public void setReferTo(ReferTo referTo) {
         this.referTo = referTo;
     }
 

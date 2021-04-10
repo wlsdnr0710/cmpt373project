@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
 import { getZonesFromServer, addVisitToServer, getWorkerInformationFromServer, postNewServiceDescription, deleteVisitFromServer,  } from "../../utils/Utilities";
@@ -12,6 +12,12 @@ import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
 import "./style.css";
+import RiskInformation from "../RiskInformation";
+import {
+    getRiskObject,
+    getRiskInformationFromServer,
+    updateRiskInformationToServer,
+} from "../../utils/Utilities";
 
 const defaultPurpose = {
     "CBR": "cbr",
@@ -26,6 +32,7 @@ const defaultGoalInputs = {
 };
 
 const NewVisitForm = (props) => {
+    const clientId = props.clientID;
     const history = useHistory();
     const workerId = getWorkerIdFromToken(getToken());
     const [formInputs, setFormInputs] = useState({
@@ -92,8 +99,26 @@ const NewVisitForm = (props) => {
         "socialEncouragementDesc": "",
     });
 
-    const [zoneList, setZoneList] = useState({});
+    const [riskInformation, setRiskInformation] = useState(getRiskObject());
+    const [originalRiskInformation, setOriginalRiskInformation] = useState(
+        getRiskObject()
+    );
 
+    const getRiskInformation = useCallback(() => {
+        const requestHeader = {
+            token: getToken(),
+        };
+        getRiskInformationFromServer(clientId, requestHeader)
+            .then((response) => {
+                setRiskInformation(response.data.data);
+                setOriginalRiskInformation(response.data.data);
+            })
+            .catch((error) => {
+                console.log("ERROR: Get request failed. " + error);
+            });
+    }, [clientId]);
+
+    const [zoneList, setZoneList] = useState({});
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
     const [socialCheckBox, setSocialCheckBox] = useState(false);
@@ -106,7 +131,6 @@ const NewVisitForm = (props) => {
     const [isEducationGoalConcluded, setIsEducationGoalConcluded] = useState(false);
     const [isSocialGoalConcluded, setIsSocialGoalConcluded] = useState(false);
 
-    const [isPurposeCBR, setPurposeCBR] = useState(true);
     const [currLongitude, setCurrLongitude] = useState();
     const [currLatitude, setCurrLatitude] = useState();
 
@@ -271,14 +295,6 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
-        const purposeStr = "purpose";
-        const cbrStr = "cbr";
-
-        if (name === purposeStr && value !== cbrStr) {
-            setPurposeCBR(false);
-        } else if (name === purposeStr && value === cbrStr) {
-            setPurposeCBR(true);
-        }
 
         updateFormInputByNameValue(name, value);
     };
@@ -525,7 +541,8 @@ const NewVisitForm = (props) => {
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
-    }, []);
+        getRiskInformation();
+    }, [getRiskInformation]);
 
     return (
         <div>
@@ -546,7 +563,7 @@ const NewVisitForm = (props) => {
                             isDisabled={false}
                         />
                     </div>
-                    <div hidden={!isPurposeCBR}>
+                    <div>
                         <CheckBox
                             name="doHealthCheckBox"
                             value={healthCheckBox}
@@ -574,6 +591,16 @@ const NewVisitForm = (props) => {
                 <hr />
                 <div>
                     <label>Name of CBR worker: {formInputs["cbrWorkerName"]}</label>
+                </div>
+                <hr />
+                <div>
+                    <label>Health Goal: {riskInformation.healthGoal}</label>
+                </div>
+                <div>
+                    <label>Education Goal: {riskInformation.educationGoal}</label>
+                </div>
+                <div>
+                    <label>Social Goal: {riskInformation.socialGoal}</label>
                 </div>
                 <hr />
                 <div>
@@ -611,7 +638,7 @@ const NewVisitForm = (props) => {
                     />
                 </div>
                 <hr />
-                <div hidden={(isHealthInputDisabled) || (!isPurposeCBR)}>
+                <div hidden={(isHealthInputDisabled)}>
                     <NewClientVisitsHealthForm
                         wheelchairValue={healthFormInputs["wheelchair"]}
                         prostheticValue={healthFormInputs["prosthetic"]}
@@ -642,7 +669,7 @@ const NewVisitForm = (props) => {
                     <hr />
                 </div>
 
-                <div hidden={(isEducationInputDisabled) || (!isPurposeCBR)}>
+                <div hidden={(isEducationInputDisabled)}>
                     <NewClientVisitsEducationForm
                         referralToEducationOrgValue={educationFormInputs["referralToEducationOrg"]}
                         referralToEducationOrgDescValue={educationFormInputs["referralToEducationOrgDesc"]}
@@ -663,7 +690,7 @@ const NewVisitForm = (props) => {
                     <hr />
                 </div>
 
-                <div hidden={(isSocialInputDisabled) || (!isPurposeCBR)}>
+                <div hidden={(isSocialInputDisabled)}>
                     <NewClientVisitsSocialForm
                         referralToSocialOrgValue={socialFormInputs["referralToSocialOrg"]}
                         referralToSocialOrgDescValue={socialFormInputs["referralToSocialOrgDesc"]}

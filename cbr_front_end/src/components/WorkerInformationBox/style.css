@@ -1,0 +1,37 @@
+.worker-information-image {
+    width: 60%;
+    min-width: 200px;
+    max-width: 400px;
+    height: auto;
+}
+
+.worker-information-card {
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.worker-information-card .name {
+    margin: 0 1vw 1vh 1vw;
+}
+
+.worker-information-card .details {
+    margin: 1vh 1vw;
+}
+
+.worker-information-card .worker-information-image-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.worker-information-card .worker-info-body {
+    flex-grow: 1;
+}
+
+.worker-information-card .worker-info-container {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 1rem;
+}
