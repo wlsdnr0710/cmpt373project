@@ -96,6 +96,10 @@ export const addVisitToServer = (visitInformation, requestHeader) => {
     return axios.post(ServerConfig.api.url + '/api/v1/visit', {"data" : visitInformation}, {headers: requestHeader});
 };
 
+export const addRiskToServer = (riskInformation, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/riskHistory', {"data" : riskInformation}, {headers: requestHeader});
+};
+
 export const getZonesFromServer = () => {
     return axios.get(ServerConfig.api.url + '/api/v1/zone');
 };

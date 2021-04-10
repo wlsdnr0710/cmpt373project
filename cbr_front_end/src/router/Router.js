@@ -16,6 +16,7 @@ import CreateAccount from "../pages/CreateAccount";
 import ForgotPassword from "../pages/ForgotPassword";
 import OTPVerification from "../pages/OTPVerification";
 import Admin from "../pages/Admin";
+import NewRiskUpdate from "../pages/NewRiskUpdate";
 import WorkerInformation from "../pages/WorkerInformation"
 
 const Router = () => {
@@ -38,6 +39,7 @@ const Router = () => {
                 <Route path="/OTP-verification" exact component={OTPVerification} />
                 <Route path="/answer-survey" exact component={AnswerSurvey} />
                 <Route path="/admin" exact component={Admin} />
+                <Route path="/new-risk-update" exact component={NewRiskUpdate} />
                 <Route path="/worker-information" exact component={WorkerInformation} />
 
                 {/* We can redirect the user to dashboard even after login is implemented because if the user

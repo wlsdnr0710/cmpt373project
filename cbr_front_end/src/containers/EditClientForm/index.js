@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
+import CheckBox from "../../components/CheckBox";
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
 import DateInputField from "../../components/DateInputField";
@@ -9,16 +10,17 @@ import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
 import { getToken } from "../../utils/AuthenticationUtil";
+import DisabilityInformation from "../../components/DisabilityInformation";
+import "./style.css";
 import {
     deleteClientFromServer,
     getClientInformationFromServer,
     getClientObject,
     updateClientInformationToServer,
     getGendersObject,
-    getZonesFromServer
+    getZonesFromServer,
+    getDisabilitiesFromServer
 } from "../../utils/Utilities";
-import DisabilityInformation from "../../components/DisabilityInformation";
-import "./style.css";
 
 const genders = getGendersObject();
 
@@ -60,9 +62,20 @@ const EditClientForm = (props) => {
         });
     }, [clientId]);
 
+    const getDisabilities = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getDisabilitiesFromServer(requestHeader)
+        .then(response => {
+            setDisabilityList(response.data.data);
+        });
+    };
+
     useEffect(() => {
         getClientInformation();
         getZones();
+        getDisabilities();
     }, [getClientInformation]);
 
     const handleChange = (event) => {
@@ -89,6 +102,10 @@ const EditClientForm = (props) => {
                 updateErrorMessages(error);
                 setStatesWhenFormIsSubmitting(false);
             });
+    };
+
+    const clearErrorMessages = () => {
+        setErrorMessages([]);
     };
 
     const updateErrorMessages = (error) => {
@@ -127,6 +144,14 @@ const EditClientForm = (props) => {
             });
     };
 
+    const updateFormInputByNameValue = (name, value) => {
+        setFormInputs(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
+        });
+    };
+
     const [showImageUploader, setImageUploader] = useState(false);
 
     const toggleImageUpload = () => {
@@ -151,6 +176,65 @@ const EditClientForm = (props) => {
     const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
+
+    const [formInputs, setFormInputs] = useState({
+        "clientId": clientId,
+        "disabilityType": []
+    });
+
+    const [disabilityList, setDisabilityList] = useState({});
+
+    const getDisabilityId = (type) => {
+        for (const index in disabilityList) {
+            if (disabilityList[index].type === type) {
+                return disabilityList[index].id;
+            }
+        }
+    };
+
+    const getDisabilityTypeCheckBoxesOnChangeHandler = type => {
+        return event => {
+            const checkBox = event.target;
+            let checkBoxesValues = formInputs["disabilityType"];
+            if (checkBox.checked) {
+                checkBoxesValues = [...checkBoxesValues, getDisabilityId(type)];
+            } else {
+                removeCheckBoxValuesByName(checkBoxesValues, type);
+            }
+            updateFormInputByNameValue("disabilityType", checkBoxesValues);
+        };
+    };
+
+    const removeCheckBoxValuesByName = (checkBoxesValues, name) => {
+        const matchedItemIndex = checkBoxesValues.indexOf(getDisabilityId(name));
+        if (matchedItemIndex !== -1) {
+            checkBoxesValues.splice(matchedItemIndex, 1);
+        }
+    };
+
+    // TODO: add/delete disabilities feature by checkbox
+    const createDisabilityCheckboxComponents = () => {
+        const disabilityCheckboxComponents = [];
+        if(disabilityList === undefined || disabilityList.length === 0) {
+            return null;
+        }
+        else {
+            for (const index in disabilityList) {
+                const type = disabilityList[index].type;
+                const id = disabilityList[index].id;
+                disabilityCheckboxComponents.push(<CheckBox
+                                                        name={type}
+                                                        value={id}
+                                                        actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(type)}
+                                                        displayText={type}
+                                                        displayTextOnRight={true}
+                                                        key={index}
+                                                   />
+                                                  );
+            }
+            return disabilityCheckboxComponents;
+        }
+    };
 
     const showSuccessMessage = () => {
         if (isSubmitSuccess) {
@@ -322,6 +406,14 @@ const EditClientForm = (props) => {
                 <DisabilityInformation
                     disabilityList={clientInformation.disabled}
                 />
+
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Disability Type:</label>
+                </div>
+                {createDisabilityCheckboxComponents()}
+            </div>
+
                 <input
                     className="btn btn-primary update-disability-button"
                     type="button"

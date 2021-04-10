@@ -6,6 +6,8 @@ import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.util.Date;
 
 @Entity(name = "Risk_History")
@@ -17,7 +19,7 @@ public class RiskHistory {
 
     @JsonIgnore
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-    @JoinColumn(name = "client_id", referencedColumnName = "id")
+    @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Client client;
 
     @Column(
@@ -26,6 +28,13 @@ public class RiskHistory {
     )
     @CreatedDate
     private Date createdDate;
+
+    @Column(
+            name = "client_id",
+            columnDefinition = "INT"
+    )
+    @NotNull(message = "client ID cannot be null")
+    private Long clientId;
 
     @Column(
             name = "education_goal",
@@ -98,6 +107,7 @@ public class RiskHistory {
     }
 
     public RiskHistory(Long id,
+                       Long clientId,
                        Client client,
                        Date createdDate,
                        String educationGoal,
@@ -110,6 +120,7 @@ public class RiskHistory {
                        Integer socialRisk,
                        String socialRiskDescription) {
         this.id = id;
+        this.clientId = clientId;
         this.client = client;
         this.createdDate = createdDate;
         this.educationGoal = educationGoal;
@@ -137,6 +148,14 @@ public class RiskHistory {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(Long clientId) {
+        this.clientId = clientId;
     }
 
     public Date getCreatedDate() {
