@@ -465,114 +465,14 @@ const EditClientForm = (props) => {
             </div>
             <hr />
             {/*TODO: Add API calls for update risk and update disability buttons */}
-            <div>
-                <h1>Risk</h1>
-                <RiskInformation
-                    riskHistories={clientInformation.riskHistories}
-                />
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Health Risk:</label>
-                </div>
-                <NumberInputField
-                    name="healthRisk"
-                    value={formInputs["healthRisk"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Health Risk Description:</label>
-                </div>
-                <TextInputField
-                    name="healthRiskDescription"
-                    value={formInputs["healthRiskDescription"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Health Goal:</label>
-                </div>
-                <TextInputField
-                    name="healthGoal"
-                    value={formInputs["healthGoal"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Education Risk:</label>
-                </div>
-                <NumberInputField
-                    name="educationRisk"
-                    value={formInputs["educationRisk"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Education Risk Description:</label>
-                </div>
-                <TextInputField
-                    name="educationRiskDescription"
-                    value={formInputs["educationRiskDescription"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Education Goal:</label>
-                </div>
-                <TextInputField
-                    name="educationGoal"
-                    value={formInputs["educationGoal"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Social Risk:</label>
-                </div>
-                <NumberInputField
-                    name="socialRisk"
-                    value={formInputs["socialRisk"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Social Risk Description:</label>
-                </div>
-                <TextInputField
-                    name="socialRiskDescription"
-                    value={formInputs["socialRiskDescription"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Social Goal:</label>
-                </div>
-                <TextInputField
-                    name="socialGoal"
-                    value={formInputs["socialGoal"]}
-                    onChange={formInputChangeHandler}
-                />
-            </div>
-                <input
-                    className="btn btn-secondary update-risk-button"
-                    type="button"
-                    value="Update Risk"
-                    onClick={onSubmitRiskHandler}
-                />
-            </div>
+
             <hr />
             <div>
                 <h1>Disability and Ailment(s)</h1>
                 <DisabilityInformation
                     disabilityList={clientInformation.disabled}
                 />
+
 
             <div className="input-field-container">
                 <div className="label-container">
