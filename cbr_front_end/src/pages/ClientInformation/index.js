@@ -14,7 +14,7 @@ import {
     getClientObject,
     getVisitsInformationFromServer,
     getReferralsInformationFromServer,
-    getClientInformationFromServer
+    getClientInformationFromServer,
 } from "../../utils/Utilities";
 import "./styles.css";
 
