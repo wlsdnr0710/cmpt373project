@@ -37,7 +37,6 @@ const NewClientForm = () => {
         "caregiverName": "",
         "caregiverNumber": "",
         "disabilityType": [],
-        "Other": false,
         "otherDescription": "",
         "healthRisk": "low",
         "healthNeed": "",
@@ -61,6 +60,7 @@ const NewClientForm = () => {
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
     const [errorMessages, setErrorMessages] = useState([]);
     const [dateStr, setDateStr] = useState("");
+    const [showOtherTextBox, setShowOtherTextBox] = useState(false);
     
 
     // input type file is an uncontrolled component so we need to use reference
@@ -104,6 +104,7 @@ const NewClientForm = () => {
             setRequiredInputErrorMessages(unfilledReqInputDisplayNames);
             return;
         }
+        console.log(sendingData);
         submitFormByPostRequest(sendingData);
     };
 
@@ -401,9 +402,16 @@ const NewClientForm = () => {
         }
     };
 
-    const handleOther = type => {
+    const onClickOtherCheckBox = type => {
         return event => {
-            updateFormInputByNameValue(event.target.name,event.target.checked)
+            const otherCheckBox = event.target;
+            if (otherCheckBox.checked == true) {
+                setShowOtherTextBox(true);
+            }
+            else {
+                setShowOtherTextBox(false);
+            }
+            updateFormInputByNameValue(otherCheckBox.name,otherCheckBox.checked)
             updateDisabilityList(event);
         };
     }
@@ -603,13 +611,13 @@ const NewClientForm = () => {
                     {createDisabilityCheckboxComponents()}
                     <CheckBox
                         name="Other"
-                        value={formInputs["Other"]}
-                        actionHandler={handleOther("Other")}
+                        value={showOtherTextBox}
+                        actionHandler={onClickOtherCheckBox("Other")}
                         displayText={"Other"}
                         isDisabled={isFormInputDisabled}
                         displayTextOnRight={true}
                     />
-                    <div hidden={!formInputs["Other"]}>
+                    <div hidden={!showOtherTextBox}>
                         <TextAreaInputField
                             name="otherDescription"
                             value={formInputs["otherDescription"]}
