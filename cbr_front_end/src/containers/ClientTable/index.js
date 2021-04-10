@@ -292,16 +292,18 @@ const ClientTable = props => {
                     <div className="search-text-input">
                         <TextInputField value={searchKeywordBuffer} onChange={onChangeSearchKeywordHandler} />
                     </div>
-                    <div className="search-dropdown">
-                        <DropdownList
-                            dropdownName="search-by"
-                            dropdownListItemsKeyValue={getSearchByList()}
-                            value={searchBy}
-                            onChange={onChangeSearchByHandler}
-                        />
-                    </div>
-                    <div className="search-button">
-                        <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button> 
+                    <div className="search-action">
+                        <div className="search-dropdown">
+                            <DropdownList
+                                dropdownName="search-by"
+                                dropdownListItemsKeyValue={getSearchByList()}
+                                value={searchBy}
+                                onChange={onChangeSearchByHandler}
+                            />
+                        </div>
+                        <div className="search-button">
+                            <Button variant="primary" onClick={onClickSearchHandler}>Search</Button> 
+                        </div>
                     </div>
                 </div>
                 <hr />
@@ -316,8 +318,8 @@ const ClientTable = props => {
                             className={"sortBy"}
                         />
                         <Button 
-                            className={"text-center isAscendingBtn"} 
-                            variant={"secondary"}
+                            className="text-center isAscendingBtn" 
+                            variant="primary"
                             onClick={onClickIsAscendingHandler}
                         >
                             {getAscendingText()}

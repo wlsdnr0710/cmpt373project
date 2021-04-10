@@ -1,10 +1,7 @@
 .new-referral-form {
+    margin: 1rem 1rem;
     color: #000;
     opacity: 0.8;
-}
-
-.new-referral-form .form-body {
-    margin: 1rem 1rem;
 }
 
 .new-referral-form .input-field-container {
@@ -27,3 +24,8 @@
 .new-referral-form .attribute-key {
     font-weight: 600;
 }
+
+.new-referral-form .feedback-messages {
+    margin-top: 1rem;
+}
+

@@ -1,7 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
-import { getZonesFromServer, addVisitToServer, getWorkerInformationFromServer } from "../../utils/Utilities";
+import { getZonesFromServer, addVisitToServer, getWorkerInformationFromServer, postNewServiceDescription, deleteVisitFromServer,  } from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -11,8 +11,6 @@ import NumberInputField from "../../components/NumberInputField";
 import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
-import axios from 'axios';
-import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 
 const defaultPurpose = {
@@ -139,60 +137,60 @@ const NewVisitForm = (props) => {
 
     const updateFormInputsFromHealthForm = (submittedForm) =>{
         if (healthFormInputs.wheelchair === true ){
-            submittedForm = addServiceProvided("wheelchair", "HEALTH", healthFormInputs.wheelchairDesc, submittedForm);
+            submittedForm = addServiceProvided("1", healthFormInputs.wheelchairDesc, submittedForm);
         } 
         if (healthFormInputs.prosthetic === true){
-            submittedForm = addServiceProvided("prosthetic", "HEALTH", healthFormInputs.prostheticDesc, submittedForm);
+            submittedForm = addServiceProvided("2", healthFormInputs.prostheticDesc, submittedForm);
         }
         if (healthFormInputs.orthotic === true){
-            submittedForm = addServiceProvided("orthotic", "HEALTH", healthFormInputs.orthoticDesc, submittedForm);
+            submittedForm = addServiceProvided("3", healthFormInputs.orthoticDesc, submittedForm);
         }
         if (healthFormInputs.wheelchairRepairs === true){
-            submittedForm = addServiceProvided("wheelchairRepairs", "HEALTH", healthFormInputs.wheelchairRepairsDesc, submittedForm);
+            submittedForm = addServiceProvided("4", healthFormInputs.wheelchairRepairsDesc, submittedForm);
         }
         if (healthFormInputs.referralToHealthCentre === true){
-            submittedForm = addServiceProvided("referralToHealthCentre", "HEALTH", healthFormInputs.referralToHealthCentreDesc, submittedForm);
+            submittedForm = addServiceProvided("5", healthFormInputs.referralToHealthCentreDesc, submittedForm);
         }
         if (healthFormInputs.healthAdvice === true){
-            submittedForm = addServiceProvided("healthAdvice", "HEALTH", healthFormInputs.healthAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("6", healthFormInputs.healthAdviceDesc, submittedForm);
         }
         if (healthFormInputs.healthAdvocacy === true){
-            submittedForm = addServiceProvided("healthAdvocacy", "HEALTH", healthFormInputs.healthAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("7", healthFormInputs.healthAdvocacyDesc, submittedForm);
         }
         if (healthFormInputs.healthEncouragement === true){
-            submittedForm = addServiceProvided("healthEncouragement", "HEALTH", healthFormInputs.healthEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("8", healthFormInputs.healthEncouragementDesc, submittedForm);
         }
         return submittedForm
     }
 
     const updateFormInputsFromEducationForm = (submittedForm) =>{
         if (educationFormInputs.referralToEducationOrg === true ){
-            submittedForm = addServiceProvided("referralToEducationOrg", "EDUCATION", educationFormInputs.referralToEducationOrgDesc, submittedForm);
+            submittedForm = addServiceProvided("9", educationFormInputs.referralToEducationOrgDesc, submittedForm);
         } 
         if (educationFormInputs.educationAdvice === true ){
-            submittedForm = addServiceProvided("educationAdvice", "EDUCATION", educationFormInputs.educationAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("10", educationFormInputs.educationAdviceDesc, submittedForm);
         } 
         if (educationFormInputs.educationAdvocacy === true ){
-            submittedForm = addServiceProvided("educationAdvocacy", "EDUCATION", educationFormInputs.educationAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("11", educationFormInputs.educationAdvocacyDesc, submittedForm);
         } 
         if (educationFormInputs.educationEncouragement === true ){
-            submittedForm = addServiceProvided("educationEncouragement", "EDUCATION", educationFormInputs.educationEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("12", educationFormInputs.educationEncouragementDesc, submittedForm);
         } 
         return submittedForm
     }
 
     const updateFormInputsFromSocialForm = (submittedForm) =>{
         if (socialFormInputs.referralToSocialOrg === true ){
-            submittedForm = addServiceProvided("referralToSocialOrg", "SOCIAL", socialFormInputs.referralToSocialOrgDesc, submittedForm);
+            submittedForm = addServiceProvided("13", socialFormInputs.referralToSocialOrgDesc, submittedForm);
         } 
         if (socialFormInputs.socialAdvice === true ){
-            submittedForm = addServiceProvided("socialAdvice", "SOCIAL", socialFormInputs.socialAdviceDesc, submittedForm);
+            submittedForm = addServiceProvided("14", socialFormInputs.socialAdviceDesc, submittedForm);
         } 
         if (socialFormInputs.socialAdvocacy === true ){
-            submittedForm = addServiceProvided("socialAdvocacy", "SOCIAL", socialFormInputs.socialAdvocacyDesc, submittedForm);
+            submittedForm = addServiceProvided("15", socialFormInputs.socialAdvocacyDesc, submittedForm);
         } 
         if (socialFormInputs.socialEncouragement === true ){
-            submittedForm = addServiceProvided("socialEncouragement", "SOCIAL", socialFormInputs.socialEncouragementDesc, submittedForm);
+            submittedForm = addServiceProvided("16", socialFormInputs.socialEncouragementDesc, submittedForm);
         } 
         return submittedForm
     }
@@ -202,19 +200,45 @@ const NewVisitForm = (props) => {
         const requestHeader = {
             token: getToken()
         };
+        let descriptionFailed = false;
+        let descriptionError = "";
         addVisitToServer(data, requestHeader)
+        .then(async (response) => {
+            for (const serviceOption of data.serviceProvided) {
+                serviceOption.visitId = response.data.id;
+                await postNewServiceDescription(serviceOption, requestHeader)
+                    .catch(error => {
+                        deleteVisitFromServer(response.data.id, requestHeader)
+                            .catch(error => {
+                                // Failure here is likely a technical issue
+                                console.log(error);
+                            })
+                        // Propagate error up into higher then
+                        descriptionFailed = true;
+                        descriptionError = error;
+                    })
+            }
+                
+        })
         .then(response => {
+            if (descriptionFailed) {
+                throw descriptionError;
+            }
             setFormStateAfterSubmitSuccess();
             const clientId = props.clientID;
             const oneSecond = 1;
             redirectToClientInfoPageAfter(clientId, oneSecond);
         })
         .catch(error => {
+            clearDescriptions();
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
         });
     };
 
+    const clearDescriptions = () => {
+        updateFormInputByNameValue("serviceProvided", "");
+    }
     const getZones = () => {
         getZonesFromServer()
         .then(response => {
@@ -351,20 +375,14 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const addServiceProvided = (name, type, description, submittedForm) => {
+    const addServiceProvided = (serviceOptionId, description, submittedForm) => {
         let testedValues = submittedForm["serviceProvided"];
         const serviceProvided = ({
             "description": "",
-            "type": "",
-            "service": {
-                "name": "",
-                "type": ""
-            }
+            "serviceOptionId": ""
         });
         serviceProvided["description"] = description;
-        serviceProvided["service"]["name"] = name;
-        serviceProvided["service"]["type"] = type;
-        serviceProvided["type"] = type;
+        serviceProvided["serviceOptionId"] = serviceOptionId;
 
         testedValues = [...testedValues, serviceProvided];
         submittedForm["serviceProvided"] = testedValues;
@@ -510,11 +528,11 @@ const NewVisitForm = (props) => {
     }, []);
 
     return (
-        <div className="new-visit-form">
+        <div>
             <FormHeader
                 headerText="New Visit - Visit Information"
             />
-            <div className="form-body">
+            <div className="new-visit-form">
                 <div className="input-field-container">
                     <div className="label-container">
                         <label>Purpose for Visit:</label>
@@ -677,7 +695,7 @@ const NewVisitForm = (props) => {
                     Submit
                 </Button>
             </div>
-        </div >
+        </div>
     );
 }
 

@@ -9,14 +9,12 @@ import avatar from "../../assets/avatar.png";
 import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
-import RiskInformation from "../RiskInformation";
 import { getToken } from "../../utils/AuthenticationUtil";
 import {
     deleteClientFromServer,
     getClientInformationFromServer,
     getClientObject,
     updateClientInformationToServer,
-    getClientZonesObject,
     getGendersObject,
     getZonesFromServer,
     addRiskToServer,
@@ -62,15 +60,10 @@ const EditClientForm = (props) => {
             setOriginalClientInformation(response.data.data);
         })
         .catch((error) => {
-            console.log("ERROR: Get request failed. " + error);
+            throw new DOMException("Error could not fetch client information: " + error);
         });
     }, [clientId]);
 
-    const initEpochDateTime = () => {
-        let newDate = new Date();
-        const date = newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate();
-        updateFormInputByNameValue("createdDate", date);
-    }
 
     const getDisabilities = () => {
         const requestHeader = {
@@ -88,8 +81,6 @@ const EditClientForm = (props) => {
         getClientInformation();
         getZones();
         getDisabilities();
-        initEpochDateTime();
-
     }, [getClientInformation]);
 
     const handleChange = (event) => {
@@ -158,6 +149,14 @@ const EditClientForm = (props) => {
             });
     };
 
+    const updateFormInputByNameValue = (name, value) => {
+        setFormInputs(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs[name] = value;
+            return newFormInputs;
+        });
+    };
+
     const [showImageUploader, setImageUploader] = useState(false);
 
     const toggleImageUpload = () => {
@@ -176,54 +175,6 @@ const EditClientForm = (props) => {
         } else {
             return null;
         }
-    };
-
-    const formInputChangeHandler = event => {
-        const input = event.target;
-        const name = input.name;
-        const value = input.value;
-        updateFormInputByNameValue(name, value);
-    };
-
-    const updateFormInputByNameValue = (name, value) => {
-        setFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs[name] = value;
-            return newFormInputs;
-        });
-    };
-
-    const submitFormByPostRequest = data => {
-        setStatesWhenFormIsSubmitting(true);
-        const requestHeader = {
-            token: getToken()
-        };
-        addRiskToServer(data, requestHeader)
-        .then(response => {
-            setFormStateAfterSubmitSuccess();
-            const clientId = props.clientID;
-            const oneSecond = 1;
-                redirectToClientInfoPageAfter(clientId, oneSecond);
-        })
-        .catch(error => {
-
-            updateErrorMessages(error);
-            setStatesWhenFormIsSubmitting(false);
-        })
-    };
-
-    const onSubmitRiskHandler = event => {
-        let submittedForm = formInputs;
-        event.preventDefault();
-        clearErrorMessages();
-
-
-        // We do not set state here because setState is asynchronous.
-        // State may not be updated when we submit the form.
-        const sendingData = { ...formInputs };
-
-
-        submitFormByPostRequest(sendingData);
     };
 
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
@@ -464,11 +415,8 @@ const EditClientForm = (props) => {
                 />
             </div>
             <hr />
-            {/*TODO: Add API calls for update risk and update disability buttons */}
-
-            <hr />
             <div>
-                <h1>Disability and Ailment(s)</h1>
+                <h3>Disability and Ailment(s)</h3>
                 <DisabilityInformation
                     disabilityList={clientInformation.disabled}
                 />
@@ -485,10 +433,10 @@ const EditClientForm = (props) => {
 
 
                 <input
-                    className="btn btn-secondary update-disability-button"
+                    className="btn btn-primary update-disability-button"
                     type="button"
-                    value="Update Disability"
-                    onClick={onSubmitRiskHandler}
+                    value="Edit Disability"
+                   // onClick={onSubmitRiskHandler}
                 />
             </div>
             <hr />
@@ -499,19 +447,19 @@ const EditClientForm = (props) => {
             <div className="action-buttons">
                 {/* TODO: restructure css layout for mobile*/}
                 <input
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
                     type="button"
                     value="Delete Client"
                     onClick={deleteClientAndPushAllClientPage}
                 />
                 <input
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
                     type="button"
                     value="Discard Changes"
                     onClick={discardChanges}
                 />
                 <input
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
                     type="submit"
                     value="Save Changes"
                     onClick={saveChangesAndPushClientInformationPage}

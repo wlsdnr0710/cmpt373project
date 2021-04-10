@@ -1,0 +1,16 @@
+.worker-create-account-code .title {
+    font-size: 2rem;
+    margin-left: 1rem;
+}
+
+.worker-create-account-code .code-display {
+    margin-bottom: 1rem;
+    margin-left: 1rem;
+    background-color: rgba(0, 0, 0, 0.041);
+    border-radius: 5px;
+    padding: 1rem
+}
+
+.worker-create-account-code .button-container {
+    margin-left: 1rem;
+}

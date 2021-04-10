@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
 import { getZonesFromServer, getDisabilitiesFromServer, addClientToServer } from "../../utils/Utilities";
-import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -12,7 +11,6 @@ import DateInputField from "../../components/DateInputField";
 import ImageInputField from "../../components/ImageInputField";
 import NewClientSurvey from "../../containers/NewClientSurvey";
 import NumberInputField from "../../components/NumberInputField";
-import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
 import "./style.css";
@@ -405,12 +403,12 @@ const NewClientForm = () => {
     };
 
     return (
-        <div className="new-client-form">
+        <div>
             <FormHeader
                 headerText="New Client - Client Information"
             />
 
-            <div className="form-body">
+            <div className="new-client-form">
                 <div className="input-field-container">
                     <CheckBox
                         name="doConsentToInterview"

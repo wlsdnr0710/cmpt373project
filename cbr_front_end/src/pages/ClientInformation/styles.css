@@ -2,11 +2,6 @@
     margin: 2vh;
 }
 
-.view-all-visits-details {
-    margin-top: 2rem;
+.client-information .add-button {
+    margin: 0.5rem 0;
 }
-
-.view-all-referrals-details {
-    margin-top: 2rem;
-}
-

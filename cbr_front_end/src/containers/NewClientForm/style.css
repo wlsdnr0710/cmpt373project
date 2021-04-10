@@ -1,10 +1,7 @@
 .new-client-form {
+    margin: 1rem 1rem;
     color: #000;
     opacity: 0.8;
-}
-
-.new-client-form .form-body {
-    margin: 1rem 1rem;
 }
 
 .new-client-form .input-field-container {

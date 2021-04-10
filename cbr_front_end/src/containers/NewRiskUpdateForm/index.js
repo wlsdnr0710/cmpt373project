@@ -1,16 +1,24 @@
 import React, { useState, useCallback, useEffect } from "react";
 import TextInputField from "../../components/TextInputField";
+import { useHistory } from "react-router-dom";
 import NumberInputField from "../../components/NumberInputField";
+import DateInputField from "../../components/DateInputField";
+import { getToken } from "../../utils/AuthenticationUtil";
+
 import {
-    addRiskToServer
+    addRiskToServer,
+    getClientInformationFromServer,
+    parseEpochToDateString
 } from "../../utils/Utilities";
 
     const NewRiskUpdateForm = props => {
-    //    const clientId = props.clientID;
+        const clientId = props.clientID;
+        const history = useHistory();
 
 
+    console.log(clientId);
     const [formInputs, setFormInputs] = useState({
-        //"clientId": clientId,
+        "clientId": props.clientID,
         "createdDate": "",
         "healthGoal": "",
         "healthRisk": "",
@@ -23,8 +31,16 @@ import {
         "socialRiskDescription": "",
 
     });
-
+    const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
+    const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
+
+    const setFormStateAfterSubmitSuccess = () => {
+        setIsSubmitSuccess(true);
+        setIsSubmitting(false);
+        setIsDeleteSuccess(false);
+    };
 
     const formInputChangeHandler = event => {
         const input = event.target;
@@ -33,16 +49,32 @@ import {
         updateFormInputByNameValue(name, value);
     };
 
-
+    const setStatesWhenFormIsSubmitting = (isSubmitting) => {
+        if (isSubmitting) {
+            setIsSubmitting(true);
+        } else {
+            setIsSubmitting(false);
+        }
+    };
     const clearErrorMessages = () => {
         setErrorMessages([]);
     };
 
+ useEffect(() => {
+        initEpochDateTime();
+    }, []);
+
+
     const onSubmitRiskHandler = event => {
-        let submittedForm = formInputs;
         event.preventDefault();
         clearErrorMessages();
+        let submittedForm = formInputs;
+        const sendingData = { ...formInputs };
+        console.log(sendingData);
+        submitFormByPostRequest(sendingData);
         }
+
+
 
     const updateFormInputByNameValue = (name, value) => {
         setFormInputs(prevFormInputs => {
@@ -50,6 +82,32 @@ import {
             newFormInputs[name] = value;
             return newFormInputs;
         });
+    };
+
+    const updateErrorMessages = (error) => {
+        setErrorMessages((prevErrorMessages) => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
+    };
+
+    const initEpochDateTime = () => {
+        let newDate = new Date();
+        const date = newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate();
+        updateFormInputByNameValue("createdDate", date);
+    }
+
+
+    const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("/client-information?id=" + clientId);
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
     };
 
     const submitFormByPostRequest = data => {
