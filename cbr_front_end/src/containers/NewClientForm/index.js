@@ -15,7 +15,9 @@ import NumberInputField from "../../components/NumberInputField";
 import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
+import TextAreaInputField from "../../components/TextAreaInputField";
 import "./style.css";
+
 
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
@@ -36,6 +38,8 @@ const NewClientForm = () => {
         "caregiverName": "",
         "caregiverNumber": "",
         "disabilityType": [],
+        "other": false,
+        "otherDesc": "",
         "healthRisk": "low",
         "healthNeed": "",
         "healthIndividualGoals": "",
@@ -58,6 +62,7 @@ const NewClientForm = () => {
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
     const [errorMessages, setErrorMessages] = useState([]);
     const [dateStr, setDateStr] = useState("");
+    
 
     // input type file is an uncontrolled component so we need to use reference
     const refClientPhotoInput = useRef(null);
@@ -586,6 +591,21 @@ const NewClientForm = () => {
                         <label>Disability Type:</label>
                     </div>
                     {createDisabilityCheckboxComponents()}
+                    <CheckBox
+                        name="other"
+                        value={""}
+                        actionHandler={(e) => {updateFormInputByNameValue(e.target.name,e.target.value)}}
+                        displayText={"Other"}
+                    />
+                    <div hidden={!""}>
+                        <TextAreaInputField
+                            name="otherDesc"
+                            value={""}
+                            onChange={(e) => {updateFormInputByNameValue(e.target.name,e.target.value)}}
+                            rows="4"
+                            isDisabled={false}
+                        />
+                    </div>
                 </div>
 
                 <hr />
