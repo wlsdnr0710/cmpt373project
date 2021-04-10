@@ -124,111 +124,107 @@ import {
         })
     };
 
-        return (
-            <form className="">
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Health Risk:</label>
-                    </div>
-                    <NumberInputField
-                        name="healthRisk"
-                        value={formInputs["healthRisk"]}
-                        onChange={formInputChangeHandler}
-                    />
+    return (
+        <form className="">
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Health Risk:</label>
                 </div>
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Health Risk Description:</label>
-                    </div>
-                    <TextInputField
-                        name="healthRiskDescription"
-                        value={formInputs["healthRiskDescription"]}
-                        onChange={formInputChangeHandler}
-                    />
+                <NumberInputField
+                    name="healthRisk"
+                    value={formInputs["healthRisk"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Health Risk Description:</label>
                 </div>
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Health Goal:</label>
-                    </div>
-                    <TextInputField
-                        name="healthGoal"
-                        value={formInputs["healthGoal"]}
-                        onChange={formInputChangeHandler}
-                    />
+                <TextInputField
+                    name="healthRiskDescription"
+                    value={formInputs["healthRiskDescription"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Health Goal:</label>
                 </div>
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Education Risk:</label>
-                    </div>
-                    <NumberInputField
-                        name="educationRisk"
-                        value={formInputs["educationRisk"]}
-                        onChange={formInputChangeHandler}
-                    />
+                <TextInputField
+                    name="healthGoal"
+                    value={formInputs["healthGoal"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Education Risk:</label>
                 </div>
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Education Risk Description:</label>
-                    </div>
-                    <TextInputField
-                        name="educationRiskDescription"
-                        value={formInputs["educationRiskDescription"]}
-                        onChange={formInputChangeHandler}
-                    />
+                <NumberInputField
+                    name="educationRisk"
+                    value={formInputs["educationRisk"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Education Risk Description:</label>
                 </div>
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Education Goal:</label>
-                    </div>
-                    <TextInputField
-                        name="educationGoal"
-                        value={formInputs["educationGoal"]}
-                        onChange={formInputChangeHandler}
-                    />
+                <TextInputField
+                    name="educationRiskDescription"
+                    value={formInputs["educationRiskDescription"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Education Goal:</label>
                 </div>
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Social Risk:</label>
-                    </div>
-                    <NumberInputField
-                        name="socialRisk"
-                        value={formInputs["socialRisk"]}
-                        onChange={formInputChangeHandler}
-                    />
+                <TextInputField
+                    name="educationGoal"
+                    value={formInputs["educationGoal"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Social Risk:</label>
                 </div>
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Social Risk Description:</label>
-                    </div>
-                    <TextInputField
-                        name="socialRiskDescription"
-                        value={formInputs["socialRiskDescription"]}
-                        onChange={formInputChangeHandler}
-                    />
+                <NumberInputField
+                    name="socialRisk"
+                    value={formInputs["socialRisk"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Social Risk Description:</label>
                 </div>
-                <div className="input-field-container">
-                    <div className="label-container">
-                        <label>Social Goal:</label>
-                    </div>
-                    <TextInputField
-                        name="socialGoal"
-                        value={formInputs["socialGoal"]}
-                        onChange={formInputChangeHandler}
-                    />
+                <TextInputField
+                    name="socialRiskDescription"
+                    value={formInputs["socialRiskDescription"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <div className="input-field-container">
+                <div className="label-container">
+                    <label>Social Goal:</label>
                 </div>
-                <hr />
-                    <input
-                        className="btn btn-secondary update-risk-button"
-                        type="button"
-                        value="Update Risk"
-                        onClick={onSubmitRiskHandler}
-                    />
-                </form>
-
-
-
-        );
-    };
-
+                <TextInputField
+                    name="socialGoal"
+                    value={formInputs["socialGoal"]}
+                    onChange={formInputChangeHandler}
+                />
+            </div>
+            <hr />
+                <input
+                    className="btn btn-secondary update-risk-button"
+                    type="button"
+                    value="Update Risk"
+                    onClick={onSubmitRiskHandler}
+                />
+            </form>
+    );
+};
 
 export default NewRiskUpdateForm;
