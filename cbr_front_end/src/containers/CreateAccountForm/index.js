@@ -29,7 +29,8 @@ const CreateAccountForm = () => {
         "email": "",
         "phone": "",
         "username": "",
-        "password": ""
+        "password": "",
+        "createAccountCode": ""
     });
 
     const [zoneList, setZoneList] = useState({});
@@ -213,6 +214,14 @@ const CreateAccountForm = () => {
                     <TextInputField
                         name="phone"
                         value={formInputs["phone"]}
+                        onChange={formInputChangeHandler}
+                    />
+                </div>
+                <strong>Create Account Code:</strong> 
+                <div className="form-input">
+                    <TextInputField
+                        name="createAccountCode"
+                        value={formInputs["createAccountCode"]}
                         onChange={formInputChangeHandler}
                     />
                 </div>
