@@ -22,9 +22,7 @@ const WorkerInformation = props => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(ServerConfig.api.url + '/api/v1/worker/' + workerId, {
-            headers: requestHeader,
-        })
+        getWorkerInformationFromServerById(workerId, requestHeader)
         .then(response => {
             var JSONData = response.data;
             setFormInputs(prevFormInputs => {

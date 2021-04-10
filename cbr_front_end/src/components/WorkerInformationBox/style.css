@@ -1,4 +1,4 @@
-.worker-information-image{
+.worker-information-image {
     width: 60%;
     min-width: 200px;
     max-width: 400px;
@@ -12,7 +12,7 @@
     flex-wrap: wrap;
 }
 
-.worker-information-card .name{
+.worker-information-card .name {
     margin: 0 1vw 1vh 1vw;
 }
 

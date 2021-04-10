@@ -1,4 +1,4 @@
-.edit-worker-form{
+.edit-worker-form {
     margin-left: 2vw;
 }
 
@@ -8,14 +8,14 @@
     position: relative;
 }
 
-.edit-worker-form .worker-image img{
+.edit-worker-form .worker-image img {
     width: 70%;
     min-width: 250px;
     max-width: 500px;
     height: auto;
 }
 
-.edit-worker-form .worker-image .upload-banner{
+.edit-worker-form .worker-image .upload-banner {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -46,11 +46,11 @@
     margin: 1vh 0;
 } 
 
-.edit-worker-form .action-buttons{
+.edit-worker-form .action-buttons {
     text-align: center;
     position: relative;
 }
 
-.edit-worker-form .action-buttons input{
+.edit-worker-form .action-buttons input {
     margin: 1vh 1vw;
 }

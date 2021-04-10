@@ -3,8 +3,8 @@ import defaultPhoto from "../../assets/avatar.png";
 import "./style.css";
 
 const WorkerPhoto = ({ photoSource }) => {
-  if(isPhotoSourceValid()){
-    return<img className = "worker-information-image" src={photoSource} alt="worker"/>
+  if(isPhotoSourceValid()) {
+    return <img className = "worker-information-image" src={photoSource} alt="worker"/>
   } else {
     return <img className = "worker-information-image" src={defaultPhoto} alt="worker"/>
   }

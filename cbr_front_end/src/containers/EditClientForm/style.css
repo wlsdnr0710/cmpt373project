@@ -1,4 +1,4 @@
-.edit-client-form{
+.edit-client-form {
     margin-left: 2vw;
 }
 /* TODO: refactor img and upload banner to scale with client-image (no need for duplicate width/maxwidth/minwidth) */
@@ -8,14 +8,14 @@
     position: relative;
 }
 
-.edit-client-form .client-image img{
+.edit-client-form .client-image img {
     width: 70%;
     min-width: 250px;
     max-width: 500px;
     height: auto;
 }
 
-.edit-client-form .client-image .upload-banner{
+.edit-client-form .client-image .upload-banner {
     position: absolute;
     left: 0;
     bottom: 0;
@@ -46,11 +46,11 @@
     margin: 1vh 0;
 } 
 
-.edit-client-form .action-buttons{
+.edit-client-form .action-buttons {
     text-align: center;
     position: relative;
 }
 
-.edit-client-form .action-buttons input{
+.edit-client-form .action-buttons input {
     margin: 1vh 1vw;
 }
