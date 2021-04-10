@@ -154,36 +154,25 @@ const Statistics = () => {
             </div>
             <hr />
             <div>
-                <h5>General Stats:</h5>
-                <StatsTable values={countAll} />
+                <StatsTable values={countByZone} title="General Stats By Zone" index="1"/>
             </div>
             <div>
-                <h5>General Stats By Zone:</h5>
-                <StatsTable values={countByZone} />
+                <StatsTable values={countByWorker} title="General Stats By Worker" index="2"/>
             </div>
             <div>
-                <h5>General Stats By Worker:</h5>
-                <StatsTable values={countByWorker} />
+                <StatsTable values={countHealthRisks} title="Health Risk Stats" index="3"/>
             </div>
             <div>
-                <h5>Health Risk Stats:</h5>
-                <StatsTable values={countHealthRisks} />
+                <StatsTable values={countSocialRisks} title="Social Risk Stats" index="4"/>
             </div>
             <div>
-                <h5>Health Risk Stats:</h5>
-                <StatsTable values={countSocialRisks} />
+                <StatsTable values={countEducationRisks} title="Education Risk Stats" index="5"/>
             </div>
             <div>
-                <h5>Health Risk Stats:</h5>
-                <StatsTable values={countEducationRisks} />
+                <StatsTable values={countDisabilities} title="Disabilities By Zone" index="6"/>
             </div>
             <div>
-                <h5>Disabilities By Zone:</h5>
-                <StatsTable values={countDisabilities} />
-            </div>
-            <div>
-                <h5>Services By Zone:</h5>
-                <StatsTable values={countServices} />
+                <StatsTable values={countServices} title="Services By Zone" index="7"/>
             </div>
         </div>
     );

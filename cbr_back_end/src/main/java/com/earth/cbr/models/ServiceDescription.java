@@ -11,12 +11,6 @@ import javax.validation.constraints.PositiveOrZero;
 @Table(name = "service_description")
 public class ServiceDescription {
 
-    private enum Type {
-        HEALTH,
-        SOCIAL,
-        EDUCATION
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

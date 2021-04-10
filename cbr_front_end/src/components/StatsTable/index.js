@@ -1,8 +1,11 @@
 import React from "react";
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import "./style.css";
 
-const StatsTable = ({values}) => {
+const StatsTable = ({values, title, index}) => {
 
     const createTableHeaders = () => {
         const statTableHeaderComponents = [];
@@ -11,7 +14,6 @@ const StatsTable = ({values}) => {
         }
         else {
             statTableHeaderComponents.push(<th></th>);
-            console.log(values[0].length);
             for (let i = 0; i < values[0]["length"]; i++) {
                 statTableHeaderComponents.push(<th>{values[0]["header" + i]}</th>);
             }
@@ -26,7 +28,6 @@ const StatsTable = ({values}) => {
             return null;
         }
         else {
-            console.log(values);
             for (let i = 1; i < values.length; i++) {
                 statTableComponents.push(<td>{values[i]["name"]}</td>);
                 for (let j = 0; j < values[0]["length"]; j++) {
@@ -41,16 +42,29 @@ const StatsTable = ({values}) => {
 
     return (
         <div>
-            <Table striped bordered size="sm">
-                <thead>
-                    <tr>
-                        {createTableHeaders()}
-                    </tr>
-                </thead>
-                <tbody>
-                    {createTableRows()}
-                </tbody>
-            </Table>
+            <Accordion>
+                <Card>
+                    <Card.Header>
+                        <Accordion.Toggle as={Button} variant="link" eventKey={index}>
+                            {title}
+                        </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey={index}>
+                        <Card.Body>
+                            <Table striped bordered size="sm">
+                                <thead>
+                                    <tr>
+                                        {createTableHeaders()}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {createTableRows()}
+                                </tbody>
+                            </Table>
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
         </div>
     );
 };
