@@ -302,7 +302,7 @@ const ClientTable = props => {
                             />
                         </div>
                         <div className="search-button">
-                            <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button> 
+                            <Button variant="primary" onClick={onClickSearchHandler}>Search</Button> 
                         </div>
                     </div>
                 </div>
@@ -318,8 +318,8 @@ const ClientTable = props => {
                             className={"sortBy"}
                         />
                         <Button 
-                            className={"text-center isAscendingBtn"} 
-                            variant={"secondary"}
+                            className="text-center isAscendingBtn" 
+                            variant="primary"
                             onClick={onClickIsAscendingHandler}
                         >
                             {getAscendingText()}

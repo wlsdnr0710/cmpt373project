@@ -49,6 +49,15 @@ export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
 };
 
+export const getRiskInformationFromServer = (clientId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/riskHistory/' + clientId, {headers: requestHeader});
+};
+
+export const updateRiskInformationToServer = (RiskInformation, requestHeader) => {
+    return axios.put(ServerConfig.api.url + '/api/v1/riskHistory/', {"data" : riskInformation}, {headers: requestHeader});
+}
+
+
 export const getVisitsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
