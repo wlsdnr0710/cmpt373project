@@ -593,14 +593,16 @@ const NewClientForm = () => {
                     {createDisabilityCheckboxComponents()}
                     <CheckBox
                         name="other"
-                        value={""}
+                        value={formInputs["other"]}
                         actionHandler={(e) => {updateFormInputByNameValue(e.target.name,e.target.value)}}
                         displayText={"Other"}
+                        isDisabled={isFormInputDisabled}
+                        displayTextOnRight={true}
                     />
-                    <div hidden={!""}>
+                    <div hidden={!formInputs["other"]}>
                         <TextAreaInputField
                             name="otherDesc"
-                            value={""}
+                            value={formInputs["otherDesc"]}
                             onChange={(e) => {updateFormInputByNameValue(e.target.name,e.target.value)}}
                             rows="4"
                             isDisabled={false}
