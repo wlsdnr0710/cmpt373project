@@ -66,7 +66,6 @@ const EditWorkerForm = (props) => {
     };
     updateWorkerInformationToServer(workerInformation, requestHeader)
       .then((response) => {
-        //TODO: Inform the worker information page that the save was a success
         history.push("/worker-information?id=" + workerInformation["id"]);
       })
       .catch((error) => {
@@ -88,7 +87,6 @@ const EditWorkerForm = (props) => {
     };
     deleteWorkerFromServer(workerId, requestHeader)
       .then((response) => {
-        //TODO:Inform the view worker page that the deletetion was a success
         history.push("/admin");
       })
       .catch((error) => {

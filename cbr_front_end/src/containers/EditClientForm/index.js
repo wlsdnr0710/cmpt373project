@@ -92,6 +92,7 @@ const EditClientForm = (props) => {
     };
     deleteClientFromServer(clientId, requestHeader)
       .then((response) => {
+        //TODO:Inform the view client page that the deletetion was a success
         history.push("view-client?query=clients");
       })
       .catch((error) => {
