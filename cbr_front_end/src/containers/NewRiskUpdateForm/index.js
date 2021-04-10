@@ -4,7 +4,6 @@ import { useHistory } from "react-router-dom";
 import NumberInputField from "../../components/NumberInputField";
 import DateInputField from "../../components/DateInputField";
 import { getToken } from "../../utils/AuthenticationUtil";
-
 import {
     addRiskToServer,
     getClientInformationFromServer,
@@ -14,7 +13,6 @@ import {
     const NewRiskUpdateForm = props => {
         const clientId = props.clientID;
         const history = useHistory();
-
 
     console.log(clientId);
     const [formInputs, setFormInputs] = useState({
@@ -56,6 +54,7 @@ import {
             setIsSubmitting(false);
         }
     };
+
     const clearErrorMessages = () => {
         setErrorMessages([]);
     };
@@ -63,7 +62,6 @@ import {
  useEffect(() => {
         initEpochDateTime();
     }, []);
-
 
     const onSubmitRiskHandler = event => {
         event.preventDefault();
@@ -73,8 +71,6 @@ import {
         console.log(sendingData);
         submitFormByPostRequest(sendingData);
         }
-
-
 
     const updateFormInputByNameValue = (name, value) => {
         setFormInputs(prevFormInputs => {
@@ -100,7 +96,6 @@ import {
         const date = newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate();
         updateFormInputByNameValue("createdDate", date);
     }
-
 
     const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
         const timeInMilliSecond = timeInSecond * 1000;
