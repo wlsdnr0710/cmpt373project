@@ -7,6 +7,7 @@ import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.models.Referral;
 import com.earth.cbr.models.ReferralAdapter;
 import com.earth.cbr.models.ReferralAdapterImpl;
+import com.earth.cbr.services.ClientService;
 import com.earth.cbr.services.ReferralService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,9 @@ import java.util.List;
 public class ReferralController {
     @Autowired
     private ReferralService referralService;
+
+    @Autowired
+    private ClientService clientService;
 
     @GetMapping
     public ResponseEntity<JSONObject> getAllReferrals() {
@@ -44,8 +48,8 @@ public class ReferralController {
     @GetMapping(value = "/clientId/{clientId}/sortByDate")
     public ResponseEntity<JSONObject> getAllReferralsByClientIdSortedByDate(@PathVariable Long clientId)
             throws ObjectDoesNotExistException {
-        if (referralService.getReferralById(clientId) == null) {
-            throw new ObjectDoesNotExistException("Client not associated with any referrals");
+        if (clientService.getClientById(clientId) == null) {
+            throw new ObjectDoesNotExistException("Client with that ID does not exist.");
         }
         List<Referral> referrals = referralService.getAllReferralsByClientIdSortedByDate(clientId);
         JSONObject responseJson = new JSONObject();
