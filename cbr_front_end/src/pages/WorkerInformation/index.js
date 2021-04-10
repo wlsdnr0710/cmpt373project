@@ -4,10 +4,8 @@ import { getToken, doAuthentication, checkForAdmin } from "../../utils/Authentic
 import avatar from "../../assets/avatar.png";
 import WorkerInformationBox from "../../components/WorkerInformationBox";
 import BackgroundCard from "../../components/BackgroundCard";
-import axios from 'axios';
 import qs from "query-string";
-import ServerConfig from '../../config/ServerConfig';
-import { getWorkerObject } from "../../utils/Utilities";
+import { getWorkerObject, getWorkerInformationFromServerById } from "../../utils/Utilities";
 import "./style.css"
 
 const WorkerInformation = props => {
