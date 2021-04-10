@@ -179,7 +179,6 @@ const EditWorkerForm = (props) => {
       </div>
       <hr />
       <div className="action-buttons">
-        {/* TODO: restructure css layout for mobile*/}
         <input
           className="btn btn-secondary"
           type="button"
