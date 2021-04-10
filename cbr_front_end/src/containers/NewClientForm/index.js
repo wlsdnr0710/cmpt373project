@@ -18,7 +18,6 @@ import TextInputField from "../../components/TextInputField";
 import TextAreaInputField from "../../components/TextAreaInputField";
 import "./style.css";
 
-
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
 
 const NewClientForm = () => {
