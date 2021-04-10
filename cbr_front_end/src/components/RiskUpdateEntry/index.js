@@ -5,16 +5,6 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./style.css";
 
-const getRiskDateInformation = (date) => {
-    return (
-        <div>
-            Created: {parseEpochToDateString(date)} <hr />
-        </div>
-    );
-};
-
-// const get
-
 const RiskUpdateEntry = ({ riskObject }) => {
     return (
         <div>

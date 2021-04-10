@@ -20,18 +20,14 @@ const getPastRiskUpdateList = (riskHistories) => {
     }
 };
 
-
 const getSortedRiskhistories = (riskHistories) => {
-  return riskHistories.sort((updateA, updateB) => updateA.id - updateB.id);
-}
+    return riskHistories.sort((updateA, updateB) => updateA.id - updateB.id);
+};
 
 const RiskInformation = ({ riskHistories }) => {
-  const sortedRiskHistories = getSortedRiskhistories(riskHistories);
-  return (
-    <div>
-      {getPastRiskUpdateList(sortedRiskHistories)}
-    </div>
-  );
+    const sortedRiskHistories = getSortedRiskhistories(riskHistories);
+    
+    return <div>{getPastRiskUpdateList(sortedRiskHistories)}</div>;
 };
 
 export default RiskInformation;
