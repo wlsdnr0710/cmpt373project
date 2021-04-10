@@ -38,7 +38,7 @@ const NewClientForm = () => {
         "caregiverNumber": "",
         "disabilityType": [],
         "Other": false,
-        "otherDesc": "",
+        "otherDescription": "",
         "healthRisk": "low",
         "healthNeed": "",
         "healthIndividualGoals": "",
@@ -611,8 +611,8 @@ const NewClientForm = () => {
                     />
                     <div hidden={!formInputs["Other"]}>
                         <TextAreaInputField
-                            name="otherDesc"
-                            value={formInputs["otherDesc"]}
+                            name="otherDescription"
+                            value={formInputs["otherDescription"]}
                             onChange={(e) => {updateFormInputByNameValue(e.target.name,e.target.value)}}
                             rows="4"
                             isDisabled={false}
