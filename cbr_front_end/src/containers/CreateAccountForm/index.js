@@ -149,9 +149,7 @@ const CreateAccountForm = () => {
 
     return (
         <div className="create-account-form">
-            <BackgroundCard>
-                <h1>Create Account</h1>
-                <hr />
+            <BackgroundCard heading="Create Account">
                 <strong>First Name:</strong>
                 <div className="form-input">
                     <TextInputField

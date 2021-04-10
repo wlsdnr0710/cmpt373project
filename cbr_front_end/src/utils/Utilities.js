@@ -48,7 +48,6 @@ export const updateRiskInformationToServer = (riskInformation, requestHeader) =>
     return axios.put(ServerConfig.api.url + '/api/v1/riskHistory/', {"data" : riskInformation}, {headers: requestHeader});
 }
 
-
 export const getVisitsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
 };
@@ -111,6 +110,18 @@ export const updateClientInformationToServer = (clientInformation, requestHeader
 
 export const deleteClientFromServer = (clientId, requestHeader) => {
     return axios.delete(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader})
+}
+
+export const getWorkerInformationFromServerById = (workerId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/worker/' + workerId, {headers: requestHeader});
+};
+
+export const updateWorkerInformationToServer = (workerInformation, requestHeader) => {
+    return axios.put(ServerConfig.api.url + '/api/v1/worker/', {"data" : workerInformation}, {headers: requestHeader});
+}
+
+export const deleteWorkerFromServerById = (workerId, requestHeader) => {
+    return axios.delete(ServerConfig.api.url + '/api/v1/worker/' + workerId, {headers: requestHeader})
 }
 
 export const getGeneralStatsFromServer = (requestHeader) => {
@@ -176,6 +187,19 @@ export const getClientObject = () => {
     });
 }
 
+export const getWorkerObject = () => {
+    return( {
+        id:"N/A",
+        firstName:"N/A",
+        lastName:"N/A",
+        photo:"N/A",
+        zone:"N/A",
+        email:"N/A",
+        contactNumber:"N/A",
+        role:"N/A",
+    });
+}
+
 export const getRiskObject = () => {
     return ({
         id: "N/A",
@@ -197,6 +221,28 @@ export const getDisabilityObject = () => {
         id: "N/A",
         type: "N/A"
     }
+}
+
+export const getClientZonesObject = () => {
+    return {
+        "BidiBidi Zone 1": "1",
+        "BidiBidi Zone 2": "2",
+        "BidiBidi Zone 3": "3",
+        "BidiBidi Zone 4": "4",
+        "BidiBidi Zone 5": "5",
+        "Palorinya Basecamp": "6",
+        "Palorinya Zone 1": "7",
+        "Palorinya Zone 2": "8",
+        "Palorinya Zone 3": "9",
+      };
+}
+
+export const getWorkerRoleObject = () => {
+    return {
+        "Worker": "WORKER",
+        "Clinician": "CLINICIAN",
+        "Admin": "ADMIN",
+      };
 }
 
 export const getGendersObject = () =>{

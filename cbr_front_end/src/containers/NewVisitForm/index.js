@@ -11,8 +11,6 @@ import NumberInputField from "../../components/NumberInputField";
 import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
-import axios from 'axios';
-import ServerConfig from '../../config/ServerConfig';
 import "./style.css";
 import RiskInformation from "../RiskInformation";
 import {
@@ -547,11 +545,11 @@ const NewVisitForm = (props) => {
     }, [getRiskInformation]);
 
     return (
-        <div className="new-visit-form">
+        <div>
             <FormHeader
                 headerText="New Visit - Visit Information"
             />
-            <div className="form-body">
+            <div className="new-visit-form">
                 <div className="input-field-container">
                     <div className="label-container">
                         <label>Purpose for Visit:</label>
