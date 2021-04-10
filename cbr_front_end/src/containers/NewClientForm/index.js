@@ -105,7 +105,6 @@ const NewClientForm = () => {
             setRequiredInputErrorMessages(unfilledReqInputDisplayNames);
             return;
         }
-
         submitFormByPostRequest(sendingData);
     };
 
@@ -306,7 +305,6 @@ const NewClientForm = () => {
     };
 
     const updateFormInputByNameValue = (name, value) => {
-        console.log(value);
         setFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
             newFormInputs[name] = value;
@@ -368,14 +366,7 @@ const NewClientForm = () => {
 
     const getDisabilityTypeCheckBoxesOnChangeHandler = type => {
         return event => {
-            const checkBox = event.target;
-            let checkBoxesValues = formInputs["disabilityType"];
-            if (checkBox.checked) {
-                checkBoxesValues = [...checkBoxesValues, getDisabilityId(type)];
-            } else {
-                removeCheckBoxValuesByName(checkBoxesValues, type);
-            }
-            updateFormInputByNameValue("disabilityType", checkBoxesValues);
+            updateDisabilityList(event);
         };
     };
 
@@ -411,6 +402,24 @@ const NewClientForm = () => {
             return disabilityCheckboxComponents;
         }
     };
+
+    const handleOther = type => {
+        return event => {
+            updateFormInputByNameValue(event.target.name,event.target.checked)
+            updateDisabilityList(event);
+        };
+    }
+
+    const updateDisabilityList = event => {
+        const checkBox = event.target;
+        let checkBoxesValues = formInputs["disabilityType"];
+        if (checkBox.checked) {
+            checkBoxesValues = [...checkBoxesValues, getDisabilityId(event.target.name)];
+        } else {
+            removeCheckBoxValuesByName(checkBoxesValues, event.target.name);
+        }
+        updateFormInputByNameValue("disabilityType", checkBoxesValues);
+    }
 
     return (
         <div className="new-client-form">
@@ -597,7 +606,7 @@ const NewClientForm = () => {
                     <CheckBox
                         name="Other"
                         value={formInputs["Other"]}
-                        actionHandler={(e) => {updateFormInputByNameValue(e.target.name,e.target.checked)}}
+                        actionHandler={handleOther("Other")}
                         displayText={"Other"}
                         isDisabled={isFormInputDisabled}
                         displayTextOnRight={true}
