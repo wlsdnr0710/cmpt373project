@@ -27,8 +27,6 @@ const getSortedRiskhistories = (riskHistories) => {
 
 const RiskInformation = ({ riskHistories }) => {
   const sortedRiskHistories = getSortedRiskhistories(riskHistories);
-
-
   return (
     <div>
       {getPastRiskUpdateList(sortedRiskHistories)}

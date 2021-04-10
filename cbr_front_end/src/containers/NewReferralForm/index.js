@@ -350,7 +350,7 @@ const NewReferralForm = props => {
                 <div>
                     <Alert variant="warning">
                         Please bring the wheelchair to the centre.
-                    </Alert >
+                    </Alert>
                 </div>
             </div>
         );
@@ -490,11 +490,11 @@ const NewReferralForm = props => {
     };
 
     return (
-        <div className="new-referral-form">
+        <div>
             <FormHeader
                 headerText="New Referral"
             />
-            <div className="form-body">
+            <div className="new-referral-form">
                 <div className="input-field-container">
                     <h2>
                         Required Services

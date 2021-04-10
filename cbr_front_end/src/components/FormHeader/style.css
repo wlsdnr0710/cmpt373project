@@ -1,6 +1,7 @@
 .form-header {
-    background-color: #65ae26;
+    background-color: #56AF31; 
     box-shadow: 0px 5px 5px #bbbbbb;
     color: #fff;
     padding: 1rem 2rem 1rem 2rem;
+    z-index: 2;
 }

@@ -5,13 +5,15 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import "./style.css";
 
-const RiskDateInformation = (date) => {
+const getRiskDateInformation = (date) => {
     return (
         <div>
             Created: {parseEpochToDateString(date)} <hr />
         </div>
     );
 };
+
+// const get
 
 const RiskUpdateEntry = ({ riskObject }) => {
     return (
@@ -28,26 +30,23 @@ const RiskUpdateEntry = ({ riskObject }) => {
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey={riskObject.id}>
-                        <Card.Body>
+                        <Card.Body className="risk-update-card">
                             <div className="risk-entry">
-                                {RiskDateInformation(riskObject.createdDate)}
-                            </div>
-                            <div className="risk-entry">
-                                <strong>Health </strong>:{" "}
+                                <strong>Health: </strong>
                                 {riskObject.healthRisk}
                                 <div className="risk-description">
                                     {riskObject.healthRiskDescription}
                                 </div>
                             </div>
                             <div className="risk-entry">
-                                <strong>Education </strong>:{" "}
+                                <strong>Education: </strong>
                                 {riskObject.educationRisk}
                                 <div className="risk-description">
                                     {riskObject.educationRiskDescription}
                                 </div>
                             </div>
                             <div className="risk-entry">
-                                <strong>Social </strong>:{" "}
+                                <strong>Social: </strong>
                                 {riskObject.socialRisk}
                                 <div className="risk-description">
                                     {riskObject.socialRiskDescription}

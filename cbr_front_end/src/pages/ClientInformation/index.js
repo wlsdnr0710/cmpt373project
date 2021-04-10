@@ -9,17 +9,24 @@ import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../containers/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import qs from "query-string";
-import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getVisitsInformationFromServer, getReferralsInformationFromServer, getClientInformationFromServer} from "../../utils/Utilities";
+import {
+    parseDateStringToEpoch,
+    parseEpochToDateString,
+    getClientObject,
+    getVisitsInformationFromServer,
+    getReferralsInformationFromServer,
+    getClientInformationFromServer,
+} from "../../utils/Utilities";
 import "./styles.css";
 
-const ClientInfo = props => {
-    const[visits, setVisits] = useState([]);
-    const[referrals, setReferrals] = useState([]);
+const ClientInfo = (props) => {
+    const [visits, setVisits] = useState([]);
+    const [referrals, setReferrals] = useState([]);
     const history = useHistory();
     doAuthentication(history);
 
     const requestHeader = {
-        token: getToken()
+        token: getToken(),
     };
 
     const parameterString = props.location.search;
@@ -27,60 +34,64 @@ const ClientInfo = props => {
 
     const getClientDataByGetRequest = useCallback(() => {
         getClientInformationFromServer(clientId, requestHeader)
-        .then(response => {
-            var JSONData = response.data;
-            setFormInputs(prevFormInputs => {
-                const data = JSONData.data;
-                const newFormInputs = {...prevFormInputs};
+            .then((response) => {
+                var JSONData = response.data;
+                setFormInputs((prevFormInputs) => {
+                    const data = JSONData.data;
+                    const newFormInputs = { ...prevFormInputs };
 
-                if (data.photo) {
-                    newFormInputs["photo"] = data.photo;
-                } else {
-                    newFormInputs["photo"] = defaultPhoto;
-                }
+                    if (data.photo) {
+                        newFormInputs["photo"] = data.photo;
+                    } else {
+                        newFormInputs["photo"] = defaultPhoto;
+                    }
 
-                newFormInputs["name"] = data.firstName + " " + data.lastName;
-                newFormInputs["id"] = data.id;
-                newFormInputs["zone"] = data.zoneName.name;
-                newFormInputs["villageNumber"] = data.villageNumber;
-                newFormInputs["gender"] = data.gender;
-                newFormInputs["age"] = data.age;
-                newFormInputs["birthdate"] = parseISODateString(data.birthdate);
-                newFormInputs["date"] = parseISODateString(data.signupDate);
+                    newFormInputs["name"] =
+                        data.firstName + " " + data.lastName;
+                    newFormInputs["id"] = data.id;
+                    newFormInputs["zone"] = data.zoneName.name;
+                    newFormInputs["villageNumber"] = data.villageNumber;
+                    newFormInputs["gender"] = data.gender;
+                    newFormInputs["age"] = data.age;
+                    newFormInputs["birthdate"] = parseISODateString(data.birthdate);
+                    newFormInputs["date"] = parseISODateString(data.signupDate);
 
-                newFormInputs["riskHistories"] = data.riskHistories;
+                    newFormInputs["riskHistories"] = data.riskHistories;
 
-                newFormInputs["disabled"] = data.disabled;
-                return newFormInputs;
+                    newFormInputs["disabled"] = data.disabled;
+                    return newFormInputs;
+                });
+            })
+            .catch((error) => {
+                console.log("Get request failed, error: " + error);
             });
-        })
-        .catch(error => {
-            console.log("Get request failed, error: " + error)
-        });
     }, [clientId]);
 
     const getVisitsDataByGetRequest = () => {
-        getVisitsInformationFromServer(clientId, requestHeader)
-        .then(response => {
-            setVisits(response.data.data);
-        });
+        getVisitsInformationFromServer(clientId, requestHeader).then(
+            (response) => {
+                setVisits(response.data.data);
+            }
+        );
     };
 
     const getReferralsDataByGetRequest = () => {
-        getReferralsInformationFromServer(clientId, requestHeader)
-        .then(response => {
-            setReferrals(response.data.data);
-        });
+        getReferralsInformationFromServer(clientId, requestHeader).then(
+            (response) => {
+                setReferrals(response.data.data);
+            }
+        );
     };
 
     const createVisitListComponents = () => {
         const visitComponents = [];
-        if(visits === undefined || visits.length === 0) {
-            return (<p>There are no visits.</p>);
-        }
-        else {
+        if (visits === undefined || visits.length === 0) {
+            return <p>There are no visits.</p>;
+        } else {
             for (const index in visits) {
-                visitComponents.push(<ViewVisits visit={visits[index]} key={index}/>);
+                visitComponents.push(
+                    <ViewVisits visit={visits[index]} key={index} />
+                );
             }
             return visitComponents;
         }
@@ -88,53 +99,52 @@ const ClientInfo = props => {
 
     const createReferralListComponents = () => {
         const referralComponents = [];
-        if(referrals === undefined || referrals.length === 0) {
-            return (<p>There are no referrals.</p>);
-        }
-        else {
+        if (referrals === undefined || referrals.length === 0) {
+            return <p>There are no referrals.</p>;
+        } else {
             for (const index in referrals) {
-                referralComponents.push(<ViewReferrals referral={referrals[index]} key={index}/>);
+                referralComponents.push(
+                    <ViewReferrals referral={referrals[index]} key={index} />
+                );
             }
             return referralComponents;
         }
     };
 
-    const parseISODateString = ISODateString => {
+    const parseISODateString = (ISODateString) => {
         const epoch = parseDateStringToEpoch(ISODateString);
         return parseEpochToDateString(epoch);
     };
 
-    const [formInputs, setFormInputs] = useState(
-        getClientObject()
-    );
+    const [formInputs, setFormInputs] = useState(getClientObject());
 
     const onClickGetNewVisitPage = () => {
         history.push({
             pathname: "/new-visit",
-            state: { clientID: formInputs["id"] }
+            state: { clientID: formInputs["id"] },
         });
     };
 
     const onClickGetNewReferralPage = () => {
         history.push({
             pathname: "/new-referral",
-            state: { clientID: formInputs["id"] }
+            state: { clientID: formInputs["id"] },
         });
     };
 
     const onClickAnswerSurveyPage = () => {
         history.push({
             pathname: "/answer-survey",
-            state: { clientID: formInputs["id"] }
+            state: { clientID: formInputs["id"] },
         });
     };
 
     const onClickGetEditClientPage = () => {
         history.push({
             pathname: "/edit-client",
-            state: { clientID: formInputs["id"]}
-        })
-    }
+            state: { clientID: formInputs["id"] },
+        });
+    };
 
     useEffect(() => {
         getClientDataByGetRequest();
@@ -143,65 +153,61 @@ const ClientInfo = props => {
     }, [getClientDataByGetRequest]);
 
     return (
-        <div>
-            <div>
-                <BackgroundCard>
-                    <main className>
-                        <ClientInformation
-                            className="client-general-information"
-                            clientObject={formInputs}
-                        />
-                        <hr className="client-information-hr" />
-                        <h1>Risk Levels</h1>
-                        <RiskInformation
-                            className="client-risk-information"
-                            riskHistories={formInputs.riskHistories}
-                        />
-                        <hr className="client-information-hr" />
-                        <h1>Disability and Ailment(s)</h1>
-                        <DisabilityInformation
-                            disabilityList={formInputs.disabled}
-                        />
-                        <div className="client-information-hr">
-                            <div className="client-information-hr mt-3">
-                                <button type="button" className="btn btn-secondary" onClick={onClickGetEditClientPage}>
-                                    Edit
-                                </button>
-                            </div>
-                        </div>
-                    </main>
-                </BackgroundCard>
-            </div>
-            <div className="view-all-visits-details">
-                <BackgroundCard heading="Visits">
-                    {createVisitListComponents()}
-                    <div className="client-information-hr mt-3">
-                        <button type="button" className="btn btn-primary" onClick={onClickGetNewVisitPage}>
-                            Add Visit
-                        </button>
-                    </div>
-                </BackgroundCard>
-            </div>
-            <div className="view-all-referrals-details">
-                <BackgroundCard heading="Referrals">
-                    {createReferralListComponents()}
-                    <div className="client-information-hr mt-3">
-                        <button type="button" className="btn btn-primary" onClick={onClickGetNewReferralPage}>
-                            Add Referral
-                        </button>
-                    </div>
-                </BackgroundCard>
-            </div>
-            <div className="view-all-surveys-details">
-                <BackgroundCard heading="Surveys">
-                    {/* TODO: Add answered survey list */}
-                    <div className="client-information-hr mt-3">
-                        <button type="button" className="btn btn-primary" onClick={onClickAnswerSurveyPage}>
-                            Add Survey
-                        </button>
-                    </div>
-                </BackgroundCard>
-            </div>
+        <div className="client-information">
+            <BackgroundCard className="entry">
+                <ClientInformation clientObject={formInputs} />
+                <hr />
+                <h3>Disability and Ailment(s)</h3>
+                <DisabilityInformation disabilityList={formInputs.disabled} />
+                <div>
+                    <button
+                        type="button"
+                        className="btn btn-primary add-button"
+                        onClick={onClickGetEditClientPage}
+                    >
+                        Edit Client
+                    </button>
+                </div>
+            </BackgroundCard>
+            <BackgroundCard heading="Risk History" className="entry">
+                <RiskInformation
+                    className="client-risk-information"
+                    riskHistories={formInputs.riskHistories}
+                />
+                <button type="button" className="btn btn-primary add-button">
+                    Add Risk Update
+                </button>
+            </BackgroundCard>
+            <BackgroundCard heading="Visits" className="entry">
+                {createVisitListComponents()}
+                <button
+                    type="button"
+                    className="btn btn-primary add-button"
+                    onClick={onClickGetNewVisitPage}
+                >
+                    Add Visit
+                </button>
+            </BackgroundCard>
+            <BackgroundCard heading="Referrals" className="entry">
+                {createReferralListComponents()}
+                <button
+                    type="button"
+                    className="btn btn-primary add-button"
+                    onClick={onClickGetNewReferralPage}
+                >
+                    Add Referral
+                </button>
+            </BackgroundCard>
+            <BackgroundCard heading="Surveys" className="entry">
+                {/* TODO: Add answered survey list */}
+                <button
+                    type="button"
+                    className="btn btn-primary add-button"
+                    onClick={onClickAnswerSurveyPage}
+                >
+                    Add Survey
+                </button>
+            </BackgroundCard>
         </div>
     );
 };
