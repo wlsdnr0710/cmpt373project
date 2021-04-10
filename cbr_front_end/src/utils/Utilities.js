@@ -1,6 +1,15 @@
 import axios from "axios";
 import ServerConfig from "../config/ServerConfig";
 
+export const parseISODateStringToDateString = ISODateString => {
+    const MILLISECONDS_IN_MINUTE = 60000
+    const localDate = new Date();
+    const timezoneOffsetInMilliseconds = localDate.getTimezoneOffset() * MILLISECONDS_IN_MINUTE;
+    // We have to add the timezone offset because we aren't storing the offset in the database
+    const epoch = parseDateStringToEpoch(ISODateString) + timezoneOffsetInMilliseconds;
+    return parseEpochToDateString(epoch);
+};
+
 export const parseDateStringToEpoch = dateString => {
     return Date.parse(dateString);
 };

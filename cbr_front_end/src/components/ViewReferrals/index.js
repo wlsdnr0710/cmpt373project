@@ -2,7 +2,7 @@ import React from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { parseEpochToDateString } from "../../utils/Utilities";
+import { parseISODateStringToDateString } from "../../utils/Utilities";
 import avatar from "../../assets/avatar.png";
 import "./style.css";
 
@@ -225,7 +225,7 @@ const ViewReferrals = (props) => {
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="link" eventKey={props.referral.id}>
-                            {parseEpochToDateString(props.referral.date)} {formatResolved()}
+                            {parseISODateStringToDateString(props.referral.date)} {formatResolved()}
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey={props.referral.id}>

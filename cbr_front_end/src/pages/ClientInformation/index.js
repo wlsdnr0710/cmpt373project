@@ -12,7 +12,7 @@ import DisabilityInformation from "../../components/DisabilityInformation";
 import axios from 'axios';
 import qs from "query-string";
 import ServerConfig from '../../config/ServerConfig';
-import { parseDateStringToEpoch, parseEpochToDateString, getClientObject, getVisitsInformationFromServer, getReferralsInformationFromServer} from "../../utils/Utilities";
+import { parseISODateStringToDateString, getClientObject, getVisitsInformationFromServer, getReferralsInformationFromServer} from "../../utils/Utilities";
 import "./styles.css";
 
 const ClientInfo = props => {
@@ -50,8 +50,8 @@ const ClientInfo = props => {
                 newFormInputs["villageNumber"] = data.villageNumber;
                 newFormInputs["gender"] = data.gender;
                 newFormInputs["age"] = data.age;
-                newFormInputs["birthdate"] = parseISODateString(data.birthdate);
-                newFormInputs["date"] = parseISODateString(data.signupDate);
+                newFormInputs["birthdate"] = parseISODateStringToDateString(data.birthdate);
+                newFormInputs["date"] = parseISODateStringToDateString(data.signupDate);
 
                 newFormInputs["riskHistories"] = data.riskHistories;
 
@@ -108,11 +108,6 @@ const ClientInfo = props => {
             }
             return referralComponents;
         }
-    };
-
-    const parseISODateString = ISODateString => {
-        const epoch = parseDateStringToEpoch(ISODateString);
-        return parseEpochToDateString(epoch);
     };
 
     const [formInputs, setFormInputs] = useState(

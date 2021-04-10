@@ -1,11 +1,11 @@
 import React from "react";
-import { parseEpochToDateString } from "../../utils/Utilities";
+import { parseISODateStringToDateString } from "../../utils/Utilities";
 import "./style.css"
 
 const RiskDateInformation = (date) => {
     return (
         <div>
-            Created: {parseEpochToDateString(date)} <hr />
+            Created: {parseISODateStringToDateString(date)} <hr />
         </div>
     );
 };
