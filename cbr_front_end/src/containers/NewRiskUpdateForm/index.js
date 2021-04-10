@@ -14,7 +14,6 @@ import {
         const clientId = props.clientID;
         const history = useHistory();
 
-    console.log(clientId);
     const [formInputs, setFormInputs] = useState({
         "clientId": props.clientID,
         "createdDate": "",
