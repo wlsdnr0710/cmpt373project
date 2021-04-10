@@ -613,7 +613,7 @@ const NewClientForm = () => {
                         <TextAreaInputField
                             name="otherDescription"
                             value={formInputs["otherDescription"]}
-                            onChange={(e) => {updateFormInputByNameValue(e.target.name,e.target.value)}}
+                            onChange={formInputChangeHandler}
                             rows="4"
                             isDisabled={false}
                         />
