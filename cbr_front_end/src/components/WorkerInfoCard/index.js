@@ -7,13 +7,13 @@ import "./style.css";
 
 const WorkerInfoCard = ({ worker }) => {
     const history = useHistory();
-    const onClickHandlerAllWorkers = () => {
+    const onClickAllWorkersHandler = () => {
         history.push("/worker-information?id=" + worker.id);
         window.scrollTo(0, 0);
     }
 
     return (
-        <div className="worker-info-card" onClick={onClickHandlerAllWorkers}>
+        <div className="worker-info-card" onClick={onClickAllWorkersHandler}>
             <div className="photo-id-display">
                 <div className="worker-photo">
                     <img src={avatar} alt="" />

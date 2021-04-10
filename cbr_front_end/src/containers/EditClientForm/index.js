@@ -8,14 +8,12 @@ import avatar from "../../assets/avatar.png";
 import NumberInputField from "../../components/NumberInputField";
 import PhoneInputField from "../../components/PhoneInputField";
 import ImageInputField from "../../components/ImageInputField";
-import RiskInformation from "../RiskInformation";
 import { getToken } from "../../utils/AuthenticationUtil";
 import {
     deleteClientFromServer,
     getClientInformationFromServer,
     getClientObject,
     updateClientInformationToServer,
-    getClientZonesObject,
     getGendersObject,
     getZonesFromServer
 } from "../../utils/Utilities";
@@ -58,7 +56,7 @@ const EditClientForm = (props) => {
             setOriginalClientInformation(response.data.data);
         })
         .catch((error) => {
-            console.log("ERROR: Get request failed. " + error);
+            throw new DOMException("Error could not fetch client information: " + error);
         });
     }, [clientId]);
 
@@ -319,28 +317,15 @@ const EditClientForm = (props) => {
                 />
             </div>
             <hr />
-            {/*TODO: Add API calls for update risk and update disability buttons */}
             <div>
-                <h1>Risk</h1>
-                <RiskInformation
-                    riskHistories={clientInformation.riskHistories}
-                />
-                <input
-                    className="btn btn-secondary update-risk-button"
-                    type="button"
-                    value="Update Risk"
-                />
-            </div>
-            <hr />
-            <div>
-                <h1>Disability and Ailment(s)</h1>
+                <h3>Disability and Ailment(s)</h3>
                 <DisabilityInformation
                     disabilityList={clientInformation.disabled}
                 />
                 <input
-                    className="btn btn-secondary update-disability-button"
+                    className="btn btn-primary update-disability-button"
                     type="button"
-                    value="Update Disability"
+                    value="Edit Disability"
                 />
             </div>
             <hr />
@@ -351,19 +336,19 @@ const EditClientForm = (props) => {
             <div className="action-buttons">
                 {/* TODO: restructure css layout for mobile*/}
                 <input
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
                     type="button"
                     value="Delete Client"
                     onClick={deleteClientAndPushAllClientPage}
                 />
                 <input
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
                     type="button"
                     value="Discard Changes"
                     onClick={discardChanges}
                 />
                 <input
-                    className="btn btn-secondary"
+                    className="btn btn-primary"
                     type="submit"
                     value="Save Changes"
                     onClick={saveChangesAndPushClientInformationPage}

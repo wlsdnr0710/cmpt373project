@@ -2,7 +2,6 @@ import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
 import { getZonesFromServer, getDisabilitiesFromServer, addClientToServer } from "../../utils/Utilities";
-import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -12,9 +11,9 @@ import DateInputField from "../../components/DateInputField";
 import ImageInputField from "../../components/ImageInputField";
 import NewClientSurvey from "../../containers/NewClientSurvey";
 import NumberInputField from "../../components/NumberInputField";
-import ServerConfig from "../../config/ServerConfig";
 import Spinner from 'react-bootstrap/Spinner';
 import TextInputField from "../../components/TextInputField";
+import TextAreaInputField from "../../components/TextAreaInputField";
 import "./style.css";
 
 const imageUploaderSecondaryText = "PNG, jpg, gif files up to 10 MB in size";
@@ -36,6 +35,7 @@ const NewClientForm = () => {
         "caregiverName": "",
         "caregiverNumber": "",
         "disabilityType": [],
+        "otherDescription": "",
         "healthRisk": "low",
         "healthNeed": "",
         "healthIndividualGoals": "",
@@ -58,6 +58,8 @@ const NewClientForm = () => {
     const [showEducationSurvey, setShowEducationSurvey] = useState(true);
     const [errorMessages, setErrorMessages] = useState([]);
     const [dateStr, setDateStr] = useState("");
+    const [showOtherTextBox, setShowOtherTextBox] = useState(false);
+    
 
     // input type file is an uncontrolled component so we need to use reference
     const refClientPhotoInput = useRef(null);
@@ -100,7 +102,7 @@ const NewClientForm = () => {
             setRequiredInputErrorMessages(unfilledReqInputDisplayNames);
             return;
         }
-
+        console.log(sendingData);
         submitFormByPostRequest(sendingData);
     };
 
@@ -289,7 +291,6 @@ const NewClientForm = () => {
         const name = input.name;
         const value = input.value;
         updateFormInputByNameValue(name, value);
-        console.log(formInputs["zone"]);
     };
 
     const dateFormInputChangeHandler = event => {
@@ -362,14 +363,7 @@ const NewClientForm = () => {
 
     const getDisabilityTypeCheckBoxesOnChangeHandler = type => {
         return event => {
-            const checkBox = event.target;
-            let checkBoxesValues = formInputs["disabilityType"];
-            if (checkBox.checked) {
-                checkBoxesValues = [...checkBoxesValues, getDisabilityId(type)];
-            } else {
-                removeCheckBoxValuesByName(checkBoxesValues, type);
-            }
-            updateFormInputByNameValue("disabilityType", checkBoxesValues);
+            updateDisabilityList(event);
         };
     };
 
@@ -389,28 +383,55 @@ const NewClientForm = () => {
             for (const index in disabilityList) {
                 const type = disabilityList[index].type;
                 const id = disabilityList[index].id;
-                disabilityCheckboxComponents.push(<CheckBox
-                                                        name={type}
-                                                        value={id}
-                                                        actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(type)}
-                                                        isDisabled={isFormInputDisabled}
-                                                        displayText={type}
-                                                        displayTextOnRight={true}
-                                                        key={index}
-                                                   />
-                                                  );
+                if(type != "Other"){
+                    disabilityCheckboxComponents.push(<CheckBox
+                                                            name={type}
+                                                            value={id}
+                                                            actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(type)}
+                                                            isDisabled={isFormInputDisabled}
+                                                            displayText={type}
+                                                            displayTextOnRight={true}
+                                                            key={index}
+                                                    />
+                                                    );
+                }
             }
             return disabilityCheckboxComponents;
         }
     };
 
+    const onClickOtherCheckBox = type => {
+        return event => {
+            const otherCheckBox = event.target;
+            if (otherCheckBox.checked == true) {
+                setShowOtherTextBox(true);
+            }
+            else {
+                setShowOtherTextBox(false);
+            }
+            updateFormInputByNameValue(otherCheckBox.name,otherCheckBox.checked)
+            updateDisabilityList(event);
+        };
+    }
+
+    const updateDisabilityList = event => {
+        const checkBox = event.target;
+        let checkBoxesValues = formInputs["disabilityType"];
+        if (checkBox.checked) {
+            checkBoxesValues = [...checkBoxesValues, getDisabilityId(event.target.name)];
+        } else {
+            removeCheckBoxValuesByName(checkBoxesValues, event.target.name);
+        }
+        updateFormInputByNameValue("disabilityType", checkBoxesValues);
+    }
+
     return (
-        <div className="new-client-form">
+        <div>
             <FormHeader
                 headerText="New Client - Client Information"
             />
 
-            <div className="form-body">
+            <div className="new-client-form">
                 <div className="input-field-container">
                     <CheckBox
                         name="doConsentToInterview"
@@ -586,6 +607,23 @@ const NewClientForm = () => {
                         <label>Disability Type:</label>
                     </div>
                     {createDisabilityCheckboxComponents()}
+                    <CheckBox
+                        name="Other"
+                        value={showOtherTextBox}
+                        actionHandler={onClickOtherCheckBox("Other")}
+                        displayText={"Other"}
+                        isDisabled={isFormInputDisabled}
+                        displayTextOnRight={true}
+                    />
+                    <div hidden={!showOtherTextBox}>
+                        <TextAreaInputField
+                            name="otherDescription"
+                            value={formInputs["otherDescription"]}
+                            onChange={formInputChangeHandler}
+                            rows="4"
+                            isDisabled={false}
+                        />
+                    </div>
                 </div>
 
                 <hr />
