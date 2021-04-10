@@ -112,7 +112,7 @@ export const updateWorkerInformationToServer = (workerInformation, requestHeader
     return axios.put(ServerConfig.api.url + '/api/v1/worker/', {"data" : workerInformation}, {headers: requestHeader});
 }
 
-export const deleteWorkerFromServer = (workerId, requestHeader) => {
+export const deleteWorkerFromServerById = (workerId, requestHeader) => {
     return axios.delete(ServerConfig.api.url + '/api/v1/worker/' + workerId, {headers: requestHeader})
 }
 

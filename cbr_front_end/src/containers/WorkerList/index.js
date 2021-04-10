@@ -19,12 +19,13 @@ const WorkerList = (props) => {
     const intersectionObserver = useRef();
     const observeeElement = useRef();
 
-    const firstPage = 1;
-    const workersPerPage = 5;
+    const FIRST_LOAD = 1;
+    const FIRST_PAGE = FIRST_LOAD - 1;
+    const WORKERS_PER_PAGE = 5;
     const [isStartPage, setIsStartPage] = useState(false);
     const [isLastPage, setIsLastPage] = useState(false);
-    const [currentPage, setCurrentPage] = useState(firstPage - 1);
-    const [loadedWorkers, setLoadedWorkers] = useState(firstPage);
+    const [currentPage, setCurrentPage] = useState(FIRST_PAGE);
+    const [loadedWorkers, setLoadedWorkers] = useState(FIRST_LOAD);
 
     const requestWorkers = useCallback(() => {
         const requestHeader = {
@@ -75,13 +76,13 @@ const WorkerList = (props) => {
     }
 
     const updateBoolStartOrLastPage = (newPage) => {
-        if (newPage + 1 === firstPage){
+        if (newPage + 1 === FIRST_LOAD){
             setIsStartPage(true);
         }
         else {
             setIsStartPage(false);
         }
-        if (newPage + workersPerPage >= workers.length){
+        if (newPage + WORKERS_PER_PAGE >= workers.length){
         
             setIsLastPage(true);
         }
@@ -97,11 +98,11 @@ const WorkerList = (props) => {
             }
         };
 
-        if (loadedWorkers === firstPage) {
+        if (loadedWorkers === FIRST_LOAD) {
             requestWorkers();
         }
 
-        splitArrayFromWorkersToShowedWorkers(currentPage, currentPage + workersPerPage);
+        splitArrayFromWorkersToShowedWorkers(currentPage, currentPage + WORKERS_PER_PAGE);
         return disconnectIntersectionObserver;
     }, [hasMoreWorkers, loadedWorkers, requestWorkers]);
 
@@ -116,15 +117,15 @@ const WorkerList = (props) => {
     };
 
     const onClickNextPageHandler = () => {
-        let newPage = currentPage + workersPerPage;
+        let newPage = currentPage + WORKERS_PER_PAGE;
         setCurrentPage(newPage);
-        splitArrayFromWorkersToShowedWorkers(newPage, newPage + workersPerPage);
+        splitArrayFromWorkersToShowedWorkers(newPage, newPage + WORKERS_PER_PAGE);
     }
 
     const onClickPrevPageHandler = () => {
-        let newPage = currentPage - workersPerPage;
+        let newPage = currentPage - WORKERS_PER_PAGE;
         setCurrentPage(newPage);
-        splitArrayFromWorkersToShowedWorkers(newPage, newPage + workersPerPage);
+        splitArrayFromWorkersToShowedWorkers(newPage, newPage + WORKERS_PER_PAGE);
     }
 
     const showSpinnerWhenIsLoading = isLoading => {
