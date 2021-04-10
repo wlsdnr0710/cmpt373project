@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { getToken, doAuthentication } from "../../utils/AuthenticationUtil";
 import avatar from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
-import ViewVisits from "../../components/ViewVisits";
+import ViewVisit from "../../components/ViewVisit";
 import ViewReferrals from "../../components/ViewReferrals";
 import Accordion from 'react-bootstrap/Accordion';
 import BackgroundCard from "../../components/BackgroundCard";
@@ -91,7 +91,7 @@ const ClientInfo = props => {
         }
         else {
             for (const index in visits) {
-                visitComponents.push(<ViewVisits visit={visits[index]} key={index}/>);
+                visitComponents.push(<ViewVisit visit={visits[index]} key={index}/>);
             }
             return visitComponents;
         }

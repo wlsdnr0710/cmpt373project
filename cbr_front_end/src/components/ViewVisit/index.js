@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button';
 import { parseISODateStringToDateString } from "../../utils/Utilities";
 import "./style.css";
 
-const ViewVisits = (props) => {
+const ViewVisit = (props) => {
 
     const createServiceComponents = () => {
         const serviceComponents = [];
@@ -132,4 +132,4 @@ const ViewVisits = (props) => {
     );
 }
 
-export default ViewVisits;
+export default ViewVisit;
