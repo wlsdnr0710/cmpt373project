@@ -65,6 +65,38 @@ export const deleteClientFromServer = (clientId, requestHeader) => {
     return axios.delete(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader})
 }
 
+export const getGeneralStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countAll', {headers: requestHeader});
+};
+
+export const getGeneralStatsByZoneFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countByZone', {headers: requestHeader});
+};
+
+export const getGeneralStatsByWorkerFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countByWorker', {headers: requestHeader});
+};
+
+export const getHealthRiskStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countHealthRisk', {headers: requestHeader});
+};
+
+export const getSocialRiskStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countSocialRisk', {headers: requestHeader});
+};
+
+export const getEducationRiskStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countEducationRisk', {headers: requestHeader});
+};
+
+export const getDisabilityStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countDisabilities', {headers: requestHeader});
+};
+
+export const getServiceStatsFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/countServices', {headers: requestHeader});
+};
+
 export const getClientObject = () => {
     return( {
         id:"N/A",

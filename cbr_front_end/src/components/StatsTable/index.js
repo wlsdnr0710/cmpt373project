@@ -8,35 +8,35 @@ import "./style.css";
 const StatsTable = ({values, title, index}) => {
 
     const createTableHeaders = () => {
-        const statTableHeaderComponents = [];
+        const headerComponents = [];
         if(values === undefined || values.length === 0) {
             return null;
         }
         else {
-            statTableHeaderComponents.push(<th></th>);
+            headerComponents.push(<th></th>);
             for (let i = 0; i < values[0]["length"]; i++) {
-                statTableHeaderComponents.push(<th>{values[0]["header" + i]}</th>);
+                headerComponents.push(<th>{values[0]["header" + i]}</th>);
             }
-            return statTableHeaderComponents;
+            return headerComponents;
         }
     };
 
     const createTableRows = () => {
-        let statTableComponents = [];
-        const statTableComponents2 = [];
+        let rowBodyComponents = [];
+        const rowComponents = [];
         if(values === undefined || values.length === 0) {
             return null;
         }
         else {
             for (let i = 1; i < values.length; i++) {
-                statTableComponents.push(<td>{values[i]["name"]}</td>);
+                rowBodyComponents.push(<td>{values[i]["name"]}</td>);
                 for (let j = 0; j < values[0]["length"]; j++) {
-                    statTableComponents.push(<td>{values[i]["column" + j]}</td>);
+                    rowBodyComponents.push(<td>{values[i]["column" + j]}</td>);
                 }
-                statTableComponents2.push(<tr>{statTableComponents}</tr>);
-                statTableComponents = [];
+                rowComponents.push(<tr>{rowBodyComponents}</tr>);
+                rowBodyComponents = [];
             }
-            return statTableComponents2;
+            return rowComponents;
         }
     };
 

@@ -2,6 +2,16 @@ import React, { useEffect, useState } from "react";
 import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import { getToken } from "../../utils/AuthenticationUtil";
+import {
+    getGeneralStatsFromServer,
+    getGeneralStatsByZoneFromServer,
+    getGeneralStatsByWorkerFromServer,
+    getHealthRiskStatsFromServer,
+    getSocialRiskStatsFromServer,
+    getEducationRiskStatsFromServer,
+    getDisabilityStatsFromServer,
+    getServiceStatsFromServer
+} from "../../utils/Utilities";
 import StatsTable from "../../components/StatsTable";
 import Table from 'react-bootstrap/Table';
 import "./style.css";
@@ -20,12 +30,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countAll",
-            {
-                headers: requestHeader,
-            }
-        )
+        getGeneralStatsFromServer(requestHeader)
         .then(response => {
             setCountAll(response.data.data[0]);
         });
@@ -35,12 +40,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countByZone",
-            {
-                headers: requestHeader,
-            }
-        )
+        getGeneralStatsByZoneFromServer(requestHeader)
         .then(response => {
             setCountByZone(response.data.data[0]);
         });
@@ -50,12 +50,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countByWorker",
-            {
-                headers: requestHeader,
-            }
-        )
+        getGeneralStatsByWorkerFromServer(requestHeader)
         .then(response => {
             setCountByWorker(response.data.data[0]);
         });
@@ -65,12 +60,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countHealthRisk",
-            {
-                headers: requestHeader,
-            }
-        )
+        getHealthRiskStatsFromServer(requestHeader)
         .then(response => {
             setCountHealthRisks(response.data.data[0]);
         });
@@ -80,12 +70,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countSocialRisk",
-            {
-                headers: requestHeader,
-            }
-        )
+        getSocialRiskStatsFromServer(requestHeader)
         .then(response => {
             setCountSocialRisks(response.data.data[0]);
         });
@@ -95,12 +80,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countEducationRisk",
-            {
-                headers: requestHeader,
-            }
-        )
+        getEducationRiskStatsFromServer(requestHeader)
         .then(response => {
             setCountEducationRisks(response.data.data[0]);
         });
@@ -110,12 +90,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countDisabilities",
-            {
-                headers: requestHeader,
-            }
-        )
+        getDisabilityStatsFromServer(requestHeader)
         .then(response => {
             setCountDisabilities(response.data.data[0]);
         });
@@ -125,12 +100,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        axios.get(
-            ServerConfig.api.url + "/api/v1/statistics/countServices",
-            {
-                headers: requestHeader,
-            }
-        )
+        getServiceStatsFromServer(requestHeader)
         .then(response => {
             setCountServices(response.data.data[0]);
         });
@@ -153,6 +123,9 @@ const Statistics = () => {
                 Statistics
             </div>
             <hr />
+            <div>
+                <StatsTable values={countByZone} title="General Stats" index="0"/>
+            </div>
             <div>
                 <StatsTable values={countByZone} title="General Stats By Zone" index="1"/>
             </div>
