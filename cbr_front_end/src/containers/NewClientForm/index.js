@@ -293,7 +293,6 @@ const NewClientForm = () => {
         const name = input.name;
         const value = input.value;
         updateFormInputByNameValue(name, value);
-        console.log(formInputs["zone"]);
     };
 
     const dateFormInputChangeHandler = event => {
