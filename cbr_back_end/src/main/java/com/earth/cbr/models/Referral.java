@@ -12,6 +12,12 @@ import java.sql.Date;
 @Entity(name = "Referral")
 @Table(name = "referral")
 public class Referral {
+
+    public enum ReferTo {
+        DISABILITY_CENTRE,
+        MOBILE_CLINIC
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -69,7 +75,9 @@ public class Referral {
             name = "refer_to",
             columnDefinition = "TEXT"
     )
-    private String referTo;
+    @NotNull(message = "Refer to cannot be null")
+    @Enumerated(EnumType.STRING)
+    private ReferTo referTo;
 
     @Column (
             name = "is_resolved",
@@ -97,7 +105,7 @@ public class Referral {
     )
     private Long workerId;
 
-    @OneToOne(optional = false)
+    @OneToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "required_services_id", referencedColumnName = "id")
     @NotNull(message = "Required Services cannot be null")
     @UniqueRequiredServicesID(message = "Another referral is already linked to this service")
@@ -111,6 +119,10 @@ public class Referral {
     @JoinColumn(name = "client_id", referencedColumnName = "id", insertable = false, updatable = false)
     private Client client;
 
+    @ManyToOne
+    @JoinColumn(name = "worker_id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Worker worker;
+
     public Referral() {
     }
 
@@ -123,14 +135,15 @@ public class Referral {
                     Boolean doesRequireRepairs,
                     Boolean isBelowKnee,
                     Boolean isBelowElbow,
-                    String referTo,
+                    ReferTo referTo,
                     Boolean isResolved,
                     String outcome,
                     Date date,
                     Long workerId,
                     RequiredServices requiredServices,
                     Physiotherapy physiotherapy,
-                    Client client) {
+                    Client client,
+                    Worker worker) {
         this.id = id;
         this.clientId = clientId;
         this.photo = photo;
@@ -148,6 +161,7 @@ public class Referral {
         this.requiredServices = requiredServices;
         this.physiotherapy = physiotherapy;
         this.client = client;
+        this.worker = worker;
     }
 
     public Long getId() {
@@ -190,6 +204,10 @@ public class Referral {
         isIntermediateUser = intermediateUser;
     }
 
+    public void setIntermediateUserByWheelchairUserType(WheelchairUserType wheelchairUserType) {
+        setIntermediateUser(wheelchairUserType == WheelchairUserType.INTERMEDIATE);
+    }
+
     public Boolean getHasExistingWheelchair() {
         return hasExistingWheelchair;
     }
@@ -214,6 +232,10 @@ public class Referral {
         isBelowKnee = belowKnee;
     }
 
+    public void setProstheticCondition(ProstheticConditionEnum condition) {
+        setBelowKnee(condition == ProstheticConditionEnum.BELOW_KNEE);
+    }
+
     public Boolean getBelowElbow() {
         return isBelowElbow;
     }
@@ -222,11 +244,15 @@ public class Referral {
         isBelowElbow = belowElbow;
     }
 
-    public String getReferTo() {
+    public void setOrthoticCondition(OrthoticConditionEnum condition) {
+        setBelowElbow(condition == OrthoticConditionEnum.BELOW_ELBOW);
+    }
+
+    public ReferTo getReferTo() {
         return referTo;
     }
 
-    public void setReferTo(String referTo) {
+    public void setReferTo(ReferTo referTo) {
         this.referTo = referTo;
     }
 
@@ -284,5 +310,13 @@ public class Referral {
 
     public void setClient(Client client) {
         this.client = client;
+    }
+
+    public Worker getWorker() {
+        return worker;
+    }
+
+    public void setWorker(Worker worker) {
+        this.worker = worker;
     }
 }

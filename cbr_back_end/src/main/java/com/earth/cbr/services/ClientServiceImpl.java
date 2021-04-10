@@ -55,7 +55,8 @@ public class ClientServiceImpl implements ClientService {
 
         if (ascending == true) {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        } else {
+        }
+        else {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
         }
 
@@ -104,9 +105,10 @@ public class ClientServiceImpl implements ClientService {
         Pageable pageable;
         Page<Client> filteredClients = null;
 
-        if(ascending == true) {
+        if (ascending == true) {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).ascending());
-        } else {
+        }
+        else {
             pageable = PageRequest.of(pageNumber, pageSize, Sort.by(sortBy).descending());
         }
 

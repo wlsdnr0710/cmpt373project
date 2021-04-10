@@ -1,6 +1,8 @@
 import React from "react";
 import FormHeader from "../../components/FormHeader";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
+import SyncNavigationBarEntry from "../../components/SyncNavigationBarEntry";
+import { removeToken } from "../../utils/AuthenticationUtil";
 import {
     getToken,
     getRole,
@@ -18,7 +20,7 @@ import newClientIcon from "../../assets/svg/navigation_icons/user_plus.svg";
 import newVisitIcon from "../../assets/svg/navigation_icons/visitor.svg";
 import newReferralIcon from "../../assets/svg/navigation_icons/user_pin.svg";
 import allClientsIcon from "../../assets/svg/navigation_icons/people.svg";
-import cloudSyncIcon from "../../assets/svg/navigation_icons/cloud-sync.svg";
+import syncIcon from "../../assets/svg/navigation_icons/cloud-sync.svg";
 import logoutIcon from "../../assets/svg/navigation_icons/logout.svg";
 import adminIcon from "../../assets/svg/navigation_icons/settings.svg";
 import "./style.css";
@@ -84,11 +86,9 @@ const HomeNavigation = () => {
                             iconSource={dashboardIcon}
                             iconAlt="Dashboard"
                         />
-                        <NavigationBarEntry
+                        <SyncNavigationBarEntry
                             label="Sync"
-                            destination="#"
-                            query="#"
-                            iconSource={cloudSyncIcon}
+                            iconSource={syncIcon}
                             iconAlt="Sync"
                         />
                         <NavigationBarEntry

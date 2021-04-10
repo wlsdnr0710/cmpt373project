@@ -22,25 +22,47 @@ const ClientTable = props => {
 
     const firstPage = 1;
     const [currentPage, setCurrentPage] = useState(firstPage);
-    const clientsPerPage = 10;
+    const clientsPerPage = 20;
 
-    const defaultSortBy = "default";
+    const defaultSortBy = "id";
+    const defaultSearchBy = "cbrWorkerId"
     const [sortBy, setSortBy] = useState(defaultSortBy);
+    const [isSortAscending, setIsSortAscending] = useState(true);
+    const [searchBy, setSearchBy] = useState(defaultSearchBy);
     const [searchKeyword, setSearchKeyword] = useState("");
     const [searchKeywordBuffer, setSearchKeywordBuffer] = useState("");
 
+    const getAscendingText = () => {
+        if (isSortAscending){
+            return "Ascending";
+        }
+        return "Descending";
+    }
+
+    const sortType = {
+        "BIRTHDATE": "birthdate",
+    };
+        
+    const getSearchByList = () => {
+        return {
+            "CBR Worker ID": "cbrWorkerId",
+            "First Name": "firstName",
+            "Last Name": "lastName",
+            "Zone": "zone",
+            "Village No.": "villageNumber",
+        };
+    }
+
     const getSortByList = () => {
         return {
-            "Default": defaultSortBy,
             "ID": "id",
             "First Name": "firstName",
             "Last Name": "lastName",
-            "Location": "location",
+            "Location": "zoneName",
             "Village No.": "villageNumber",
             "Gender": "gender",
-            "Risk": "risk",
-            "Disability": "disability",
-            "Age": "age",
+            "Risk": "riskHistories",
+            "Age": "birthdate",
         };
     };
 
@@ -48,25 +70,33 @@ const ClientTable = props => {
         return {
             page: page,
             clientsPerPage: clientsPerPage,
+            sortBy: sortBy,
+            isSortAscending: isSortAscending,
+            searchBy : searchBy,
+            searchKeywordBuffer :searchKeywordBuffer
         }
     };
 
     const requestClientsByPageable = useCallback(pageable => {
-        const { page, clientsPerPage } = pageable;
-
+        
+        const { page, clientsPerPage, sortBy, isSortAscending, searchBy, searchKeywordBuffer } = pageable;
+        let getUrlCall = ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage + "/sortBy/" + sortBy + "/ascending/" + isSortAscending;
+        if (searchKeywordBuffer !== ""){
+            getUrlCall = ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage + "/filterBy/" + searchBy + "/searchBy/" + searchKeywordBuffer + "/sortBy/" + sortBy + "/ascending/" + isSortAscending;
+        }
         const requestHeader = {
             token: getToken()
         };
         setIsLoading(true);
         axios.get(
-                ServerConfig.api.url + "/api/v1/client/pageNumber/" + page + "/pageSize/" + clientsPerPage, 
+                getUrlCall,
                 {
                     headers: requestHeader,
                 }
             )
             .then(response => {
                 const receivedClients = response.data.data.content;
-                updateClients(receivedClients);
+                updateClients(receivedClients);          
                 incrementPage();
             })
             .catch(error => {
@@ -95,6 +125,12 @@ const ClientTable = props => {
         }
         return paramString;
     };
+
+    const reverseArray = (array) => {
+        var reverseArray = array.reverse();
+        return reverseArray;
+
+    }
 
     const updateClients = receivedClients => {
         setClients(prevClients => {
@@ -148,6 +184,10 @@ const ClientTable = props => {
             requestClientsByPageable(pageable);
         }
 
+        if (sortBy === (sortType.BIRTHDATE)){
+            updateClients(reverseArray(clients));
+        } 
+
         setUpInfiniteScroll();
         return disconnectIntersectionObserver;
     }, [hasMoreClients, currentPage, requestClientsByPageable]);
@@ -162,12 +202,24 @@ const ClientTable = props => {
         return data;
     };
 
+    const onClickIsAscendingHandler = () => {
+        setIsSortAscending(!isSortAscending);
+        setCurrentPage(firstPage);
+        setClients([]);
+    }
+
+    const onChangeSearchByHandler = event => {
+        const searchByDropdown = event.target;
+        const searchByValue = searchByDropdown.value;
+        setSearchBy(searchByValue);
+    };
+
     const onChangeSortByHandler = event => {
         const sortByDropdown = event.target;
         const sortByValue = sortByDropdown.value;
         setCurrentPage(firstPage);
-        setClients([]);
         setSortBy(sortByValue);
+        setClients([]);
     };
 
     const onChangeSearchKeywordHandler = event => {
@@ -180,12 +232,9 @@ const ClientTable = props => {
 
     const onClickSearchHandler = event => {
         event.preventDefault();
-        if (searchKeywordBuffer.length === 0) {
-            return;
-        }
+        setSearchKeyword(searchKeywordBuffer);
         setCurrentPage(firstPage);
         setClients([]);
-        setSearchKeyword(searchKeywordBuffer);
     };
 
     const showSpinnerWhenIsLoading = isLoading => {
@@ -243,19 +292,39 @@ const ClientTable = props => {
                     <div className="search-text-input">
                         <TextInputField value={searchKeywordBuffer} onChange={onChangeSearchKeywordHandler} />
                     </div>
-                    <div className="search-button">
-                        <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button>
+                    <div className="search-action">
+                        <div className="search-dropdown">
+                            <DropdownList
+                                dropdownName="search-by"
+                                dropdownListItemsKeyValue={getSearchByList()}
+                                value={searchBy}
+                                onChange={onChangeSearchByHandler}
+                            />
+                        </div>
+                        <div className="search-button">
+                            <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button> 
+                        </div>
                     </div>
                 </div>
                 <hr />
                 <div className="section">
                     <span>Sort By: </span>
-                    <DropdownList
-                        dropdownName="sort-by"
-                        dropdownListItemsKeyValue={getSortByList()}
-                        value={sortBy}
-                        onChange={onChangeSortByHandler}
-                    />
+                    <div className="sortBy">
+                        <DropdownList
+                            dropdownName="sort-by"
+                            dropdownListItemsKeyValue={getSortByList()}
+                            value={sortBy}
+                            onChange={onChangeSortByHandler}
+                            className={"sortBy"}
+                        />
+                        <Button 
+                            className={"text-center isAscendingBtn"} 
+                            variant={"secondary"}
+                            onClick={onClickIsAscendingHandler}
+                        >
+                            {getAscendingText()}
+                        </Button>
+                    </div>
                 </div>
             </div>
             <div className="table">

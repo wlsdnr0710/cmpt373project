@@ -86,6 +86,21 @@ public class DefaultExceptionHandler extends ResponseEntityExceptionHandler {
         return standardExceptionHandling(ex);
     }
 
+    @ExceptionHandler(WorkerCreateAccountCodeInvalid.class)
+    public ResponseEntity<Object> handleWorkerCreateAccountCodeInvalidException(
+            WorkerCreateAccountCodeInvalid ex,
+            WebRequest request) {
+
+        List<String> constraintMessages = new ArrayList<>();
+        constraintMessages.add(ex.getMessage());
+
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("exception type", ex.getClass().getSimpleName());
+        responseJson.put("messages", constraintMessages);
+
+        return new ResponseEntity(responseJson, HttpStatus.BAD_REQUEST);
+    }
+
     private ResponseEntity<Object> standardExceptionHandling(Exception ex) {
         JSONObject responseJson = new JSONObject();
         // Put into a list for consistent output

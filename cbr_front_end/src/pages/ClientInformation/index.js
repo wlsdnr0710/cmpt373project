@@ -55,7 +55,7 @@ const ClientInfo = props => {
 
                 newFormInputs["riskHistories"] = data.riskHistories;
 
-                newFormInputs["disabilities"] = data.disabilities;
+                newFormInputs["disabled"] = data.disabled;
                 return newFormInputs;
             });
         })
@@ -80,7 +80,6 @@ const ClientInfo = props => {
         };
         getReferralsInformationFromServer(clientId, requestHeader)
         .then(response => {
-            console.log(response.data.data);
             setReferrals(response.data.data);
         });
     };
@@ -99,7 +98,6 @@ const ClientInfo = props => {
     };
 
     const createReferralListComponents = () => {
-    console.log(referrals);
         const referralComponents = [];
         if(referrals === undefined || referrals.length === 0) {
             return (<p>There are no referrals.</p>);
@@ -157,7 +155,7 @@ const ClientInfo = props => {
 
     return (
         <div>
-            < div >
+            <div>
                 <BackgroundCard>
                     <main className>
                         <ClientInformation
@@ -173,7 +171,7 @@ const ClientInfo = props => {
                         <hr className="client-information-hr" />
                         <h1>Disability and Ailment(s)</h1>
                         <DisabilityInformation
-                            disabilityList={formInputs.disabilities}
+                            disabilityList={formInputs.disabled}
                         />
                         <div className="client-information-hr">
                             <div className="client-information-hr mt-3">
@@ -184,7 +182,7 @@ const ClientInfo = props => {
                         </div>
                     </main>
                 </BackgroundCard>
-            </div >
+            </div>
             <div className="view-all-visits-details">
                 <BackgroundCard heading="Visits">
                     {createVisitListComponents()}

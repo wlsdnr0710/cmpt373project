@@ -24,12 +24,12 @@ export default class Login extends Component {
 
     componentDidMount() {
         if (isAuthenticated()) {
-            this.redirectToDashboard();
+            this.redirectToHomePage();
         }
     }
 
-    redirectToDashboard() {
-        this.props.history.push("/dashboard");
+    redirectToHomePage() {
+        this.props.history.push("/home");
     }
 
     handleChange(event) {
@@ -57,7 +57,7 @@ export default class Login extends Component {
             .then(response => {
                 const token = response.data.data;
                 saveToken(token);
-                this.redirectToDashboard();
+                this.redirectToHomePage();
             })
             .catch(error => {
                 this.setState({ errorMessage: error.response.data.message });
