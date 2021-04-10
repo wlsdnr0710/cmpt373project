@@ -32,6 +32,7 @@
 /cbr_back_end/!**/src/main/**/target/
 /cbr_back_end/!**/src/test/**/target/
 /cbr_back_end/src/main/java/com/earth/cbr/config/firebaseServiceAccountKey.json
+/cbr_back_end/firebaseServiceAccountKey.json
 
 ### STS ###
 /cbr_back_end/.apt_generated
