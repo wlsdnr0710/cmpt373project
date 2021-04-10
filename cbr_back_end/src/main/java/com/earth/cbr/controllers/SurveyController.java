@@ -4,10 +4,11 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
+import com.earth.cbr.models.authentication.Admin;
 import com.earth.cbr.models.survey.Survey;
 import com.earth.cbr.models.survey.SurveyQuestion;
 import com.earth.cbr.models.survey.SurveyQuestionOption;
-import com.earth.cbr.services.SurveyService;
+import com.earth.cbr.services.survey.SurveyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,6 +58,7 @@ public class SurveyController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @Admin
     @PostMapping
     public ResponseEntity<JSONObject> addSurvey(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException  {
@@ -75,6 +77,7 @@ public class SurveyController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @Admin
     @PutMapping
     public ResponseEntity<JSONObject> updateSurveyById(@RequestBody JSONObject payload)
             throws MissingRequiredDataObjectException, ObjectDoesNotExistException {
@@ -101,6 +104,7 @@ public class SurveyController {
         return ResponseEntity.ok().body(responseJson);
     }
 
+    @Admin
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<JSONObject> deleteSurveyById(@PathVariable Long id) throws ObjectDoesNotExistException {
         if(surveyService.getSurveyById(id) == null) {

@@ -17,35 +17,35 @@ public class RequiredServices {
             columnDefinition = "BOOLEAN"
     )
     @NotNull(message = "Must indicate whether physiotherapy is required")
-    private Boolean isPhysiotherapy;
+    private Boolean isPhysiotherapy = false;
 
     @Column (
             name = "is_orthotic",
             columnDefinition = "BOOLEAN"
     )
     @NotNull(message = "Must indicate whether orthotic support is required")
-    private Boolean isOrthotic;
+    private Boolean isOrthotic = false;
 
     @Column (
             name = "is_prosthetic",
             columnDefinition = "BOOLEAN"
     )
     @NotNull(message = "Must indicate whether prosthetic support is required")
-    private Boolean isProsthetic;
+    private Boolean isProsthetic = false;
 
     @Column (
             name = "is_wheelchair",
             columnDefinition = "BOOLEAN"
     )
     @NotNull(message = "Must indicate whether wheelchair support is required")
-    private Boolean isWheelchair;
+    private Boolean isWheelchair = false;
 
     @Column (
             name = "is_other",
             columnDefinition = "BOOLEAN"
     )
     @NotNull(message = "Must indicate whether other services are required")
-    private Boolean isOther;
+    private Boolean isOther = false;
 
     @Column (
             name = "other_description",
@@ -76,6 +76,26 @@ public class RequiredServices {
         this.isOther = isOther;
         this.otherDescription = otherDescription;
         this.referral = referral;
+    }
+
+    public void includeRequiredServices(RequiredServicesEnum requiredServicesEnum) {
+        switch (requiredServicesEnum) {
+            case PHYSIOTHERAPY:
+                isPhysiotherapy = true;
+                break;
+            case ORTHOTIC:
+                isOrthotic = true;
+                break;
+            case PROSTHETIC:
+                isProsthetic = true;
+                break;
+            case WHEELCHAIR:
+                isWheelchair = true;
+                break;
+            case OTHER:
+                isOther = true;
+                break;
+        }
     }
 
     public Long getId() {

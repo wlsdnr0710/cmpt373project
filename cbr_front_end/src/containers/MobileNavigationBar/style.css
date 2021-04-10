@@ -1,41 +1,41 @@
 @media only screen and (min-width: 1200px) {
-  .mobile-navigation-bar {
-    display: none;
-  }
+    .mobile-navigation-bar {
+        display: none;
+    }
 }
 
 .mobile-navigation-bar {
-  position: fixed;
-  z-index: 999;
-  left: 0;
-  bottom: 0;
-  width: 100%;
+    position: fixed;
+    z-index: 999;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 .mobile-navigation-bar .navigation-entry {
-  background-color: #333;
-  display: inline-block;
-  flex-direction: row;
-  width: 25%;
-  height: 100%;
+    background-color: #333;
+    display: inline-block;
+    flex-direction: row;
+    width: 25%;
+    height: 100%;
 }
 
 .mobile-navigation-bar .navigation-entry:hover {
-  background-color: #ddd;
-  opacity: 1.0;
+    background-color: #ddd;
+    opacity: 1.0;
 }
 
 .mobile-navigation-bar .navigation-entry .icon {
-  width: 20%;
-  margin-left: 40%;
+    width: 20%;
+    margin-left: 40%;
 }
 
 .mobile-navigation-bar .navigation-entry .text {
-  color: #ddd;
-  text-align: center;
-  font-size: 4vw;
+    color: #ddd;
+    text-align: center;
+    font-size: 4vw;
 }
 
 .mobile-navigation-bar .navigation-entry:hover .text {
-  color: #000;
+    color: #000;
 }

@@ -1,56 +1,94 @@
-import React, { useState } from "react";
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import CameraSnapshot from "../../containers/CameraSnapshot";
 import CheckBox from "../../components/CheckBox";
 import DropdownList from "../../components/DropdownList";
 import FormHeader from "../../components/FormHeader";
-import { getDefaultPhysiotherapyConditions, getRequiredServicesKeyValues } from "../../utils/Utilities";
-import { getToken } from "../../utils/AuthenticationUtil";
+import {
+    getPhysiotherapyConditionsFromServer,
+    getDefaultWheelchairUserTypes,
+    getDefaultOrthoticConditions,
+    getDefaultProstheticConditions,
+    getRequiredServicesKeyValues,
+    postNewReferrals
+} from "../../utils/Utilities";
+import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
 import NumberInputField from "../../components/NumberInputField";
 import RequiredServiceCheckBoxes from "../../components/RequiredServiceCheckBoxes";
-import ServerConfig from "../../config/ServerConfig";
+import Spinner from 'react-bootstrap/Spinner';
 import TextAreaInputField from "../../components/TextAreaInputField";
 import "./style.css";
 
 const NewReferralForm = props => {
+    const history = useHistory();
     const [formInputs, setFormInputs] = useState({
         "requiredServices": [],
         "requiredServiceOtherDescription": "",
         "hipWidthInInches": "",
-        "userType": "1",
+        "wheelchairUserType": "BASIC",
         "doTheyHaveExistingWheelchair": false,
         "canExistingWheelchairRepaired": false,
-        "prostheticCondition": "1",
-        "orthoticCondition": "1",
-        "physiotherapyCondition": "1",
+        "prostheticCondition": "BELOW_KNEE",
+        "orthoticCondition": "BELOW_ELBOW",
+        "physiotherapyCondition": "",
         "physiotherapyConditionOtherDesc": "",
+        "isResolved": false,
+        "outcome": "",
+        "referTo": "DISABILITY_CENTRE",
+        "workerId": getWorkerIdFromToken(getToken())
     });
+
+    const getReferToMapping = () => {
+        return {
+            "Disability Centre": "DISABILITY_CENTRE",
+            "Mobile Clinic": "MOBILE_CLINIC"
+        };
+    };
+
     const [showOtherDescription, setShowOtherDescription] = useState(false);
     const [showWheelchairQuestions, setShowWheelchairQuestions] = useState(false);
     const [showExistingWheelchairQuestions, setShowExistingWheelchairQuestions] = useState(false);
     const [showPhysiotherapyQuestions, setShowPhysiotherapyQuestions] = useState(false);
     const [showOrthoticQuestions, setShowOrthoticQuestions] = useState(false);
     const [showProstheticQuestions, setShowProstheticQuestions] = useState(false);
+    const [showOutcome, setShowOutcome] = useState(false);
     const clientId = props.clientId;
 
+    const [isFormDisabled, setIsFormDisabled] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isSuccess, setIsSuccess] = useState(false);
+    const [errorMessages, setErrorMessages] = useState([]);
+
     const requiredServicesKeyValues = getRequiredServicesKeyValues();
-    const defaultPhysiotherapyConditions = getDefaultPhysiotherapyConditions();
+    const wheelchairUserTypes = getDefaultWheelchairUserTypes();
+    const defaultOrthoticConditions = getDefaultOrthoticConditions();
+    const defaultProstheticConditions = getDefaultProstheticConditions();
 
-    const defaultUserTypes = {
-        "Basic": "1",
-        "Intermediate": "2",
-    };
+    const [physiotherapyConditions, setPhysiotherapyConditions] = useState({});
+    useEffect(() => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getPhysiotherapyConditionsFromServer(requestHeader)
+            .then(response => {
+                const data = response.data.data;
+                const conditions = {};
+                for (let i = 0; i < data.length; i++) {
+                    const condition = data[i];
+                    conditions[condition["type"]] = condition["id"];
+                }
+                setPhysiotherapyConditions(conditions);
+                setDefaultPhysiotherapyConditionId(data[0]["id"]);
+            })
+            .catch(error => {
 
-    const defaultOrthoticConditions = {
-        "Above elbow": "1",
-        "Below elbow": "2",
-    };
+            });
+    }, []);
 
-    const defaultProstheticConditions = {
-        "Above knee": "1",
-        "Below knee": "2",
+    const setDefaultPhysiotherapyConditionId = defaultConditionId => {
+        updateFormInputByNameValue("physiotherapyCondition", defaultConditionId);
     };
 
     const getRequiredServicesCheckBoxesOnChangeHandler = name => {
@@ -113,11 +151,30 @@ const NewReferralForm = props => {
         return (
             <div>
                 <div>Please describe Other:</div>
-                <TextAreaInputField 
-                    name={"requiredServiceOtherDescription"} 
-                    value={formInputs["requiredServiceOtherDescription"]} 
-                    onChange={formInputChangeHandler} 
-                    rows="4" 
+                <TextAreaInputField
+                    name={"requiredServiceOtherDescription"}
+                    value={formInputs["requiredServiceOtherDescription"]}
+                    onChange={formInputChangeHandler}
+                    rows="4"
+                    isDisabled={false}
+                />
+            </div>
+        );
+    };
+
+    const showOutcomeTextArea = () => {
+        if (!showOutcome) {
+            return null;
+        }
+
+        return (
+            <div className="input-field-container">
+                <div>What was the outcome?</div>
+                <TextAreaInputField
+                    name={"outcome"}
+                    value={formInputs["outcome"]}
+                    onChange={formInputChangeHandler}
+                    rows="4"
                     isDisabled={false}
                 />
             </div>
@@ -140,7 +197,7 @@ const NewReferralForm = props => {
                 <div>
                     Photo is required.
                 </div>
-                <CameraSnapshot storeImage={() => {}} />
+                <CameraSnapshot storeImage={() => { }} />
             </div>
         );
     };
@@ -165,8 +222,8 @@ const NewReferralForm = props => {
                         Is the injury below or above the knee?
                     </div>
                     <DropdownList
-                        dropdownName="prostheticConditions"
-                        value={formInputs["prostheticConditions"]}
+                        dropdownName="prostheticCondition"
+                        value={formInputs["prostheticCondition"]}
                         dropdownListItemsKeyValue={defaultProstheticConditions}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
@@ -223,7 +280,7 @@ const NewReferralForm = props => {
                     <DropdownList
                         dropdownName="physiotherapyCondition"
                         value={formInputs["physiotherapyCondition"]}
-                        dropdownListItemsKeyValue={defaultPhysiotherapyConditions}
+                        dropdownListItemsKeyValue={physiotherapyConditions}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
@@ -235,15 +292,15 @@ const NewReferralForm = props => {
     };
 
     const showDescribeOtherPhysiotherapyTextArea = () => {
-        if (formInputs["physiotherapyCondition"] === defaultPhysiotherapyConditions["Other"]) {
+        if (formInputs["physiotherapyCondition"] === physiotherapyConditions["Other"]) {
             return (
                 <div>
                     <div>Please describe Other:</div>
-                    <TextAreaInputField 
-                        name={"physiotherapyConditionOtherDesc"} 
-                        value={formInputs["physiotherapyConditionOtherDesc"]} 
-                        onChange={formInputChangeHandler} 
-                        rows="4" 
+                    <TextAreaInputField
+                        name={"physiotherapyConditionOtherDesc"}
+                        value={formInputs["physiotherapyConditionOtherDesc"]}
+                        onChange={formInputChangeHandler}
+                        rows="4"
                         isDisabled={false}
                     />
                 </div>
@@ -269,9 +326,9 @@ const NewReferralForm = props => {
                         Is the user a basic or intermediate user?
                     </div>
                     <DropdownList
-                        dropdownName="userType"
-                        value={formInputs["userType"]}
-                        dropdownListItemsKeyValue={defaultUserTypes}
+                        dropdownName="wheelchairUserType"
+                        value={formInputs["wheelchairUserType"]}
+                        dropdownListItemsKeyValue={wheelchairUserTypes}
                         onChange={formInputChangeHandler}
                         isDisabled={false}
                     />
@@ -332,8 +389,146 @@ const NewReferralForm = props => {
     const formInputChangeHandler = event => {
         const input = event.target;
         const name = input.name;
-        const value = input.value;
+        let value = null;
+        if (input.type === "checkbox") {
+            value = input.checked;
+        } else {
+            value = input.value;
+        }
         updateFormInputByNameValue(name, value);
+    };
+
+    const onIsResolvedClick = event => {
+        const input = event.target;
+        const value = input.checked;
+        if (value) {
+            setShowOutcome(true);
+        } else {
+            updateFormInputByNameValue("outcome", "");
+            setShowOutcome(false);
+        }
+        updateFormInputByNameValue("isResolved", value);
+    };
+
+    const onSubmitHandler = event => {
+        event.preventDefault();
+        setStatesDuringSubmitting();
+        const requestHeader = {
+            token: getToken()
+        };
+
+        const data = { ...formInputs };
+        data["clientId"] = clientId;
+
+        postNewReferrals(data, requestHeader)
+            .then(response => {
+                setStatesWhenSuccess();
+                const oneSecond = 1;
+                redirectToClientInfoPageAfter(clientId, oneSecond);
+            })
+            .catch(error => {
+                setStatesWhenFail();
+                updateErrorMessages(error);
+            });
+    };
+
+    const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
+        const timeInMilliSecond = timeInSecond * 1000;
+        setTimeout(() => {
+            history.push("/client-information?id=" + clientId);
+            window.scrollTo(0, 0);
+        }, timeInMilliSecond);
+    };
+
+    const showSuccessMessage = () => {
+        if (!isSuccess) {
+            return null;
+        } else {
+            return (
+                <Alert variant="success">
+                    The referral form is successfully submitted!
+                </Alert>
+            );
+        }
+    };
+
+    const setStatesDuringSubmitting = () => {
+        setIsSuccess(false);
+        setErrorMessages([]);
+        setIsFormDisabled(true);
+        setIsSubmitting(true);
+    };
+
+    const setStatesWhenSuccess = () => {
+        setIsSuccess(true);
+        setIsFormDisabled(false);
+        setIsSubmitting(false);
+    };
+
+    const setStatesWhenFail = () => {
+        setIsFormDisabled(false);
+        setIsSubmitting(false);
+    };
+
+    const updateErrorMessages = error => {
+        setErrorMessages(prevErrorMessages => {
+            let messages = ["Something went wrong on the server."];
+            if (error.response) {
+                messages = error.response.data.messages;
+            }
+            const newMessages = [...prevErrorMessages, ...messages];
+            return newMessages;
+        });
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const getSubmitButtonText = () => {
+        if (isSubmitting) {
+            return (
+                <div className="spinning-submit-button-text">
+                    <Spinner
+                        className="spinner"
+                        as="div"
+                        animation="border"
+                        size="sm"
+                        role="status"
+                        aria-hidden="true"
+                    />
+                    Submitting
+                </div>
+            );
+        } else {
+            return "Submit";
+        }
     };
 
     return (
@@ -344,9 +539,21 @@ const NewReferralForm = props => {
             <div className="form-body">
                 <div className="input-field-container">
                     <h2>
+                        Refer To
+                    </h2>
+                    <DropdownList
+                        dropdownName="referTo"
+                        value={formInputs["referTo"]}
+                        dropdownListItemsKeyValue={getReferToMapping()}
+                        onChange={formInputChangeHandler}
+                    />
+                    <hr />
+                </div>
+                <div className="input-field-container">
+                    <h2>
                         Required Services
                     </h2>
-                    <RequiredServiceCheckBoxes 
+                    <RequiredServiceCheckBoxes
                         values={formInputs["requiredServices"]}
                         getOnChangeHandlers={getRequiredServicesCheckBoxesOnChangeHandler}
                         isDisabled={false}
@@ -362,7 +569,26 @@ const NewReferralForm = props => {
                 {showWheelchairQuestionsInputFields()}
 
                 <div>
-                    <Button variant="primary" onClick={()=>{}}>Submit</Button>
+                    <CheckBox
+                        name="isResolved"
+                        value={formInputs["isResolved"]}
+                        actionHandler={onIsResolvedClick}
+                        displayText={"Is the referral resolved?"}
+                        isDisabled={false}
+                    />
+                </div>
+
+                {showOutcomeTextArea()}
+
+                <div>
+                    <Button variant="primary" onClick={onSubmitHandler}>
+                        {getSubmitButtonText()}
+                    </Button>
+                </div>
+
+                <div className="feedback-messages">
+                    {showSuccessMessage()}
+                    {showErrorMessages()}
                 </div>
             </div>
         </div>

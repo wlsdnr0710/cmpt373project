@@ -4,7 +4,9 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.exceptions.ObjectDoesNotExistException;
 import com.earth.cbr.exceptions.MissingRequiredDataObjectException;
+import com.earth.cbr.exceptions.WorkerCreateAccountCodeInvalid;
 import com.earth.cbr.models.Worker;
+import com.earth.cbr.models.WorkerCreateAccountCode;
 import com.earth.cbr.models.authentication.Admin;
 import com.earth.cbr.models.authentication.PassToken;
 import com.earth.cbr.services.WorkerService;
@@ -58,7 +60,7 @@ public class WorkerController {
     @PassToken
     @PostMapping
     public ResponseEntity<JSONObject> addWorker(@RequestBody JSONObject payload)
-            throws MissingRequiredDataObjectException {
+            throws MissingRequiredDataObjectException, WorkerCreateAccountCodeInvalid {
         JSONObject workerJSON = payload.getJSONObject("data");
 
         if (workerJSON == null) {
@@ -68,10 +70,13 @@ public class WorkerController {
 
         JSONObject responseJson = new JSONObject();
         Worker worker = JSON.parseObject(workerString, Worker.class);
-
         worker.setPhone(Utility.formatPhoneNumber(worker.getPhone()));
 
+        String createAccountCode = (String) workerJSON.get("createAccountCode");
+        workerService.validateCreateAccountCode(createAccountCode);
+
         Worker addedWorker = workerService.addWorker(worker);
+        workerService.useWorkerCreateAccountCodeByWorker(createAccountCode, worker.getId());
 
         // get worker's id to update UI
         responseJson.put("id", addedWorker.getId());
@@ -113,5 +118,14 @@ public class WorkerController {
 
         workerService.deleteWorkerById(id);
         return ResponseEntity.ok().body(null);
+    }
+
+    @Admin
+    @GetMapping(value = "/createAccountCode")
+    public ResponseEntity<JSONObject> getWorkerCreateAccountCode() {
+        WorkerCreateAccountCode code = workerService.generateAndSaveWorkerCreateAccountCode();
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("data", code);
+        return ResponseEntity.ok().body(jsonObject);
     }
 }
