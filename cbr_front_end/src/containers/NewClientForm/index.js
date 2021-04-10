@@ -306,6 +306,7 @@ const NewClientForm = () => {
     };
 
     const updateFormInputByNameValue = (name, value) => {
+        console.log(value);
         setFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
             newFormInputs[name] = value;
@@ -394,16 +395,18 @@ const NewClientForm = () => {
             for (const index in disabilityList) {
                 const type = disabilityList[index].type;
                 const id = disabilityList[index].id;
-                disabilityCheckboxComponents.push(<CheckBox
-                                                        name={type}
-                                                        value={id}
-                                                        actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(type)}
-                                                        isDisabled={isFormInputDisabled}
-                                                        displayText={type}
-                                                        displayTextOnRight={true}
-                                                        key={index}
-                                                   />
-                                                  );
+                if(type != "Other"){
+                    disabilityCheckboxComponents.push(<CheckBox
+                                                            name={type}
+                                                            value={id}
+                                                            actionHandler={getDisabilityTypeCheckBoxesOnChangeHandler(type)}
+                                                            isDisabled={isFormInputDisabled}
+                                                            displayText={type}
+                                                            displayTextOnRight={true}
+                                                            key={index}
+                                                    />
+                                                    );
+                }
             }
             return disabilityCheckboxComponents;
         }
@@ -594,7 +597,7 @@ const NewClientForm = () => {
                     <CheckBox
                         name="other"
                         value={formInputs["other"]}
-                        actionHandler={(e) => {updateFormInputByNameValue(e.target.name,e.target.value)}}
+                        actionHandler={(e) => {updateFormInputByNameValue(e.target.name,e.target.checked)}}
                         displayText={"Other"}
                         isDisabled={isFormInputDisabled}
                         displayTextOnRight={true}
