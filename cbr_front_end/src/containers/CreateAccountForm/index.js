@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import Alert from 'react-bootstrap/Alert';
 import TextInputField from "../../components/TextInputField";
 import DropdownList from "../../components/DropdownList";
@@ -149,9 +148,7 @@ const CreateAccountForm = () => {
 
     return (
         <div className="create-account-form">
-            <BackgroundCard>
-                <h1>Create Account</h1>
-                <hr />
+            <BackgroundCard heading="Create Account">
                 <strong>First Name:</strong>
                 <div className="form-input">
                     <TextInputField

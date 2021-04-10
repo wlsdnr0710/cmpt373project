@@ -63,7 +63,7 @@ const ClientInfo = (props) => {
                 });
             })
             .catch((error) => {
-                console.log("Get request failed, error: " + error);
+                throw new DOMException("Error could not fetch client information: " + error);
             });
     }, [clientId]);
 
@@ -154,7 +154,7 @@ const ClientInfo = (props) => {
 
     return (
         <div className="client-information">
-            <BackgroundCard className="entry">
+            <BackgroundCard>
                 <ClientInformation clientObject={formInputs} />
                 <hr />
                 <h3>Disability and Ailment(s)</h3>
@@ -169,7 +169,7 @@ const ClientInfo = (props) => {
                     </button>
                 </div>
             </BackgroundCard>
-            <BackgroundCard heading="Risk History" className="entry">
+            <BackgroundCard heading="Risk History">
                 <RiskInformation
                     className="client-risk-information"
                     riskHistories={formInputs.riskHistories}
@@ -178,7 +178,7 @@ const ClientInfo = (props) => {
                     Add Risk Update
                 </button>
             </BackgroundCard>
-            <BackgroundCard heading="Visits" className="entry">
+            <BackgroundCard heading="Visits">
                 {createVisitListComponents()}
                 <button
                     type="button"
@@ -188,7 +188,7 @@ const ClientInfo = (props) => {
                     Add Visit
                 </button>
             </BackgroundCard>
-            <BackgroundCard heading="Referrals" className="entry">
+            <BackgroundCard heading="Referrals">
                 {createReferralListComponents()}
                 <button
                     type="button"
@@ -198,7 +198,7 @@ const ClientInfo = (props) => {
                     Add Referral
                 </button>
             </BackgroundCard>
-            <BackgroundCard heading="Surveys" className="entry">
+            <BackgroundCard heading="Surveys">
                 {/* TODO: Add answered survey list */}
                 <button
                     type="button"
