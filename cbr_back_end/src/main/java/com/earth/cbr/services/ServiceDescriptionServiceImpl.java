@@ -28,6 +28,11 @@ public class ServiceDescriptionServiceImpl implements ServiceDescriptionService{
     }
 
     @Override
+    public Integer getAllServiceOptionsByZoneIdCount(Long serviceOptionId, Integer zoneId) {
+        return serviceDescriptionRepository.findAllByServiceOptionIdAndVisitZone(serviceOptionId, zoneId).size();
+    }
+
+    @Override
     public ServiceDescription addServiceDescription(@Valid ServiceDescription serviceDescription) {
         return serviceDescriptionRepository.save(serviceDescription);
     }

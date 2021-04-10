@@ -27,7 +27,7 @@ public class ServiceDescription {
     )
     @NotNull(message = "Visit ID cannot be null")
     @PositiveOrZero(message = "Visit ID should be positive or zero")
-    private Integer visitId;
+    private Long visitId;
 
     @Column(
             name = "description",
@@ -42,7 +42,7 @@ public class ServiceDescription {
     )
     @NotNull(message = "Service Option ID cannot be null")
     @PositiveOrZero(message = "Service Option ID should be positive or zero")
-    private Integer serviceOptionId;
+    private Long serviceOptionId;
 
     @JsonIgnore
     @ManyToOne(optional = false, cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -57,9 +57,9 @@ public class ServiceDescription {
 
     }
 
-    public ServiceDescription(Integer visitId,
+    public ServiceDescription(Long visitId,
                               String description,
-                              Integer serviceOptionId,
+                              Long serviceOptionId,
                               Visit visit,
                               ServiceOption serviceOption) {
         this.visitId = visitId;
@@ -77,11 +77,11 @@ public class ServiceDescription {
         this.id = id;
     }
 
-    public Integer getVisitId(){
+    public Long getVisitId(){
         return visitId;
     }
 
-    public void setVisitId(Integer visitId){
+    public void setVisitId(Long visitId){
         this.visitId = visitId;
     }
 
@@ -93,11 +93,11 @@ public class ServiceDescription {
         this.description = description;
     }
 
-    public Integer getServiceOptionId() {
+    public Long getServiceOptionId() {
         return serviceOptionId;
     }
 
-    public void setServiceOptionId(Integer serviceOptionId) {
+    public void setServiceOptionId(Long serviceOptionId) {
         this.serviceOptionId = serviceOptionId;
     }
 

@@ -14,6 +14,7 @@ const Statistics = () => {
     const [countSocialRisks, setCountSocialRisks] = useState([]);
     const [countEducationRisks, setCountEducationRisks] = useState([]);
     const [countDisabilities, setCountDisabilities] = useState([]);
+    const [countServices, setCountServices] = useState([]);
 
     const getCountAll = () => {
         const requestHeader = {
@@ -120,6 +121,21 @@ const Statistics = () => {
         });
     };
 
+    const getCountServices = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        axios.get(
+            ServerConfig.api.url + "/api/v1/statistics/countServices",
+            {
+                headers: requestHeader,
+            }
+        )
+        .then(response => {
+            setCountServices(response.data.data[0]);
+        });
+    };
+
     useEffect(()=> {
         getCountByZone();
         getCountByWorker();
@@ -128,6 +144,7 @@ const Statistics = () => {
         getCountSocialRisk();
         getCountEducationRisk();
         getCountDisabilities();
+        getCountServices();
     }, []);
 
     return (
@@ -163,6 +180,10 @@ const Statistics = () => {
             <div>
                 <h5>Disabilities By Zone:</h5>
                 <StatsTable values={countDisabilities} />
+            </div>
+            <div>
+                <h5>Services By Zone:</h5>
+                <StatsTable values={countServices} />
             </div>
         </div>
     );

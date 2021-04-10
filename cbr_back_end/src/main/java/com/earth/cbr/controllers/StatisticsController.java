@@ -3,6 +3,7 @@ package com.earth.cbr.controllers;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.earth.cbr.models.Disability;
+import com.earth.cbr.models.ServiceOption;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.models.authentication.Admin;
@@ -241,6 +242,40 @@ public class StatisticsController {
             for(Disability disability : disabilities) {
                 Long id = disability.getId();
                 element.put("column" + count, disabledService.getAllDisabledsByZoneIdCount(id, Math.toIntExact(zone.getId())));
+                count++;
+            }
+            items.add(element);
+        }
+
+        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @Admin
+    @GetMapping(value = "/countServices")
+    public ResponseEntity<JSONObject> getAllServicesByZoneCount() {
+        JSONObject responseJson = new JSONObject();
+        List<JSONObject> items = new ArrayList<>();
+        List<Zone> zones = zoneService.getAllZones();
+        List<ServiceOption> serviceOptions = serviceOptionService.getAllServiceOptions();
+
+        JSONObject header = new JSONObject();
+
+        Integer count = 0;
+        for(ServiceOption serviceOption : serviceOptions) {
+            header.put("header" + count, serviceOption.getName());
+            count++;
+        }
+        header.put("length", count);
+        items.add(header);
+
+        for(Zone zone : zones) {
+            JSONObject element = new JSONObject();
+            element.put("name", zone.getName());
+            count = 0;
+            for(ServiceOption serviceOption : serviceOptions) {
+                Long id = serviceOption.getId();
+                element.put("column" + count, serviceDescriptionService.getAllServiceOptionsByZoneIdCount(id, Math.toIntExact(zone.getId())));
                 count++;
             }
             items.add(element);
