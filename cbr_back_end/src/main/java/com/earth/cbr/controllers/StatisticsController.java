@@ -2,7 +2,7 @@ package com.earth.cbr.controllers;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.earth.cbr.models.ServiceOption;
+import com.earth.cbr.models.Disability;
 import com.earth.cbr.models.Worker;
 import com.earth.cbr.models.Zone;
 import com.earth.cbr.models.authentication.Admin;
@@ -55,12 +55,20 @@ public class StatisticsController {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
 
+        JSONObject header = new JSONObject();
+        header.put("header0", "Clients");
+        header.put("header1", "Visits");
+        header.put("header2", "Referrals");
+        header.put("header3", "Outstanding Referrals");
+        header.put("length", 4);
+        items.add(header);
+
         JSONObject total = new JSONObject();
         total.put("name", "Total");
-        total.put("clientCount", clientService.getAllClientsCount());
-        total.put("visitCount", visitService.getAllVisitsCount());
-        total.put("referralCount", referralService.getAllReferralsCount());
-        total.put("outstandingReferralCount", referralService.getAllOutstandingReferralsCount());
+        total.put("column0", clientService.getAllClientsCount());
+        total.put("column1", visitService.getAllVisitsCount());
+        total.put("column2", referralService.getAllReferralsCount());
+        total.put("column3", referralService.getAllOutstandingReferralsCount());
         items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
@@ -74,12 +82,21 @@ public class StatisticsController {
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
 
+        JSONObject header = new JSONObject();
+        header.put("header0", "Clients");
+        header.put("header1", "Visits");
+        header.put("header2", "Referrals");
+        header.put("header3", "Outstanding Referrals");
+        header.put("length", 4);
+        items.add(header);
+
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
-            element.put("clientCount", clientService.getAllClientsByZoneCount(Math.toIntExact(zone.getId())));
-            element.put("visitCount", visitService.getAllVisitsByZoneCount(Math.toIntExact(zone.getId())));
-            element.put("referralCount", referralService.getAllReferralsByZoneIdCount(Math.toIntExact(zone.getId())));
+            element.put("column0", clientService.getAllClientsByZoneCount(Math.toIntExact(zone.getId())));
+            element.put("column1", visitService.getAllVisitsByZoneCount(Math.toIntExact(zone.getId())));
+            element.put("column2", referralService.getAllReferralsByZoneIdCount(Math.toIntExact(zone.getId())));
+            element.put("column3", referralService.getAllOutstandingReferralsByZoneIdCount(Math.toIntExact(zone.getId())));
             items.add(element);
         }
 
@@ -94,11 +111,17 @@ public class StatisticsController {
         List<JSONObject> items = new ArrayList<>();
         List<Worker> workers = workerService.getAllWorkers();
 
+        JSONObject header = new JSONObject();
+        header.put("header0", "Referrals");
+        header.put("header1", "Outstanding Referrals");
+        header.put("length", 2);
+        items.add(header);
+
         for(Worker worker : workers) {
             JSONObject element = new JSONObject();
             element.put("name", worker.getFirstName() + " " + worker.getLastName());
-            element.put("referralCount", referralService.getAllReferralsByWorkerIdCount(worker.getId()));
-            element.put("outstandingReferralCount", referralService.getAllOutstandingReferralsByWorkerIdCount(worker.getId()));
+            element.put("column0", referralService.getAllReferralsByWorkerIdCount(worker.getId()));
+            element.put("column1", referralService.getAllOutstandingReferralsByWorkerIdCount(worker.getId()));
             items.add(element);
         }
 
@@ -113,13 +136,21 @@ public class StatisticsController {
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
 
+        JSONObject header = new JSONObject();
+        header.put("header0", "Critical");
+        header.put("header1", "High");
+        header.put("header2", "Medium");
+        header.put("header3", "Low");
+        header.put("length", 4);
+        items.add(header);
+
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
-            element.put("criticalCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(4, Math.toIntExact(zone.getId())));
-            element.put("highCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(3, Math.toIntExact(zone.getId())));
-            element.put("mediumCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(2, Math.toIntExact(zone.getId())));
-            element.put("lowCount", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(1, Math.toIntExact(zone.getId())));
+            element.put("column0", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(4, Math.toIntExact(zone.getId())));
+            element.put("column1", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(3, Math.toIntExact(zone.getId())));
+            element.put("column2", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(2, Math.toIntExact(zone.getId())));
+            element.put("column3", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(1, Math.toIntExact(zone.getId())));
             items.add(element);
         }
 
@@ -134,13 +165,21 @@ public class StatisticsController {
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
 
+        JSONObject header = new JSONObject();
+        header.put("header0", "Critical");
+        header.put("header1", "High");
+        header.put("header2", "Medium");
+        header.put("header3", "Low");
+        header.put("length", 4);
+        items.add(header);
+
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
-            element.put("criticalCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(4, Math.toIntExact(zone.getId())));
-            element.put("highCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(3, Math.toIntExact(zone.getId())));
-            element.put("mediumCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(2, Math.toIntExact(zone.getId())));
-            element.put("lowCount", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(1, Math.toIntExact(zone.getId())));
+            element.put("column0", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(4, Math.toIntExact(zone.getId())));
+            element.put("column1", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(3, Math.toIntExact(zone.getId())));
+            element.put("column2", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(2, Math.toIntExact(zone.getId())));
+            element.put("column3", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(1, Math.toIntExact(zone.getId())));
             items.add(element);
         }
 
@@ -155,13 +194,21 @@ public class StatisticsController {
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
 
+        JSONObject header = new JSONObject();
+        header.put("header0", "Critical");
+        header.put("header1", "High");
+        header.put("header2", "Medium");
+        header.put("header3", "Low");
+        header.put("length", 4);
+        items.add(header);
+
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
-            element.put("criticalCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(4, Math.toIntExact(zone.getId())));
-            element.put("highCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(3, Math.toIntExact(zone.getId())));
-            element.put("mediumCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(2, Math.toIntExact(zone.getId())));
-            element.put("lowCount", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(1, Math.toIntExact(zone.getId())));
+            element.put("column0", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(4, Math.toIntExact(zone.getId())));
+            element.put("column1", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(3, Math.toIntExact(zone.getId())));
+            element.put("column2", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(2, Math.toIntExact(zone.getId())));
+            element.put("column3", riskHistoryService.getRiskHistoryByEducationRiskAndClientZone(1, Math.toIntExact(zone.getId())));
             items.add(element);
         }
 
@@ -175,20 +222,27 @@ public class StatisticsController {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
+        List<Disability> disabilities = disabilityService.getAllDisabilities();
+
+        JSONObject header = new JSONObject();
+
+        Integer count = 0;
+        for(Disability disability : disabilities) {
+            header.put("header" + count, disability.getType());
+            count++;
+        }
+        header.put("length", count);
+        items.add(header);
 
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
-            element.put("a", disabledService.getAllDisabledsByZoneIdCount(1L, Math.toIntExact(zone.getId())));
-            element.put("b", disabledService.getAllDisabledsByZoneIdCount(2L, Math.toIntExact(zone.getId())));
-            element.put("c", disabledService.getAllDisabledsByZoneIdCount(3L, Math.toIntExact(zone.getId())));
-            element.put("d", disabledService.getAllDisabledsByZoneIdCount(4L, Math.toIntExact(zone.getId())));
-            element.put("e", disabledService.getAllDisabledsByZoneIdCount(5L, Math.toIntExact(zone.getId())));
-            element.put("f", disabledService.getAllDisabledsByZoneIdCount(6L, Math.toIntExact(zone.getId())));
-            element.put("g", disabledService.getAllDisabledsByZoneIdCount(7L, Math.toIntExact(zone.getId())));
-            element.put("h", disabledService.getAllDisabledsByZoneIdCount(8L, Math.toIntExact(zone.getId())));
-            element.put("i", disabledService.getAllDisabledsByZoneIdCount(9L, Math.toIntExact(zone.getId())));
-            element.put("j", disabledService.getAllDisabledsByZoneIdCount(10L, Math.toIntExact(zone.getId())));
+            count = 0;
+            for(Disability disability : disabilities) {
+                Long id = disability.getId();
+                element.put("column" + count, disabledService.getAllDisabledsByZoneIdCount(id, Math.toIntExact(zone.getId())));
+                count++;
+            }
             items.add(element);
         }
 

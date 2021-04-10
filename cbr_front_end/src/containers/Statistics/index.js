@@ -130,146 +130,6 @@ const Statistics = () => {
         getCountDisabilities();
     }, []);
 
-    const createStatTableComponents2 = () => {
-        const statTableComponents = [];
-        if(countByZone === undefined || countByZone.length === 0) {
-            return (<p>Currently there are no stats.</p>);
-        }
-        else {
-            for (const index in countByZone) {
-                statTableComponents.push(<tr>
-                                            <td>{countByZone[index]["name"]}</td>
-                                            <td>{countByZone[index]["clientCount"]}</td>
-                                            <td>{countByZone[index]["visitCount"]}</td>
-                                            <td>{countByZone[index]["referralCount"]}</td>
-                                         </tr>
-                                        );
-            }
-            return statTableComponents;
-        }
-    };
-
-    const createStatTableComponents3 = () => {
-        const statTableComponents = [];
-        if(countByWorker === undefined || countByWorker.length === 0) {
-            return null;
-        }
-        else {
-            for (const index in countByWorker) {
-                statTableComponents.push(<tr>
-                                            <td>{countByWorker[index]["name"]}</td>
-                                            <td>{countByWorker[index]["visitCount"]}</td>
-                                            <td>{countByWorker[index]["referralCount"]}</td>
-                                            <td>{countByWorker[index]["outstandingReferralCount"]}</td>
-                                         </tr>
-                                        );
-            }
-            return statTableComponents;
-        }
-    };
-
-    const createStatTableComponents4 = () => {
-        const statTableComponents = [];
-        if(countHealthRisks === undefined || countHealthRisks.length === 0) {
-            return null;
-        }
-        else {
-            for (const index in countHealthRisks) {
-                statTableComponents.push(<tr>
-                                            <td>{countHealthRisks[index]["name"]}</td>
-                                            <td>{countHealthRisks[index]["criticalCount"]}</td>
-                                            <td>{countHealthRisks[index]["highCount"]}</td>
-                                            <td>{countHealthRisks[index]["mediumCount"]}</td>
-                                            <td>{countHealthRisks[index]["lowCount"]}</td>
-                                         </tr>
-                                        );
-            }
-            return statTableComponents;
-        }
-    };
-
-    const createStatTableComponents5 = () => {
-        const statTableComponents = [];
-        if(countSocialRisks === undefined || countSocialRisks.length === 0) {
-            return null;
-        }
-        else {
-            for (const index in countSocialRisks) {
-                statTableComponents.push(<tr>
-                                            <td>{countSocialRisks[index]["name"]}</td>
-                                            <td>{countSocialRisks[index]["criticalCount"]}</td>
-                                            <td>{countSocialRisks[index]["highCount"]}</td>
-                                            <td>{countSocialRisks[index]["mediumCount"]}</td>
-                                            <td>{countSocialRisks[index]["lowCount"]}</td>
-                                         </tr>
-                                        );
-            }
-            return statTableComponents;
-        }
-    };
-
-    const createStatTableComponents6 = () => {
-        const statTableComponents = [];
-        if(countEducationRisks === undefined || countEducationRisks.length === 0) {
-            return null;
-        }
-        else {
-            for (const index in countEducationRisks) {
-                statTableComponents.push(<tr>
-                                            <td>{countEducationRisks[index]["name"]}</td>
-                                            <td>{countEducationRisks[index]["criticalCount"]}</td>
-                                            <td>{countEducationRisks[index]["highCount"]}</td>
-                                            <td>{countEducationRisks[index]["mediumCount"]}</td>
-                                            <td>{countEducationRisks[index]["lowCount"]}</td>
-                                         </tr>
-                                        );
-            }
-            return statTableComponents;
-        }
-    };
-
-    const createStatTableComponents7 = () => {
-        const statTableComponents = [];
-        if(countDisabilities === undefined || countDisabilities.length === 0) {
-            return null;
-        }
-        else {
-            for (const index in countDisabilities) {
-                statTableComponents.push(<tr>
-                                            <td>{countDisabilities[index]["name"]}</td>
-                                            <td>{countDisabilities[index]["a"]}</td>
-                                            <td>{countDisabilities[index]["b"]}</td>
-                                            <td>{countDisabilities[index]["c"]}</td>
-                                            <td>{countDisabilities[index]["d"]}</td>
-                                            <td>{countDisabilities[index]["e"]}</td>
-                                            <td>{countDisabilities[index]["f"]}</td>
-                                            <td>{countDisabilities[index]["g"]}</td>
-                                            <td>{countDisabilities[index]["h"]}</td>
-                                            <td>{countDisabilities[index]["i"]}</td>
-                                            <td>{countDisabilities[index]["j"]}</td>
-                                         </tr>
-                                        );
-            }
-            return statTableComponents;
-        }
-    };
-
-    const createTotal = () => {
-        if(countAll === undefined || countAll.length === 0) {
-            return null;
-        } else {
-            return (
-                <tr>
-                    <td>{countAll[0]["name"]}</td>
-                    <td>{countAll[0]["clientCount"]}</td>
-                    <td>{countAll[0]["visitCount"]}</td>
-                    <td>{countAll[0]["referralCount"]}</td>
-                    <td>{countAll[0]["outstandingReferralCount"]}</td>
-                 </tr>
-             );
-        }
-    };
-
     return (
         <div className="statistics">
             <div className="statistics-title">
@@ -278,126 +138,31 @@ const Statistics = () => {
             <hr />
             <div>
                 <h5>General Stats:</h5>
-                <Table striped bordered size="sm">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Clients</th>
-                            <th>Visits</th>
-                            <th>Referrals</th>
-                            <th>Outstanding Referrals</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {createTotal()}
-                    </tbody>
-                </Table>
+                <StatsTable values={countAll} />
             </div>
             <div>
                 <h5>General Stats By Zone:</h5>
-                <Table striped bordered size="sm">
-                    <thead>
-                        <tr>
-                            <th>Zone</th>
-                            <th>Clients</th>
-                            <th>Visits</th>
-                            <th>Referrals</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {createStatTableComponents2()}
-                    </tbody>
-                </Table>
+                <StatsTable values={countByZone} />
             </div>
             <div>
                 <h5>General Stats By Worker:</h5>
-                <Table striped bordered size="sm">
-                    <thead>
-                        <tr>
-                            <th>Worker</th>
-                            <th>Visits</th>
-                            <th>Referrals</th>
-                            <th>Outstanding Referrals</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {createStatTableComponents3()}
-                    </tbody>
-                </Table>
+                <StatsTable values={countByWorker} />
             </div>
             <div>
-                <h5>Health Risk Stats By Zone:</h5>
-                <Table striped bordered size="sm">
-                    <thead>
-                        <tr>
-                            <th>Zone</th>
-                            <th>Critical</th>
-                            <th>High</th>
-                            <th>Medium</th>
-                            <th>Low</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {createStatTableComponents4()}
-                    </tbody>
-                </Table>
+                <h5>Health Risk Stats:</h5>
+                <StatsTable values={countHealthRisks} />
             </div>
             <div>
-                <h5>Social Risk Stats By Zone:</h5>
-                <Table striped bordered size="sm">
-                    <thead>
-                        <tr>
-                            <th>Zone</th>
-                            <th>Critical</th>
-                            <th>High</th>
-                            <th>Medium</th>
-                            <th>Low</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {createStatTableComponents5()}
-                    </tbody>
-                </Table>
+                <h5>Health Risk Stats:</h5>
+                <StatsTable values={countSocialRisks} />
             </div>
             <div>
-                <h5>Education Risk Stats By Zone:</h5>
-                <Table striped bordered size="sm">
-                    <thead>
-                        <tr>
-                            <th>Zone</th>
-                            <th>Critical</th>
-                            <th>High</th>
-                            <th>Medium</th>
-                            <th>Low</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {createStatTableComponents6()}
-                    </tbody>
-                </Table>
+                <h5>Health Risk Stats:</h5>
+                <StatsTable values={countEducationRisks} />
             </div>
             <div>
                 <h5>Disabilities By Zone:</h5>
-                <Table striped bordered size="sm">
-                    <thead>
-                        <tr>
-                            <th>Zone</th>
-                            <th>d1</th>
-                            <th>d2</th>
-                            <th>d3</th>
-                            <th>d4</th>
-                            <th>d5</th>
-                            <th>d6</th>
-                            <th>d7</th>
-                            <th>d8</th>
-                            <th>d9</th>
-                            <th>d10</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {createStatTableComponents7()}
-                    </tbody>
-                </Table>
+                <StatsTable values={countDisabilities} />
             </div>
         </div>
     );

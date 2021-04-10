@@ -15,6 +15,7 @@ public interface ReferralService {
     List<Referral> getAllOutstandingReferralsSortedByDate();
     Integer getAllOutstandingReferralsCount();
     Integer getAllOutstandingReferralsByWorkerIdCount(Long workerId);
+    Integer getAllOutstandingReferralsByZoneIdCount(Integer zoneId);
     Referral getReferralById(Long id);
     Referral updateReferralById(@Valid Referral referral);
     Referral addReferral(@Valid Referral referral);

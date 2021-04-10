@@ -60,6 +60,11 @@ public class ReferralServiceImpl implements ReferralService {
     }
 
     @Override
+    public Integer getAllOutstandingReferralsByZoneIdCount(Integer zoneId) {
+        return referralRepository.findAllByClientZoneAndIsResolvedFalse(zoneId).size();
+    }
+
+    @Override
     public Referral getReferralById(Long id) {
         Optional<Referral> referralOptional = referralRepository.findById(id);
         Referral referral = referralOptional.orElse(null);

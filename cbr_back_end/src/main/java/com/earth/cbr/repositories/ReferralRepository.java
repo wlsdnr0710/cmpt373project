@@ -15,5 +15,6 @@ public interface ReferralRepository extends JpaRepository<Referral, Long> {
     List<Referral> findAllByClientIdOrderByDateDesc(Long clientId);
     List<Referral> findAllByIsResolvedFalseOrderByDateAsc();
     List<Referral> findAllByWorkerIdAndIsResolvedFalse(Long clientId);
+    List<Referral> findAllByClientZoneAndIsResolvedFalse(Integer zoneId);
     List<Referral> findAllByClientZone(Integer zoneId);
 }
