@@ -13,7 +13,6 @@ const StatsTable = ({values, title, index}) => {
             return null;
         }
         else {
-            headerComponents.push(<th></th>);
             for (let i = 0; i < values[0]["length"]; i++) {
                 headerComponents.push(<th>{values[0]["header" + i]}</th>);
             }
@@ -30,7 +29,7 @@ const StatsTable = ({values, title, index}) => {
         else {
             for (let i = 1; i < values.length; i++) {
                 rowBodyComponents.push(<td>{values[i]["name"]}</td>);
-                for (let j = 0; j < values[0]["length"]; j++) {
+                for (let j = 0; j < values[0]["length"] - 1; j++) {
                     rowBodyComponents.push(<td>{values[i]["column" + j]}</td>);
                 }
                 rowComponents.push(<tr>{rowBodyComponents}</tr>);
@@ -51,16 +50,18 @@ const StatsTable = ({values, title, index}) => {
                     </Card.Header>
                     <Accordion.Collapse eventKey={index}>
                         <Card.Body>
-                            <Table striped bordered size="sm">
-                                <thead>
-                                    <tr>
-                                        {createTableHeaders()}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {createTableRows()}
-                                </tbody>
-                            </Table>
+                            <div>
+                                <Table responsive striped bordered size="sm">
+                                    <thead>
+                                        <tr>
+                                            {createTableHeaders()}
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {createTableRows()}
+                                    </tbody>
+                                </Table>
+                            </div>
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>

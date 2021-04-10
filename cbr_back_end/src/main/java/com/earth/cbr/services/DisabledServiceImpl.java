@@ -21,13 +21,13 @@ public class DisabledServiceImpl implements DisabledService {
     }
 
     @Override
-    public Long getAllDisabledsCount() {
-        return disabledRepository.count();
+    public Integer getAllDisabilitiesByZoneIdCount(Long disabilityId, Integer zoneId) {
+        return disabledRepository.findAllByDisabilityIdAndClientZone(disabilityId, zoneId).size();
     }
 
     @Override
-    public Integer getAllDisabledsByZoneIdCount(Long disabilityId, Integer zoneId) {
-        return disabledRepository.findAllByDisabilityIdAndClientZone(disabilityId, zoneId).size();
+    public Integer getAllDisabilitiesCount(Long disabilityId) {
+        return disabledRepository.findAllByDisabilityId(disabilityId).size();
     }
 
     @Override

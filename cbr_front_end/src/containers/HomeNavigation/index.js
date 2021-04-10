@@ -2,7 +2,6 @@ import React from "react";
 import FormHeader from "../../components/FormHeader";
 import NavigationBarEntry from "../../components/NavigationBarEntry";
 import SyncNavigationBarEntry from "../../components/SyncNavigationBarEntry";
-import { removeToken } from "../../utils/AuthenticationUtil";
 import {
     getToken,
     getRole,

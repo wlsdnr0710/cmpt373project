@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface ServiceDescriptionRepository extends JpaRepository<ServiceDescription, Long> {
     List<ServiceDescription> findAllByServiceOptionIdAndVisitZone(Long serviceOptionId, Integer zoneId);
+    List<ServiceDescription> findAllByServiceOptionId(Long serviceOptionId);
 }

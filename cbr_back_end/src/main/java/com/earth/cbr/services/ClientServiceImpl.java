@@ -36,8 +36,13 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Integer getAllClientsByZoneCount(Integer zoneId) {
+    public Integer getAllClientsByZoneIdCount(Integer zoneId) {
         return clientRepository.findAllByZone(zoneId).size();
+    }
+
+    @Override
+    public Integer getAllClientsByWorkerIdCount(Long workerId) {
+        return clientRepository.findAllByCbrWorkerId(workerId).size();
     }
 
     @Override

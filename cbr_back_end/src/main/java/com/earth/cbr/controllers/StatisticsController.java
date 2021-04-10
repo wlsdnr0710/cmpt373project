@@ -51,18 +51,30 @@ public class StatisticsController {
     private RiskHistoryService riskHistoryService;
 
     @Admin
-    @GetMapping(value = "/countAll")
-    public ResponseEntity<JSONObject> getAllCounts() {
+    @GetMapping(value = "/countByZone")
+    public ResponseEntity<JSONObject> getAllCountsByZone() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
+        List<Zone> zones = zoneService.getAllZones();
 
-        JSONObject header = new JSONObject();
-        header.put("header0", "Clients");
-        header.put("header1", "Visits");
-        header.put("header2", "Referrals");
-        header.put("header3", "Outstanding Referrals");
-        header.put("length", 4);
-        items.add(header);
+        JSONObject headers = new JSONObject();
+        headers.put("header0", "Zone");
+        headers.put("header1", "Clients");
+        headers.put("header2", "Visits");
+        headers.put("header3", "Referrals");
+        headers.put("header4", "Outstanding Referrals");
+        headers.put("length", 5);
+        items.add(headers);
+
+        for(Zone zone : zones) {
+            JSONObject element = new JSONObject();
+            element.put("name", zone.getName());
+            element.put("column0", clientService.getAllClientsByZoneIdCount(Math.toIntExact(zone.getId())));
+            element.put("column1", visitService.getAllVisitsByZoneIdCount(Math.toIntExact(zone.getId())));
+            element.put("column2", referralService.getAllReferralsByZoneIdCount(Math.toIntExact(zone.getId())));
+            element.put("column3", referralService.getAllOutstandingReferralsByZoneIdCount(Math.toIntExact(zone.getId())));
+            items.add(element);
+        }
 
         JSONObject total = new JSONObject();
         total.put("name", "Total");
@@ -77,54 +89,38 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countByZone")
-    public ResponseEntity<JSONObject> getAllCountsByZone() {
-        JSONObject responseJson = new JSONObject();
-        List<JSONObject> items = new ArrayList<>();
-        List<Zone> zones = zoneService.getAllZones();
-
-        JSONObject header = new JSONObject();
-        header.put("header0", "Clients");
-        header.put("header1", "Visits");
-        header.put("header2", "Referrals");
-        header.put("header3", "Outstanding Referrals");
-        header.put("length", 4);
-        items.add(header);
-
-        for(Zone zone : zones) {
-            JSONObject element = new JSONObject();
-            element.put("name", zone.getName());
-            element.put("column0", clientService.getAllClientsByZoneCount(Math.toIntExact(zone.getId())));
-            element.put("column1", visitService.getAllVisitsByZoneCount(Math.toIntExact(zone.getId())));
-            element.put("column2", referralService.getAllReferralsByZoneIdCount(Math.toIntExact(zone.getId())));
-            element.put("column3", referralService.getAllOutstandingReferralsByZoneIdCount(Math.toIntExact(zone.getId())));
-            items.add(element);
-        }
-
-        responseJson.put("data", new JSONArray(Collections.singletonList(items)));
-        return ResponseEntity.ok().body(responseJson);
-    }
-
-    @Admin
     @GetMapping(value = "/countByWorker")
     public ResponseEntity<JSONObject> getAllReferralsByWorkerCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Worker> workers = workerService.getAllWorkers();
 
-        JSONObject header = new JSONObject();
-        header.put("header0", "Referrals");
-        header.put("header1", "Outstanding Referrals");
-        header.put("length", 2);
-        items.add(header);
+        JSONObject headers = new JSONObject();
+        headers.put("header0", "Worker");
+        headers.put("header1", "Clients");
+        headers.put("header2", "Visits");
+        headers.put("header3", "Referrals");
+        headers.put("header4", "Outstanding Referrals");
+        headers.put("length", 5);
+        items.add(headers);
 
         for(Worker worker : workers) {
             JSONObject element = new JSONObject();
             element.put("name", worker.getFirstName() + " " + worker.getLastName());
-            element.put("column0", referralService.getAllReferralsByWorkerIdCount(worker.getId()));
-            element.put("column1", referralService.getAllOutstandingReferralsByWorkerIdCount(worker.getId()));
+            element.put("column0", clientService.getAllClientsByWorkerIdCount(worker.getId()));
+            element.put("column1", visitService.getAllVisitsByWorkerIdCount(worker.getId()));
+            element.put("column2", referralService.getAllReferralsByWorkerIdCount(worker.getId()));
+            element.put("column3", referralService.getAllOutstandingReferralsByWorkerIdCount(worker.getId()));
             items.add(element);
         }
+
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        total.put("column0", clientService.getAllClientsCount());
+        total.put("column1", visitService.getAllVisitsCount());
+        total.put("column2", referralService.getAllReferralsCount());
+        total.put("column3", referralService.getAllOutstandingReferralsCount());
+        items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
@@ -137,13 +133,14 @@ public class StatisticsController {
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
 
-        JSONObject header = new JSONObject();
-        header.put("header0", "Critical");
-        header.put("header1", "High");
-        header.put("header2", "Medium");
-        header.put("header3", "Low");
-        header.put("length", 4);
-        items.add(header);
+        JSONObject headers = new JSONObject();
+        headers.put("header0", "Zone");
+        headers.put("header1", "Critical");
+        headers.put("header2", "High");
+        headers.put("header3", "Medium");
+        headers.put("header4", "Low");
+        headers.put("length", 5);
+        items.add(headers);
 
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
@@ -154,6 +151,14 @@ public class StatisticsController {
             element.put("column3", riskHistoryService.getRiskHistoryByHealthRiskAndClientZone(1, Math.toIntExact(zone.getId())));
             items.add(element);
         }
+
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        total.put("column0", riskHistoryService.getRiskHistoryByHealthRisk(4));
+        total.put("column1", riskHistoryService.getRiskHistoryByHealthRisk(3));
+        total.put("column2", riskHistoryService.getRiskHistoryByHealthRisk(2));
+        total.put("column3", riskHistoryService.getRiskHistoryByHealthRisk(1));
+        items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
@@ -166,13 +171,14 @@ public class StatisticsController {
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
 
-        JSONObject header = new JSONObject();
-        header.put("header0", "Critical");
-        header.put("header1", "High");
-        header.put("header2", "Medium");
-        header.put("header3", "Low");
-        header.put("length", 4);
-        items.add(header);
+        JSONObject headers = new JSONObject();
+        headers.put("header0", "Zone");
+        headers.put("header1", "Critical");
+        headers.put("header2", "High");
+        headers.put("header3", "Medium");
+        headers.put("header4", "Low");
+        headers.put("length", 5);
+        items.add(headers);
 
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
@@ -183,6 +189,14 @@ public class StatisticsController {
             element.put("column3", riskHistoryService.getRiskHistoryBySocialRiskAndClientZone(1, Math.toIntExact(zone.getId())));
             items.add(element);
         }
+
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        total.put("column0", riskHistoryService.getRiskHistoryBySocialRisk(4));
+        total.put("column1", riskHistoryService.getRiskHistoryBySocialRisk(3));
+        total.put("column2", riskHistoryService.getRiskHistoryBySocialRisk(2));
+        total.put("column3", riskHistoryService.getRiskHistoryBySocialRisk(1));
+        items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
@@ -195,13 +209,14 @@ public class StatisticsController {
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
 
-        JSONObject header = new JSONObject();
-        header.put("header0", "Critical");
-        header.put("header1", "High");
-        header.put("header2", "Medium");
-        header.put("header3", "Low");
-        header.put("length", 4);
-        items.add(header);
+        JSONObject headers = new JSONObject();
+        headers.put("header0", "Zone");
+        headers.put("header1", "Critical");
+        headers.put("header2", "High");
+        headers.put("header3", "Medium");
+        headers.put("header4", "Low");
+        headers.put("length", 5);
+        items.add(headers);
 
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
@@ -213,39 +228,56 @@ public class StatisticsController {
             items.add(element);
         }
 
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        total.put("column0", riskHistoryService.getRiskHistoryByEducationRisk(4));
+        total.put("column1", riskHistoryService.getRiskHistoryByEducationRisk(3));
+        total.put("column2", riskHistoryService.getRiskHistoryByEducationRisk(2));
+        total.put("column3", riskHistoryService.getRiskHistoryByEducationRisk(1));
+        items.add(total);
+
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
     }
 
     @Admin
     @GetMapping(value = "/countDisabilities")
-    public ResponseEntity<JSONObject> getAllDisabilitiesByZoneCount() {
+    public ResponseEntity<JSONObject> getAllDisabilitiesCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
         List<Disability> disabilities = disabilityService.getAllDisabilities();
 
-        JSONObject header = new JSONObject();
-
-        Integer count = 0;
+        JSONObject headers = new JSONObject();
+        Integer count = 1;
+        headers.put("header0", "Zone");
         for(Disability disability : disabilities) {
-            header.put("header" + count, disability.getType());
+            headers.put("header" + count, disability.getType());
             count++;
         }
-        header.put("length", count);
-        items.add(header);
+        headers.put("length", count);
+        items.add(headers);
 
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
             count = 0;
             for(Disability disability : disabilities) {
-                Long id = disability.getId();
-                element.put("column" + count, disabledService.getAllDisabledsByZoneIdCount(id, Math.toIntExact(zone.getId())));
+                Integer disabilityCount = disabledService.getAllDisabilitiesByZoneIdCount(disability.getId(), Math.toIntExact(zone.getId()));
+                element.put("column" + count, disabilityCount);
                 count++;
             }
             items.add(element);
         }
+
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        count = 0;
+        for(Disability disability : disabilities) {
+            total.put("column" + count, disabledService.getAllDisabilitiesCount(disability.getId()));
+            count++;
+        }
+        items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);
@@ -253,33 +285,41 @@ public class StatisticsController {
 
     @Admin
     @GetMapping(value = "/countServices")
-    public ResponseEntity<JSONObject> getAllServicesByZoneCount() {
+    public ResponseEntity<JSONObject> getAllServicesCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
         List<ServiceOption> serviceOptions = serviceOptionService.getAllServiceOptions();
 
-        JSONObject header = new JSONObject();
-
-        Integer count = 0;
+        JSONObject headers = new JSONObject();
+        Integer count = 1;
+        headers.put("header0", "Zone");
         for(ServiceOption serviceOption : serviceOptions) {
-            header.put("header" + count, serviceOption.getName());
+            headers.put("header" + count, serviceOption.getName());
             count++;
         }
-        header.put("length", count);
-        items.add(header);
+        headers.put("length", count);
+        items.add(headers);
 
         for(Zone zone : zones) {
             JSONObject element = new JSONObject();
             element.put("name", zone.getName());
             count = 0;
             for(ServiceOption serviceOption : serviceOptions) {
-                Long id = serviceOption.getId();
-                element.put("column" + count, serviceDescriptionService.getAllServiceOptionsByZoneIdCount(id, Math.toIntExact(zone.getId())));
+                element.put("column" + count, serviceDescriptionService.getAllServiceOptionsByZoneIdCount(serviceOption.getId(), Math.toIntExact(zone.getId())));
                 count++;
             }
             items.add(element);
         }
+
+        JSONObject total = new JSONObject();
+        total.put("name", "Total");
+        count = 0;
+        for(ServiceOption serviceOption : serviceOptions) {
+            total.put("column" + count, serviceDescriptionService.getAllServiceOptionsCount(serviceOption.getId()));
+            count++;
+        }
+        items.add(total);
 
         responseJson.put("data", new JSONArray(Collections.singletonList(items)));
         return ResponseEntity.ok().body(responseJson);

@@ -26,16 +26,6 @@ const Statistics = () => {
     const [countDisabilities, setCountDisabilities] = useState([]);
     const [countServices, setCountServices] = useState([]);
 
-    const getCountAll = () => {
-        const requestHeader = {
-            token: getToken()
-        };
-        getGeneralStatsFromServer(requestHeader)
-        .then(response => {
-            setCountAll(response.data.data[0]);
-        });
-    };
-
     const getCountByZone = () => {
         const requestHeader = {
             token: getToken()
@@ -109,7 +99,6 @@ const Statistics = () => {
     useEffect(()=> {
         getCountByZone();
         getCountByWorker();
-        getCountAll();
         getCountHealthRisk();
         getCountSocialRisk();
         getCountEducationRisk();
@@ -123,9 +112,6 @@ const Statistics = () => {
                 Statistics
             </div>
             <hr />
-            <div>
-                <StatsTable values={countByZone} title="General Stats" index="0"/>
-            </div>
             <div>
                 <StatsTable values={countByZone} title="General Stats By Zone" index="1"/>
             </div>
@@ -142,10 +128,10 @@ const Statistics = () => {
                 <StatsTable values={countEducationRisks} title="Education Risk Stats" index="5"/>
             </div>
             <div>
-                <StatsTable values={countDisabilities} title="Disabilities By Zone" index="6"/>
+                <StatsTable values={countDisabilities} title="Disabilities Stats" index="6"/>
             </div>
             <div>
-                <StatsTable values={countServices} title="Services By Zone" index="7"/>
+                <StatsTable values={countServices} title="Services Provided Stats" index="7"/>
             </div>
         </div>
     );

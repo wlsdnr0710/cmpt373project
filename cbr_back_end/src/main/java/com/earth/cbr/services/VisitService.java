@@ -12,7 +12,8 @@ public interface VisitService {
     List<Visit> getAllVisitsByClientId(Long clientId);
     List<Visit> getAllVisitsByClientIdSortedByDate(Long clientId);
     Long getAllVisitsCount();
-    Integer getAllVisitsByZoneCount(Integer zoneId);
+    Integer getAllVisitsByZoneIdCount(Integer zoneId);
+    Integer getAllVisitsByWorkerIdCount(Long workerId);
     Visit addVisit(@Valid Visit visit);
     Visit updateVisitById(@Valid Visit visit);
     void deleteVisitById(Long id);

@@ -21,4 +21,5 @@ public interface ClientRepository extends JpaRepository<Client, Long> {
             "ORDER BY risk_sum DESC LIMIT 5", nativeQuery = true)
     List<Client> findTop5ClientsWithHighestRisk();
     List<Client> findAllByZone(Integer zoneId);
+    List<Client> findAllByCbrWorkerId(Long cbrWorkerId);
 }

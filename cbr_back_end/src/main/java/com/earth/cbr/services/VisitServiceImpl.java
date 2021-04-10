@@ -48,8 +48,13 @@ public class VisitServiceImpl implements VisitService {
     }
 
     @Override
-    public Integer getAllVisitsByZoneCount(Integer zoneId) {
+    public Integer getAllVisitsByZoneIdCount(Integer zoneId) {
         return visitRepository.findAllByZone(zoneId).size();
+    }
+
+    @Override
+    public Integer getAllVisitsByWorkerIdCount(Long workerId) {
+        return visitRepository.findAllByWorkerId(workerId).size();
     }
 
     @Override

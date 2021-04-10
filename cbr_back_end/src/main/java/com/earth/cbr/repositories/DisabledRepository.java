@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface DisabledRepository extends JpaRepository<Disabled, Long> {
     List<Disabled> findAllByDisabilityIdAndClientZone(Long disabilityId, Integer zoneId);
+    List<Disabled> findAllByDisabilityId(Long disabilityId);
 }
