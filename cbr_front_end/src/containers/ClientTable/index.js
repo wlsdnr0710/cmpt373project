@@ -270,8 +270,7 @@ const ClientTable = props => {
     };
 
     const formatDateString = date => {
-        const epoch = parseDateStringToEpoch(date);
-        const dateString = parseISODateStringToDateString(epoch);
+        const dateString = parseISODateStringToDateString(date);
         return dateString;
     };
 
