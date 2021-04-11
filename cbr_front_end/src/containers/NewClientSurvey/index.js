@@ -12,6 +12,7 @@ const NewClientSurvey = ({
     individualGoalsValue,
     onRiskChange,
     onGoalChange,
+    showGoals,
     isDisabled,
 }) => {
     const getClientHealthRiskLevels = () => {
@@ -48,7 +49,7 @@ const NewClientSurvey = ({
                 />
             </div>
 
-            <div className="section">
+            <div className="section" hidden={!showGoals}>
                 <div className="label-container">
                     <label>What are the client individual's goal?</label>
                 </div>

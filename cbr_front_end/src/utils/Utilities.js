@@ -194,9 +194,9 @@ export const getClientObject = () => {
         caregiverName: "",
         caregiverNumber: "",
         caregiverPhoto: "image.png",
-        healthGoal: "N/A",
-        socialGoal: "N/A",
-        educationGoal: "N/A",
+        healthGoal: "",
+        socialGoal: "",
+        educationGoal: "",
         disabled: [],
         riskHistories: [],
     });

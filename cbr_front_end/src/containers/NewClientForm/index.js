@@ -42,7 +42,7 @@ const NewClientForm = () => {
         "caregiverNumber": "",
         "disabilityType": [],
         "otherDescription": "",
-        "healthGoal": "test",
+        "healthGoal": "",
         "socialGoal": "",
         "educationGoal": "",
         "clientPhoto": null,
