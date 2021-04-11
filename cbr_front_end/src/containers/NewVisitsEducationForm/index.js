@@ -8,6 +8,7 @@ const NewVisitsEducationForm = ({
     referralToEducationOrgValue,
     referralToEducationOrgDescValue,
     educationServiceOptions,
+    createServiceOptionComponents,
     educationAdviceValue,
     educationAdviceDescValue,
     educationAdvocacyValue,
@@ -23,36 +24,14 @@ const NewVisitsEducationForm = ({
 
 }) => {
 
-    const createServiceOptionCheckBoxComponents = () => {
-        const serviceOptionCheckboxComponents = [];
-        console.log(educationServiceOptions);
-        const serviceOptions = educationServiceOptions;
-        if(serviceOptions === undefined || serviceOptions.length === 0) {
-            return null;
-        }
-        else {
-            for (const index in serviceOptions) {
-                const name = serviceOptions[index].name;
-                const id = serviceOptions[index].id;
-                serviceOptionCheckboxComponents.push(<CheckBox
-                                                        name={name}
-                                                        value={id}
-                                                        actionHandler={actionHandler}
-                                                        displayText={name}
-                                                        key={index}
-                                                />
-                                                );
-            }
-            return serviceOptionCheckboxComponents;
-        }
-    };
+    
 
     return (
         <div className="new-client-survey">
             <div className="section">
                 <label>For Education: What was provided?</label>
-                {createServiceOptionCheckBoxComponents()}
-                <div>
+                {createServiceOptionComponents(educationServiceOptions, actionHandler)}
+                {/* <div>
                     <CheckBox
                         name="referralToEducationOrg"
                         value={referralToEducationOrgValue}
@@ -120,7 +99,7 @@ const NewVisitsEducationForm = ({
                             isDisabled={false}
                         />
                     </div>
-                </div>
+                </div> */}
                 <div >
                     <div>
                         <label>Goal met? :</label>

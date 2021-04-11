@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import DropdownList from "../../components/DropdownList";
 import CheckBox from "../../components/CheckBox";
+import TextAreaInputField from "../../components/TextAreaInputField";
 import NumberInputField from "../../components/NumberInputField";
 import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
@@ -147,6 +148,8 @@ const NewVisitForm = (props) => {
         let socialServiceOptions = [];
 
         for (const serviceOption of serviceOptionsList) {
+            serviceOption.hidden = false;
+            serviceOption.desc = "";
             if (serviceOption.type === "HEALTH") {
                 healthServiceOptions = [...healthServiceOptions, serviceOption];
             } else if (serviceOption.type === "EDUCATION") {
@@ -413,8 +416,6 @@ const NewVisitForm = (props) => {
         setEducationFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
             newFormInputs[name] = value;
-            console.log(newFormInputs);
-
             return newFormInputs;
         });
     };
@@ -571,6 +572,43 @@ const NewVisitForm = (props) => {
         setErrorMessages([]);
     };
 
+    const createServiceOptionComponents = (serviceOptions, actionHandler) => {
+        const serviceOptionComponents = [];
+        console.log(serviceOptions);
+        if(serviceOptions === undefined || serviceOptions.length === 0) {
+            return null;
+        }
+        else {
+            for (const index in serviceOptions) {
+                const name = serviceOptions[index].name;
+                const id = serviceOptions[index].id;
+                serviceOptionComponents.push(
+                    <CheckBox
+                        name={name}
+                        value={id}
+                        actionHandler={actionHandler}
+                        displayText={name}
+                        key={index}
+                    />
+                );
+                serviceOptionComponents.push(
+                    <div hidden={serviceOptions[index].hidden} key={index + "DescDiv"}>
+                        <TextAreaInputField
+                            name={name + "Desc"}
+                            value={serviceOptions[index].desc}
+                            onChange={actionHandler}
+                            rows="4"
+                            isDisabled={false}
+                            key={index + "Desc"}
+                        />
+                    </div>
+                );
+
+            }
+            return serviceOptionComponents;
+        }
+    };
+
     useEffect(() => {
         getWorkerNameByGetRequest();
         getZones();
@@ -710,6 +748,7 @@ const NewVisitForm = (props) => {
                 <div hidden={(isEducationInputDisabled)}>
                     <NewClientVisitsEducationForm
                         educationServiceOptions={educationFormInputs["educationServiceOptions"]}
+                        createServiceOptionComponents={createServiceOptionComponents}
                         referralToEducationOrgValue={educationFormInputs["referralToEducationOrg"]}
                         referralToEducationOrgDescValue={educationFormInputs["referralToEducationOrgDesc"]}
                         educationAdviceValue={educationFormInputs["educationAdvice"]}
@@ -718,7 +757,6 @@ const NewVisitForm = (props) => {
                         educationAdvocacyDescValue={educationFormInputs["educationAdvocacyDesc"]}
                         educationEncouragementValue={educationFormInputs["educationEncouragement"]}
                         educationEncouragementDescValue={educationFormInputs["educationEncouragementDesc"]}
-
                         educationGoalConclusionTextValue={formInputs["educationOutcome"]}
                         educationGoalMetValue={formInputs["educationGoalProgress"]}
                         isEducationGoalConcluded={isEducationGoalConcluded}
