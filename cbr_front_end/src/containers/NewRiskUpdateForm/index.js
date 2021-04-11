@@ -10,12 +10,12 @@ import {
     parseEpochToDateString
 } from "../../utils/Utilities";
 
-    const NewRiskUpdateForm = props => {
-        const clientId = props.clientID;
-        const history = useHistory();
+const NewRiskUpdateForm = props => {
+    const clientId = props.clientID;
+    const history = useHistory();
 
     const [formInputs, setFormInputs] = useState({
-        "clientId": props.clientID,
+        "clientId": clientId,
         "createdDate": "",
         "healthGoal": "",
         "healthRisk": "",
@@ -26,7 +26,6 @@ import {
         "socialGoal": "",
         "socialRisk": "",
         "socialRiskDescription": "",
-
     });
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
     const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
@@ -58,7 +57,7 @@ import {
         setErrorMessages([]);
     };
 
- useEffect(() => {
+    useEffect(() => {
         initEpochDateTime();
     }, []);
 
@@ -67,9 +66,8 @@ import {
         clearErrorMessages();
         let submittedForm = formInputs;
         const sendingData = { ...formInputs };
-        console.log(sendingData);
         submitFormByPostRequest(sendingData);
-        }
+    }
 
     const updateFormInputByNameValue = (name, value) => {
         setFormInputs(prevFormInputs => {
@@ -112,12 +110,10 @@ import {
         addRiskToServer(data, requestHeader)
         .then(response => {
             setFormStateAfterSubmitSuccess();
-            const clientId = props.clientID;
             const oneSecond = 1;
-                redirectToClientInfoPageAfter(clientId, oneSecond);
+            redirectToClientInfoPageAfter(clientId, oneSecond);
         })
         .catch(error => {
-
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
         })
@@ -222,7 +218,7 @@ import {
                     value="Update Risk"
                     onClick={onSubmitRiskHandler}
                 />
-            </form>
+        </form>
     );
 };
 

@@ -128,20 +128,6 @@ public class Client {
     )
     private String caregiverPhoto;
 
-    @Column(
-            name = "required_services",
-            columnDefinition = "TEXT"
-    )
-    @NotNull(message = "Required services cannot be null")
-    private String requiredServices;
-
-    @Column(
-            name = "individual_goals",
-            columnDefinition = "TEXT"
-    )
-    @NotNull(message = "Individual goals cannot be null")
-    private String individualGoals;
-
     @OneToMany(mappedBy = "client")
     private Set<RiskHistory> riskHistories;
 
@@ -174,8 +160,6 @@ public class Client {
                   String caregiverName,
                   String caregiverNumber,
                   String caregiverPhoto,
-                  String requiredServices,
-                  String individualGoals,
                   Set<Disabled> disabled,
                   Set<RiskHistory> riskHistories,
                   Zone zoneName,
@@ -193,8 +177,6 @@ public class Client {
         this.caregiverName = caregiverName;
         this.caregiverNumber = caregiverNumber;
         this.caregiverPhoto = caregiverPhoto;
-        this.requiredServices = requiredServices;
-        this.individualGoals = individualGoals;
         this.disabled = disabled;
         this.riskHistories = riskHistories;
         this.zoneName = zoneName;
@@ -321,22 +303,6 @@ public class Client {
 
     public void setCaregiverPhoto(String caregiverPhoto) {
         this.caregiverPhoto = caregiverPhoto;
-    }
-
-    public String getRequiredServices() {
-        return requiredServices;
-    }
-
-    public void setRequiredServices(String requiredServices) {
-        this.requiredServices = requiredServices;
-    }
-
-    public String getIndividualGoals() {
-        return individualGoals;
-    }
-
-    public void setIndividualGoals(String individualGoals) {
-        this.individualGoals = individualGoals;
     }
 
     public Set<Disabled> getDisabled() {

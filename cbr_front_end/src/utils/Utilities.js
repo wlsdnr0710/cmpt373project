@@ -109,6 +109,10 @@ export const addRiskToServer = (riskInformation, requestHeader) => {
     return axios.post(ServerConfig.api.url + '/api/v1/riskHistory', {"data" : riskInformation}, {headers: requestHeader});
 };
 
+export const addDisabilityToServer = (disabilityInformation, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/disabled', {"data" : disabilityInformation}, {headers: requestHeader});
+};
+
 export const getZonesFromServer = () => {
     return axios.get(ServerConfig.api.url + '/api/v1/zone');
 };
