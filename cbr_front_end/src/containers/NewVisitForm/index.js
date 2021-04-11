@@ -12,11 +12,10 @@ import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
 import "./style.css";
-import RiskInformation from "../RiskInformation";
 import {
     getRiskObject,
     getRiskInformationFromServer,
-    updateRiskInformationToServer,
+    getServiceOptions,
 } from "../../utils/Utilities";
 
 const defaultPurpose = {
@@ -58,6 +57,7 @@ const NewVisitForm = (props) => {
     });
 
     const [healthFormInputs, setHealthFormInputs] = useState({
+        "healthServiceOptions": [],
         "wheelchair": false,
         "prosthetic": false,
         "orthotic": false,
@@ -77,6 +77,7 @@ const NewVisitForm = (props) => {
     });
 
     const [educationFormInputs, setEducationFormInputs] = useState({
+        "educationServiceOptions": [],
         "referralToEducationOrg": false,
         "educationAdvice": false,
         "educationAdvocacy": false,
@@ -88,7 +89,7 @@ const NewVisitForm = (props) => {
     });
 
     const [socialFormInputs, setSocialFormInputs] = useState({
-
+        "socialServiceOptions": [],
         "referralToSocialOrg": false,
         "socialAdvice": false,
         "socialAdvocacy": false,
@@ -103,21 +104,6 @@ const NewVisitForm = (props) => {
     const [originalRiskInformation, setOriginalRiskInformation] = useState(
         getRiskObject()
     );
-
-    const getRiskInformation = useCallback(() => {
-        const requestHeader = {
-            token: getToken(),
-        };
-        getRiskInformationFromServer(clientId, requestHeader)
-            .then((response) => {
-                setRiskInformation(response.data.data);
-                setOriginalRiskInformation(response.data.data);
-            })
-            .catch((error) => {
-                console.log("ERROR: Get request failed. " + error);
-            });
-    }, [clientId]);
-
     const [zoneList, setZoneList] = useState({});
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
@@ -141,6 +127,53 @@ const NewVisitForm = (props) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
+
+    const getServiceOptionsList = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getServiceOptions(requestHeader)
+            .then((response) => {
+                setServiceOptions(response.data.data);
+            })
+            .catch((error) => {
+                console.log("ERROR: Get request failed. " + error);
+            });
+    }
+
+    const setServiceOptions = (serviceOptionsList) => {
+        let healthServiceOptions = [];
+        let educationServiceOptions = [];
+        let socialServiceOptions = [];
+
+        for (const serviceOption of serviceOptionsList) {
+            if (serviceOption.type === "HEALTH") {
+                healthServiceOptions = [...healthServiceOptions, serviceOption];
+            } else if (serviceOption.type === "EDUCATION") {
+                educationServiceOptions = [...educationServiceOptions, serviceOption];
+            } else if (serviceOption.type === "SOCIAL") {
+                socialServiceOptions = [...socialServiceOptions, serviceOption]
+            }
+        }
+        updateHealthFormInputByNameValue("healthServiceOptions", healthServiceOptions);
+        updateEducationFormInputByNameValue("educationServiceOptions", educationServiceOptions);
+        updateSocialFormInputByNameValue("socialServiceOptions", socialServiceOptions);
+
+    }
+
+    const getRiskInformation = useCallback(() => {
+        const requestHeader = {
+            token: getToken(),
+        };
+        getRiskInformationFromServer(clientId, requestHeader)
+            .then((response) => {
+                setRiskInformation(response.data.data);
+                setOriginalRiskInformation(response.data.data);
+            })
+            .catch((error) => {
+                console.log("ERROR: Get request failed. " + error);
+            });
+    }, [clientId]);
 
     const onSubmitSurveyHandler = event => {
         clearErrorMessages();
@@ -263,6 +296,7 @@ const NewVisitForm = (props) => {
     const clearDescriptions = () => {
         updateFormInputByNameValue("serviceProvided", "");
     }
+
     const getZones = () => {
         getZonesFromServer()
         .then(response => {
@@ -371,6 +405,7 @@ const NewVisitForm = (props) => {
         setHealthFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
             newFormInputs[name] = value;
+            console.log(newFormInputs);
             return newFormInputs;
         });
     };
@@ -538,6 +573,7 @@ const NewVisitForm = (props) => {
     useEffect(() => {
         getWorkerNameByGetRequest();
         getZones();
+        getServiceOptionsList();
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
