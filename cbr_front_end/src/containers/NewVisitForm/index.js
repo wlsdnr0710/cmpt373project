@@ -57,28 +57,8 @@ const NewVisitForm = (props) => {
         "educationOutcome": "",
     });
 
-    const [healthFormInputs, setHealthFormInputs] = useState({
-        "healthServiceOptions": [],
-        "wheelchair": false,
-        "prosthetic": false,
-        "orthotic": false,
-        "wheelchairRepairs": false,
-        "referralToHealthCentre": false,
-        "healthAdvice": false,
-        "healthAdvocacy": false,
-        "healthEncouragement": false,
-        "wheelchairDesc": "",
-        "prostheticDesc": "",
-        "orthoticDesc": "",
-        "wheelchairRepairsDesc": "",
-        "referralToHealthCentreDesc": "",
-        "healthAdviceDesc": "",
-        "healthAdvocacyDesc": "",
-        "healthEncouragementDesc": "",
-    });
-
+    const [healthServiceOptions, setHealthServiceOptions] = useState([]);
     const [educationServiceOptions, setEducationServiceOptions] = useState([]);
-
     const [socialFormInputs, setSocialFormInputs] = useState({
         "socialServiceOptions": [],
         "referralToSocialOrg": false,
@@ -149,7 +129,8 @@ const NewVisitForm = (props) => {
                 socialServiceOptions = [...socialServiceOptions, serviceOption]
             }
         }
-        updateHealthFormInputByNameValue("healthServiceOptions", healthServiceOptions);
+        console.log(healthServiceOptions);
+        updateHealthServiceOptionsByNameValue(healthServiceOptions);
         updateEducationServiceOptionsByNameValue(educationServiceOptions);
         updateSocialFormInputByNameValue("socialServiceOptions", socialServiceOptions);
 
@@ -187,31 +168,13 @@ const NewVisitForm = (props) => {
     };
 
     const updateFormInputsFromHealthForm = (submittedForm) =>{
-        if (healthFormInputs.wheelchair === true ){
-            submittedForm = addServiceProvided("1", healthFormInputs.wheelchairDesc, submittedForm);
-        } 
-        if (healthFormInputs.prosthetic === true){
-            submittedForm = addServiceProvided("2", healthFormInputs.prostheticDesc, submittedForm);
+        // Have to call Object.values to make the options iterable
+        for (const serviceOption of Object.values(healthServiceOptions)) {
+            if (serviceOption.checked) {
+                submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
+            }
         }
-        if (healthFormInputs.orthotic === true){
-            submittedForm = addServiceProvided("3", healthFormInputs.orthoticDesc, submittedForm);
-        }
-        if (healthFormInputs.wheelchairRepairs === true){
-            submittedForm = addServiceProvided("4", healthFormInputs.wheelchairRepairsDesc, submittedForm);
-        }
-        if (healthFormInputs.referralToHealthCentre === true){
-            submittedForm = addServiceProvided("5", healthFormInputs.referralToHealthCentreDesc, submittedForm);
-        }
-        if (healthFormInputs.healthAdvice === true){
-            submittedForm = addServiceProvided("6", healthFormInputs.healthAdviceDesc, submittedForm);
-        }
-        if (healthFormInputs.healthAdvocacy === true){
-            submittedForm = addServiceProvided("7", healthFormInputs.healthAdvocacyDesc, submittedForm);
-        }
-        if (healthFormInputs.healthEncouragement === true){
-            submittedForm = addServiceProvided("8", healthFormInputs.healthEncouragementDesc, submittedForm);
-        }
-        return submittedForm
+        return submittedForm;
     }
 
     const updateFormInputsFromEducationForm = (submittedForm) => {
@@ -221,8 +184,7 @@ const NewVisitForm = (props) => {
                 submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
             }
         }
-        console.log(submittedForm);
-        return submittedForm
+        return submittedForm;
     }
 
     const updateFormInputsFromSocialForm = (submittedForm) =>{
@@ -338,7 +300,7 @@ const NewVisitForm = (props) => {
         } else if (name === "healthOutcome"){
             updateFormInputByNameValue(name, value);
         }   else {
-            updateHealthFormInputByNameValue(name, value);
+            updateHealthDescriptionByIndexValue(name, value);
         }
     }
 
@@ -390,11 +352,27 @@ const NewVisitForm = (props) => {
         });
     };
     
-    const updateHealthFormInputByNameValue = (name, value) => {
-        setHealthFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs[name] = value;
-            return newFormInputs;
+    const updateHealthServiceOptionsByNameValue = (value) => {
+        setHealthServiceOptions(() => {
+            const newOptionsList = value;
+            return newOptionsList;
+        });
+    };
+
+    const updateHealthDescriptionByIndexValue = (index, value) => {
+        setHealthServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].desc = value;
+            return newOptionsList;
+        });
+    };
+
+    const checkHealthServiceOptionsByIndexValue = (index, value) => {
+        setHealthServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].checked = value;
+            newOptionsList[index].hidden = !value;
+            return newOptionsList;
         });
     };
 
@@ -468,16 +446,15 @@ const NewVisitForm = (props) => {
 
     const doProvidedHealthCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        const name = checkBox.name
+        const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        updateHealthFormInputByNameValue(name, isProvidedChecked);
+        checkHealthServiceOptionsByIndexValue(id, isProvidedChecked);
     }
 
     const doProvidedEducationCheckBoxActionHandler = event => {
         const checkBox = event.target;
         const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        console.log(event.target);
         checkEducationServiceOptionsByIndexValue(id, isProvidedChecked);
     }
 
@@ -717,28 +694,10 @@ const NewVisitForm = (props) => {
                 <hr />
                 <div hidden={(isHealthInputDisabled)}>
                     <NewClientVisitsHealthForm
-                        healthServiceOptions={healthFormInputs["healthServiceOptions"]}
-                        wheelchairValue={healthFormInputs["wheelchair"]}
-                        prostheticValue={healthFormInputs["prosthetic"]}
-                        orthoticValue={healthFormInputs["orthotic"]}
-                        wheelchairRepairsValue={healthFormInputs["wheelchairRepairs"]}
-                        referralToHealthCentreValue={healthFormInputs["referralToHealthCentre"]}
-                        healthAdviceValue={healthFormInputs["healthAdvice"]}
-                        healthAdvocacyValue={healthFormInputs["healthAdvocacy"]}
-                        healthEncouragementValue={healthFormInputs["healthEncouragement"]}
-
-                        wheelchairDescValue={healthFormInputs["wheelchairDesc"]}
-                        prostheticDescValue={healthFormInputs["prostheticDesc"]}
-                        orthoticDescValue={healthFormInputs["orthoticDesc"]}
-                        wheelchairRepairsDescValue={healthFormInputs["wheelchairRepairsDesc"]}
-                        referralToHealthCentreDescValue={healthFormInputs["referralToHealthCentreDesc"]}
-                        healthAdviceDescValue={healthFormInputs["healthAdviceDesc"]}
-                        healthAdvocacyDescValue={healthFormInputs["healthAdvocacyDesc"]}
-                        healthEncouragementDescValue={healthFormInputs["healthEncouragementDesc"]}
-
+                        healthServiceOptions={healthServiceOptions}
+                        createServiceOptionComponents={createServiceOptionComponents}
                         healthGoalConclusionTextValue={formInputs["healthOutcome"]}
                         healthGoalMetValue={formInputs["healthGoalProgress"]}
-
                         actionHandler={doProvidedHealthCheckBoxActionHandler}
                         onChange={healthFormInputChangeHandler}
                         goalInputs={defaultGoalInputs}

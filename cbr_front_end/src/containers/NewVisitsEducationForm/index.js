@@ -5,27 +5,15 @@ import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsEducationForm = ({
-    referralToEducationOrgValue,
-    referralToEducationOrgDescValue,
     educationServiceOptions,
     createServiceOptionComponents,
-    educationAdviceValue,
-    educationAdviceDescValue,
-    educationAdvocacyValue,
-    educationAdvocacyDescValue,
-    educationEncouragementValue,
-    educationEncouragementDescValue,
     educationGoalConclusionTextValue,
     educationGoalMetValue,
     isEducationGoalConcluded,
     actionHandler,
     onChange,
     goalInputs,
-
 }) => {
-
-    
-
     return (
         <div className="new-client-survey">
             <div className="section">
