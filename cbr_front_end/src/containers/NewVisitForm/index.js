@@ -460,8 +460,8 @@ const NewVisitForm = (props) => {
         navigator.geolocation.getCurrentPosition(function (position) {
             setCurrLatitude(position.coords.latitude);
             setCurrLongitude(position.coords.longitude);
-            updateFormInputByNameValue("latitude", currLatitude);
-            updateFormInputByNameValue("longitude", currLongitude);
+            updateFormInputByNameValue("latitude", position.coords.latitude);
+            updateFormInputByNameValue("longitude", position.coords.longitude);
         });
     }
 
