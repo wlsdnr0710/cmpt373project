@@ -37,13 +37,6 @@ public class RiskHistory {
     private Long clientId;
 
     @Column(
-            name = "education_goal",
-            columnDefinition = "TEXT"
-    )
-    @NotBlank(message = "Education Goal is mandatory")
-    private String educationGoal;
-
-    @Column(
             name = "education_risk",
             columnDefinition = "INT"
     )
@@ -58,13 +51,6 @@ public class RiskHistory {
     private String educationRiskDescription;
 
     @Column(
-            name = "health_goal",
-            columnDefinition = "TEXT"
-    )
-    @NotBlank(message = "Health Goal is mandatory")
-    private String healthGoal;
-
-    @Column(
             name = "health_risk",
             columnDefinition = "INT"
     )
@@ -77,13 +63,6 @@ public class RiskHistory {
     )
     @NotBlank(message = "Health Risk Description is mandatory")
     private String healthRiskDescription;
-
-    @Column(
-            name = "social_goal",
-            columnDefinition = "TEXT"
-    )
-    @NotBlank(message = "Social Goal is mandatory")
-    private String socialGoal;
 
     @Column(
             name = "social_risk",
@@ -110,26 +89,20 @@ public class RiskHistory {
                        Long clientId,
                        Client client,
                        Date createdDate,
-                       String educationGoal,
                        Integer educationRisk,
                        String educationRiskDescription,
-                       String healthGoal,
                        Integer healthRisk,
                        String healthRiskDescription,
-                       String socialGoal,
                        Integer socialRisk,
                        String socialRiskDescription) {
         this.id = id;
         this.clientId = clientId;
         this.client = client;
         this.createdDate = createdDate;
-        this.educationGoal = educationGoal;
         this.educationRisk = educationRisk;
         this.educationRiskDescription = educationRiskDescription;
-        this.healthGoal = healthGoal;
         this.healthRisk = healthRisk;
         this.healthRiskDescription = healthRiskDescription;
-        this.socialGoal = socialGoal;
         this.socialRisk = socialRisk;
         this.socialRiskDescription = socialRiskDescription;
     }
@@ -166,14 +139,6 @@ public class RiskHistory {
         this.createdDate = createdDate;
     }
 
-    public String getEducationGoal() {
-        return educationGoal;
-    }
-
-    public void setEducationGoal(String educationGoal) {
-        this.educationGoal = educationGoal;
-    }
-
     public Integer getEducationRisk() {
         return educationRisk;
     }
@@ -190,14 +155,6 @@ public class RiskHistory {
         this.educationRiskDescription = educationRiskDescription;
     }
 
-    public String getHealthGoal() {
-        return healthGoal;
-    }
-
-    public void setHealthGoal(String healthGoal) {
-        this.healthGoal = healthGoal;
-    }
-
     public Integer getHealthRisk() {
         return healthRisk;
     }
@@ -212,14 +169,6 @@ public class RiskHistory {
 
     public void setHealthRiskDescription(String healthRiskDescription) {
         this.healthRiskDescription = healthRiskDescription;
-    }
-
-    public String getSocialGoal() {
-        return socialGoal;
-    }
-
-    public void setSocialGoal(String socialGoal) {
-        this.socialGoal = socialGoal;
     }
 
     public Integer getSocialRisk() {

@@ -128,6 +128,27 @@ public class Client {
     )
     private String caregiverPhoto;
 
+    @Column(
+            name = "health_goal",
+            columnDefinition = "TEXT"
+    )
+    @NotBlank(message = "Health Goal is mandatory")
+    private String healthGoal;
+
+    @Column(
+            name = "social_goal",
+            columnDefinition = "TEXT"
+    )
+    @NotBlank(message = "Social Goal is mandatory")
+    private String socialGoal;
+
+    @Column(
+            name = "education_goal",
+            columnDefinition = "TEXT"
+    )
+    @NotBlank(message = "Education Goal is mandatory")
+    private String educationGoal;
+
     @OneToMany(mappedBy = "client")
     private Set<RiskHistory> riskHistories;
 
@@ -160,6 +181,9 @@ public class Client {
                   String caregiverName,
                   String caregiverNumber,
                   String caregiverPhoto,
+                  String healthGoal,
+                  String socialGoal,
+                  String educationGoal,
                   Set<Disabled> disabled,
                   Set<RiskHistory> riskHistories,
                   Zone zoneName,
@@ -177,6 +201,9 @@ public class Client {
         this.caregiverName = caregiverName;
         this.caregiverNumber = caregiverNumber;
         this.caregiverPhoto = caregiverPhoto;
+        this.healthGoal = healthGoal;
+        this.socialGoal = socialGoal;
+        this.educationGoal = educationGoal;
         this.disabled = disabled;
         this.riskHistories = riskHistories;
         this.zoneName = zoneName;
@@ -303,6 +330,30 @@ public class Client {
 
     public void setCaregiverPhoto(String caregiverPhoto) {
         this.caregiverPhoto = caregiverPhoto;
+    }
+
+    public String getHealthGoal() {
+        return healthGoal;
+    }
+
+    public void setHealthGoal(String healthGoal) {
+        this.healthGoal = healthGoal;
+    }
+
+    public String getSocialGoal() {
+        return socialGoal;
+    }
+
+    public void setSocialGoal(String socialGoal) {
+        this.socialGoal = socialGoal;
+    }
+
+    public String getEducationGoal() {
+        return educationGoal;
+    }
+
+    public void setEducationGoal(String educationGoal) {
+        this.educationGoal = educationGoal;
     }
 
     public Set<Disabled> getDisabled() {
