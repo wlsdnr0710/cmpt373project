@@ -104,10 +104,6 @@ const EditClientForm = (props) => {
             });
     };
 
-    const clearErrorMessages = () => {
-        setErrorMessages([]);
-    };
-
     const updateErrorMessages = (error) => {
         setErrorMessages((prevErrorMessages) => {
             let messages = ["Something went wrong on the server."];
@@ -375,6 +371,14 @@ const EditClientForm = (props) => {
                 />
             </div>
             <div className="input-field">
+                <PhoneInputField
+                    name="contactNumber"
+                    value={clientInformation.contactNumber}
+                    label="Client Contact Number: "
+                    onChange={handleChange}
+                />
+            </div>
+            <div className="input-field">
                 <DropdownList
                     dropdownName="gender"
                     dropdownListItemsKeyValue={genders}
@@ -385,18 +389,18 @@ const EditClientForm = (props) => {
             </div>
             <hr />
             <div className="input-field">
-                <PhoneInputField
-                    name="contactNumber"
-                    value={clientInformation.contactNumber}
-                    label="Contact Number: "
+                <TextInputField
+                    name="caregiverName"
+                    value={clientInformation.caregiverName}
+                    label="Caregiver Name: "
                     onChange={handleChange}
                 />
             </div>
             <div className="input-field">
                 <PhoneInputField
                     name="caregiverNumber"
-                    value={clientInformation.caregiverContact}
-                    label="Caregiver Number: "
+                    value={clientInformation.caregiverNumber}
+                    label="Caregiver Contact Number: "
                     onChange={handleChange}
                 />
             </div>
