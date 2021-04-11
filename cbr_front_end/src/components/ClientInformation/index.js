@@ -12,7 +12,37 @@ const ClientPhoto = ({ photoSource }) => {
 
 const isPhotoSourceValid = photoSource => {
     return /(png|jpg)$/i.test(photoSource);
-}
+};
+
+const displayClientContactNumber = (contactNumber) => {
+    if (contactNumber === null || contactNumber === "") {
+        return null;
+    } else {
+        return (
+            <div className = "details"><strong>Client Contact Number:</strong> {contactNumber}</div>
+        );
+    }
+};
+
+const displayCaregiverName = (caregiverName) => {
+    if (caregiverName === null || caregiverName === "") {
+        return null;
+    } else {
+        return (
+            <div className = "details"><strong>Caregiver Name:</strong> {caregiverName}</div>
+        );
+    }
+};
+
+const displayCaregiverContactNumber = (caregiverNumber) => {
+    if (caregiverNumber === null || caregiverNumber === "") {
+        return null;
+    } else {
+        return (
+            <div className = "details"><strong>Caregiver Contact Number:</strong> {caregiverNumber}</div>
+        );
+    }
+};
 
 const ClientInformation = ({clientObject: client}) => {
     return (
@@ -30,6 +60,9 @@ const ClientInformation = ({clientObject: client}) => {
                         <div className = "details"><strong>Gender:</strong> {client.gender}</div>
                         <div className = "details"><strong>Age:</strong> {client.age}</div>
                         <div className = "details"><strong>Birthdate:</strong> {client.birthdate}</div>
+                        {displayClientContactNumber(client.contactNumber)}
+                        {displayCaregiverName(client.caregiverName)}
+                        {displayCaregiverContactNumber(client.caregiverNumber)}
                     </div>
                 </div>
             </div>

@@ -48,16 +48,17 @@ const ClientInfo = (props) => {
                         newFormInputs["photo"] = defaultPhoto;
                     }
 
-                    newFormInputs["name"] =
-                        data.firstName + " " + data.lastName;
+                    newFormInputs["name"] = data.firstName + " " + data.lastName;
                     newFormInputs["id"] = data.id;
                     newFormInputs["zone"] = data.zoneName.name;
                     newFormInputs["villageNumber"] = data.villageNumber;
                     newFormInputs["gender"] = data.gender;
                     newFormInputs["age"] = data.age;
                     newFormInputs["birthdate"] = parseISODateStringToDateString(data.birthdate);
+                    newFormInputs["contactNumber"] = data.contactNumber;
+                    newFormInputs["caregiverName"] = data.caregiverName;
+                    newFormInputs["caregiverNumber"] = data.caregiverNumber;
                     newFormInputs["date"] = parseISODateStringToDateString(data.signupDate);
-
                     newFormInputs["riskHistories"] = data.riskHistories;
                     newFormInputs["disabled"] = data.disabled;
                     return newFormInputs;

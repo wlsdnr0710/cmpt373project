@@ -15,9 +15,10 @@ const NewClientSurvey = ({
 }) => {
     const getClientHealthRiskLevels = () => {
         return {
-            "Low": "low",
-            "Medium": "medium",
-            "High": "high",
+            "Low": "1",
+            "Medium": "2",
+            "High": "3",
+            "Critical": "4",
         };
     };
 
@@ -35,7 +36,7 @@ const NewClientSurvey = ({
 
             <div className="section">
                 <div className="label-container">
-                    <label>What does the client need?:</label>
+                    <label>What does the client need?</label>
                 </div>
                 <TextAreaInputField 
                     name={needInputName} 
@@ -48,7 +49,7 @@ const NewClientSurvey = ({
 
             <div className="section">
                 <div className="label-container">
-                    <label>What are the client individual's goals?:</label>
+                    <label>What are the client individual's goal?</label>
                 </div>
                 <TextAreaInputField 
                     name={individualGoalsInputName} 

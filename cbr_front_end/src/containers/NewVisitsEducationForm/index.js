@@ -5,95 +5,21 @@ import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsEducationForm = ({
-    referralToEducationOrgValue,
-    referralToEducationOrgDescValue,
-    educationAdviceValue,
-    educationAdviceDescValue,
-    educationAdvocacyValue,
-    educationAdvocacyDescValue,
-    educationEncouragementValue,
-    educationEncouragementDescValue,
+    educationServiceOptions,
+    createServiceOptionComponents,
     educationGoalConclusionTextValue,
     educationGoalMetValue,
     isEducationGoalConcluded,
     actionHandler,
     onChange,
+    descriptionHandler,
     goalInputs,
-
 }) => {
     return (
         <div className="new-client-survey">
             <div className="section">
                 <label>For Education: What was provided?</label>
-                <div>
-                    <CheckBox
-                        name="referralToEducationOrg"
-                        value={referralToEducationOrgValue}
-                        actionHandler={actionHandler}
-                        displayText={"Referral to Education Organization"}
-                    />
-
-                    <div hidden={!referralToEducationOrgValue}>
-                        <TextAreaInputField
-                            name="referralToEducationOrgDesc"
-                            value={referralToEducationOrgDescValue}
-                            onChange={onChange}
-                            rows="4"
-                            isDisabled={false}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <CheckBox
-                        name="educationAdvice"
-                        value={educationAdviceValue}
-                        actionHandler={actionHandler}
-                        displayText={"Education Advice"}
-                    />
-                    <div hidden={!educationAdviceValue}>
-                        <TextAreaInputField
-                            name="educationAdviceDesc"
-                            value={educationAdviceDescValue}
-                            onChange={onChange}
-                            rows="4"
-                            isDisabled={false}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <CheckBox
-                        name="educationAdvocacy"
-                        value={educationAdvocacyValue}
-                        actionHandler={actionHandler}
-                        displayText={"Education Advocacy"}
-                    />
-                    <div hidden={!educationAdvocacyValue}>
-                        <TextAreaInputField
-                            name="educationAdvocacyDesc"
-                            value={educationAdvocacyDescValue}
-                            onChange={onChange}
-                            rows="4"
-                            isDisabled={false}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <CheckBox
-                        name="educationEncouragement"
-                        value={educationEncouragementValue}
-                        actionHandler={actionHandler}
-                        displayText={"Education Encouragement"}
-                    />
-                    <div hidden={!educationEncouragementValue}>
-                        <TextAreaInputField
-                            name="educationEncouragementDesc"
-                            value={educationEncouragementDescValue}
-                            onChange={onChange}
-                            rows="4"
-                            isDisabled={false}
-                        />
-                    </div>
-                </div>
+                {createServiceOptionComponents(educationServiceOptions, actionHandler, descriptionHandler)}
                 <div >
                     <div>
                         <label>Goal met? :</label>
