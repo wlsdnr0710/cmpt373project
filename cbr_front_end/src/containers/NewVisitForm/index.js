@@ -150,6 +150,7 @@ const NewVisitForm = (props) => {
         for (const serviceOption of serviceOptionsList) {
             serviceOption.hidden = false;
             serviceOption.desc = "";
+            serviceOption.checked = false;
             if (serviceOption.type === "HEALTH") {
                 healthServiceOptions = [...healthServiceOptions, serviceOption];
             } else if (serviceOption.type === "EDUCATION") {
@@ -224,18 +225,11 @@ const NewVisitForm = (props) => {
     }
 
     const updateFormInputsFromEducationForm = (submittedForm) =>{
-        if (educationFormInputs.referralToEducationOrg === true ){
-            submittedForm = addServiceProvided("9", educationFormInputs.referralToEducationOrgDesc, submittedForm);
-        } 
-        if (educationFormInputs.educationAdvice === true ){
-            submittedForm = addServiceProvided("10", educationFormInputs.educationAdviceDesc, submittedForm);
-        } 
-        if (educationFormInputs.educationAdvocacy === true ){
-            submittedForm = addServiceProvided("11", educationFormInputs.educationAdvocacyDesc, submittedForm);
-        } 
-        if (educationFormInputs.educationEncouragement === true ){
-            submittedForm = addServiceProvided("12", educationFormInputs.educationEncouragementDesc, submittedForm);
-        } 
+        for (const serviceOption of educationFormInputs["educationServiceOptions"]) {
+            if (serviceOption.checked) {
+                submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
+            }
+        }
         return submittedForm
     }
 
@@ -420,6 +414,15 @@ const NewVisitForm = (props) => {
         });
     };
 
+    const checkEducationServiceOptionsByIndexValue = (index, value) => {
+        setEducationFormInputs(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            console.log(index);
+            newFormInputs["educationServiceOptions"][index].checked = value;
+            return newFormInputs;
+        });
+    };
+
     const updateFormInputByNameValue = (name, value) => {
         setFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
@@ -473,9 +476,10 @@ const NewVisitForm = (props) => {
 
     const doProvidedEducationCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        const name = checkBox.name
+        const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        updateEducationFormInputByNameValue(name, isProvidedChecked);
+        console.log(event.target);
+        checkEducationServiceOptionsByIndexValue(id, isProvidedChecked);
     }
 
     const doProvidedSocialCheckBoxActionHandler = event => {
@@ -572,7 +576,7 @@ const NewVisitForm = (props) => {
         setErrorMessages([]);
     };
 
-    const createServiceOptionComponents = (serviceOptions, actionHandler) => {
+    const createServiceOptionComponents = (serviceOptions, actionHandler, onChange) => {
         const serviceOptionComponents = [];
         console.log(serviceOptions);
         if(serviceOptions === undefined || serviceOptions.length === 0) {
@@ -581,11 +585,10 @@ const NewVisitForm = (props) => {
         else {
             for (const index in serviceOptions) {
                 const name = serviceOptions[index].name;
-                const id = serviceOptions[index].id;
                 serviceOptionComponents.push(
                     <CheckBox
                         name={name}
-                        value={id}
+                        value={index}
                         actionHandler={actionHandler}
                         displayText={name}
                         key={index}
@@ -596,7 +599,7 @@ const NewVisitForm = (props) => {
                         <TextAreaInputField
                             name={name + "Desc"}
                             value={serviceOptions[index].desc}
-                            onChange={actionHandler}
+                            onChange={onChange}
                             rows="4"
                             isDisabled={false}
                             key={index + "Desc"}

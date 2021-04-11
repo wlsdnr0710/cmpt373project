@@ -30,7 +30,7 @@ const NewVisitsEducationForm = ({
         <div className="new-client-survey">
             <div className="section">
                 <label>For Education: What was provided?</label>
-                {createServiceOptionComponents(educationServiceOptions, actionHandler)}
+                {createServiceOptionComponents(educationServiceOptions, actionHandler, onChange)}
                 {/* <div>
                     <CheckBox
                         name="referralToEducationOrg"
