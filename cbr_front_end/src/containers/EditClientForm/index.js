@@ -381,7 +381,7 @@ const EditClientForm = (props) => {
             </div>
             <hr />
             <div className="input-field">
-                <PhoneInputField
+                <TextInputField
                     name="caregiverName"
                     value={clientInformation.caregiverName}
                     label="Caregiver Name: "
