@@ -8,5 +8,7 @@ import java.util.List;
 
 @Repository
 public interface AnsweredSurveyRepository extends JpaRepository<AnsweredSurvey, Long> {
+    //TODO: will need to refactor this in the future to remove snake case. Unable to use camel case
+    //      because of answered_survey table / AnsweredSurvey model
     List<AnsweredSurvey> findAllByClient_Id(Long clientId);
 }

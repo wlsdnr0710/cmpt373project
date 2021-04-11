@@ -64,17 +64,16 @@ public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
         if (answeredSurvey == null) {
             return null;
         }
-        answeredSurvey.setSurveyId(answeredSurvey.getSurvey().getId());
-        answeredSurvey.setSurveyName(answeredSurvey.getSurvey().getName());
-        answeredSurvey.setClientId(answeredSurvey.getClient().getId());
-        answeredSurvey.setClientFirstName(answeredSurvey.getClient().getFirstName());
-        answeredSurvey.setClientLastName(answeredSurvey.getClient().getLastName());
+        setAnsweredSurveyInformation(answeredSurvey);
         return answeredSurvey;
     }
 
     @Override
     public List<AnsweredSurvey> getAnsweredSurveysByClientId(Long id) {
         List<AnsweredSurvey> answeredSurveys = answeredSurveyRepository.findAllByClient_Id(id);
+        for(AnsweredSurvey survey: answeredSurveys){
+            setAnsweredSurveyInformation(survey);
+        }
         return answeredSurveys;
     }
 
@@ -93,6 +92,14 @@ public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
         Map<String, Object> surveyInputs = getSurveyInputsFromData(data);
         List<AnsweredQuestion> answeredQuestions = parseQuestions(surveyInputs);
         return buildAnsweredSurvey(data, answeredQuestions);
+    }
+
+    private void setAnsweredSurveyInformation(AnsweredSurvey answeredSurvey) {
+        answeredSurvey.setSurveyId(answeredSurvey.getSurvey().getId());
+        answeredSurvey.setSurveyName(answeredSurvey.getSurvey().getName());
+        answeredSurvey.setClientId(answeredSurvey.getClient().getId());
+        answeredSurvey.setClientFirstName(answeredSurvey.getClient().getFirstName());
+        answeredSurvey.setClientLastName(answeredSurvey.getClient().getLastName());
     }
 
     private Map<String, Object> getSurveyInputsFromData(JSONObject data) {

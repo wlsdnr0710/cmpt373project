@@ -5,6 +5,7 @@ import defaultPhoto from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
 import ViewVisit from "../../components/ViewVisit";
 import ViewReferrals from "../../components/ViewReferrals";
+import ViewAnsweredSurveys from "../../components/ViewAnsweredSurveys";
 import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../containers/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
@@ -123,8 +124,8 @@ const ClientInfo = (props) => {
         }
     };
 
-    const getSurveyComponent = (survey) => {
-        return
+    const getAnsweredSurveyComponent = (survey) => {
+        return <ViewAnsweredSurveys survey={survey} key={survey["id"]} />;
     }
 
     const createAnsweredSurveysListComponents = () => {
@@ -133,7 +134,7 @@ const ClientInfo = (props) => {
             return <p>There are no answered surveys.</p>;
         } else {
             return answeredSurveys.map( survey => {
-                return getSurveyComponent(survey);
+                return getAnsweredSurveyComponent(survey);
             })
         }
 
@@ -204,7 +205,7 @@ const ClientInfo = (props) => {
                 </button>
             </BackgroundCard>
             <BackgroundCard heading="Surveys">
-                {/* {createAnsweredSurveysListComponents()} */}
+                {createAnsweredSurveysListComponents()}
                 <button
                     type="button"
                     className="btn btn-primary add-button"
