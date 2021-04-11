@@ -10,7 +10,8 @@ const NewClientSurvey = ({
     riskValue,
     needInputValue,
     individualGoalsValue,
-    onChange,
+    onRiskChange,
+    onGoalChange,
     isDisabled,
 }) => {
     const getClientHealthRiskLevels = () => {
@@ -29,7 +30,7 @@ const NewClientSurvey = ({
                     dropdownName={riskInputName}
                     value={riskValue}
                     dropdownListItemsKeyValue={getClientHealthRiskLevels()}
-                    onChange={onChange}
+                    onChange={onRiskChange}
                     isDisabled={isDisabled}
                 />
             </div>
@@ -41,7 +42,7 @@ const NewClientSurvey = ({
                 <TextAreaInputField 
                     name={needInputName} 
                     value={needInputValue} 
-                    onChange={onChange} 
+                    onChange={onRiskChange}
                     rows="4" 
                     isDisabled={isDisabled}
                 />
@@ -54,7 +55,7 @@ const NewClientSurvey = ({
                 <TextAreaInputField 
                     name={individualGoalsInputName} 
                     value={individualGoalsValue} 
-                    onChange={onChange} 
+                    onChange={onGoalChange}
                     rows="4" 
                     isDisabled={isDisabled}
                 />
