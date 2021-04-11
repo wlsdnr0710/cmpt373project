@@ -52,6 +52,9 @@ const ClientInfo = (props) => {
                     newFormInputs["gender"] = data.gender;
                     newFormInputs["age"] = data.age;
                     newFormInputs["birthdate"] = parseISODateStringToDateString(data.birthdate);
+                    newFormInputs["contactNumber"] = data.contactNumber;
+                    newFormInputs["caregiverName"] = data.caregiverName;
+                    newFormInputs["caregiverNumber"] = data.caregiverNumber;
                     newFormInputs["date"] = parseISODateStringToDateString(data.signupDate);
                     newFormInputs["riskHistories"] = data.riskHistories;
                     newFormInputs["disabled"] = data.disabled;

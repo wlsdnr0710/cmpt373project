@@ -20,7 +20,7 @@ const OutstandingReferral = (props) => {
     };
 
     const onClickCardHandler = event => {
-        history.push("/client-information?id=" + props.client.id);
+        history.push("/client-information?id=" + props.referral.clientId);
         window.scrollTo(0, 0);
     };
 
