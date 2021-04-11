@@ -405,7 +405,6 @@ const NewVisitForm = (props) => {
         setHealthFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
             newFormInputs[name] = value;
-            console.log(newFormInputs);
             return newFormInputs;
         });
     };
@@ -414,6 +413,8 @@ const NewVisitForm = (props) => {
         setEducationFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
             newFormInputs[name] = value;
+            console.log(newFormInputs);
+
             return newFormInputs;
         });
     };
@@ -676,6 +677,7 @@ const NewVisitForm = (props) => {
                 <hr />
                 <div hidden={(isHealthInputDisabled)}>
                     <NewClientVisitsHealthForm
+                        healthServiceOptions={healthFormInputs["healthServiceOptions"]}
                         wheelchairValue={healthFormInputs["wheelchair"]}
                         prostheticValue={healthFormInputs["prosthetic"]}
                         orthoticValue={healthFormInputs["orthotic"]}
@@ -707,6 +709,7 @@ const NewVisitForm = (props) => {
 
                 <div hidden={(isEducationInputDisabled)}>
                     <NewClientVisitsEducationForm
+                        educationServiceOptions={educationFormInputs["educationServiceOptions"]}
                         referralToEducationOrgValue={educationFormInputs["referralToEducationOrg"]}
                         referralToEducationOrgDescValue={educationFormInputs["referralToEducationOrgDesc"]}
                         educationAdviceValue={educationFormInputs["educationAdvice"]}
