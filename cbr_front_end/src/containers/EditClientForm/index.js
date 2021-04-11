@@ -371,6 +371,14 @@ const EditClientForm = (props) => {
                 />
             </div>
             <div className="input-field">
+                <PhoneInputField
+                    name="contactNumber"
+                    value={clientInformation.contactNumber}
+                    label="Client Contact Number: "
+                    onChange={handleChange}
+                />
+            </div>
+            <div className="input-field">
                 <DropdownList
                     dropdownName="gender"
                     dropdownListItemsKeyValue={genders}
@@ -385,14 +393,6 @@ const EditClientForm = (props) => {
                     name="caregiverName"
                     value={clientInformation.caregiverName}
                     label="Caregiver Name: "
-                    onChange={handleChange}
-                />
-            </div>
-            <div className="input-field">
-                <PhoneInputField
-                    name="contactNumber"
-                    value={clientInformation.contactNumber}
-                    label="Client Contact Number: "
                     onChange={handleChange}
                 />
             </div>
