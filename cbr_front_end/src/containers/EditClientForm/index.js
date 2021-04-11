@@ -104,10 +104,6 @@ const EditClientForm = (props) => {
             });
     };
 
-    const clearErrorMessages = () => {
-        setErrorMessages([]);
-    };
-
     const updateErrorMessages = (error) => {
         setErrorMessages((prevErrorMessages) => {
             let messages = ["Something went wrong on the server."];
@@ -386,17 +382,25 @@ const EditClientForm = (props) => {
             <hr />
             <div className="input-field">
                 <PhoneInputField
+                    name="caregiverName"
+                    value={clientInformation.caregiverName}
+                    label="Caregiver Name: "
+                    onChange={handleChange}
+                />
+            </div>
+            <div className="input-field">
+                <PhoneInputField
                     name="contactNumber"
                     value={clientInformation.contactNumber}
-                    label="Contact Number: "
+                    label="Client Contact Number: "
                     onChange={handleChange}
                 />
             </div>
             <div className="input-field">
                 <PhoneInputField
                     name="caregiverNumber"
-                    value={clientInformation.caregiverContact}
-                    label="Caregiver Number: "
+                    value={clientInformation.caregiverNumber}
+                    label="Caregiver Contact Number: "
                     onChange={handleChange}
                 />
             </div>
