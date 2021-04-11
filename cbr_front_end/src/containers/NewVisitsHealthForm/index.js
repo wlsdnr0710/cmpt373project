@@ -12,13 +12,14 @@ const NewVisitsHealthForm = ({
     isHealthGoalConcluded,
     actionHandler,
     onChange,
+    descriptionHandler,
     goalInputs,
 }) => {
     return (
         <div className="new-client-survey">
             <div className="section">
                 <label>For Health: What was provided?</label>
-                {createServiceOptionComponents(healthServiceOptions, actionHandler, onChange)}
+                {createServiceOptionComponents(healthServiceOptions, actionHandler, descriptionHandler)}
                 <div >
                     <div>
                         <label>Goal met? :</label>

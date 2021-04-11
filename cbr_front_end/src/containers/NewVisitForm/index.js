@@ -119,10 +119,10 @@ const NewVisitForm = (props) => {
                 socialServiceOptions = [...socialServiceOptions, serviceOption]
             }
         }
-        console.log(socialServiceOptions);
-        updateHealthServiceOptionsByNameValue(healthServiceOptions);
-        updateEducationServiceOptionsByNameValue(educationServiceOptions);
-        updateSocialServiceOptionsByNameValue(socialServiceOptions);
+
+        setHealthServiceOptions(healthServiceOptions);
+        setEducationServiceOptions(educationServiceOptions);
+        setSocialServiceOptions(socialServiceOptions);
     }
 
     const getRiskInformation = useCallback(() => {
@@ -143,42 +143,22 @@ const NewVisitForm = (props) => {
         clearErrorMessages();
         let submittedForm = formInputs;
         if (healthCheckBox){
-            submittedForm = updateFormInputsFromHealthForm(submittedForm);
+            submittedForm = updateFormInputs(submittedForm, healthServiceOptions);
         }
         if (educationCheckBox){
-            submittedForm = updateFormInputsFromEducationForm(submittedForm);
+            submittedForm = updateFormInputs(submittedForm, educationServiceOptions);
         }
         if (socialCheckBox){
-            submittedForm = updateFormInputsFromSocialForm(submittedForm);
+            submittedForm = updateFormInputs(submittedForm, socialServiceOptions);
         }
         event.preventDefault();
         const sendingData = submittedForm;
         submitFormByPostRequest(sendingData);
     };
 
-    const updateFormInputsFromHealthForm = (submittedForm) =>{
+    const updateFormInputs = (submittedForm, serviceOptions) =>{
         // Have to call Object.values to make the options iterable
-        for (const serviceOption of Object.values(healthServiceOptions)) {
-            if (serviceOption.checked) {
-                submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
-            }
-        }
-        return submittedForm;
-    }
-
-    const updateFormInputsFromEducationForm = (submittedForm) => {
-        // Have to call Object.values to make the options iterable
-        for (const serviceOption of Object.values(educationServiceOptions)) {
-            if (serviceOption.checked) {
-                submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
-            }
-        }
-        return submittedForm;
-    }
-
-    const updateFormInputsFromSocialForm = (submittedForm) =>{
-        // Have to call Object.values to make the options iterable
-        for (const serviceOption of Object.values(socialServiceOptions)) {
+        for (const serviceOption of Object.values(serviceOptions)) {
             if (serviceOption.checked) {
                 submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
             }
@@ -194,42 +174,42 @@ const NewVisitForm = (props) => {
         let descriptionFailed = false;
         let descriptionError = "";
         addVisitToServer(data, requestHeader)
-        .then(async (response) => {
-            for (const serviceOption of data.serviceProvided) {
-                serviceOption.visitId = response.data.id;
-                await postNewServiceDescription(serviceOption, requestHeader)
-                    .catch(error => {
-                        deleteVisitFromServer(response.data.id, requestHeader)
-                            .catch(error => {
-                                // Failure here is likely a technical issue
-                                console.log(error);
-                            })
-                        // Propagate error up into higher then
-                        descriptionFailed = true;
-                        descriptionError = error;
-                    })
-            }
-                
-        })
-        .then(response => {
-            if (descriptionFailed) {
-                throw descriptionError;
-            }
-            setFormStateAfterSubmitSuccess();
-            const clientId = props.clientID;
-            const oneSecond = 1;
-            redirectToClientInfoPageAfter(clientId, oneSecond);
-        })
-        .catch(error => {
-            clearDescriptions();
-            updateErrorMessages(error);
-            setStatesWhenFormIsSubmitting(false);
-        });
+            .then(async (response) => {
+                for (const serviceOption of data.serviceProvided) {
+                    serviceOption.visitId = response.data.id;
+                    await postNewServiceDescription(serviceOption, requestHeader)
+                        .catch(error => {
+                            deleteVisitFromServer(response.data.id, requestHeader)
+                                .catch(error => {
+                                    // Failure here is likely a technical issue
+                                    console.log(error);
+                                })
+                            // Propagate error up into higher then
+                            descriptionFailed = true;
+                            descriptionError = error;
+                        })
+                }
+                    
+            })
+            .then(response => {
+                if (descriptionFailed) {
+                    throw descriptionError;
+                }
+                setFormStateAfterSubmitSuccess();
+                const clientId = props.clientID;
+                const oneSecond = 1;
+                redirectToClientInfoPageAfter(clientId, oneSecond);
+            })
+            .catch(error => {
+                clearDescriptions();
+                updateErrorMessages(error);
+                setStatesWhenFormIsSubmitting(false);
+            });
     };
 
     const clearDescriptions = () => {
         updateFormInputByNameValue("serviceProvided", "");
-    }
+    };
 
     const getZones = () => {
         getZonesFromServer()
@@ -249,7 +229,7 @@ const NewVisitForm = (props) => {
         .catch(error => {
             updateFormInputByNameValue("cbrWorkerName" , "Unable to fetch CBR worker name");
         });
-    }
+    };
 
     const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
         const timeInMilliSecond = timeInSecond * 1000;
@@ -263,8 +243,14 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
-
         updateFormInputByNameValue(name, value);
+    };
+
+    const healthDescriptionHandler = event => {
+        const input = event.target;
+        const index = input.name;
+        const value = input.value;
+        updateHealthDescriptionByIndexAndValue(index, value);
     };
 
     const healthFormInputChangeHandler = event =>{
@@ -282,10 +268,15 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue(name, value);
         } else if (name === "healthOutcome"){
             updateFormInputByNameValue(name, value);
-        }   else {
-            updateHealthDescriptionByIndexValue(name, value);
         }
-    }
+    };
+
+    const educationDescriptionHandler = event => {
+        const input = event.target;
+        const index = input.name;
+        const value = input.value;
+        updateEducationDescriptionByIndexAndValue(index, value);
+    };
 
     const educationFormInputChangeHandler = event =>{
         const input = event.target;
@@ -302,10 +293,15 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue(name, value);
         } else if (name === "educationOutcome"){
             updateFormInputByNameValue(name, value);
-        }   else {
-            updateEducationDescriptionByIndexValue(name, value);
         }
-    }
+    };
+
+    const socialDescriptionHandler = event => {
+        const input = event.target;
+        const index = input.name;
+        const value = input.value;
+        updateSocialDescriptionByIndexAndValue(index, value);
+    };
 
     const socialFormInputChangeHandler = event =>{
         const input = event.target;
@@ -322,19 +318,10 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue(name, value);
         } else if (name === "socialOutcome"){
             updateFormInputByNameValue(name, value);
-        }   else {
-            updateSocialDescriptionByIndexValue(name, value);
         }
-    }
-
-    const updateHealthServiceOptionsByNameValue = (value) => {
-        setHealthServiceOptions(() => {
-            const newOptionsList = value;
-            return newOptionsList;
-        });
     };
 
-    const updateHealthDescriptionByIndexValue = (index, value) => {
+    const updateHealthDescriptionByIndexAndValue = (index, value) => {
         setHealthServiceOptions(prevOptions => {
             const newOptionsList = { ...prevOptions };
             newOptionsList[index].desc = value;
@@ -342,7 +329,7 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const checkHealthServiceOptionsByIndexValue = (index, value) => {
+    const checkHealthServiceOptionsByIndexAndValue = (index, value) => {
         setHealthServiceOptions(prevOptions => {
             const newOptionsList = { ...prevOptions };
             newOptionsList[index].checked = value;
@@ -351,14 +338,7 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const updateEducationServiceOptionsByNameValue = (value) => {
-        setEducationServiceOptions(() => {
-            const newOptionsList = value;
-            return newOptionsList;
-        });
-    };
-
-    const updateEducationDescriptionByIndexValue = (index, value) => {
+    const updateEducationDescriptionByIndexAndValue = (index, value) => {
         setEducationServiceOptions(prevOptions => {
             const newOptionsList = { ...prevOptions };
             newOptionsList[index].desc = value;
@@ -366,7 +346,7 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const checkEducationServiceOptionsByIndexValue = (index, value) => {
+    const checkEducationServiceOptionsByIndexAndValue = (index, value) => {
         setEducationServiceOptions(prevOptions => {
             const newOptionsList = { ...prevOptions };
             newOptionsList[index].checked = value;
@@ -375,14 +355,7 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const updateSocialServiceOptionsByNameValue = (value) => {
-        setSocialServiceOptions(() => {
-            const newOptionsList = value;
-            return newOptionsList;
-        });
-    };
-
-    const updateSocialDescriptionByIndexValue = (index, value) => {
+    const updateSocialDescriptionByIndexAndValue = (index, value) => {
         setSocialServiceOptions(prevOptions => {
             const newOptionsList = { ...prevOptions };
             newOptionsList[index].desc = value;
@@ -390,7 +363,7 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const checkSocialServiceOptionsByIndexValue = (index, value) => {
+    const checkSocialServiceOptionsByIndexAndValue = (index, value) => {
         setSocialServiceOptions(prevOptions => {
             const newOptionsList = { ...prevOptions };
             newOptionsList[index].checked = value;
@@ -420,7 +393,7 @@ const NewVisitForm = (props) => {
         submittedForm["serviceProvided"] = testedValues;
         updateFormInputByNameValue("serviceProvided", testedValues);
         return submittedForm;
-    }
+    };
 
     const doHealthCheckBoxActionHandler = event => {
         const checkBox = event.target;
@@ -447,22 +420,22 @@ const NewVisitForm = (props) => {
         const checkBox = event.target;
         const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        checkHealthServiceOptionsByIndexValue(id, isProvidedChecked);
-    }
+        checkHealthServiceOptionsByIndexAndValue(id, isProvidedChecked);
+    };
 
     const doProvidedEducationCheckBoxActionHandler = event => {
         const checkBox = event.target;
         const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        checkEducationServiceOptionsByIndexValue(id, isProvidedChecked);
-    }
+        checkEducationServiceOptionsByIndexAndValue(id, isProvidedChecked);
+    };
 
     const doProvidedSocialCheckBoxActionHandler = event => {
         const checkBox = event.target;
         const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        checkSocialServiceOptionsByIndexValue(id, isProvidedChecked);
-    }
+        checkSocialServiceOptionsByIndexAndValue(id, isProvidedChecked);
+    };
 
     const initEpochDateTime = () => {
         let newDate = new Date();
@@ -470,7 +443,7 @@ const NewVisitForm = (props) => {
         setCurrMonth(newDate.getMonth() + 1);
         setCurrYear(newDate.getFullYear());
         updateFormInputByNameValue("date", Math.floor(newDate.getTime()));
-    }
+    };
 
     const initGeolocation = () => {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -479,7 +452,7 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue("latitude", currLatitude);
             updateFormInputByNameValue("longitude", currLongitude);
         });
-    }
+    };
 
     const updateErrorMessages = error => {
         setErrorMessages(prevErrorMessages => {
@@ -553,7 +526,6 @@ const NewVisitForm = (props) => {
 
     const createServiceOptionComponents = (serviceOptions, actionHandler, onChange) => {
         const serviceOptionComponents = [];
-        console.log(serviceOptions);
         if(serviceOptions === undefined || serviceOptions.length === 0) {
             return null;
         }
@@ -699,6 +671,7 @@ const NewVisitForm = (props) => {
                         healthGoalMetValue={formInputs["healthGoalProgress"]}
                         actionHandler={doProvidedHealthCheckBoxActionHandler}
                         onChange={healthFormInputChangeHandler}
+                        descriptionHandler={healthDescriptionHandler}
                         goalInputs={defaultGoalInputs}
                         isHealthGoalConcluded={isHealthGoalConcluded}
                     />
@@ -714,6 +687,7 @@ const NewVisitForm = (props) => {
                         isEducationGoalConcluded={isEducationGoalConcluded}
                         actionHandler={doProvidedEducationCheckBoxActionHandler}
                         onChange={educationFormInputChangeHandler}
+                        descriptionHandler={educationDescriptionHandler}
                         goalInputs={defaultGoalInputs}
                     />
                     <hr />
@@ -728,6 +702,7 @@ const NewVisitForm = (props) => {
                         isSocialGoalConcluded={isSocialGoalConcluded}
                         actionHandler={doProvidedSocialCheckBoxActionHandler}
                         onChange={socialFormInputChangeHandler}
+                        descriptionHandler={socialDescriptionHandler}
                         goalInputs={defaultGoalInputs}
                     />
                     <hr />

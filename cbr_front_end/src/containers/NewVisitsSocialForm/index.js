@@ -12,13 +12,14 @@ const NewVisitsSocialForm = ({
     isSocialGoalConcluded,
     actionHandler,
     onChange,
+    descriptionHandler,
     goalInputs,
 }) => {
     return (
         <div className="new-client-survey">
             <div className="section">
                 <label>For Social: What was provided?</label>
-                {createServiceOptionComponents(socialServiceOptions, actionHandler, onChange)}
+                {createServiceOptionComponents(socialServiceOptions, actionHandler, descriptionHandler)}
                 <div >
                     <div>
                         <label>Goal met? :</label>
