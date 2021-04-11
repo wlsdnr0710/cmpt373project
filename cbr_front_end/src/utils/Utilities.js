@@ -343,6 +343,10 @@ export const postAnsweredSurvey = (data, requestHeader) => {
     });
 };
 
+export const getAnsweredSurveysFromServer = (clientId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/answered_survey/' + clientId, {headers: requestHeader})
+}
+
 export const getAllSurveys = requestHeader => {
     return axios.get(ServerConfig.api.url + '/api/v1/survey', {headers: requestHeader});
 };

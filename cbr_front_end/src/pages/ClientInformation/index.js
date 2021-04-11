@@ -15,12 +15,14 @@ import {
     getVisitsInformationFromServer,
     getReferralsInformationFromServer,
     getClientInformationFromServer,
+    getAnsweredSurveysFromServer,
 } from "../../utils/Utilities";
 import "./styles.css";
 
 const ClientInfo = (props) => {
     const [visits, setVisits] = useState([]);
     const [referrals, setReferrals] = useState([]);
+    const [answeredSurveys, setAnsweredSurveys] = useState([]);
     const history = useHistory();
     doAuthentication(history);
 
@@ -81,76 +83,74 @@ const ClientInfo = (props) => {
         );
     };
 
+    const getAnsweredSurveysByGetRequest = () => {
+        getAnsweredSurveysFromServer(clientId, requestHeader).then(
+            (response) => {
+                setAnsweredSurveys(response.data.data);
+            }
+        )
+    }
+
+    const getVisitComponent = (visit) => {
+        return <ViewVisit visit={visit} key={visit["id"]} />
+    }
+
     const createVisitListComponents = () => {
-        const visitComponents = [];
-        if (visits === undefined || visits.length === 0) {
+        const visitsIsEmpty = visits === undefined || visits.length === 0;
+        if (visitsIsEmpty) {
             return <p>There are no visits.</p>;
         } else {
-            for (const index in visits) {
-                visitComponents.push(
-                    <ViewVisit visit={visits[index]} key={index} />
-                );
-            }
-            return visitComponents;
+            return visits.map((visit) => {
+                return getVisitComponent(visit);
+            })
         }
     };
 
+    const getReferralComponent = (referral) => {
+        return <ViewReferrals referral={referral} key={referral["id"]} />
+    }
+
     const createReferralListComponents = () => {
-        const referralComponents = [];
-        if (referrals === undefined || referrals.length === 0) {
+        const referralsIsEmpty = (referrals === undefined || referrals.length === 0);
+        if (referralsIsEmpty) {
             return <p>There are no referrals.</p>;
         } else {
-            for (const index in referrals) {
-                referralComponents.push(
-                    <ViewReferrals referral={referrals[index]} key={index} />
-                );
-            }
-            return referralComponents;
+            return referrals.map((referral) => {
+                return getReferralComponent(referral);
+            });
         }
     };
+
+    const getSurveyComponent = (survey) => {
+        return
+    }
+
+    const createAnsweredSurveysListComponents = () => {
+        const answeredSurveysIsEmpty = answeredSurveys === undefined || answeredSurveys.length === 0;
+        if (answeredSurveysIsEmpty) {
+            return <p>There are no answered surveys.</p>;
+        } else {
+            return answeredSurveys.map( survey => {
+                return getSurveyComponent(survey);
+            })
+        }
+
+    }
 
     const [formInputs, setFormInputs] = useState(getClientObject());
 
-    const onClickGetNewVisitPage = () => {
+    const onClickPushPageWithId = (pathName) => {
         history.push({
-            pathname: "/new-visit",
-            state: { clientID: formInputs["id"] },
-        });
-    };
-
-    const onClickGetNewReferralPage = () => {
-        history.push({
-            pathname: "/new-referral",
-            state: { clientID: formInputs["id"] },
-        });
-    };
-
-    const onClickAnswerSurveyPage = () => {
-        history.push({
-            pathname: "/answer-survey",
-            state: { clientID: formInputs["id"] },
-        });
-    };
-
-    const onClickGetEditClientPage = () => {
-        history.push({
-            pathname: "/edit-client",
-            state: { clientID: formInputs["id"] },
-        });
-    };
-
-    const onClickGetNewRiskUpdatePage = () => {
-        history.push({
-            pathname: "/new-risk-update",
-            state: { clientID: formInputs["id"] },
-        });
-    };
-
+            pathname: pathName,
+            state: { clientID: formInputs["id"] }
+        })
+    }
 
     useEffect(() => {
         getClientDataByGetRequest();
         getVisitsDataByGetRequest();
         getReferralsDataByGetRequest();
+        getAnsweredSurveysByGetRequest();
     }, [getClientDataByGetRequest]);
 
     return (
@@ -164,7 +164,7 @@ const ClientInfo = (props) => {
                     <button
                         type="button"
                         className="btn btn-primary add-button"
-                        onClick={onClickGetEditClientPage}
+                        onClick={() => onClickPushPageWithId("edit-client")}
                     >
                         Edit Client
                     </button>
@@ -178,7 +178,7 @@ const ClientInfo = (props) => {
                 <button
                     type="button"
                     className="btn btn-primary add-button"
-                    onClick={onClickGetNewRiskUpdatePage}
+                    onClick={() => onClickPushPageWithId("new-risk-update")}
                 >
                     Add Risk Update
                 </button>
@@ -188,7 +188,7 @@ const ClientInfo = (props) => {
                 <button
                     type="button"
                     className="btn btn-primary add-button"
-                    onClick={onClickGetNewVisitPage}
+                    onClick={() => onClickPushPageWithId("new-visit")}
                 >
                     Add Visit
                 </button>
@@ -198,17 +198,17 @@ const ClientInfo = (props) => {
                 <button
                     type="button"
                     className="btn btn-primary add-button"
-                    onClick={onClickGetNewReferralPage}
+                    onClick={() => onClickPushPageWithId("new-referral")}
                 >
                     Add Referral
                 </button>
             </BackgroundCard>
             <BackgroundCard heading="Surveys">
-                {/* TODO: Add answered survey list */}
+                {/* {createAnsweredSurveysListComponents()} */}
                 <button
                     type="button"
                     className="btn btn-primary add-button"
-                    onClick={onClickAnswerSurveyPage}
+                    onClick={() => onClickPushPageWithId("answer-survey")}
                 >
                     Add Survey
                 </button>
