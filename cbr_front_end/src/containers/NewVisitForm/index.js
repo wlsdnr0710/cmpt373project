@@ -7,16 +7,16 @@ import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
 import DropdownList from "../../components/DropdownList";
 import CheckBox from "../../components/CheckBox";
+import TextAreaInputField from "../../components/TextAreaInputField";
 import NumberInputField from "../../components/NumberInputField";
 import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
 import "./style.css";
-import RiskInformation from "../RiskInformation";
 import {
     getRiskObject,
     getRiskInformationFromServer,
-    updateRiskInformationToServer,
+    getServiceOptions,
 } from "../../utils/Utilities";
 
 const defaultPurpose = {
@@ -57,67 +57,14 @@ const NewVisitForm = (props) => {
         "educationOutcome": "",
     });
 
-    const [healthFormInputs, setHealthFormInputs] = useState({
-        "wheelchair": false,
-        "prosthetic": false,
-        "orthotic": false,
-        "wheelchairRepairs": false,
-        "referralToHealthCentre": false,
-        "healthAdvice": false,
-        "healthAdvocacy": false,
-        "healthEncouragement": false,
-        "wheelchairDesc": "",
-        "prostheticDesc": "",
-        "orthoticDesc": "",
-        "wheelchairRepairsDesc": "",
-        "referralToHealthCentreDesc": "",
-        "healthAdviceDesc": "",
-        "healthAdvocacyDesc": "",
-        "healthEncouragementDesc": "",
-    });
-
-    const [educationFormInputs, setEducationFormInputs] = useState({
-        "referralToEducationOrg": false,
-        "educationAdvice": false,
-        "educationAdvocacy": false,
-        "educationEncouragement": false,
-        "referralToEducationOrgDesc": "",
-        "educationAdviceDesc": "",
-        "educationAdvocacyDesc": "",
-        "educationEncouragementDesc": "",
-    });
-
-    const [socialFormInputs, setSocialFormInputs] = useState({
-
-        "referralToSocialOrg": false,
-        "socialAdvice": false,
-        "socialAdvocacy": false,
-        "socialEncouragement": false,
-        "referralToSocialOrgDesc": "",
-        "socialAdviceDesc": "",
-        "socialAdvocacyDesc": "",
-        "socialEncouragementDesc": "",
-    });
+    const [healthServiceOptions, setHealthServiceOptions] = useState([]);
+    const [educationServiceOptions, setEducationServiceOptions] = useState([]);
+    const [socialServiceOptions, setSocialServiceOptions] = useState([]);
 
     const [riskInformation, setRiskInformation] = useState(getRiskObject());
     const [originalRiskInformation, setOriginalRiskInformation] = useState(
         getRiskObject()
     );
-
-    const getRiskInformation = useCallback(() => {
-        const requestHeader = {
-            token: getToken(),
-        };
-        getRiskInformationFromServer(clientId, requestHeader)
-            .then((response) => {
-                setRiskInformation(response.data.data);
-                setOriginalRiskInformation(response.data.data);
-            })
-            .catch((error) => {
-                console.log("ERROR: Get request failed. " + error);
-            });
-    }, [clientId]);
-
     const [zoneList, setZoneList] = useState({});
     const [healthCheckBox, setHealthCheckBox] = useState(false);
     const [educationCheckBox, setEducationCheckBox] = useState(false);
@@ -142,81 +89,81 @@ const NewVisitForm = (props) => {
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
     const [errorMessages, setErrorMessages] = useState([]);
 
+    const getServiceOptionsList = () => {
+        const requestHeader = {
+            token: getToken()
+        };
+        getServiceOptions(requestHeader)
+            .then((response) => {
+                setServiceOptions(response.data.data);
+            })
+            .catch((error) => {
+                console.log("ERROR: Get request failed. " + error);
+            });
+    }
+
+    const setServiceOptions = (serviceOptionsList) => {
+        let healthServiceOptions = [];
+        let educationServiceOptions = [];
+        let socialServiceOptions = [];
+
+        for (const serviceOption of serviceOptionsList) {
+            serviceOption.hidden = true;
+            serviceOption.desc = "";
+            serviceOption.checked = false;
+            if (serviceOption.type === "HEALTH") {
+                healthServiceOptions = [...healthServiceOptions, serviceOption];
+            } else if (serviceOption.type === "EDUCATION") {
+                educationServiceOptions = [...educationServiceOptions, serviceOption];
+            } else if (serviceOption.type === "SOCIAL") {
+                socialServiceOptions = [...socialServiceOptions, serviceOption]
+            }
+        }
+
+        setHealthServiceOptions(healthServiceOptions);
+        setEducationServiceOptions(educationServiceOptions);
+        setSocialServiceOptions(socialServiceOptions);
+    }
+
+    const getRiskInformation = useCallback(() => {
+        const requestHeader = {
+            token: getToken(),
+        };
+        getRiskInformationFromServer(clientId, requestHeader)
+            .then((response) => {
+                setRiskInformation(response.data.data);
+                setOriginalRiskInformation(response.data.data);
+            })
+            .catch((error) => {
+                console.log("ERROR: Get request failed. " + error);
+            });
+    }, [clientId]);
+
     const onSubmitSurveyHandler = event => {
         clearErrorMessages();
         let submittedForm = formInputs;
         if (healthCheckBox){
-            submittedForm = updateFormInputsFromHealthForm(submittedForm);
+            submittedForm = updateFormInputs(submittedForm, healthServiceOptions);
         }
         if (educationCheckBox){
-            submittedForm = updateFormInputsFromEducationForm(submittedForm);
+            submittedForm = updateFormInputs(submittedForm, educationServiceOptions);
         }
         if (socialCheckBox){
-            submittedForm = updateFormInputsFromSocialForm(submittedForm);
+            submittedForm = updateFormInputs(submittedForm, socialServiceOptions);
         }
         event.preventDefault();
         const sendingData = submittedForm;
         submitFormByPostRequest(sendingData);
     };
 
-    const updateFormInputsFromHealthForm = (submittedForm) =>{
-        if (healthFormInputs.wheelchair === true ){
-            submittedForm = addServiceProvided("1", healthFormInputs.wheelchairDesc, submittedForm);
-        } 
-        if (healthFormInputs.prosthetic === true){
-            submittedForm = addServiceProvided("2", healthFormInputs.prostheticDesc, submittedForm);
+    const updateFormInputs = (submittedForm, serviceOptions) =>{
+        // Have to call Object.values to make the options iterable
+        for (const serviceOption of Object.values(serviceOptions)) {
+            if (serviceOption.checked) {
+                submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
+            }
         }
-        if (healthFormInputs.orthotic === true){
-            submittedForm = addServiceProvided("3", healthFormInputs.orthoticDesc, submittedForm);
-        }
-        if (healthFormInputs.wheelchairRepairs === true){
-            submittedForm = addServiceProvided("4", healthFormInputs.wheelchairRepairsDesc, submittedForm);
-        }
-        if (healthFormInputs.referralToHealthCentre === true){
-            submittedForm = addServiceProvided("5", healthFormInputs.referralToHealthCentreDesc, submittedForm);
-        }
-        if (healthFormInputs.healthAdvice === true){
-            submittedForm = addServiceProvided("6", healthFormInputs.healthAdviceDesc, submittedForm);
-        }
-        if (healthFormInputs.healthAdvocacy === true){
-            submittedForm = addServiceProvided("7", healthFormInputs.healthAdvocacyDesc, submittedForm);
-        }
-        if (healthFormInputs.healthEncouragement === true){
-            submittedForm = addServiceProvided("8", healthFormInputs.healthEncouragementDesc, submittedForm);
-        }
-        return submittedForm
-    }
-
-    const updateFormInputsFromEducationForm = (submittedForm) =>{
-        if (educationFormInputs.referralToEducationOrg === true ){
-            submittedForm = addServiceProvided("9", educationFormInputs.referralToEducationOrgDesc, submittedForm);
-        } 
-        if (educationFormInputs.educationAdvice === true ){
-            submittedForm = addServiceProvided("10", educationFormInputs.educationAdviceDesc, submittedForm);
-        } 
-        if (educationFormInputs.educationAdvocacy === true ){
-            submittedForm = addServiceProvided("11", educationFormInputs.educationAdvocacyDesc, submittedForm);
-        } 
-        if (educationFormInputs.educationEncouragement === true ){
-            submittedForm = addServiceProvided("12", educationFormInputs.educationEncouragementDesc, submittedForm);
-        } 
-        return submittedForm
-    }
-
-    const updateFormInputsFromSocialForm = (submittedForm) =>{
-        if (socialFormInputs.referralToSocialOrg === true ){
-            submittedForm = addServiceProvided("13", socialFormInputs.referralToSocialOrgDesc, submittedForm);
-        } 
-        if (socialFormInputs.socialAdvice === true ){
-            submittedForm = addServiceProvided("14", socialFormInputs.socialAdviceDesc, submittedForm);
-        } 
-        if (socialFormInputs.socialAdvocacy === true ){
-            submittedForm = addServiceProvided("15", socialFormInputs.socialAdvocacyDesc, submittedForm);
-        } 
-        if (socialFormInputs.socialEncouragement === true ){
-            submittedForm = addServiceProvided("16", socialFormInputs.socialEncouragementDesc, submittedForm);
-        } 
-        return submittedForm
+        return submittedForm;
     }
     
     const submitFormByPostRequest = data => {
@@ -227,42 +174,43 @@ const NewVisitForm = (props) => {
         let descriptionFailed = false;
         let descriptionError = "";
         addVisitToServer(data, requestHeader)
-        .then(async (response) => {
-            for (const serviceOption of data.serviceProvided) {
-                serviceOption.visitId = response.data.id;
-                await postNewServiceDescription(serviceOption, requestHeader)
-                    .catch(error => {
-                        deleteVisitFromServer(response.data.id, requestHeader)
-                            .catch(error => {
-                                // Failure here is likely a technical issue
-                                console.log(error);
-                            })
-                        // Propagate error up into higher then
-                        descriptionFailed = true;
-                        descriptionError = error;
-                    })
-            }
-                
-        })
-        .then(response => {
-            if (descriptionFailed) {
-                throw descriptionError;
-            }
-            setFormStateAfterSubmitSuccess();
-            const clientId = props.clientID;
-            const oneSecond = 1;
-            redirectToClientInfoPageAfter(clientId, oneSecond);
-        })
-        .catch(error => {
-            clearDescriptions();
-            updateErrorMessages(error);
-            setStatesWhenFormIsSubmitting(false);
-        });
+            .then(async (response) => {
+                for (const serviceOption of data.serviceProvided) {
+                    serviceOption.visitId = response.data.id;
+                    await postNewServiceDescription(serviceOption, requestHeader)
+                        .catch(error => {
+                            deleteVisitFromServer(response.data.id, requestHeader)
+                                .catch(error => {
+                                    // Failure here is likely a technical issue
+                                    console.log(error);
+                                })
+                            // Propagate error up into higher then
+                            descriptionFailed = true;
+                            descriptionError = error;
+                        })
+                }
+                    
+            })
+            .then(response => {
+                if (descriptionFailed) {
+                    throw descriptionError;
+                }
+                setFormStateAfterSubmitSuccess();
+                const clientId = props.clientID;
+                const oneSecond = 1;
+                redirectToClientInfoPageAfter(clientId, oneSecond);
+            })
+            .catch(error => {
+                clearDescriptions();
+                updateErrorMessages(error);
+                setStatesWhenFormIsSubmitting(false);
+            });
     };
 
     const clearDescriptions = () => {
         updateFormInputByNameValue("serviceProvided", "");
-    }
+    };
+
     const getZones = () => {
         getZonesFromServer()
         .then(response => {
@@ -281,7 +229,7 @@ const NewVisitForm = (props) => {
         .catch(error => {
             updateFormInputByNameValue("cbrWorkerName" , "Unable to fetch CBR worker name");
         });
-    }
+    };
 
     const redirectToClientInfoPageAfter = (clientId, timeInSecond) => {
         const timeInMilliSecond = timeInSecond * 1000;
@@ -295,8 +243,14 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
-
         updateFormInputByNameValue(name, value);
+    };
+
+    const healthDescriptionHandler = event => {
+        const input = event.target;
+        const index = input.name;
+        const value = input.value;
+        updateHealthDescriptionByIndexAndValue(index, value);
     };
 
     const healthFormInputChangeHandler = event =>{
@@ -314,16 +268,21 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue(name, value);
         } else if (name === "healthOutcome"){
             updateFormInputByNameValue(name, value);
-        }   else {
-            updateHealthFormInputByNameValue(name, value);
         }
-    }
+    };
+
+    const educationDescriptionHandler = event => {
+        const input = event.target;
+        const index = input.name;
+        const value = input.value;
+        updateEducationDescriptionByIndexAndValue(index, value);
+    };
 
     const educationFormInputChangeHandler = event =>{
         const input = event.target;
         const name = input.name;
         const value = input.value;
-        const concludedStr = "CONCLUDED"
+        const concludedStr = "CONCLUDED";
 
         if (name === "educationGoalProgress") {
             if (value !== concludedStr){
@@ -334,10 +293,15 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue(name, value);
         } else if (name === "educationOutcome"){
             updateFormInputByNameValue(name, value);
-        }   else {
-            updateEducationFormInputByNameValue(name, value);
         }
-    }
+    };
+
+    const socialDescriptionHandler = event => {
+        const input = event.target;
+        const index = input.name;
+        const value = input.value;
+        updateSocialDescriptionByIndexAndValue(index, value);
+    };
 
     const socialFormInputChangeHandler = event =>{
         const input = event.target;
@@ -354,32 +318,57 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue(name, value);
         } else if (name === "socialOutcome"){
             updateFormInputByNameValue(name, value);
-        }   else {
-            updateSocialFormInputByNameValue(name, value);
         }
-    }
-
-    const updateSocialFormInputByNameValue = (name, value) => {
-        setSocialFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs[name] = value;
-            return newFormInputs;
-        });
     };
-    
-    const updateHealthFormInputByNameValue = (name, value) => {
-        setHealthFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs[name] = value;
-            return newFormInputs;
+
+    const updateHealthDescriptionByIndexAndValue = (index, value) => {
+        setHealthServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].desc = value;
+            return newOptionsList;
         });
     };
 
-    const updateEducationFormInputByNameValue = (name, value) => {
-        setEducationFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs[name] = value;
-            return newFormInputs;
+    const checkHealthServiceOptionsByIndexAndValue = (index, value) => {
+        setHealthServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].checked = value;
+            newOptionsList[index].hidden = !value;
+            return newOptionsList;
+        });
+    };
+
+    const updateEducationDescriptionByIndexAndValue = (index, value) => {
+        setEducationServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].desc = value;
+            return newOptionsList;
+        });
+    };
+
+    const checkEducationServiceOptionsByIndexAndValue = (index, value) => {
+        setEducationServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].checked = value;
+            newOptionsList[index].hidden = !value;
+            return newOptionsList;
+        });
+    };
+
+    const updateSocialDescriptionByIndexAndValue = (index, value) => {
+        setSocialServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].desc = value;
+            return newOptionsList;
+        });
+    };
+
+    const checkSocialServiceOptionsByIndexAndValue = (index, value) => {
+        setSocialServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].checked = value;
+            newOptionsList[index].hidden = !value;
+            return newOptionsList;
         });
     };
 
@@ -404,7 +393,7 @@ const NewVisitForm = (props) => {
         submittedForm["serviceProvided"] = testedValues;
         updateFormInputByNameValue("serviceProvided", testedValues);
         return submittedForm;
-    }
+    };
 
     const doHealthCheckBoxActionHandler = event => {
         const checkBox = event.target;
@@ -429,24 +418,24 @@ const NewVisitForm = (props) => {
 
     const doProvidedHealthCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        const name = checkBox.name
+        const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        updateHealthFormInputByNameValue(name, isProvidedChecked);
-    }
+        checkHealthServiceOptionsByIndexAndValue(id, isProvidedChecked);
+    };
 
     const doProvidedEducationCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        const name = checkBox.name
+        const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        updateEducationFormInputByNameValue(name, isProvidedChecked);
-    }
+        checkEducationServiceOptionsByIndexAndValue(id, isProvidedChecked);
+    };
 
     const doProvidedSocialCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        const name = checkBox.name
+        const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        updateSocialFormInputByNameValue(name, isProvidedChecked);
-    }
+        checkSocialServiceOptionsByIndexAndValue(id, isProvidedChecked);
+    };
 
     const initEpochDateTime = () => {
         let newDate = new Date();
@@ -454,7 +443,7 @@ const NewVisitForm = (props) => {
         setCurrMonth(newDate.getMonth() + 1);
         setCurrYear(newDate.getFullYear());
         updateFormInputByNameValue("date", Math.floor(newDate.getTime()));
-    }
+    };
 
     const initGeolocation = () => {
         navigator.geolocation.getCurrentPosition(function (position) {
@@ -463,7 +452,7 @@ const NewVisitForm = (props) => {
             updateFormInputByNameValue("latitude", position.coords.latitude);
             updateFormInputByNameValue("longitude", position.coords.longitude);
         });
-    }
+    };
 
     const updateErrorMessages = error => {
         setErrorMessages(prevErrorMessages => {
@@ -535,9 +524,45 @@ const NewVisitForm = (props) => {
         setErrorMessages([]);
     };
 
+    const createServiceOptionComponents = (serviceOptions, actionHandler, onChange) => {
+        const serviceOptionComponents = [];
+        if(serviceOptions === undefined || serviceOptions.length === 0) {
+            return null;
+        }
+        else {
+            for (const index in serviceOptions) {
+                const name = serviceOptions[index].name;
+                serviceOptionComponents.push(
+                    <CheckBox
+                        name={name}
+                        value={index}
+                        actionHandler={actionHandler}
+                        displayText={name}
+                        key={index}
+                    />
+                );
+                serviceOptionComponents.push(
+                    <div hidden={serviceOptions[index].hidden} key={index + "DescDiv"}>
+                        <TextAreaInputField
+                            name={index}
+                            value={serviceOptions[index].desc}
+                            onChange={onChange}
+                            rows="4"
+                            isDisabled={false}
+                            key={index + "Desc"}
+                        />
+                    </div>
+                );
+
+            }
+            return serviceOptionComponents;
+        }
+    };
+
     useEffect(() => {
         getWorkerNameByGetRequest();
         getZones();
+        getServiceOptionsList();
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
@@ -640,29 +665,13 @@ const NewVisitForm = (props) => {
                 <hr />
                 <div hidden={(isHealthInputDisabled)}>
                     <NewClientVisitsHealthForm
-                        wheelchairValue={healthFormInputs["wheelchair"]}
-                        prostheticValue={healthFormInputs["prosthetic"]}
-                        orthoticValue={healthFormInputs["orthotic"]}
-                        wheelchairRepairsValue={healthFormInputs["wheelchairRepairs"]}
-                        referralToHealthCentreValue={healthFormInputs["referralToHealthCentre"]}
-                        healthAdviceValue={healthFormInputs["healthAdvice"]}
-                        healthAdvocacyValue={healthFormInputs["healthAdvocacy"]}
-                        healthEncouragementValue={healthFormInputs["healthEncouragement"]}
-
-                        wheelchairDescValue={healthFormInputs["wheelchairDesc"]}
-                        prostheticDescValue={healthFormInputs["prostheticDesc"]}
-                        orthoticDescValue={healthFormInputs["orthoticDesc"]}
-                        wheelchairRepairsDescValue={healthFormInputs["wheelchairRepairsDesc"]}
-                        referralToHealthCentreDescValue={healthFormInputs["referralToHealthCentreDesc"]}
-                        healthAdviceDescValue={healthFormInputs["healthAdviceDesc"]}
-                        healthAdvocacyDescValue={healthFormInputs["healthAdvocacyDesc"]}
-                        healthEncouragementDescValue={healthFormInputs["healthEncouragementDesc"]}
-
+                        healthServiceOptions={healthServiceOptions}
+                        createServiceOptionComponents={createServiceOptionComponents}
                         healthGoalConclusionTextValue={formInputs["healthOutcome"]}
                         healthGoalMetValue={formInputs["healthGoalProgress"]}
-
                         actionHandler={doProvidedHealthCheckBoxActionHandler}
                         onChange={healthFormInputChangeHandler}
+                        descriptionHandler={healthDescriptionHandler}
                         goalInputs={defaultGoalInputs}
                         isHealthGoalConcluded={isHealthGoalConcluded}
                     />
@@ -671,20 +680,14 @@ const NewVisitForm = (props) => {
 
                 <div hidden={(isEducationInputDisabled)}>
                     <NewClientVisitsEducationForm
-                        referralToEducationOrgValue={educationFormInputs["referralToEducationOrg"]}
-                        referralToEducationOrgDescValue={educationFormInputs["referralToEducationOrgDesc"]}
-                        educationAdviceValue={educationFormInputs["educationAdvice"]}
-                        educationAdviceDescValue={educationFormInputs["educationAdviceDesc"]}
-                        educationAdvocacyValue={educationFormInputs["educationAdvocacy"]}
-                        educationAdvocacyDescValue={educationFormInputs["educationAdvocacyDesc"]}
-                        educationEncouragementValue={educationFormInputs["educationEncouragement"]}
-                        educationEncouragementDescValue={educationFormInputs["educationEncouragementDesc"]}
-
+                        educationServiceOptions={educationServiceOptions}
+                        createServiceOptionComponents={createServiceOptionComponents}
                         educationGoalConclusionTextValue={formInputs["educationOutcome"]}
                         educationGoalMetValue={formInputs["educationGoalProgress"]}
                         isEducationGoalConcluded={isEducationGoalConcluded}
                         actionHandler={doProvidedEducationCheckBoxActionHandler}
                         onChange={educationFormInputChangeHandler}
+                        descriptionHandler={educationDescriptionHandler}
                         goalInputs={defaultGoalInputs}
                     />
                     <hr />
@@ -692,20 +695,14 @@ const NewVisitForm = (props) => {
 
                 <div hidden={(isSocialInputDisabled)}>
                     <NewClientVisitsSocialForm
-                        referralToSocialOrgValue={socialFormInputs["referralToSocialOrg"]}
-                        referralToSocialOrgDescValue={socialFormInputs["referralToSocialOrgDesc"]}
-                        socialAdviceValue={socialFormInputs["socialAdvice"]}
-                        socialAdviceDescValue={socialFormInputs["socialAdviceDesc"]}
-                        socialAdvocacyValue={socialFormInputs["socialAdvocacy"]}
-                        socialAdvocacyDescValue={socialFormInputs["socialAdvocacyDesc"]}
-                        socialEncouragementValue={socialFormInputs["socialEncouragement"]}
-                        socialEncouragementDescValue={socialFormInputs["socialEncouragementDesc"]}
-
+                        socialServiceOptions={socialServiceOptions}
+                        createServiceOptionComponents={createServiceOptionComponents}
                         socialGoalConclusionTextValue={formInputs["socialOutcome"]}
                         socialGoalMetValue={formInputs["socialGoalProgress"]}
                         isSocialGoalConcluded={isSocialGoalConcluded}
                         actionHandler={doProvidedSocialCheckBoxActionHandler}
                         onChange={socialFormInputChangeHandler}
+                        descriptionHandler={socialDescriptionHandler}
                         goalInputs={defaultGoalInputs}
                     />
                     <hr />
