@@ -15,6 +15,14 @@ const ClientInfoCard = ({ client, queryData }) => {
         window.scrollTo(0, 0);
     }
 
+    const onClickHandlerNewReferrals = () => {
+        history.push({
+            pathname: "/new-referral",
+            state: { clientID: client.id }
+        });
+        window.scrollTo(0, 0);
+    }
+
     const onClickHandlerAllClients = () => {
         history.push("/client-information?id=" + client.id);
         window.scrollTo(0, 0);
@@ -23,9 +31,11 @@ const ClientInfoCard = ({ client, queryData }) => {
     const onClickHandlerComparison = () => {
         if (queryData === "visits") {
             onClickHandlerNewVisits();
+        } else if (queryData === "referrals") {
+            onClickHandlerNewReferrals();
         } else if (queryData === "clients") {
             onClickHandlerAllClients();
-        }
+        } 
     }
 
     return (

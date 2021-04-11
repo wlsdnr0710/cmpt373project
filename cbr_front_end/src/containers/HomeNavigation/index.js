@@ -106,8 +106,8 @@ const HomeNavigation = () => {
                         />
                         <NavigationBarEntry
                             label="New Referral"
-                            destination="/new-referral"
-                            query="#"
+                            destination="/view-client"
+                            query="referrals"
                             iconSource={newReferralIcon}
                             iconAlt="New Referral"
                         />

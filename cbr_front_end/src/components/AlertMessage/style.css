@@ -1,3 +1,9 @@
 .alert-message {
     margin: -.25rem;
 }
+
+img {
+    margin-top: -.4rem;
+    width : 1.5rem;
+    margin-right: .5rem;
+}
