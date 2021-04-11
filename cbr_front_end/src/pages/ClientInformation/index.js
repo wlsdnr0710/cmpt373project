@@ -3,15 +3,14 @@ import { useHistory } from "react-router-dom";
 import { getToken, doAuthentication } from "../../utils/AuthenticationUtil";
 import defaultPhoto from "../../assets/avatar.png";
 import ClientInformation from "../../components/ClientInformation";
-import ViewVisits from "../../components/ViewVisits";
+import ViewVisit from "../../components/ViewVisit";
 import ViewReferrals from "../../components/ViewReferrals";
 import BackgroundCard from "../../components/BackgroundCard";
 import RiskInformation from "../../containers/RiskInformation";
 import DisabilityInformation from "../../components/DisabilityInformation";
 import qs from "query-string";
 import {
-    parseDateStringToEpoch,
-    parseEpochToDateString,
+    parseISODateStringToDateString,
     getClientObject,
     getVisitsInformationFromServer,
     getReferralsInformationFromServer,
@@ -53,8 +52,9 @@ const ClientInfo = (props) => {
                     newFormInputs["villageNumber"] = data.villageNumber;
                     newFormInputs["gender"] = data.gender;
                     newFormInputs["age"] = data.age;
-                    newFormInputs["birthdate"] = parseISODateString(data.birthdate);
-                    newFormInputs["date"] = parseISODateString(data.signupDate);
+                    newFormInputs["birthdate"] = parseISODateStringToDateString(data.birthdate);
+                    newFormInputs["date"] = parseISODateStringToDateString(data.signupDate);
+
                     newFormInputs["riskHistories"] = data.riskHistories;
                     newFormInputs["disabled"] = data.disabled;
                     return newFormInputs;
@@ -88,7 +88,7 @@ const ClientInfo = (props) => {
         } else {
             for (const index in visits) {
                 visitComponents.push(
-                    <ViewVisits visit={visits[index]} key={index} />
+                    <ViewVisit visit={visits[index]} key={index} />
                 );
             }
             return visitComponents;
@@ -107,11 +107,6 @@ const ClientInfo = (props) => {
             }
             return referralComponents;
         }
-    };
-
-    const parseISODateString = (ISODateString) => {
-        const epoch = parseDateStringToEpoch(ISODateString);
-        return parseEpochToDateString(epoch);
     };
 
     const [formInputs, setFormInputs] = useState(getClientObject());

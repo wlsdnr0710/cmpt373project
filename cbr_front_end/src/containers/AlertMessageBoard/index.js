@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getToken, getRole } from "../../utils/AuthenticationUtil";
-import { parseEpochToDateString } from "../../utils/Utilities";
+import { parseISODateStringToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import AlertMessage from '../../components/AlertMessage';
 import Alert from 'react-bootstrap/Alert';
@@ -172,7 +172,7 @@ const AlertMessageBoard = () => {
             for (const index in alertMessages) {
                 const message = alertMessages[index].message;
                 const variant = variantList[alertMessages[index].priority - 1];
-                const date = parseEpochToDateString(alertMessages[index].date);
+                const date = parseISODateStringToDateString(alertMessages[index].date);
                 alertMessageComponents.push(<AlertMessage
                                                 message={message}
                                                 variant={variant}

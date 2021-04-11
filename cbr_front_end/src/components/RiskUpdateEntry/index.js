@@ -1,5 +1,6 @@
 import React from "react";
-import { parseEpochToDateString } from "../../utils/Utilities";
+import { parseISODateStringToDateString } from "../../utils/Utilities";
+import "./style.css"
 import Accordion from "react-bootstrap/Accordion";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
@@ -16,7 +17,7 @@ const RiskUpdateEntry = ({ riskObject }) => {
                             variant="link"
                             eventKey={riskObject.id}
                         >
-                            {parseEpochToDateString(riskObject.createdDate)}
+                            {parseISODateStringToDateString(riskObject.createdDate)}
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey={riskObject.id}>

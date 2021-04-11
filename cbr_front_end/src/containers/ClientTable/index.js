@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { getToken } from "../../utils/AuthenticationUtil";
-import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
+import { parseDateStringToEpoch, parseISODateStringToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
 import ExportToCsv from "../../components/ExportToCsv";
@@ -270,8 +270,7 @@ const ClientTable = props => {
     };
 
     const formatDateString = date => {
-        const epoch = parseDateStringToEpoch(date);
-        const dateString = parseEpochToDateString(epoch);
+        const dateString = parseISODateStringToDateString(date);
         return dateString;
     };
 

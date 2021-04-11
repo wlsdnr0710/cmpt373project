@@ -2,10 +2,10 @@ import React from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { parseEpochToDateString } from "../../utils/Utilities";
+import { parseISODateStringToDateString } from "../../utils/Utilities";
 import "./style.css";
 
-const ViewVisits = (props) => {
+const ViewVisit = (props) => {
 
     const createServiceComponents = () => {
         const serviceComponents = [];
@@ -114,7 +114,7 @@ const ViewVisits = (props) => {
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="link" eventKey={props.visit.id}>
-                            {parseEpochToDateString(props.visit.date)}
+                            {parseISODateStringToDateString(props.visit.date)}
                         </Accordion.Toggle>
                     </Card.Header>
                 <Accordion.Collapse eventKey={props.visit.id}>
@@ -132,4 +132,4 @@ const ViewVisits = (props) => {
     );
 }
 
-export default ViewVisits;
+export default ViewVisit;
