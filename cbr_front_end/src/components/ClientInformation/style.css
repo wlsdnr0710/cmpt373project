@@ -1,4 +1,4 @@
-.client-information-image{
+.client-information-image {
     width: 70%;
     min-width: 250px;
     max-width: 500px;
@@ -12,7 +12,7 @@
     flex-wrap: wrap;
 }
 
-.client-information-card .name{
+.client-information-card .name {
     margin: 0 1vw 1vh 1vw;
 }
 

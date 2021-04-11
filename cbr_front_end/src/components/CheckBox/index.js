@@ -1,7 +1,7 @@
 import React from "react";
 import "./style.css";
 
-const CheckBox = ({ name, value, actionHandler, displayText, displayTextOnRight, isDisabled }) => {
+const CheckBox = ({ name, value, actionHandler, displayText, displayTextOnRight, isDisabled, isChecked }) => {
     return (
         <div className="check-box">
             {displayTextOnRight ? null : <label>{displayText}</label>}
@@ -11,6 +11,7 @@ const CheckBox = ({ name, value, actionHandler, displayText, displayTextOnRight,
                 type="checkbox"
                 onChange={actionHandler}
                 disabled={isDisabled}
+                checked = {isChecked}
             />
             {displayTextOnRight ? <label className="text-on-right">{displayText}</label> : null}
         </div>

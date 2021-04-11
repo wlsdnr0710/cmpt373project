@@ -56,7 +56,6 @@ const ClientInfo = (props) => {
                     newFormInputs["date"] = parseISODateStringToDateString(data.signupDate);
 
                     newFormInputs["riskHistories"] = data.riskHistories;
-
                     newFormInputs["disabled"] = data.disabled;
                     return newFormInputs;
                 });
@@ -140,6 +139,14 @@ const ClientInfo = (props) => {
         });
     };
 
+    const onClickGetNewRiskUpdatePage = () => {
+        history.push({
+            pathname: "/new-risk-update",
+            state: { clientID: formInputs["id"] },
+        });
+    };
+
+
     useEffect(() => {
         getClientDataByGetRequest();
         getVisitsDataByGetRequest();
@@ -168,7 +175,11 @@ const ClientInfo = (props) => {
                     className="client-risk-information"
                     riskHistories={formInputs.riskHistories}
                 />
-                <button type="button" className="btn btn-primary add-button">
+                <button
+                    type="button"
+                    className="btn btn-primary add-button"
+                    onClick={onClickGetNewRiskUpdatePage}
+                >
                     Add Risk Update
                 </button>
             </BackgroundCard>
