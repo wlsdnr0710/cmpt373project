@@ -1,7 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
-import { getZonesFromServer, getDisabilitiesFromServer, addClientToServer } from "../../utils/Utilities";
+import {
+    getZonesFromServer,
+    getDisabilitiesFromServer,
+    addClientToServer,
+    addDisabilityToServer,
+    addRiskToServer
+} from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -181,14 +187,35 @@ const NewClientForm = () => {
         .then(response => {
             setFormStateAfterSubmitSuccess();
             const clientId = response.data.id;
-            const oneSecond = 1;
-            redirectToClientInfoPageAfter(clientId, oneSecond);
+            submitDisabilitiesByPostRequest(clientId);
         })
         .catch(error => {
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
         })
     };
+
+    const submitDisabilitiesByPostRequest = clientId => {
+        for (const index in formInputs["disabilityType"]) {
+            const data = {
+                "clientId": clientId,
+                "disabilityId": formInputs["disabilityType"][index],
+                "otherDescription": formInputs["otherDescription"]
+            }
+            const requestHeader = {
+                token: getToken()
+            };
+            addDisabilityToServer(data, requestHeader)
+            .then(response => {
+                const oneSecond = 1;
+                redirectToClientInfoPageAfter(clientId, oneSecond);
+            })
+            .catch(error => {
+                updateErrorMessages(error);
+                setStatesWhenFormIsSubmitting(false);
+            })
+        }
+    }
 
     const setFormStateAfterSubmitSuccess = () => {
         setIsSubmitSuccess(true);
@@ -408,6 +435,7 @@ const NewClientForm = () => {
             }
             else {
                 setShowOtherTextBox(false);
+                updateFormInputByNameValue("otherDescription", "");
             }
             updateFormInputByNameValue(otherCheckBox.name,otherCheckBox.checked)
             updateDisabilityList(event);
