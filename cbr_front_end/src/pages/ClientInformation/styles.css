@@ -5,3 +5,7 @@
 .client-information .add-button {
     margin: 0.5rem 0;
 }
+
+.client-information .details {
+    margin: 1vh 1vw;
+}

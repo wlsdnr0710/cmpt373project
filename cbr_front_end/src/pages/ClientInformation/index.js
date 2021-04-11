@@ -55,6 +55,9 @@ const ClientInfo = (props) => {
                     newFormInputs["contactNumber"] = data.contactNumber;
                     newFormInputs["caregiverName"] = data.caregiverName;
                     newFormInputs["caregiverNumber"] = data.caregiverNumber;
+                    newFormInputs["healthGoal"] = data.healthGoal;
+                    newFormInputs["socialGoal"] = data.socialGoal;
+                    newFormInputs["educationGoal"] = data.educationGoal;
                     newFormInputs["date"] = parseISODateStringToDateString(data.signupDate);
                     newFormInputs["riskHistories"] = data.riskHistories;
                     newFormInputs["disabled"] = data.disabled;
@@ -158,6 +161,11 @@ const ClientInfo = (props) => {
         <div className="client-information">
             <BackgroundCard>
                 <ClientInformation clientObject={formInputs} />
+                <hr />
+                <h3>Goals</h3>
+                <div className = "details"><strong>Health Goal:</strong> {formInputs["healthGoal"]}</div>
+                <div className = "details"><strong>Social Goal:</strong> {formInputs["socialGoal"]}</div>
+                <div className = "details"><strong>Education Goal:</strong> {formInputs["educationGoal"]}</div>
                 <hr />
                 <h3>Disability and Ailment(s)</h3>
                 <DisabilityInformation disabilityList={formInputs.disabled} />
