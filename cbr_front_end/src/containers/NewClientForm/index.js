@@ -42,18 +42,24 @@ const NewClientForm = () => {
         "caregiverNumber": "",
         "disabilityType": [],
         "otherDescription": "",
-        "healthRisk": "low",
-        "healthNeed": "",
-        "healthIndividualGoals": "",
-        "socialRisk": "low",
-        "socialNeed": "",
-        "socialIndividualGoals": "",
-        "educationRisk": "low",
-        "educationNeed": "",
-        "educationIndividualGoals": "",
         "clientPhoto": null,
         "caregiverPhoto": null,
     });
+
+    const [riskInputs, setRiskInputs] = useState({
+        "clientId": "",
+        "createdDate": "",
+        "healthGoal": "",
+        "healthRisk": "1",
+        "healthRiskDescription": "",
+        "educationGoal": "",
+        "educationRisk": "1",
+        "educationRiskDescription": "",
+        "socialGoal": "",
+        "socialRisk": "1",
+        "socialRiskDescription": "",
+    });
+
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
     const [isFormInputDisabled, setIsFormInputDisabled] = useState(true);
@@ -65,7 +71,6 @@ const NewClientForm = () => {
     const [errorMessages, setErrorMessages] = useState([]);
     const [dateStr, setDateStr] = useState("");
     const [showOtherTextBox, setShowOtherTextBox] = useState(false);
-    
 
     // input type file is an uncontrolled component so we need to use reference
     const refClientPhotoInput = useRef(null);
@@ -83,23 +88,10 @@ const NewClientForm = () => {
     const onSubmitSurveyHandler = event => {
         event.preventDefault();
         clearErrorMessages();
-        // Currently the database only has single column for individual goals and required services
-        // Therefore, we need to combine health, social and educational together for now.
-        // TODO: remove this after back-end implemented three different columns for health, social and educational
-        const goalsAndServices = {};
-        goalsAndServices["individualGoals"] = 
-            formInputs["healthIndividualGoals"] + 
-            formInputs["socialIndividualGoals"] + 
-            formInputs["educationIndividualGoals"];
-
-        goalsAndServices["requiredServices"] = 
-            formInputs["healthNeed"] +
-            formInputs["socialNeed"] +
-            formInputs["educationNeed"];
 
         // We do not set state here because setState is asynchronous.
         // State may not be updated when we submit the form.
-        const sendingData = { ...formInputs, ...goalsAndServices };
+        const sendingData = { ...formInputs };
         sendingData["clientPhoto"] = getReferenceFile(refClientPhotoInput);
         sendingData["caregiverPhoto"] = getReferenceFile(refCaregiverPhotoInput);
 
@@ -108,7 +100,6 @@ const NewClientForm = () => {
             setRequiredInputErrorMessages(unfilledReqInputDisplayNames);
             return;
         }
-        console.log(sendingData);
         submitFormByPostRequest(sendingData);
     };
 
@@ -176,7 +167,14 @@ const NewClientForm = () => {
     useEffect(() => {
         getZones();
         getDisabilities();
+        initEpochDateTime();
     }, []);
+
+    const initEpochDateTime = () => {
+        let newDate = new Date();
+        const date = newDate.getFullYear() + "-" + (newDate.getMonth() + 1) + "-" + newDate.getDate();
+        updateRiskInputByNameValue("createdDate", date);
+    }
 
     const submitFormByPostRequest = data => {
         setStatesWhenFormIsSubmitting(true);
@@ -187,6 +185,7 @@ const NewClientForm = () => {
         .then(response => {
             setFormStateAfterSubmitSuccess();
             const clientId = response.data.id;
+            riskInputs["clientId"] = clientId;
             submitDisabilitiesByPostRequest(clientId);
         })
         .catch(error => {
@@ -196,6 +195,7 @@ const NewClientForm = () => {
     };
 
     const submitDisabilitiesByPostRequest = clientId => {
+        const length = formInputs["disabilityType"].length - 1;
         for (const index in formInputs["disabilityType"]) {
             const data = {
                 "clientId": clientId,
@@ -207,14 +207,30 @@ const NewClientForm = () => {
             };
             addDisabilityToServer(data, requestHeader)
             .then(response => {
-                const oneSecond = 1;
-                redirectToClientInfoPageAfter(clientId, oneSecond);
+                if (index == length) {
+                    submitRiskByPostRequest(clientId);
+                }
             })
             .catch(error => {
                 updateErrorMessages(error);
                 setStatesWhenFormIsSubmitting(false);
             })
         }
+    }
+
+    const submitRiskByPostRequest = clientId => {
+        const requestHeader = {
+            token: getToken()
+        };
+        addRiskToServer(riskInputs, requestHeader)
+        .then(response => {
+            const oneSecond = 1;
+            redirectToClientInfoPageAfter(clientId, oneSecond);
+        })
+        .catch(error => {
+            updateErrorMessages(error);
+            setStatesWhenFormIsSubmitting(false);
+        })
     }
 
     const setFormStateAfterSubmitSuccess = () => {
@@ -320,6 +336,13 @@ const NewClientForm = () => {
         updateFormInputByNameValue(name, value);
     };
 
+    const riskInputChangeHandler = event => {
+        const input = event.target;
+        const name = input.name;
+        const value = input.value;
+        updateRiskInputByNameValue(name, value);
+    };
+
     const dateFormInputChangeHandler = event => {
         const input = event.target;
         const name = input.name;
@@ -333,6 +356,14 @@ const NewClientForm = () => {
             const newFormInputs = { ...prevFormInputs };
             newFormInputs[name] = value;
             return newFormInputs;
+        });
+    };
+
+    const updateRiskInputByNameValue = (name, value) => {
+        setRiskInputs(prevRiskInputs => {
+            const newRiskInputs = { ...prevRiskInputs };
+            newRiskInputs[name] = value;
+            return newRiskInputs;
         });
     };
 
@@ -663,12 +694,12 @@ const NewClientForm = () => {
                     <div className="show-hide-toggle-content" style={{ display: shouldShowBlockElement(showHealthSurvey) }}>
                         <NewClientSurvey
                             riskInputName="healthRisk"
-                            needInputName="healthNeed"
-                            individualGoalsInputName="healthIndividualGoals"
-                            riskValue={formInputs["healthRisk"]}
-                            needInputValue={formInputs["healthNeed"]}
-                            individualGoalsValue={formInputs["healthIndividualGoals"]}
-                            onChange={formInputChangeHandler}
+                            needInputName="healthRiskDescription"
+                            individualGoalsInputName="healthGoal"
+                            riskValue={riskInputs["healthRisk"]}
+                            needInputValue={riskInputs["healthRiskDescription"]}
+                            individualGoalsValue={riskInputs["healthGoal"]}
+                            onChange={riskInputChangeHandler}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>
@@ -683,12 +714,12 @@ const NewClientForm = () => {
                     <div className="show-hide-toggle-content" style={{ display: shouldShowBlockElement(showSocialSurvey) }}>
                         <NewClientSurvey
                             riskInputName="socialRisk"
-                            needInputName="socialNeed"
-                            individualGoalsInputName="socialIndividualGoals"
-                            riskValue={formInputs["socialRisk"]}
-                            needInputValue={formInputs["socialNeed"]}
-                            individualGoalsValue={formInputs["socialIndividualGoals"]}
-                            onChange={formInputChangeHandler}
+                            needInputName="socialRiskDescription"
+                            individualGoalsInputName="socialGoal"
+                            riskValue={riskInputs["socialRisk"]}
+                            needInputValue={riskInputs["socialRiskDescription"]}
+                            individualGoalsValue={riskInputs["socialGoal"]}
+                            onChange={riskInputChangeHandler}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>
@@ -703,12 +734,12 @@ const NewClientForm = () => {
                     <div className="show-hide-toggle-content" style={{ display: shouldShowBlockElement(showEducationSurvey) }}>
                         <NewClientSurvey
                             riskInputName="educationRisk"
-                            needInputName="educationNeed"
-                            individualGoalsInputName="educationIndividualGoals"
-                            riskValue={formInputs["educationRisk"]}
-                            needInputValue={formInputs["educationNeed"]}
-                            individualGoalsValue={formInputs["educationIndividualGoals"]}
-                            onChange={formInputChangeHandler}
+                            needInputName="educationRiskDescription"
+                            individualGoalsInputName="educationGoal"
+                            riskValue={riskInputs["educationRisk"]}
+                            needInputValue={riskInputs["educationRiskDescription"]}
+                            individualGoalsValue={riskInputs["educationGoal"]}
+                            onChange={riskInputChangeHandler}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>

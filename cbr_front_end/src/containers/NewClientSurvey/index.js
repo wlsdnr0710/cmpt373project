@@ -15,9 +15,10 @@ const NewClientSurvey = ({
 }) => {
     const getClientHealthRiskLevels = () => {
         return {
-            "Low": "low",
-            "Medium": "medium",
-            "High": "high",
+            "Low": "1",
+            "Medium": "2",
+            "High": "3",
+            "Critical": "4",
         };
     };
 
