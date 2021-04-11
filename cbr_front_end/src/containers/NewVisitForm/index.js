@@ -78,15 +78,7 @@ const NewVisitForm = (props) => {
     });
 
     const [educationFormInputs, setEducationFormInputs] = useState({
-        "educationServiceOptions": [],
-        "referralToEducationOrg": false,
-        "educationAdvice": false,
-        "educationAdvocacy": false,
-        "educationEncouragement": false,
-        "referralToEducationOrgDesc": "",
-        "educationAdviceDesc": "",
-        "educationAdvocacyDesc": "",
-        "educationEncouragementDesc": "",
+        "educationServiceOptions": []
     });
 
     const [socialFormInputs, setSocialFormInputs] = useState({
@@ -148,7 +140,7 @@ const NewVisitForm = (props) => {
         let socialServiceOptions = [];
 
         for (const serviceOption of serviceOptionsList) {
-            serviceOption.hidden = false;
+            serviceOption.hidden = true;
             serviceOption.desc = "";
             serviceOption.checked = false;
             if (serviceOption.type === "HEALTH") {
@@ -230,6 +222,7 @@ const NewVisitForm = (props) => {
                 submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
             }
         }
+        console.log(submittedForm);
         return submittedForm
     }
 
@@ -354,7 +347,7 @@ const NewVisitForm = (props) => {
         const input = event.target;
         const name = input.name;
         const value = input.value;
-        const concludedStr = "CONCLUDED"
+        const concludedStr = "CONCLUDED";
 
         if (name === "educationGoalProgress") {
             if (value !== concludedStr){
@@ -366,7 +359,7 @@ const NewVisitForm = (props) => {
         } else if (name === "educationOutcome"){
             updateFormInputByNameValue(name, value);
         }   else {
-            updateEducationFormInputByNameValue(name, value);
+            updateEducationDescriptionByIndexValue(name, value);
         }
     }
 
@@ -414,11 +407,19 @@ const NewVisitForm = (props) => {
         });
     };
 
+    const updateEducationDescriptionByIndexValue = (index, value) => {
+        setEducationFormInputs(prevFormInputs => {
+            const newFormInputs = { ...prevFormInputs };
+            newFormInputs["educationServiceOptions"][index].desc = value;
+            return newFormInputs;
+        });
+    };
+
     const checkEducationServiceOptionsByIndexValue = (index, value) => {
         setEducationFormInputs(prevFormInputs => {
             const newFormInputs = { ...prevFormInputs };
-            console.log(index);
             newFormInputs["educationServiceOptions"][index].checked = value;
+            newFormInputs["educationServiceOptions"][index].hidden = !value;
             return newFormInputs;
         });
     };
@@ -597,7 +598,7 @@ const NewVisitForm = (props) => {
                 serviceOptionComponents.push(
                     <div hidden={serviceOptions[index].hidden} key={index + "DescDiv"}>
                         <TextAreaInputField
-                            name={name + "Desc"}
+                            name={index}
                             value={serviceOptions[index].desc}
                             onChange={onChange}
                             rows="4"
@@ -752,14 +753,6 @@ const NewVisitForm = (props) => {
                     <NewClientVisitsEducationForm
                         educationServiceOptions={educationFormInputs["educationServiceOptions"]}
                         createServiceOptionComponents={createServiceOptionComponents}
-                        referralToEducationOrgValue={educationFormInputs["referralToEducationOrg"]}
-                        referralToEducationOrgDescValue={educationFormInputs["referralToEducationOrgDesc"]}
-                        educationAdviceValue={educationFormInputs["educationAdvice"]}
-                        educationAdviceDescValue={educationFormInputs["educationAdviceDesc"]}
-                        educationAdvocacyValue={educationFormInputs["educationAdvocacy"]}
-                        educationAdvocacyDescValue={educationFormInputs["educationAdvocacyDesc"]}
-                        educationEncouragementValue={educationFormInputs["educationEncouragement"]}
-                        educationEncouragementDescValue={educationFormInputs["educationEncouragementDesc"]}
                         educationGoalConclusionTextValue={formInputs["educationOutcome"]}
                         educationGoalMetValue={formInputs["educationGoalProgress"]}
                         isEducationGoalConcluded={isEducationGoalConcluded}
