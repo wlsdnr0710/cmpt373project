@@ -343,6 +343,7 @@ export const postAnsweredSurvey = (data, requestHeader) => {
     });
 };
 
+//Currently gets survey based on table id rather than clientId
 export const getAnsweredSurveysFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/answered_survey/' + clientId, {headers: requestHeader})
 }

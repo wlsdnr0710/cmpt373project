@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @CrossOrigin
@@ -28,6 +29,18 @@ public class AnsweredSurveyController {
         }
         JSONObject responseJson = new JSONObject();
         responseJson.put("data", answeredSurvey);
+        return ResponseEntity.ok().body(responseJson);
+    }
+
+    @GetMapping(value = "/client/{id}")
+    public ResponseEntity<JSONObject> getAnsweredSurveysByClientId(@PathVariable long id)
+        throws ObjectDoesNotExistException {
+        List<AnsweredSurvey> answeredSurveys = answeredSurveyService.getAnsweredSurveysByClientId(id);
+        if (answeredSurveys == null) {
+            throw new ObjectDoesNotExistException("Client has answered no surveys");
+        }
+        JSONObject responseJson = new JSONObject();
+        responseJson.put("data", answeredSurveys);
         return ResponseEntity.ok().body(responseJson);
     }
 

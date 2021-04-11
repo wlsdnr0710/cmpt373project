@@ -73,6 +73,12 @@ public class AnsweredSurveyServiceImpl implements AnsweredSurveyService {
     }
 
     @Override
+    public List<AnsweredSurvey> getAnsweredSurveysByClientId(Long id) {
+        List<AnsweredSurvey> answeredSurveys = answeredSurveyRepository.findAllByClient_Id(id);
+        return answeredSurveys;
+    }
+
+    @Override
     public AnsweredSurvey addAnsweredSurvey(@Valid AnsweredSurvey answeredSurvey) {
         return answeredSurveyRepository.save(answeredSurvey);
     }

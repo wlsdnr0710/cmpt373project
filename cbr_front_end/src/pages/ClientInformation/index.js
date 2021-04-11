@@ -20,6 +20,7 @@ import {
 import "./styles.css";
 
 const ClientInfo = (props) => {
+    const [formInputs, setFormInputs] = useState(getClientObject());
     const [visits, setVisits] = useState([]);
     const [referrals, setReferrals] = useState([]);
     const [answeredSurveys, setAnsweredSurveys] = useState([]);
@@ -136,8 +137,6 @@ const ClientInfo = (props) => {
         }
 
     }
-
-    const [formInputs, setFormInputs] = useState(getClientObject());
 
     const onClickPushPageWithId = (pathName) => {
         history.push({
