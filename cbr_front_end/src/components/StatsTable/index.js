@@ -13,8 +13,9 @@ const StatsTable = ({values, title, index}) => {
             return null;
         }
         else {
-            for (let i = 0; i < values[0]["length"]; i++) {
-                headerComponents.push(<th>{values[0]["header" + i]}</th>);
+            const length = Object.keys(values[0]).length;
+            for (let i = 0; i < length; i++) {
+                headerComponents.push(<th key={i}>{values[0]["header" + i]}</th>);
             }
             return headerComponents;
         }
@@ -27,12 +28,13 @@ const StatsTable = ({values, title, index}) => {
             return null;
         }
         else {
+            const length = Object.keys(values[0]).length - 1;
             for (let i = 1; i < values.length; i++) {
-                rowBodyComponents.push(<td>{values[i]["name"]}</td>);
-                for (let j = 0; j < values[0]["length"] - 1; j++) {
-                    rowBodyComponents.push(<td>{values[i]["column" + j]}</td>);
+                rowBodyComponents.push(<td key={i}>{values[i]["name"]}</td>);
+                for (let j = 0; j < length; j++) {
+                    rowBodyComponents.push(<td key={-j}>{values[i]["column" + j]}</td>);
                 }
-                rowComponents.push(<tr>{rowBodyComponents}</tr>);
+                rowComponents.push(<tr key={i}>{rowBodyComponents}</tr>);
                 rowBodyComponents = [];
             }
             return rowComponents;

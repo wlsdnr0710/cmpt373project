@@ -51,8 +51,8 @@ public class StatisticsController {
     private RiskHistoryService riskHistoryService;
 
     @Admin
-    @GetMapping(value = "/countByZone")
-    public ResponseEntity<JSONObject> getAllCountsByZone() {
+    @GetMapping(value = "/getGeneralStatsByZoneCount")
+    public ResponseEntity<JSONObject> getGeneralStatsByZoneCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -63,7 +63,6 @@ public class StatisticsController {
         headers.put("header2", "Visits");
         headers.put("header3", "Referrals");
         headers.put("header4", "Outstanding Referrals");
-        headers.put("length", 5);
         items.add(headers);
 
         for(Zone zone : zones) {
@@ -89,8 +88,8 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countByWorker")
-    public ResponseEntity<JSONObject> getAllReferralsByWorkerCount() {
+    @GetMapping(value = "/getGeneralStatsByWorkerCount")
+    public ResponseEntity<JSONObject> getGeneralStatsByWorkerCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Worker> workers = workerService.getAllWorkers();
@@ -101,7 +100,6 @@ public class StatisticsController {
         headers.put("header2", "Visits");
         headers.put("header3", "Referrals");
         headers.put("header4", "Outstanding Referrals");
-        headers.put("length", 5);
         items.add(headers);
 
         for(Worker worker : workers) {
@@ -127,8 +125,8 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countHealthRisk")
-    public ResponseEntity<JSONObject> getAllHealthRisksByZoneCount() {
+    @GetMapping(value = "/getHealthRisksStatsByZoneCount")
+    public ResponseEntity<JSONObject> getHealthRisksStatsByZoneCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -139,7 +137,6 @@ public class StatisticsController {
         headers.put("header2", "High");
         headers.put("header3", "Medium");
         headers.put("header4", "Low");
-        headers.put("length", 5);
         items.add(headers);
 
         for(Zone zone : zones) {
@@ -165,8 +162,8 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countSocialRisk")
-    public ResponseEntity<JSONObject> getAllSocialRisksByZoneCount() {
+    @GetMapping(value = "/getSocialRisksStatsByZoneCount")
+    public ResponseEntity<JSONObject> getSocialRisksStatsByZoneCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -177,7 +174,6 @@ public class StatisticsController {
         headers.put("header2", "High");
         headers.put("header3", "Medium");
         headers.put("header4", "Low");
-        headers.put("length", 5);
         items.add(headers);
 
         for(Zone zone : zones) {
@@ -203,8 +199,8 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countEducationRisk")
-    public ResponseEntity<JSONObject> getAllEducationRisksByZoneCount() {
+    @GetMapping(value = "/getEducationRisksStatsByZoneCount")
+    public ResponseEntity<JSONObject> getEducationRisksStatsByZoneCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -215,7 +211,6 @@ public class StatisticsController {
         headers.put("header2", "High");
         headers.put("header3", "Medium");
         headers.put("header4", "Low");
-        headers.put("length", 5);
         items.add(headers);
 
         for(Zone zone : zones) {
@@ -241,8 +236,8 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countDisabilities")
-    public ResponseEntity<JSONObject> getAllDisabilitiesCount() {
+    @GetMapping(value = "/getDisabilitiesStatsByZoneCount")
+    public ResponseEntity<JSONObject> getDisabilitiesStatsByZoneCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -255,7 +250,6 @@ public class StatisticsController {
             headers.put("header" + count, disability.getType());
             count++;
         }
-        headers.put("length", count);
         items.add(headers);
 
         for(Zone zone : zones) {
@@ -284,8 +278,8 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countHealthServices")
-    public ResponseEntity<JSONObject> getAllHealthServicesCount() {
+    @GetMapping(value = "/getHealthServicesStatsByZoneCount")
+    public ResponseEntity<JSONObject> getHealthServicesStatsByZoneCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -298,7 +292,6 @@ public class StatisticsController {
             headers.put("header" + count, serviceOption.getName());
             count++;
         }
-        headers.put("length", count);
         items.add(headers);
 
         for(Zone zone : zones) {
@@ -328,8 +321,8 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countSocialServices")
-    public ResponseEntity<JSONObject> getAllSocialServicesCount() {
+    @GetMapping(value = "/getSocialServicesStatsByZoneCount")
+    public ResponseEntity<JSONObject> getSocialServicesStatsByZoneCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -342,7 +335,6 @@ public class StatisticsController {
             headers.put("header" + count, serviceOption.getName());
             count++;
         }
-        headers.put("length", count);
         items.add(headers);
 
         for(Zone zone : zones) {
@@ -372,8 +364,8 @@ public class StatisticsController {
     }
 
     @Admin
-    @GetMapping(value = "/countEducationServices")
-    public ResponseEntity<JSONObject> getAllEducationServicesCount() {
+    @GetMapping(value = "/getEducationServicesStatsByZoneCount")
+    public ResponseEntity<JSONObject> getEducationServicesStatsByZoneCount() {
         JSONObject responseJson = new JSONObject();
         List<JSONObject> items = new ArrayList<>();
         List<Zone> zones = zoneService.getAllZones();
@@ -386,7 +378,6 @@ public class StatisticsController {
             headers.put("header" + count, serviceOption.getName());
             count++;
         }
-        headers.put("length", count);
         items.add(headers);
 
         for(Zone zone : zones) {

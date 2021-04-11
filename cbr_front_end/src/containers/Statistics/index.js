@@ -3,16 +3,15 @@ import axios from 'axios';
 import ServerConfig from '../../config/ServerConfig';
 import { getToken } from "../../utils/AuthenticationUtil";
 import {
-    getGeneralStatsFromServer,
-    getGeneralStatsByZoneFromServer,
-    getGeneralStatsByWorkerFromServer,
-    getHealthRiskStatsFromServer,
-    getSocialRiskStatsFromServer,
-    getEducationRiskStatsFromServer,
-    getDisabilityStatsFromServer,
-    getHealthServiceStatsFromServer,
-    getSocialServiceStatsFromServer,
-    getEducationServiceStatsFromServer
+    getGeneralStatsByZoneCountFromServer,
+    getGeneralStatsByWorkerCountFromServer,
+    getHealthRisksStatsByZoneCountFromServer,
+    getSocialRisksStatsByZoneCountFromServer,
+    getEducationRisksStatsByZoneCountFromServer,
+    getDisabilitiesStatsByZoneCountFromServer,
+    getHealthServicesStatsByZoneCountFromServer,
+    getSocialServicesStatsByZoneCountFromServer,
+    getEducationServicesStatsByZoneCountFromServer
 } from "../../utils/Utilities";
 import StatsTable from "../../components/StatsTable";
 import Table from 'react-bootstrap/Table';
@@ -34,7 +33,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getGeneralStatsByZoneFromServer(requestHeader)
+        getGeneralStatsByZoneCountFromServer(requestHeader)
         .then(response => {
             setCountByZone(response.data.data[0]);
         });
@@ -44,7 +43,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getGeneralStatsByWorkerFromServer(requestHeader)
+        getGeneralStatsByWorkerCountFromServer(requestHeader)
         .then(response => {
             setCountByWorker(response.data.data[0]);
         });
@@ -54,7 +53,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getHealthRiskStatsFromServer(requestHeader)
+        getHealthRisksStatsByZoneCountFromServer(requestHeader)
         .then(response => {
             setCountHealthRisks(response.data.data[0]);
         });
@@ -64,7 +63,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getSocialRiskStatsFromServer(requestHeader)
+        getSocialRisksStatsByZoneCountFromServer(requestHeader)
         .then(response => {
             setCountSocialRisks(response.data.data[0]);
         });
@@ -74,7 +73,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getEducationRiskStatsFromServer(requestHeader)
+        getEducationRisksStatsByZoneCountFromServer(requestHeader)
         .then(response => {
             setCountEducationRisks(response.data.data[0]);
         });
@@ -84,7 +83,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getDisabilityStatsFromServer(requestHeader)
+        getDisabilitiesStatsByZoneCountFromServer(requestHeader)
         .then(response => {
             setCountDisabilities(response.data.data[0]);
         });
@@ -94,7 +93,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getHealthServiceStatsFromServer(requestHeader)
+        getHealthServicesStatsByZoneCountFromServer(requestHeader)
         .then(response => {
             setCountHealthServices(response.data.data[0]);
         });
@@ -104,7 +103,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getSocialServiceStatsFromServer(requestHeader)
+        getSocialServicesStatsByZoneCountFromServer(requestHeader)
         .then(response => {
             setCountSocialServices(response.data.data[0]);
         });
@@ -114,7 +113,7 @@ const Statistics = () => {
         const requestHeader = {
             token: getToken()
         };
-        getEducationServiceStatsFromServer(requestHeader)
+        getEducationServicesStatsByZoneCountFromServer(requestHeader)
         .then(response => {
             setCountEducationServices(response.data.data[0]);
         });
