@@ -47,6 +47,7 @@ public class ReferralAdapterImpl implements ReferralAdapter {
         RequiredServices requiredServices = buildRequiredServices();
         referral.setRequiredServices(requiredServices);
         referral.setClientId(clientId);
+        referral.setWorkerId(workerId);
         referral.setHipWidthInInches(hipWidthInInches);
         referral.setIntermediateUserByWheelchairUserType(wheelchairUserType);
         referral.setHasExistingWheelchair(doTheyHaveExistingWheelchair);

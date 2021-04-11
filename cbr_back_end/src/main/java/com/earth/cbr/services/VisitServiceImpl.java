@@ -10,7 +10,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 @Service
-public class VisitServiceImpl implements VisitService{
+public class VisitServiceImpl implements VisitService {
 
     @Autowired
     private VisitRepository visitRepository;
@@ -40,6 +40,21 @@ public class VisitServiceImpl implements VisitService{
     @Override
     public List<Visit> getAllVisitsByClientIdSortedByDate(Long clientId) {
         return visitRepository.findAllByClientIdOrderByDateDesc(clientId);
+    }
+
+    @Override
+    public Long getAllVisitsCount() {
+        return visitRepository.count();
+    }
+
+    @Override
+    public Integer getAllVisitsByZoneIdCount(Integer zoneId) {
+        return visitRepository.findAllByZone(zoneId).size();
+    }
+
+    @Override
+    public Integer getAllVisitsByWorkerIdCount(Long workerId) {
+        return visitRepository.findAllByWorkerId(workerId).size();
     }
 
     @Override

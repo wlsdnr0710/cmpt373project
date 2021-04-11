@@ -137,6 +137,42 @@ export const deleteWorkerFromServerById = (workerId, requestHeader) => {
     return axios.delete(ServerConfig.api.url + '/api/v1/worker/' + workerId, {headers: requestHeader})
 }
 
+export const getGeneralStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getGeneralStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getGeneralStatsByWorkerCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getGeneralStatsByWorkerCount', {headers: requestHeader});
+};
+
+export const getHealthRisksStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getHealthRisksStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getSocialRisksStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getSocialRisksStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getEducationRisksStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getEducationRisksStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getDisabilitiesStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getDisabilitiesStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getHealthServicesStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getHealthServicesStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getSocialServicesStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getSocialServicesStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getEducationServicesStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getEducationServicesStatsByZoneCount', {headers: requestHeader});
+};
+
 export const getClientObject = () => {
     return( {
         id:"N/A",

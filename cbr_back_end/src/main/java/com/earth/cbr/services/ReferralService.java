@@ -7,9 +7,15 @@ import java.util.List;
 
 public interface ReferralService {
     List<Referral> getAllReferrals();
-    List<Referral> getAllReferralsByClientId(Long id);
-    List<Referral> getAllReferralsByClientIdSortedByDate(Long id);
+    List<Referral> getAllReferralsByClientId(Long clientId);
+    Long getAllReferralsCount();
+    Integer getAllReferralsByWorkerIdCount(Long workerId);
+    Integer getAllReferralsByZoneIdCount(Integer zoneId);
+    List<Referral> getAllReferralsByClientIdSortedByDate(Long clientId);
     List<Referral> getAllOutstandingReferralsSortedByDate();
+    Integer getAllOutstandingReferralsCount();
+    Integer getAllOutstandingReferralsByWorkerIdCount(Long workerId);
+    Integer getAllOutstandingReferralsByZoneIdCount(Integer zoneId);
     Referral getReferralById(Long id);
     Referral updateReferralById(@Valid Referral referral);
     Referral addReferral(@Valid Referral referral);
