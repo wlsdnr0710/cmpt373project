@@ -5,14 +5,8 @@ import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsSocialForm = ({
-    referralToSocialOrgValue,
-    referralToSocialOrgDescValue,
-    socialAdviceValue,
-    socialAdviceDescValue,
-    socialAdvocacyValue,
-    socialAdvocacyDescValue,
-    socialEncouragementValue,
-    socialEncouragementDescValue,
+    socialServiceOptions,
+    createServiceOptionComponents,
     socialGoalConclusionTextValue,
     socialGoalMetValue,
     isSocialGoalConcluded,
@@ -24,74 +18,7 @@ const NewVisitsSocialForm = ({
         <div className="new-client-survey">
             <div className="section">
                 <label>For Social: What was provided?</label>
-                <div>
-                    <CheckBox
-                        name="referralToSocialOrg"
-                        value={referralToSocialOrgValue}
-                        actionHandler={actionHandler}
-                        displayText={"Referral to Social Organization"}
-                    />
-                    <div hidden={!referralToSocialOrgValue}>
-                        <TextAreaInputField
-                            name="referralToSocialOrgDesc"
-                            value={referralToSocialOrgDescValue}
-                            onChange={onChange}
-                            rows="4"
-                            isDisabled={false}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <CheckBox
-                        name="socialAdvice"
-                        value={socialAdviceValue}
-                        actionHandler={actionHandler}
-                        displayText={"Social Advice"}
-                    />
-                    <div hidden={!socialAdviceValue}>
-                        <TextAreaInputField
-                            name="socialAdviceDesc"
-                            value={socialAdviceDescValue}
-                            onChange={onChange}
-                            rows="4"
-                            isDisabled={false}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <CheckBox
-                        name="socialAdvocacy"
-                        value={socialAdvocacyValue}
-                        actionHandler={actionHandler}
-                        displayText={"Social Advocacy"}
-                    />
-                    <div hidden={!socialAdvocacyValue}>
-                        <TextAreaInputField
-                            name="socialAdvocacyDesc"
-                            value={socialAdvocacyDescValue}
-                            onChange={onChange}
-                            rows="4"
-                            isDisabled={false}
-                        />
-                    </div>
-                </div>
-                <div>
-                    <CheckBox
-                        name="socialEncouragement"
-                        value={socialEncouragementValue}
-                        actionHandler={actionHandler}
-                        displayText={"Social Encouragement"}
-                    />
-                    <div hidden={!socialEncouragementValue}>
-                        <TextAreaInputField
-                            name="socialEncouragementDesc"
-                            value={socialEncouragementDescValue}
-                            onChange={onChange}
-                            rows="4"
-                            isDisabled={false}
-                        />
-                    </div>
-                </div>
+                {createServiceOptionComponents(socialServiceOptions, actionHandler, onChange)}
                 <div >
                     <div>
                         <label>Goal met? :</label>

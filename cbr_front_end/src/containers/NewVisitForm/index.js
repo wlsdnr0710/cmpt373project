@@ -59,17 +59,7 @@ const NewVisitForm = (props) => {
 
     const [healthServiceOptions, setHealthServiceOptions] = useState([]);
     const [educationServiceOptions, setEducationServiceOptions] = useState([]);
-    const [socialFormInputs, setSocialFormInputs] = useState({
-        "socialServiceOptions": [],
-        "referralToSocialOrg": false,
-        "socialAdvice": false,
-        "socialAdvocacy": false,
-        "socialEncouragement": false,
-        "referralToSocialOrgDesc": "",
-        "socialAdviceDesc": "",
-        "socialAdvocacyDesc": "",
-        "socialEncouragementDesc": "",
-    });
+    const [socialServiceOptions, setSocialServiceOptions] = useState([]);
 
     const [riskInformation, setRiskInformation] = useState(getRiskObject());
     const [originalRiskInformation, setOriginalRiskInformation] = useState(
@@ -129,11 +119,10 @@ const NewVisitForm = (props) => {
                 socialServiceOptions = [...socialServiceOptions, serviceOption]
             }
         }
-        console.log(healthServiceOptions);
+        console.log(socialServiceOptions);
         updateHealthServiceOptionsByNameValue(healthServiceOptions);
         updateEducationServiceOptionsByNameValue(educationServiceOptions);
-        updateSocialFormInputByNameValue("socialServiceOptions", socialServiceOptions);
-
+        updateSocialServiceOptionsByNameValue(socialServiceOptions);
     }
 
     const getRiskInformation = useCallback(() => {
@@ -188,19 +177,13 @@ const NewVisitForm = (props) => {
     }
 
     const updateFormInputsFromSocialForm = (submittedForm) =>{
-        if (socialFormInputs.referralToSocialOrg === true ){
-            submittedForm = addServiceProvided("13", socialFormInputs.referralToSocialOrgDesc, submittedForm);
-        } 
-        if (socialFormInputs.socialAdvice === true ){
-            submittedForm = addServiceProvided("14", socialFormInputs.socialAdviceDesc, submittedForm);
-        } 
-        if (socialFormInputs.socialAdvocacy === true ){
-            submittedForm = addServiceProvided("15", socialFormInputs.socialAdvocacyDesc, submittedForm);
-        } 
-        if (socialFormInputs.socialEncouragement === true ){
-            submittedForm = addServiceProvided("16", socialFormInputs.socialEncouragementDesc, submittedForm);
-        } 
-        return submittedForm
+        // Have to call Object.values to make the options iterable
+        for (const serviceOption of Object.values(socialServiceOptions)) {
+            if (serviceOption.checked) {
+                submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
+            }
+        }
+        return submittedForm;
     }
     
     const submitFormByPostRequest = data => {
@@ -340,18 +323,10 @@ const NewVisitForm = (props) => {
         } else if (name === "socialOutcome"){
             updateFormInputByNameValue(name, value);
         }   else {
-            updateSocialFormInputByNameValue(name, value);
+            updateSocialDescriptionByIndexValue(name, value);
         }
     }
 
-    const updateSocialFormInputByNameValue = (name, value) => {
-        setSocialFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs[name] = value;
-            return newFormInputs;
-        });
-    };
-    
     const updateHealthServiceOptionsByNameValue = (value) => {
         setHealthServiceOptions(() => {
             const newOptionsList = value;
@@ -393,6 +368,30 @@ const NewVisitForm = (props) => {
 
     const checkEducationServiceOptionsByIndexValue = (index, value) => {
         setEducationServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].checked = value;
+            newOptionsList[index].hidden = !value;
+            return newOptionsList;
+        });
+    };
+
+    const updateSocialServiceOptionsByNameValue = (value) => {
+        setSocialServiceOptions(() => {
+            const newOptionsList = value;
+            return newOptionsList;
+        });
+    };
+
+    const updateSocialDescriptionByIndexValue = (index, value) => {
+        setSocialServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].desc = value;
+            return newOptionsList;
+        });
+    };
+
+    const checkSocialServiceOptionsByIndexValue = (index, value) => {
+        setSocialServiceOptions(prevOptions => {
             const newOptionsList = { ...prevOptions };
             newOptionsList[index].checked = value;
             newOptionsList[index].hidden = !value;
@@ -460,9 +459,9 @@ const NewVisitForm = (props) => {
 
     const doProvidedSocialCheckBoxActionHandler = event => {
         const checkBox = event.target;
-        const name = checkBox.name
+        const id = checkBox.value;
         const isProvidedChecked = checkBox.checked;
-        updateSocialFormInputByNameValue(name, isProvidedChecked);
+        checkSocialServiceOptionsByIndexValue(id, isProvidedChecked);
     }
 
     const initEpochDateTime = () => {
@@ -722,15 +721,8 @@ const NewVisitForm = (props) => {
 
                 <div hidden={(isSocialInputDisabled)}>
                     <NewClientVisitsSocialForm
-                        referralToSocialOrgValue={socialFormInputs["referralToSocialOrg"]}
-                        referralToSocialOrgDescValue={socialFormInputs["referralToSocialOrgDesc"]}
-                        socialAdviceValue={socialFormInputs["socialAdvice"]}
-                        socialAdviceDescValue={socialFormInputs["socialAdviceDesc"]}
-                        socialAdvocacyValue={socialFormInputs["socialAdvocacy"]}
-                        socialAdvocacyDescValue={socialFormInputs["socialAdvocacyDesc"]}
-                        socialEncouragementValue={socialFormInputs["socialEncouragement"]}
-                        socialEncouragementDescValue={socialFormInputs["socialEncouragementDesc"]}
-
+                        socialServiceOptions={socialServiceOptions}
+                        createServiceOptionComponents={createServiceOptionComponents}
                         socialGoalConclusionTextValue={formInputs["socialOutcome"]}
                         socialGoalMetValue={formInputs["socialGoalProgress"]}
                         isSocialGoalConcluded={isSocialGoalConcluded}
