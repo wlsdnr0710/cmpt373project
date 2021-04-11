@@ -77,9 +77,7 @@ const NewVisitForm = (props) => {
         "healthEncouragementDesc": "",
     });
 
-    const [educationFormInputs, setEducationFormInputs] = useState({
-        "educationServiceOptions": []
-    });
+    const [educationServiceOptions, setEducationServiceOptions] = useState([]);
 
     const [socialFormInputs, setSocialFormInputs] = useState({
         "socialServiceOptions": [],
@@ -152,7 +150,7 @@ const NewVisitForm = (props) => {
             }
         }
         updateHealthFormInputByNameValue("healthServiceOptions", healthServiceOptions);
-        updateEducationFormInputByNameValue("educationServiceOptions", educationServiceOptions);
+        updateEducationServiceOptionsByNameValue(educationServiceOptions);
         updateSocialFormInputByNameValue("socialServiceOptions", socialServiceOptions);
 
     }
@@ -216,8 +214,9 @@ const NewVisitForm = (props) => {
         return submittedForm
     }
 
-    const updateFormInputsFromEducationForm = (submittedForm) =>{
-        for (const serviceOption of educationFormInputs["educationServiceOptions"]) {
+    const updateFormInputsFromEducationForm = (submittedForm) => {
+        // Have to call Object.values to make the options iterable
+        for (const serviceOption of Object.values(educationServiceOptions)) {
             if (serviceOption.checked) {
                 submittedForm = addServiceProvided(serviceOption.id, serviceOption.desc, submittedForm);
             }
@@ -399,28 +398,27 @@ const NewVisitForm = (props) => {
         });
     };
 
-    const updateEducationFormInputByNameValue = (name, value) => {
-        setEducationFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs[name] = value;
-            return newFormInputs;
+    const updateEducationServiceOptionsByNameValue = (value) => {
+        setEducationServiceOptions(() => {
+            const newOptionsList = value;
+            return newOptionsList;
         });
     };
 
     const updateEducationDescriptionByIndexValue = (index, value) => {
-        setEducationFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs["educationServiceOptions"][index].desc = value;
-            return newFormInputs;
+        setEducationServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].desc = value;
+            return newOptionsList;
         });
     };
 
     const checkEducationServiceOptionsByIndexValue = (index, value) => {
-        setEducationFormInputs(prevFormInputs => {
-            const newFormInputs = { ...prevFormInputs };
-            newFormInputs["educationServiceOptions"][index].checked = value;
-            newFormInputs["educationServiceOptions"][index].hidden = !value;
-            return newFormInputs;
+        setEducationServiceOptions(prevOptions => {
+            const newOptionsList = { ...prevOptions };
+            newOptionsList[index].checked = value;
+            newOptionsList[index].hidden = !value;
+            return newOptionsList;
         });
     };
 
@@ -751,7 +749,7 @@ const NewVisitForm = (props) => {
 
                 <div hidden={(isEducationInputDisabled)}>
                     <NewClientVisitsEducationForm
-                        educationServiceOptions={educationFormInputs["educationServiceOptions"]}
+                        educationServiceOptions={educationServiceOptions}
                         createServiceOptionComponents={createServiceOptionComponents}
                         educationGoalConclusionTextValue={formInputs["educationOutcome"]}
                         educationGoalMetValue={formInputs["educationGoalProgress"]}
