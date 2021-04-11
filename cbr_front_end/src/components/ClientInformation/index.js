@@ -14,12 +14,12 @@ const isPhotoSourceValid = photoSource => {
     return /(png|jpg)$/i.test(photoSource);
 };
 
-const displayContactNumber = (contactNumber) => {
+const displayClientContactNumber = (contactNumber) => {
     if (contactNumber === null || contactNumber === "") {
         return null;
     } else {
         return (
-            <div className = "details"><strong>Contact Number:</strong> {contactNumber}</div>
+            <div className = "details"><strong>Client Contact Number:</strong> {contactNumber}</div>
         );
     }
 };
@@ -34,12 +34,12 @@ const displayCaregiverName = (caregiverName) => {
     }
 };
 
-const displayCaregiverNumber = (caregiverNumber) => {
+const displayCaregiverContactNumber = (caregiverNumber) => {
     if (caregiverNumber === null || caregiverNumber === "") {
         return null;
     } else {
         return (
-            <div className = "details"><strong>Caregiver Number:</strong> {caregiverNumber}</div>
+            <div className = "details"><strong>Caregiver Contact Number:</strong> {caregiverNumber}</div>
         );
     }
 };
@@ -60,9 +60,9 @@ const ClientInformation = ({clientObject: client}) => {
                         <div className = "details"><strong>Gender:</strong> {client.gender}</div>
                         <div className = "details"><strong>Age:</strong> {client.age}</div>
                         <div className = "details"><strong>Birthdate:</strong> {client.birthdate}</div>
-                        {displayContactNumber(client.contactNumber)}
+                        {displayClientContactNumber(client.contactNumber)}
                         {displayCaregiverName(client.caregiverName)}
-                        {displayCaregiverNumber(client.caregiverNumber)}
+                        {displayCaregiverContactNumber(client.caregiverNumber)}
                     </div>
                 </div>
             </div>
