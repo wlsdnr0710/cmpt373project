@@ -31,6 +31,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public Long getAllClientsCount() {
+        return clientRepository.count();
+    }
+
+    @Override
+    public Integer getAllClientsByZoneIdCount(Integer zoneId) {
+        return clientRepository.findAllByZone(zoneId).size();
+    }
+
+    @Override
+    public Integer getAllClientsByWorkerIdCount(Long workerId) {
+        return clientRepository.findAllByCbrWorkerId(workerId).size();
+    }
+
+    @Override
     public Page<Client> getClientsByPage(Integer pageNumber, Integer pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         return clientRepository.findAll(pageable);

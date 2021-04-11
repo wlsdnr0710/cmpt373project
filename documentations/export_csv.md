@@ -63,7 +63,7 @@ const headersMapping = {
     "Signup Date": "signupDate",
     "Contact Number": "contactNumber",
     "CBR Worker Id": "cbrWorkerId",
-    "Caregiver Contact": "caregiverContact",
+    "Caregiver Contact Number": "caregiverNumber",
     "Required Services": "requiredServices",
     "Individual Goals": "individualGoals",
     "Disabilities": "disabilities",

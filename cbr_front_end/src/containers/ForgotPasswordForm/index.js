@@ -47,7 +47,6 @@ const ForgotPasswordForm = () => {
             headers: requestHeader,
         })
         .then(response => {
-            console.log(response);
             setWorkerInformationForm (response.data);
         })
         .catch(error => {

@@ -1,0 +1,56 @@
+.edit-worker-form {
+    margin-left: 2vw;
+}
+
+.edit-worker-form .worker-image {
+    width: 70%;
+    max-width: 500px;
+    position: relative;
+}
+
+.edit-worker-form .worker-image img {
+    width: 70%;
+    min-width: 250px;
+    max-width: 500px;
+    height: auto;
+}
+
+.edit-worker-form .worker-image .upload-banner {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    min-width: 250px;
+    width: 70%;
+    height: 5vh;
+    text-align: center;
+    font-size: large;
+    color: white;
+    background-color:grey;
+    transition: 0.3s;
+    opacity: 0.7;
+}
+
+.edit-worker-form .worker-image:hover > .upload-banner {
+    opacity: 1;
+}
+
+.edit-worker-form .input-field {
+    margin: 2vh 1vw;
+}
+
+.edit-worker-form .update-risk-button {
+    margin: 1vh 0;
+} 
+
+.edit-worker-form .update-disability-button {
+    margin: 1vh 0;
+} 
+
+.edit-worker-form .action-buttons {
+    text-align: center;
+    position: relative;
+}
+
+.edit-worker-form .action-buttons input {
+    margin: 1vh 1vw;
+}

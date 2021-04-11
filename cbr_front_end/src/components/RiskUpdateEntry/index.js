@@ -1,39 +1,52 @@
 import React from "react";
-import { parseEpochToDateString } from "../../utils/Utilities";
+import { parseISODateStringToDateString } from "../../utils/Utilities";
 import "./style.css"
-
-const RiskDateInformation = (date) => {
-    return (
-        <div>
-            Created: {parseEpochToDateString(date)} <hr />
-        </div>
-    );
-};
+import Accordion from "react-bootstrap/Accordion";
+import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
+import "./style.css";
 
 const RiskUpdateEntry = ({ riskObject }) => {
     return (
-        <div className="risk-update-card">
-            <div className="risk-entry">
-                {RiskDateInformation(riskObject.createdDate)}
-            </div>
-            <div className="risk-entry">
-                <strong>Health </strong>: {riskObject.healthRisk}
-                <div className="risk-description">
-                    {riskObject.healthRiskDescription}
-                </div>
-            </div>
-            <div className="risk-entry">
-                <strong>Education </strong>: {riskObject.educationRisk}
-                <div className="risk-description">
-                    {riskObject.educationRiskDescription}
-                </div>
-            </div>
-            <div className="risk-entry">
-                <strong>Social </strong>: {riskObject.socialRisk}
-                <div className="risk-description">
-                    {riskObject.socialRiskDescription}
-                </div>
-            </div>
+        <div>
+            <Accordion>
+                <Card>
+                    <Card.Header>
+                        <Accordion.Toggle
+                            as={Button}
+                            variant="link"
+                            eventKey={riskObject.id}
+                        >
+                            {parseISODateStringToDateString(riskObject.createdDate)}
+                        </Accordion.Toggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey={riskObject.id}>
+                        <Card.Body className="risk-update-card">
+                            <div className="risk-entry">
+                                <strong>Health: </strong>
+                                {riskObject.healthRisk}
+                                <div className="risk-description">
+                                    {riskObject.healthRiskDescription}
+                                </div>
+                            </div>
+                            <div className="risk-entry">
+                                <strong>Education: </strong>
+                                {riskObject.educationRisk}
+                                <div className="risk-description">
+                                    {riskObject.educationRiskDescription}
+                                </div>
+                            </div>
+                            <div className="risk-entry">
+                                <strong>Social: </strong>
+                                {riskObject.socialRisk}
+                                <div className="risk-description">
+                                    {riskObject.socialRiskDescription}
+                                </div>
+                            </div>
+                        </Card.Body>
+                    </Accordion.Collapse>
+                </Card>
+            </Accordion>
         </div>
     );
 };

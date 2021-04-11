@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { getToken } from "../../utils/AuthenticationUtil";
-import { parseDateStringToEpoch, parseEpochToDateString } from "../../utils/Utilities";
+import { parseDateStringToEpoch, parseISODateStringToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
 import ExportToCsv from "../../components/ExportToCsv";
@@ -270,8 +270,7 @@ const ClientTable = props => {
     };
 
     const formatDateString = date => {
-        const epoch = parseDateStringToEpoch(date);
-        const dateString = parseEpochToDateString(epoch);
+        const dateString = parseISODateStringToDateString(date);
         return dateString;
     };
 
@@ -302,7 +301,7 @@ const ClientTable = props => {
                             />
                         </div>
                         <div className="search-button">
-                            <Button variant="secondary" onClick={onClickSearchHandler}>Search</Button> 
+                            <Button variant="primary" onClick={onClickSearchHandler}>Search</Button> 
                         </div>
                     </div>
                 </div>
@@ -318,8 +317,8 @@ const ClientTable = props => {
                             className={"sortBy"}
                         />
                         <Button 
-                            className={"text-center isAscendingBtn"} 
-                            variant={"secondary"}
+                            className="text-center isAscendingBtn" 
+                            variant="primary"
                             onClick={onClickIsAscendingHandler}
                         >
                             {getAscendingText()}

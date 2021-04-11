@@ -1,6 +1,15 @@
 import axios from "axios";
 import ServerConfig from "../config/ServerConfig";
 
+export const parseISODateStringToDateString = ISODateString => {
+    const MILLISECONDS_IN_MINUTE = 60000
+    const localDate = new Date();
+    const timezoneOffsetInMilliseconds = localDate.getTimezoneOffset() * MILLISECONDS_IN_MINUTE;
+    // We have to add the timezone offset because we aren't storing the offset in the database
+    const epoch = parseDateStringToEpoch(ISODateString) + timezoneOffsetInMilliseconds;
+    return parseEpochToDateString(epoch);
+};
+
 export const parseDateStringToEpoch = dateString => {
     return Date.parse(dateString);
 };
@@ -39,6 +48,14 @@ export const displayIcon = (iconSource, iconAlt) => {
 export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
 };
+
+export const getRiskInformationFromServer = (clientId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/riskHistory/' + clientId, {headers: requestHeader});
+};
+
+export const updateRiskInformationToServer = (riskInformation, requestHeader) => {
+    return axios.put(ServerConfig.api.url + '/api/v1/riskHistory/', {"data" : riskInformation}, {headers: requestHeader});
+}
 
 export const getVisitsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
@@ -88,6 +105,10 @@ export const addVisitToServer = (visitInformation, requestHeader) => {
     return axios.post(ServerConfig.api.url + '/api/v1/visit', {"data" : visitInformation}, {headers: requestHeader});
 };
 
+export const addRiskToServer = (riskInformation, requestHeader) => {
+    return axios.post(ServerConfig.api.url + '/api/v1/riskHistory', {"data" : riskInformation}, {headers: requestHeader});
+};
+
 export const getZonesFromServer = () => {
     return axios.get(ServerConfig.api.url + '/api/v1/zone');
 };
@@ -104,6 +125,54 @@ export const deleteClientFromServer = (clientId, requestHeader) => {
     return axios.delete(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader})
 }
 
+export const getWorkerInformationFromServerById = (workerId, requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/worker/' + workerId, {headers: requestHeader});
+};
+
+export const updateWorkerInformationToServer = (workerInformation, requestHeader) => {
+    return axios.put(ServerConfig.api.url + '/api/v1/worker/', {"data" : workerInformation}, {headers: requestHeader});
+}
+
+export const deleteWorkerFromServerById = (workerId, requestHeader) => {
+    return axios.delete(ServerConfig.api.url + '/api/v1/worker/' + workerId, {headers: requestHeader})
+}
+
+export const getGeneralStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getGeneralStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getGeneralStatsByWorkerCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getGeneralStatsByWorkerCount', {headers: requestHeader});
+};
+
+export const getHealthRisksStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getHealthRisksStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getSocialRisksStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getSocialRisksStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getEducationRisksStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getEducationRisksStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getDisabilitiesStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getDisabilitiesStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getHealthServicesStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getHealthServicesStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getSocialServicesStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getSocialServicesStatsByZoneCount', {headers: requestHeader});
+};
+
+export const getEducationServicesStatsByZoneCountFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/statistics/getEducationServicesStatsByZoneCount', {headers: requestHeader});
+};
+
 export const getClientObject = () => {
     return( {
         id:"N/A",
@@ -116,14 +185,28 @@ export const getClientObject = () => {
         zone:"N/A",
         villageNumber:"N/A",
         signupDate:"N/A",
-        contactNumber:"N/A",
+        contactNumber:"",
         cbrWorkerId:"N/A",
-        caregiverContact: "N/A",
+        caregiverName: "",
+        caregiverNumber: "",
         caregiverPhoto: "image.png",
         requiredServices: "N/A",
         individualGoals: "N/A",
         disabled: [],
         riskHistories: [],
+    });
+}
+
+export const getWorkerObject = () => {
+    return( {
+        id:"N/A",
+        firstName:"N/A",
+        lastName:"N/A",
+        photo:"N/A",
+        zone:"N/A",
+        email:"N/A",
+        contactNumber:"N/A",
+        role:"N/A",
     });
 }
 
@@ -148,6 +231,28 @@ export const getDisabilityObject = () => {
         id: "N/A",
         type: "N/A"
     }
+}
+
+export const getClientZonesObject = () => {
+    return {
+        "BidiBidi Zone 1": "1",
+        "BidiBidi Zone 2": "2",
+        "BidiBidi Zone 3": "3",
+        "BidiBidi Zone 4": "4",
+        "BidiBidi Zone 5": "5",
+        "Palorinya Basecamp": "6",
+        "Palorinya Zone 1": "7",
+        "Palorinya Zone 2": "8",
+        "Palorinya Zone 3": "9",
+      };
+}
+
+export const getWorkerRoleObject = () => {
+    return {
+        "Worker": "WORKER",
+        "Clinician": "CLINICIAN",
+        "Admin": "ADMIN",
+      };
 }
 
 export const getGendersObject = () =>{
@@ -282,4 +387,8 @@ export const getDefaultProstheticConditions = () => {
         "Below knee": "BELOW_KNEE",
     };
     return defaultProstheticConditions;
+};
+
+export const getWorkerCreateAccountCode = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/worker/createAccountCode', {headers: requestHeader});
 };

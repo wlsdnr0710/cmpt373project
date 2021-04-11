@@ -1,4 +1,3 @@
-import React from "react";
 import RiskUpdateEntry from "../../components/RiskUpdateEntry";
 import "./style.css";
 
@@ -9,7 +8,6 @@ const emptyRiskUpdate = () => {
         </div>
     );
 };
-
 
 const getPastRiskUpdateList = (riskHistories) => {
     const riskHistoriesListIsEmpty = riskHistories.length < 1;
@@ -22,13 +20,14 @@ const getPastRiskUpdateList = (riskHistories) => {
     }
 };
 
+const getSortedRiskhistories = (riskHistories) => {
+    return riskHistories.sort((updateA, updateB) => updateA.id - updateB.id);
+};
+
 const RiskInformation = ({ riskHistories }) => {
-    const sortedRiskHistories = riskHistories.sort((updateA, updateB) => updateA.id - updateB.id);
-    return (
-        <div>
-            {getPastRiskUpdateList(sortedRiskHistories)}
-        </div>
-    );
+    const sortedRiskHistories = getSortedRiskhistories(riskHistories);
+    
+    return <div>{getPastRiskUpdateList(sortedRiskHistories)}</div>;
 };
 
 export default RiskInformation;

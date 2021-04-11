@@ -25,6 +25,21 @@ public class ReferralServiceImpl implements ReferralService {
     }
 
     @Override
+    public Long getAllReferralsCount() {
+        return referralRepository.count();
+    }
+
+    @Override
+    public Integer getAllReferralsByZoneIdCount(Integer zoneId) {
+        return referralRepository.findAllByClientZone(zoneId).size();
+    }
+
+    @Override
+    public Integer getAllReferralsByWorkerIdCount(Long workerId) {
+        return referralRepository.findAllByWorkerId(workerId).size();
+    }
+
+    @Override
     public List<Referral> getAllReferralsByClientIdSortedByDate(Long clientId) {
         return referralRepository.findAllByClientIdOrderByDateDesc(clientId);
     }
@@ -32,6 +47,21 @@ public class ReferralServiceImpl implements ReferralService {
     @Override
     public List<Referral> getAllOutstandingReferralsSortedByDate() {
         return referralRepository.findAllByIsResolvedFalseOrderByDateAsc();
+    }
+
+    @Override
+    public Integer getAllOutstandingReferralsByWorkerIdCount(Long workerId) {
+        return referralRepository.findAllByWorkerIdAndIsResolvedFalse(workerId).size();
+    }
+
+    @Override
+    public Integer getAllOutstandingReferralsCount() {
+        return referralRepository.findAllByIsResolvedFalseOrderByDateAsc().size();
+    }
+
+    @Override
+    public Integer getAllOutstandingReferralsByZoneIdCount(Integer zoneId) {
+        return referralRepository.findAllByClientZoneAndIsResolvedFalse(zoneId).size();
     }
 
     @Override

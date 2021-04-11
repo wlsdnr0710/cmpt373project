@@ -2,11 +2,16 @@ import React from "react";
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { parseEpochToDateString } from "../../utils/Utilities";
+import { parseISODateStringToDateString } from "../../utils/Utilities";
 import avatar from "../../assets/avatar.png";
 import "./style.css";
 
 const ViewReferrals = (props) => {
+
+    const referToMapping = {
+        "DISABILITY_CENTRE": "Disability centre",
+        "MOBILE_CLINIC": "Mobile clinic"
+    };
 
     const formatTrueFalseFields = (field) => {
         if (field === true) {
@@ -90,6 +95,21 @@ const ViewReferrals = (props) => {
                     <div className="body">
                         <div className="entry">
                             {props.referral.outcome}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+    };
+
+    const createReferToSection = () => {
+        if (props.referral.referTo !== null) {
+            return (
+                <div className="outcome">
+                    <h3>Refer To</h3>
+                    <div className="body">
+                        <div className="entry">
+                            {referToMapping[props.referral.referTo]}
                         </div>
                     </div>
                 </div>
@@ -205,17 +225,18 @@ const ViewReferrals = (props) => {
                 <Card>
                     <Card.Header>
                         <Accordion.Toggle as={Button} variant="link" eventKey={props.referral.id}>
-                            {parseEpochToDateString(props.referral.date)} {formatResolved()}
+                            {parseISODateStringToDateString(props.referral.date)} {formatResolved()}
                         </Accordion.Toggle>
                     </Card.Header>
                     <Accordion.Collapse eventKey={props.referral.id}>
                         <Card.Body>
-                            {createOutcomeSection()}
-                            {createWheelchairSection()}
+                            {createReferToSection()}
+                            {createPhysiotherapySection()}
                             {createProstheticSection()}
                             {createOrthoticSection()}
-                            {createPhysiotherapySection()}
+                            {createWheelchairSection()}
                             {createOtherSection()}
+                            {createOutcomeSection()}
                         </Card.Body>
                     </Accordion.Collapse>
                 </Card>

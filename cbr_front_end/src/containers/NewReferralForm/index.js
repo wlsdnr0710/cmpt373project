@@ -35,14 +35,25 @@ const NewReferralForm = props => {
         "physiotherapyCondition": "",
         "physiotherapyConditionOtherDesc": "",
         "isResolved": false,
+        "outcome": "",
+        "referTo": "DISABILITY_CENTRE",
         "workerId": getWorkerIdFromToken(getToken())
     });
+
+    const getReferToMapping = () => {
+        return {
+            "Disability Centre": "DISABILITY_CENTRE",
+            "Mobile Clinic": "MOBILE_CLINIC"
+        };
+    };
+
     const [showOtherDescription, setShowOtherDescription] = useState(false);
     const [showWheelchairQuestions, setShowWheelchairQuestions] = useState(false);
     const [showExistingWheelchairQuestions, setShowExistingWheelchairQuestions] = useState(false);
     const [showPhysiotherapyQuestions, setShowPhysiotherapyQuestions] = useState(false);
     const [showOrthoticQuestions, setShowOrthoticQuestions] = useState(false);
     const [showProstheticQuestions, setShowProstheticQuestions] = useState(false);
+    const [showOutcome, setShowOutcome] = useState(false);
     const clientId = props.clientId;
 
     const [isFormDisabled, setIsFormDisabled] = useState(false);
@@ -143,6 +154,25 @@ const NewReferralForm = props => {
                 <TextAreaInputField
                     name={"requiredServiceOtherDescription"}
                     value={formInputs["requiredServiceOtherDescription"]}
+                    onChange={formInputChangeHandler}
+                    rows="4"
+                    isDisabled={false}
+                />
+            </div>
+        );
+    };
+
+    const showOutcomeTextArea = () => {
+        if (!showOutcome) {
+            return null;
+        }
+
+        return (
+            <div className="input-field-container">
+                <div>What was the outcome?</div>
+                <TextAreaInputField
+                    name={"outcome"}
+                    value={formInputs["outcome"]}
                     onChange={formInputChangeHandler}
                     rows="4"
                     isDisabled={false}
@@ -350,7 +380,7 @@ const NewReferralForm = props => {
                 <div>
                     <Alert variant="warning">
                         Please bring the wheelchair to the centre.
-                    </Alert >
+                    </Alert>
                 </div>
             </div>
         );
@@ -366,6 +396,18 @@ const NewReferralForm = props => {
             value = input.value;
         }
         updateFormInputByNameValue(name, value);
+    };
+
+    const onIsResolvedClick = event => {
+        const input = event.target;
+        const value = input.checked;
+        if (value) {
+            setShowOutcome(true);
+        } else {
+            updateFormInputByNameValue("outcome", "");
+            setShowOutcome(false);
+        }
+        updateFormInputByNameValue("isResolved", value);
     };
 
     const onSubmitHandler = event => {
@@ -490,11 +532,23 @@ const NewReferralForm = props => {
     };
 
     return (
-        <div className="new-referral-form">
+        <div>
             <FormHeader
                 headerText="New Referral"
             />
-            <div className="form-body">
+            <div className="new-referral-form">
+                <div className="input-field-container">
+                    <h2>
+                        Refer To
+                    </h2>
+                    <DropdownList
+                        dropdownName="referTo"
+                        value={formInputs["referTo"]}
+                        dropdownListItemsKeyValue={getReferToMapping()}
+                        onChange={formInputChangeHandler}
+                    />
+                    <hr />
+                </div>
                 <div className="input-field-container">
                     <h2>
                         Required Services
@@ -518,11 +572,13 @@ const NewReferralForm = props => {
                     <CheckBox
                         name="isResolved"
                         value={formInputs["isResolved"]}
-                        actionHandler={formInputChangeHandler}
+                        actionHandler={onIsResolvedClick}
                         displayText={"Is the referral resolved?"}
                         isDisabled={false}
                     />
                 </div>
+
+                {showOutcomeTextArea()}
 
                 <div>
                     <Button variant="primary" onClick={onSubmitHandler}>

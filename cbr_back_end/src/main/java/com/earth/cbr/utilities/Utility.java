@@ -2,7 +2,7 @@ package com.earth.cbr.utilities;
 
 public class Utility {
     public static String formatPhoneNumber(String oldNumber) {
-        if(oldNumber.length() == 0) {
+        if(oldNumber == null || oldNumber.length() == 0) {
             return null;
         }
         String newNumber = "";
