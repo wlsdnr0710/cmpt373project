@@ -12,8 +12,8 @@ export const getClientCsvHeaders = () => {
         "Contact Number",
         "CBR Worker ID",
         "Caregiver Contact",
-        // "Individual Goals",
         "Disabilities",
+        // TODO: figure out how to fit this in csv if needed. 
         // "Risk Histories",
     ];
 
@@ -30,7 +30,6 @@ export const getClientCsvHeaders = () => {
         "Contact Number": "contactNumber",
         "CBR Worker ID": "cbrWorkerId",
         "Caregiver Contact": "caregiverNumber",
-        // "Individual Goals": "individualGoals",
         "Disabilities": "disabilities",
         // "Risk Histories": "riskHistories",
     };
