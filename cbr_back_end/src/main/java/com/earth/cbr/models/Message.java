@@ -20,7 +20,7 @@ public class Message {
         name = "worker_id",
         columnDefinition = "LONG" 
     )
-    @NotNull(message = "Worker ID cannot be null")
+    @NotNull(message = "Worker ID is mandatory")
     @PositiveOrZero(message = "Worker ID should be positive or zero")
     private Long workerId;
 

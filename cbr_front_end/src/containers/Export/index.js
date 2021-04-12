@@ -1,7 +1,5 @@
-import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ExportToCsv from "../../components/ExportToCsv";
-import ServerConfig from "../../config/ServerConfig";
 import { getToken } from "../../utils/AuthenticationUtil";
 import { getAllClientInformationFromServer, getAllVisitsInformationFromServer, getAllReferralsInformationFromServer } from "../../utils/Utilities";
 import { getClientCsvHeaders, getVisitsCsvHeader, getReferralsCsvHeader } from "../../utils/CsvHeaders";

@@ -6,7 +6,8 @@ import {
     getDisabilitiesFromServer,
     addClientToServer,
     addDisabilityToServer,
-    addRiskToServer
+    addRiskToServer,
+    deleteClientFromServer
 } from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
@@ -186,7 +187,7 @@ const NewClientForm = () => {
             setFormStateAfterSubmitSuccess();
             const clientId = response.data.id;
             riskInputs["clientId"] = clientId;
-            submitDisabilitiesByPostRequest(clientId);
+            submitRiskByPostRequest(clientId);
         })
         .catch(error => {
             updateErrorMessages(error);
@@ -208,7 +209,8 @@ const NewClientForm = () => {
             addDisabilityToServer(data, requestHeader)
             .then(response => {
                 if (index == length) {
-                    submitRiskByPostRequest(clientId);
+                    const oneSecond = 1;
+                    redirectToClientInfoPageAfter(clientId, oneSecond);
                 }
             })
             .catch(error => {
@@ -224,12 +226,25 @@ const NewClientForm = () => {
         };
         addRiskToServer(riskInputs, requestHeader)
         .then(response => {
-            const oneSecond = 1;
-            redirectToClientInfoPageAfter(clientId, oneSecond);
+            submitDisabilitiesByPostRequest(clientId);
         })
         .catch(error => {
             updateErrorMessages(error);
             setStatesWhenFormIsSubmitting(false);
+            deleteClientFromServer(clientId);
+        })
+    }
+
+    const deleteClientOnError = clientId => {
+        const requestHeader = {
+            token: getToken()
+        };
+        deleteClientFromServer(clientId, requestHeader)
+        .then(response => {
+
+        })
+        .catch(error => {
+
         })
     }
 
@@ -701,6 +716,7 @@ const NewClientForm = () => {
                             individualGoalsValue={formInputs["healthGoal"]}
                             onRiskChange={riskInputChangeHandler}
                             onGoalChange={formInputChangeHandler}
+                            showGoals={true}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>
@@ -722,6 +738,7 @@ const NewClientForm = () => {
                             individualGoalsValue={formInputs["socialGoal"]}
                             onRiskChange={riskInputChangeHandler}
                             onGoalChange={formInputChangeHandler}
+                            showGoals={true}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>
@@ -743,6 +760,7 @@ const NewClientForm = () => {
                             individualGoalsValue={formInputs["educationGoal"]}
                             onRiskChange={riskInputChangeHandler}
                             onGoalChange={formInputChangeHandler}
+                            showGoals={true}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>

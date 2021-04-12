@@ -1,7 +1,6 @@
 import React from "react";
 import DropdownList from "../../components/DropdownList";
 import TextAreaInputField from "../../components/TextAreaInputField";
-import CheckBox from "../../components/CheckBox";
 import "./style.css";
 
 const NewVisitsSocialForm = ({

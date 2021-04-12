@@ -1,15 +1,9 @@
-import React, { useState, useCallback, useEffect } from "react";
-import TextInputField from "../../components/TextInputField";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import NumberInputField from "../../components/NumberInputField";
-import DateInputField from "../../components/DateInputField";
 import NewClientSurvey from "../../containers/NewClientSurvey";
+import Alert from 'react-bootstrap/Alert';
 import { getToken } from "../../utils/AuthenticationUtil";
-import {
-    addRiskToServer,
-    getClientInformationFromServer,
-    parseEpochToDateString
-} from "../../utils/Utilities";
+import { addRiskToServer } from "../../utils/Utilities";
 import "./style.css";
 
 const NewRiskUpdateForm = props => {
@@ -19,11 +13,11 @@ const NewRiskUpdateForm = props => {
     const [formInputs, setFormInputs] = useState({
         "clientId": clientId,
         "createdDate": "",
-        "healthRisk": "",
+        "healthRisk": "1",
         "healthRiskDescription": "",
-        "educationRisk": "",
+        "educationRisk": "1",
         "educationRiskDescription": "",
-        "socialRisk": "",
+        "socialRisk": "1",
         "socialRiskDescription": "",
     });
     const [isSubmitSuccess, setIsSubmitSuccess] = useState(false);
@@ -85,6 +79,48 @@ const NewRiskUpdateForm = props => {
             const newMessages = [...prevErrorMessages, ...messages];
             return newMessages;
         });
+    };
+
+    const showErrorMessages = () => {
+        if (hasErrorMessages()) {
+            const msgInDivs = packMessagesInDivs(errorMessages);
+            return (
+                <Alert variant="danger">
+                    {msgInDivs}
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const packMessagesInDivs = messages => {
+        const msgInDivs = [];
+        for (const idx in messages) {
+            const msg = messages[idx];
+            msgInDivs.push(
+                <div key={idx}>
+                    {msg}
+                </div>
+            );
+        }
+        return msgInDivs;
+    };
+
+    const showSuccessMessage = () => {
+        if (isSubmitSuccess) {
+            return (
+                <Alert variant="success">
+                    You submitted the form successfully! You will be redirected to the client page soon.
+                </Alert>
+            );
+        } else {
+            return null;
+        }
+    };
+
+    const hasErrorMessages = () => {
+        return errorMessages.length !== 0;
     };
 
     const initEpochDateTime = () => {
@@ -153,12 +189,16 @@ const NewRiskUpdateForm = props => {
                 />
             </div>
             <hr />
+            {showErrorMessages()}
+            {showSuccessMessage()}
+            <div>
                 <input
                     className="btn btn-primary update-risk-button"
                     type="button"
                     value="Update Risk"
                     onClick={onSubmitRiskHandler}
                 />
+            </div>
         </form>
     );
 };

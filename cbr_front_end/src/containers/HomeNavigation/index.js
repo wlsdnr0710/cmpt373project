@@ -12,7 +12,6 @@ import {
     isAuthenticated
 } from "../../utils/AuthenticationUtil";
 import { useEffect, useState } from 'react';
-import { useLocation, useHistory } from "react-router-dom";
 import { getWorkerInformationFromServer } from "../../utils/Utilities";
 import dashboardIcon from "../../assets/svg/navigation_icons/id_card.svg";
 import newClientIcon from "../../assets/svg/navigation_icons/user_plus.svg";

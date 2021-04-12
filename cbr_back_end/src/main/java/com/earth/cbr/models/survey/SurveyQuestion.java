@@ -30,7 +30,7 @@ public class SurveyQuestion {
             name = "type",
             columnDefinition = "ENUM"
     )
-    @NotNull(message = "Survey question type cannot be null")
+    @NotNull(message = "Survey question type is mandatory")
     @Enumerated(EnumType.STRING)
     private SurveyQuestionType type;
 

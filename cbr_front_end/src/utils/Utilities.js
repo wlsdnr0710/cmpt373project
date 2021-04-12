@@ -235,13 +235,10 @@ export const getRiskObject = () => {
     return ({
         id: "N/A",
         createdDate: "N/A",
-        educationGoal: "N/A",
         educationRisk: "N/A",
         educationRiskDescription: "N/A",
-        healthGoal: "N/A",
         healthRisk: "N/A",
         healthRiskDescription: "N/A",
-        socialGoal: "N/A",
         socialRisk: "N/A",
         socialRiskDescription: "N/A"
     })
@@ -252,20 +249,6 @@ export const getDisabilityObject = () => {
         id: "N/A",
         type: "N/A"
     }
-}
-
-export const getClientZonesObject = () => {
-    return {
-        "BidiBidi Zone 1": "1",
-        "BidiBidi Zone 2": "2",
-        "BidiBidi Zone 3": "3",
-        "BidiBidi Zone 4": "4",
-        "BidiBidi Zone 5": "5",
-        "Palorinya Basecamp": "6",
-        "Palorinya Zone 1": "7",
-        "Palorinya Zone 2": "8",
-        "Palorinya Zone 3": "9",
-      };
 }
 
 export const getWorkerRoleObject = () => {

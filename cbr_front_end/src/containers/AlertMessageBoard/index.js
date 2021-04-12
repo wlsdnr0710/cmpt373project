@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getToken, getRole } from "../../utils/AuthenticationUtil";
+import { getToken } from "../../utils/AuthenticationUtil";
 import { parseISODateStringToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import AlertMessage from '../../components/AlertMessage';

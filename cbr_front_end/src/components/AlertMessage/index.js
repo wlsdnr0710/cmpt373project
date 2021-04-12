@@ -9,8 +9,8 @@ const AlertMessage = ({message, date, variant}) => {
     return (
         <div className="alert-message">
             <Alert variant={variant ? variant : "primary"}>
-                {variant=="warning"? displayIcon(Warning, "Warning"):""} 
-                {variant=="danger"? displayIcon(Danger, "Danger"):""} 
+                {variant=="warning"? displayIcon(Warning, "Warning"):""}
+                {variant=="danger"? displayIcon(Danger, "Danger"):""}
                 {date} - {message}
             </Alert >
         </div>

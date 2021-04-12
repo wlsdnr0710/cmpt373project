@@ -7,6 +7,9 @@ import Button from "react-bootstrap/Button";
 import "./style.css";
 
 const RiskUpdateEntry = ({ riskObject }) => {
+
+    const riskList = ["Low", "Medium", "High", "Critical"];
+
     return (
         <div>
             <Accordion>
@@ -24,21 +27,21 @@ const RiskUpdateEntry = ({ riskObject }) => {
                         <Card.Body className="risk-update-card">
                             <div className="risk-entry">
                                 <strong>Health: </strong>
-                                {riskObject.healthRisk}
+                                {riskList[riskObject.healthRisk - 1]}
                                 <div className="risk-description">
                                     {riskObject.healthRiskDescription}
                                 </div>
                             </div>
                             <div className="risk-entry">
                                 <strong>Education: </strong>
-                                {riskObject.educationRisk}
+                                {riskList[riskObject.educationRisk - 1]}
                                 <div className="risk-description">
                                     {riskObject.educationRiskDescription}
                                 </div>
                             </div>
                             <div className="risk-entry">
                                 <strong>Social: </strong>
-                                {riskObject.socialRisk}
+                                {riskList[riskObject.socialRisk - 1]}
                                 <div className="risk-description">
                                     {riskObject.socialRiskDescription}
                                 </div>

@@ -70,7 +70,7 @@ public class Worker {
             name = "role",
             columnDefinition = "ENUM"
     )
-    @NotNull(message = "Role cannot be null")
+    @NotNull(message = "Role is mandatory")
     @Enumerated(EnumType.STRING)
     private Role role;
 

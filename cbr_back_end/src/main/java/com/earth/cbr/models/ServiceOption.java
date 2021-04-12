@@ -29,7 +29,7 @@ public class ServiceOption {
             name = "type",
             columnDefinition = "ENUM"
     )
-    @NotNull(message = "Type cannot be null")
+    @NotNull(message = "Type is mandatory")
     @Enumerated(EnumType.STRING)
     private Type type;
 

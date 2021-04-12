@@ -44,7 +44,7 @@ public class Client {
             name = "birthdate",
             columnDefinition = "DATE"
     )
-    @NotNull(message = "Birthdate cannot be null")
+    @NotNull(message = "Birthdate is mandatory")
     @PastOrPresent(message = "Birthdate must be in the past")
     private Date birthdate;
 
@@ -55,7 +55,7 @@ public class Client {
             name = "gender",
             columnDefinition = "ENUM"
     )
-    @NotNull(message = "Gender cannot be null")
+    @NotNull(message = "Gender is mandatory")
     @Enumerated(EnumType.STRING)
     private Gender gender;
 
@@ -69,7 +69,7 @@ public class Client {
             name = "zone",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Zone cannot be null")
+    @NotNull(message = "Zone is mandatory")
     @PositiveOrZero(message = "Zone ID should be positive or zero")
     private Integer zone;
 
@@ -77,7 +77,7 @@ public class Client {
             name = "village_no",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Village number cannot be null")
+    @NotNull(message = "Village number is mandatory")
     @PositiveOrZero(message = "Village number should be positive or zero")
     private Integer villageNumber;
 
@@ -102,7 +102,7 @@ public class Client {
             name = "worker_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Worker ID cannot be null")
+    @NotNull(message = "Worker ID is mandatory")
     @PositiveOrZero(message = "Worker ID should be positive or zero")
     private Long cbrWorkerId;
 

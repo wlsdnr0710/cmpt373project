@@ -1,9 +1,7 @@
 import React from "react";
-import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
-import avatar from "../../assets/avatar.png";
 import "./style.css";
 
 const OutstandingReferral = (props) => {
