@@ -19,7 +19,7 @@ public class ServiceDescription {
             name = "visit_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Visit ID cannot be null")
+    @NotNull(message = "Visit ID is mandatory")
     @PositiveOrZero(message = "Visit ID should be positive or zero")
     private Long visitId;
 
@@ -34,7 +34,7 @@ public class ServiceDescription {
             name = "service_option_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Service Option ID cannot be null")
+    @NotNull(message = "Service Option ID is mandatory")
     @PositiveOrZero(message = "Service Option ID should be positive or zero")
     private Long serviceOptionId;
 

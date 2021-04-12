@@ -16,14 +16,14 @@ public class Disabled {
             name = "client_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "clientId cannot be null")
+    @NotNull(message = "clientId is mandatory")
     private Long clientId;
 
     @Column (
             name = "disability_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "disabilityId cannot be null")
+    @NotNull(message = "disabilityId is mandatory")
     private Long disabilityId;
 
     @Column (

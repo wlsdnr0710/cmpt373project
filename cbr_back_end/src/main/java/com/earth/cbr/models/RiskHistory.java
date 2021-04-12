@@ -33,7 +33,7 @@ public class RiskHistory {
             name = "client_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "client ID cannot be null")
+    @NotNull(message = "client ID is mandatory")
     private Long clientId;
 
     @Column(

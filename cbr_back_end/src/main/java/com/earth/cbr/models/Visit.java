@@ -26,14 +26,14 @@ public class Visit {
             name = "consent",
             columnDefinition = "BINARY"
     )
-    @NotNull(message = "Consent cannot be null")
+    @NotNull(message = "Consent is mandatory")
     private Integer consent;
 
     @Column(
             name = "date",
             columnDefinition = "DATE"
     )
-    @NotNull(message = "Date cannot be null")
+    @NotNull(message = "Date is mandatory")
     @PastOrPresent(message = "Date must be in the past or past")
     private Date date;
 
@@ -69,7 +69,7 @@ public class Visit {
             name = "zone",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Zone cannot be null")
+    @NotNull(message = "Zone is mandatory")
     @PositiveOrZero(message = "Zone should be positive or zero")
     private Integer zone;
 
@@ -77,7 +77,7 @@ public class Visit {
             name = "village_number",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Village number cannot be null")
+    @NotNull(message = "Village number is mandatory")
     @PositiveOrZero(message = "Village Number should be positive or zero")
     private Integer villageNumber;
 
@@ -85,7 +85,7 @@ public class Visit {
             name = "health_goal_progress",
             columnDefinition = "ENUM"
     )
-    @NotNull(message = "Health goal progress cannot be null")
+    @NotNull(message = "Health goal progress is mandatory")
     @Enumerated(EnumType.STRING)
     private Progress healthGoalProgress;
 
@@ -99,7 +99,7 @@ public class Visit {
             name = "social_goal_progress",
             columnDefinition = "ENUM"
     )
-    @NotNull(message = "Social goal progress cannot be null")
+    @NotNull(message = "Social goal progress is mandatory")
     @Enumerated(EnumType.STRING)
     private Progress socialGoalProgress;
 
@@ -113,7 +113,7 @@ public class Visit {
             name = "education_goal_progress",
             columnDefinition = "ENUM"
     )
-    @NotNull(message = "Education goal progress cannot be null")
+    @NotNull(message = "Education goal progress is mandatory")
     @Enumerated(EnumType.STRING)
     private Progress educationGoalProgress;
 
@@ -127,7 +127,7 @@ public class Visit {
             name = "client_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Client ID cannot be null")
+    @NotNull(message = "Client ID is mandatory")
     @PositiveOrZero(message = "Client ID should be positive or zero")
     private Long clientId;
 
@@ -135,7 +135,7 @@ public class Visit {
             name = "worker_id",
             columnDefinition = "INT"
     )
-    @NotNull(message = "Worker ID cannot be null")
+    @NotNull(message = "Worker ID is mandatory")
     @PositiveOrZero(message = "Worker ID should be positive or zero")
     private Long workerId;
 

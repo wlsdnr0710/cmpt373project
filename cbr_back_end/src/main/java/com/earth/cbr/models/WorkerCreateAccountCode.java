@@ -35,7 +35,7 @@ public class WorkerCreateAccountCode {
             name = "is_used",
             columnDefinition = "BOOLEAN"
     )
-    @NotNull(message = "Worker create account code is used column cannot be null")
+    @NotNull(message = "Worker create account code is used column is mandatory")
     private Boolean isUsed;
 
     @Column(

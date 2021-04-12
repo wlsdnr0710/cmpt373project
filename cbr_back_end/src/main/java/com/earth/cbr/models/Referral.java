@@ -74,7 +74,7 @@ public class Referral {
             name = "refer_to",
             columnDefinition = "TEXT"
     )
-    @NotNull(message = "Refer to cannot be null")
+    @NotNull(message = "Refer to is mandatory")
     @Enumerated(EnumType.STRING)
     private ReferTo referTo;
 
@@ -82,7 +82,7 @@ public class Referral {
             name = "is_resolved",
             columnDefinition = "BOOLEAN"
     )
-    @NotNull(message = "Resolution status cannot be null")
+    @NotNull(message = "Resolution status is mandatory")
     private Boolean isResolved;
 
     @Column (
