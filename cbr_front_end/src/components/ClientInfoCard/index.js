@@ -54,12 +54,12 @@ const ClientInfoCard = ({ client, queryData }) => {
             <div className="client-info">
                 <div className="section">
                     <ClientInfoCardAttribute keyText="First Name" valueText={client.firstName} />
-                    <ClientInfoCardAttribute keyText="Location" valueText={client.location} />
                     <ClientInfoCardAttribute keyText="Age" valueText={client.age} />
+                    <ClientInfoCardAttribute keyText="Location" valueText={client.zoneName.name} />
                 </div>
                 <div className="section">
-                    <ClientInfoCardAttribute keyText="Gender" valueText={client.gender} />
                     <ClientInfoCardAttribute keyText="Last Name" valueText={client.lastName} />
+                    <ClientInfoCardAttribute keyText="Gender" valueText={client.gender} />
                     <ClientInfoCardAttribute keyText="Village No." valueText={client.villageNumber} />
                 </div>
             </div>
