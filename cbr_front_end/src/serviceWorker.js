@@ -12,7 +12,7 @@ importScripts(
 const MAX_RETRY_MIN = 3 * 24 * 60;
 const SYNC_QUEUE_NAME = "syncQueue";
 // Matching based on /api/v1/ in order to work with both production and localhost
-const SERVER_REQUEST_URL = "/api/v1/";
+const SERVER_HOST_REGEX = ".*/api/v1/";
 
 workbox.precaching.precacheAndRoute(self.__WB_MANIFEST);
 
@@ -24,7 +24,7 @@ const backgroundSyncPlugin = new workbox.backgroundSync.BackgroundSyncPlugin(
 );
 
 workbox.routing.registerRoute(
-    ({url}) => url.pathname.startsWith(SERVER_REQUEST_URL),
+    new RegExp(SERVER_HOST_REGEX),
     new workbox.strategies.NetworkFirst({
         cacheName: "requests",
         plugins: [
@@ -45,7 +45,7 @@ workbox.routing.registerRoute(
 
 // Cannot specify a route with POST, PUT and DELETE 
 workbox.routing.registerRoute(
-    ({url}) => url.pathname.startsWith(SERVER_REQUEST_URL),
+    new RegExp(SERVER_HOST_REGEX),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
@@ -53,7 +53,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    ({url}) => url.pathname.startsWith(SERVER_REQUEST_URL),
+    new RegExp(SERVER_HOST_REGEX),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
@@ -61,7 +61,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    ({url}) => url.pathname.startsWith(SERVER_REQUEST_URL),
+    new RegExp(SERVER_HOST_REGEX),
     new workbox.strategies.NetworkOnly({
         plugins: [backgroundSyncPlugin],
     }),
