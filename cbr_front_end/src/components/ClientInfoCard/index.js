@@ -55,14 +55,12 @@ const ClientInfoCard = ({ client, queryData }) => {
                 <div className="section">
                     <ClientInfoCardAttribute keyText="First Name" valueText={client.firstName} />
                     <ClientInfoCardAttribute keyText="Location" valueText={client.location} />
-                    <ClientInfoCardAttribute keyText="Risk" valueText={client.risk} />
                     <ClientInfoCardAttribute keyText="Age" valueText={client.age} />
                 </div>
                 <div className="section">
                     <ClientInfoCardAttribute keyText="Gender" valueText={client.gender} />
                     <ClientInfoCardAttribute keyText="Last Name" valueText={client.lastName} />
                     <ClientInfoCardAttribute keyText="Village No." valueText={client.villageNumber} />
-                    <ClientInfoCardAttribute keyText="Disability" valueText={client.disability} />
                 </div>
             </div>
         </div>
