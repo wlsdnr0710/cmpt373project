@@ -27,7 +27,7 @@
 }
 
 .client-info-card .client-photo img {
-    width: 100%;
+    width: 80%;
 }
 
 .client-info-card .client-info {
@@ -37,5 +37,5 @@
 }
 
 .client-info-card .client-info .section {
-    width: 50%;
+    width: 70%;
 }
