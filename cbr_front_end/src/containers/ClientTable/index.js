@@ -1,10 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { getToken } from "../../utils/AuthenticationUtil";
-import { parseDateStringToEpoch, parseISODateStringToDateString } from "../../utils/Utilities";
 import axios from 'axios';
 import ClientInfoCard from "../../components/ClientInfoCard";
-import ExportToCsv from "../../components/ExportToCsv";
-import { getClientCsvHeaders } from "../../utils/CsvHeaders";
 import Table from "../../components/Table";
 import Button from 'react-bootstrap/Button';
 import DropdownList from "../../components/DropdownList";
@@ -255,37 +252,10 @@ const ClientTable = props => {
         }
     };
 
-    const getAndCleanClientsJsonArray = clients => {
-        const cleanClientJsonArray = [];
-        for (const index in clients) {
-            const clientJson = clients[index];
-            // Important: construct a new object, do not pollute the original client state
-            const cleanClientJson = {...clientJson};
-            cleanClientJson["zone"] = cleanClientJson["zoneName"]["name"];
-            cleanClientJson["birthdate"] = formatDateString(cleanClientJson["birthdate"]);
-            cleanClientJson["signupDate"] = formatDateString(cleanClientJson["signupDate"]);
-            cleanClientJsonArray.push(cleanClientJson);
-        }
-        return cleanClientJsonArray;
-    };
-
-    const formatDateString = date => {
-        const dateString = parseISODateStringToDateString(date);
-        return dateString;
-    };
-
     return (
         <div className="client-table">
             <div className="action-group">
                 <div className="section">
-                    {/* TODO: Currently we only export pageable client data. May want an option to export
-                    all client data from server. */}
-                    <ExportToCsv 
-                        filename="client_data"
-                        headers={getClientCsvHeaders().headers}
-                        headersMapping={getClientCsvHeaders().headersMapping}
-                        jsonArray={getAndCleanClientsJsonArray(clients)}
-                    />
                 </div>
                 <div className="section search">
                     <div className="search-text-input">
