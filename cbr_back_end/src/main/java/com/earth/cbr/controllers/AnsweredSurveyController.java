@@ -32,10 +32,10 @@ public class AnsweredSurveyController {
         return ResponseEntity.ok().body(responseJson);
     }
 
-    @GetMapping(value = "/client/{id}")
-    public ResponseEntity<JSONObject> getAnsweredSurveysByClientId(@PathVariable long id)
+    @GetMapping(value = "/client/{clientId}")
+    public ResponseEntity<JSONObject> getAnsweredSurveysByClientId(@PathVariable long clientId)
         throws ObjectDoesNotExistException {
-        List<AnsweredSurvey> answeredSurveys = answeredSurveyService.getAnsweredSurveysByClientId(id);
+        List<AnsweredSurvey> answeredSurveys = answeredSurveyService.getAnsweredSurveysByClientId(clientId);
         if (answeredSurveys == null) {
             throw new ObjectDoesNotExistException("Client has answered no surveys");
         }
