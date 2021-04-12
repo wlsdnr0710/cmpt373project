@@ -72,7 +72,7 @@ const WorkerInformation = props => {
                         <hr className="worker-information-hr" />
                         <div className="worker-information-hr">
                             <div className="worker-information-hr mt-3">
-                                <button type="button" className="btn btn-secondary" onClick={onClickGetEditWorkerPage}>
+                                <button type="button" className="btn btn-primary" onClick={onClickGetEditWorkerPage}>
                                     Edit
                                 </button>
                             </div>

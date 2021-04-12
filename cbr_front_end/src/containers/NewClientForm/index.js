@@ -42,6 +42,9 @@ const NewClientForm = () => {
         "caregiverNumber": "",
         "disabilityType": [],
         "otherDescription": "",
+        "healthGoal": "",
+        "socialGoal": "",
+        "educationGoal": "",
         "clientPhoto": null,
         "caregiverPhoto": null,
     });
@@ -49,13 +52,10 @@ const NewClientForm = () => {
     const [riskInputs, setRiskInputs] = useState({
         "clientId": "",
         "createdDate": "",
-        "healthGoal": "",
         "healthRisk": "1",
         "healthRiskDescription": "",
-        "educationGoal": "",
         "educationRisk": "1",
         "educationRiskDescription": "",
-        "socialGoal": "",
         "socialRisk": "1",
         "socialRiskDescription": "",
     });
@@ -698,8 +698,9 @@ const NewClientForm = () => {
                             individualGoalsInputName="healthGoal"
                             riskValue={riskInputs["healthRisk"]}
                             needInputValue={riskInputs["healthRiskDescription"]}
-                            individualGoalsValue={riskInputs["healthGoal"]}
-                            onChange={riskInputChangeHandler}
+                            individualGoalsValue={formInputs["healthGoal"]}
+                            onRiskChange={riskInputChangeHandler}
+                            onGoalChange={formInputChangeHandler}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>
@@ -718,8 +719,9 @@ const NewClientForm = () => {
                             individualGoalsInputName="socialGoal"
                             riskValue={riskInputs["socialRisk"]}
                             needInputValue={riskInputs["socialRiskDescription"]}
-                            individualGoalsValue={riskInputs["socialGoal"]}
-                            onChange={riskInputChangeHandler}
+                            individualGoalsValue={formInputs["socialGoal"]}
+                            onRiskChange={riskInputChangeHandler}
+                            onGoalChange={formInputChangeHandler}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>
@@ -738,8 +740,9 @@ const NewClientForm = () => {
                             individualGoalsInputName="educationGoal"
                             riskValue={riskInputs["educationRisk"]}
                             needInputValue={riskInputs["educationRiskDescription"]}
-                            individualGoalsValue={riskInputs["educationGoal"]}
-                            onChange={riskInputChangeHandler}
+                            individualGoalsValue={formInputs["educationGoal"]}
+                            onRiskChange={riskInputChangeHandler}
+                            onGoalChange={formInputChangeHandler}
                             isDisabled={isFormInputDisabled}
                         />
                     </div>

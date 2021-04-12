@@ -405,18 +405,44 @@ const EditClientForm = (props) => {
                 />
             </div>
             <hr />
+                <h3>Goals</h3>
+                <div className="input-field">
+                    <TextInputField
+                        name="healthGoal"
+                        value={clientInformation.healthGoal}
+                        label="Health Goal: "
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="input-field">
+                    <TextInputField
+                        name="socialGoal"
+                        value={clientInformation.socialGoal}
+                        label="Social Goal: "
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="input-field">
+                    <TextInputField
+                        name="educationGoal"
+                        value={clientInformation.educationGoal}
+                        label="Education Goal: "
+                        onChange={handleChange}
+                    />
+                </div>
+            <hr />
             <div>
                 <h3>Disability and Ailment(s)</h3>
                 <DisabilityInformation
                     disabilityList={clientInformation.disabled}
                 />
 
-            <div className="input-field-container">
-                <div className="label-container">
-                    <label>Disability Type:</label>
+                <div className="input-field-container">
+                    <div className="label-container">
+                        <label>Disability Type:</label>
+                    </div>
+                    {createDisabilityCheckboxComponents()}
                 </div>
-                {createDisabilityCheckboxComponents()}
-            </div>
 
                 <input
                     className="btn btn-primary update-disability-button"

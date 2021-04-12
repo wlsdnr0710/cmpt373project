@@ -179,19 +179,19 @@ const EditWorkerForm = (props) => {
 			<hr />
 			<div className="action-buttons">
 				<input
-					className="btn btn-secondary"
+					className="btn btn-primary"
 					type="button"
 					value="Delete Worker"
 					onClick={deleteWorkerAndPushAllWorkerPage}
 				/>
 				<input
-					className="btn btn-secondary"
+					className="btn btn-primary"
 					type="button"
 					value="Discard Changes"
 					onClick={discardChanges}
 				/>
 				<input
-					className="btn btn-secondary"
+					className="btn btn-primary"
 					type="submit"
 					value="Save Changes"
 					onClick={saveChangesAndPushWorkerInformationPage}
