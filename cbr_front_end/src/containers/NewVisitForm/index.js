@@ -1,7 +1,16 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { getToken, getWorkerIdFromToken } from "../../utils/AuthenticationUtil";
-import { getZonesFromServer, addVisitToServer, getWorkerInformationFromServer, postNewServiceDescription, deleteVisitFromServer,  } from "../../utils/Utilities";
+import {
+    getZonesFromServer,
+    addVisitToServer,
+    getWorkerInformationFromServer,
+    postNewServiceDescription,
+    deleteVisitFromServer,
+    getClientObject,
+    getClientInformationFromServer,
+    getServiceOptions,
+} from "../../utils/Utilities";
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import FormHeader from "../../components/FormHeader";
@@ -13,11 +22,6 @@ import NewClientVisitsHealthForm from "../NewVisitsHealthForm";
 import NewClientVisitsEducationForm from "../NewVisitsEducationForm";
 import NewClientVisitsSocialForm from "../NewVisitsSocialForm";
 import "./style.css";
-import {
-    getRiskObject,
-    getRiskInformationFromServer,
-    getServiceOptions,
-} from "../../utils/Utilities";
 
 const defaultPurpose = {
     "CBR": "cbr",
@@ -61,9 +65,8 @@ const NewVisitForm = (props) => {
     const [educationServiceOptions, setEducationServiceOptions] = useState([]);
     const [socialServiceOptions, setSocialServiceOptions] = useState([]);
 
-    const [riskInformation, setRiskInformation] = useState(getRiskObject());
-    const [originalRiskInformation, setOriginalRiskInformation] = useState(
-        getRiskObject()
+    const [clientInformation, setClientInformation] = useState(
+        getClientObject()
     );
     const [zoneList, setZoneList] = useState({});
     const [healthCheckBox, setHealthCheckBox] = useState(false);
@@ -125,14 +128,13 @@ const NewVisitForm = (props) => {
         setSocialServiceOptions(socialServiceOptions);
     }
 
-    const getRiskInformation = useCallback(() => {
+    const getClientInformation = useCallback(() => {
         const requestHeader = {
             token: getToken(),
         };
-        getRiskInformationFromServer(clientId, requestHeader)
+        getClientInformationFromServer(clientId, requestHeader)
             .then((response) => {
-                setRiskInformation(response.data.data);
-                setOriginalRiskInformation(response.data.data);
+                setClientInformation(response.data.data);
             })
             .catch((error) => {
                 console.log("ERROR: Get request failed. " + error);
@@ -566,8 +568,8 @@ const NewVisitForm = (props) => {
         updateFormInputByNameValue("clientId", props.clientID);
         initEpochDateTime();
         initGeolocation();
-        getRiskInformation();
-    }, [getRiskInformation]);
+        getClientInformation();
+    }, [getClientInformation]);
 
     return (
         <div>
@@ -619,13 +621,13 @@ const NewVisitForm = (props) => {
                 </div>
                 <hr />
                 <div>
-                    <label>Health Goal: {riskInformation.healthGoal}</label>
+                    <label>Health Goal: {clientInformation.healthGoal}</label>
                 </div>
                 <div>
-                    <label>Education Goal: {riskInformation.educationGoal}</label>
+                    <label>Education Goal: {clientInformation.educationGoal}</label>
                 </div>
                 <div>
-                    <label>Social Goal: {riskInformation.socialGoal}</label>
+                    <label>Social Goal: {clientInformation.socialGoal}</label>
                 </div>
                 <hr />
                 <div>
