@@ -46,8 +46,8 @@ const Export = () => {
             setClientsJsonArray(cleanClientJsonArray);
         })
         .catch(error => {
-            
-        })
+            throw(DOMException);       
+        });
 
         axios.get(
             ServerConfig.api.url + '/api/v1/visit',
@@ -66,7 +66,7 @@ const Export = () => {
             }
             setVisitsJsonArray(cleanVisitJsonArray);
         }).catch(error => {
-
+            throw(DOMException);
         });
 
 
@@ -101,7 +101,7 @@ const Export = () => {
             }
             setreferralsJsonArray(cleanReferralJsonArray);
         }).catch(error => {
-            
+            throw(DOMException);  
         });
 
     }, [])
