@@ -42,7 +42,7 @@ const StatsTable = ({values, title, index}) => {
     };
 
     return (
-        <div>
+        <div className="scroll">
             <Accordion>
                 <Card>
                     <Card.Header>

@@ -13,11 +13,10 @@ import {
 	updateWorkerInformationToServer,
 	getClientZonesObject,
 	getWorkerRoleObject,
+	getZonesFromServer
 } from "../../utils/Utilities";
 import "./style.css";
 
-//TODO: Grab dropdown options from database table
-const defaultZones = getClientZonesObject();
 const defaultWorkerRoles = getWorkerRoleObject();
 
 const EditWorkerForm = (props) => {
@@ -28,6 +27,15 @@ const EditWorkerForm = (props) => {
 	const [originalWorkerInformation, setOriginalWorkerInformation] = useState(
 		getWorkerObject()
 	);
+
+	const [zoneList, setZoneList] = useState({});
+
+    const getZones = () => {
+        getZonesFromServer()
+        .then(response => {
+            setZoneList(response.data.data);
+        });
+    };
 
 	const discardChanges = () => {
 		setWorkerInformation(originalWorkerInformation);
@@ -49,6 +57,7 @@ const EditWorkerForm = (props) => {
 
 	useEffect(() => {
 		getWorkerInformation();
+		getZones();
 	}, [getWorkerInformation]);
 
 	const handleChange = (event) => {
@@ -126,7 +135,7 @@ const EditWorkerForm = (props) => {
 
 			<div className="input-field">
 				<DropdownList
-					dropdownListItemsKeyValue={defaultZones}
+					dropdownListItemsKeyValue={zoneList}
 					dropdownName="zone"
 					value={workerInformation.zone}
 					label="Location: "
