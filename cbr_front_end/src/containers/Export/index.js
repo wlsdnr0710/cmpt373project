@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import ExportToCsv from "../../components/ExportToCsv";
 import ServerConfig from "../../config/ServerConfig";
 import { getToken } from "../../utils/AuthenticationUtil";
+import { getAllClientInformationFromServer, getAllVisitsInformationFromServer, getAllReferralsInformationFromServer } from "../../utils/Utilities";
 import { getClientCsvHeaders, getVisitsCsvHeader, getReferralsCsvHeader } from "../../utils/CsvHeaders";
 import { parseISODateStringToDateString } from "../../utils/Utilities";
 import "./style.css"
@@ -18,12 +19,7 @@ const Export = () => {
             token: getToken()
         };
 
-        axios.get(
-            ServerConfig.api.url + '/api/v1/client',
-                {
-                    headers: requestHeader,
-                }
-        )
+        getAllClientInformationFromServer(requestHeader)
         .then(response => {
             const clients = response.data.data;
             const cleanClientJsonArray = [];
@@ -49,12 +45,8 @@ const Export = () => {
             throw(DOMException);       
         });
 
-        axios.get(
-            ServerConfig.api.url + '/api/v1/visit',
-                {
-                    headers: requestHeader,
-                }
-        ).then(response => {
+        getAllVisitsInformationFromServer(requestHeader)
+        .then(response => {
             const visits = response.data.data;
             const cleanVisitJsonArray = [];
             for (const index in visits) {
@@ -70,12 +62,8 @@ const Export = () => {
         });
 
 
-        axios.get(
-            ServerConfig.api.url + '/api/v1/referral',
-                {
-                    headers: requestHeader,
-                }
-        ).then(response => {
+        getAllReferralsInformationFromServer(requestHeader)
+        .then(response => {
             const referrals = response.data.data;
             const cleanReferralJsonArray = [];
             for (const index in referrals) {

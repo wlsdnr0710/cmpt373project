@@ -45,6 +45,10 @@ export const displayIcon = (iconSource, iconAlt) => {
     }
 };
 
+export const getAllClientInformationFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/client/', {headers: requestHeader});
+}
+
 export const getClientInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/client/' + clientId, {headers: requestHeader});
 };
@@ -56,6 +60,10 @@ export const getRiskInformationFromServer = (clientId, requestHeader) => {
 export const updateRiskInformationToServer = (riskInformation, requestHeader) => {
     return axios.put(ServerConfig.api.url + '/api/v1/riskHistory/', {"data" : riskInformation}, {headers: requestHeader});
 }
+
+export const getAllVisitsInformationFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/visit/', {headers: requestHeader});
+};
 
 export const getVisitsInformationFromServer = (clientId, requestHeader) => {
     return axios.get(ServerConfig.api.url + '/api/v1/visit/clientId/' + clientId + '/sortByDate', {headers: requestHeader});
@@ -75,6 +83,10 @@ export const postNewServiceDescription = (data, requestHeader) => {
     }, {
         headers: requestHeader,
     });
+};
+
+export const getAllReferralsInformationFromServer = (requestHeader) => {
+    return axios.get(ServerConfig.api.url + '/api/v1/referral', {headers: requestHeader});
 };
 
 export const getReferralsInformationFromServer = (clientId, requestHeader) => {
