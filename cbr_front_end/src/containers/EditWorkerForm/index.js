@@ -11,7 +11,6 @@ import {
 	getWorkerInformationFromServerById,
 	getWorkerObject,
 	updateWorkerInformationToServer,
-	getClientZonesObject,
 	getWorkerRoleObject,
 	getZonesFromServer
 } from "../../utils/Utilities";
@@ -28,7 +27,7 @@ const EditWorkerForm = (props) => {
 		getWorkerObject()
 	);
 
-	const [zoneList, setZoneList] = useState({});
+    const [zoneList, setZoneList] = useState({});
 
     const getZones = () => {
         getZonesFromServer()

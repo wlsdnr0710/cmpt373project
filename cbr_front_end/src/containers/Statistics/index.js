@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import axios from 'axios';
-import ServerConfig from '../../config/ServerConfig';
 import { getToken } from "../../utils/AuthenticationUtil";
 import {
     getGeneralStatsByZoneCountFromServer,
@@ -14,13 +12,11 @@ import {
     getEducationServicesStatsByZoneCountFromServer
 } from "../../utils/Utilities";
 import StatsTable from "../../components/StatsTable";
-import Table from 'react-bootstrap/Table';
 import "./style.css";
 
 const Statistics = () => {
     const [countByZone, setCountByZone] = useState([]);
     const [countByWorker, setCountByWorker] = useState([]);
-    const [countAll, setCountAll] = useState([]);
     const [countHealthRisks, setCountHealthRisks] = useState([]);
     const [countSocialRisks, setCountSocialRisks] = useState([]);
     const [countEducationRisks, setCountEducationRisks] = useState([]);

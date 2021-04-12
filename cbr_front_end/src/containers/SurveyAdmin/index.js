@@ -1,6 +1,3 @@
-import axios from 'axios';
-import ServerConfig from '../../config/ServerConfig';
-import { getToken } from "../../utils/AuthenticationUtil";
 import "./style.css";
 
 const SurveyAdmin = () => {

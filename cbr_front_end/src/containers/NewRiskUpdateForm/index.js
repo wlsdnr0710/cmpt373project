@@ -1,15 +1,8 @@
-import React, { useState, useCallback, useEffect } from "react";
-import TextInputField from "../../components/TextInputField";
+import React, { useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import NumberInputField from "../../components/NumberInputField";
-import DateInputField from "../../components/DateInputField";
 import NewClientSurvey from "../../containers/NewClientSurvey";
 import { getToken } from "../../utils/AuthenticationUtil";
-import {
-    addRiskToServer,
-    getClientInformationFromServer,
-    parseEpochToDateString
-} from "../../utils/Utilities";
+import { addRiskToServer } from "../../utils/Utilities";
 import "./style.css";
 
 const NewRiskUpdateForm = props => {
