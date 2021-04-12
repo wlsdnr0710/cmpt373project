@@ -1,0 +1,18 @@
+.export {
+    border: 0.1rem;
+    margin: auto;
+    padding: 1rem;
+}
+
+.export .export-title {
+    font-size: 2rem;
+    margin-left: 1rem;
+}
+
+.export .export-table {
+    margin-left: 2rem;
+}
+
+.export .export-table h5 {
+    margin-top: 1rem;
+}

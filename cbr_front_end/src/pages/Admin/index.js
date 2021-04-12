@@ -6,6 +6,7 @@ import Statistics from "../../containers/Statistics";
 import WorkerList from "../../containers/WorkerList";
 import SurveyAdmin from "../../containers/SurveyAdmin";
 import WorkerCreateAccountCode from "../../containers/WorkerCreateAccountCode";
+import Export from "../../containers/Export";
 import "./style.css";
 
 const Admin = ({ history }) => {
@@ -21,6 +22,10 @@ const Admin = ({ history }) => {
             <hr />
 
             <WorkerList />
+
+            <hr />
+
+            <Export />
 
             <hr />
 
